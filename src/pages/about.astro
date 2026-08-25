@@ -1,0 +1,42 @@
+---
+import Base from "../layouts/Base.astro";
+import { site, href } from "../data/site";
+---
+<Base title="About" description="What the ORCHESTRA is, the domain it serves, and the disciplines that make its outputs trustworthy." path="/about">
+  <section class="wrap">
+    <div class="section-head">
+      <p class="kicker">About</p>
+      <h1>An orchestra for causal decision support</h1>
+    </div>
+    <div class="prose">
+      <p class="lead">Scientific analytics increasingly chain a fitted model to an automated
+        decision, and the danger is silent: a model that fits an outcome well can still encode a
+        confounded or unverified association, and a naive calibrate-then-optimise pipeline will act
+        on it.</p>
+      <p class="mt-2">The orchestra's answer is composition under discipline. Single-responsibility
+        packages meet at one versioned result contract; a contract-typed engine performs the plan.
+        Two disciplines are load-bearing. <strong>Calibrated abstention</strong>: the system refuses to
+        issue a decision when the evidence is under-powered, the lenses disagree, or an input is
+        unverified. And the <strong>Independent Oracle Principle</strong>: every fact about an external
+        authority is grounded against a reference the system did not produce, and an ungrounded fact
+        is refused rather than acted on.</p>
+
+      <h2 class="mt-3">Domain</h2>
+      <p class="mt-1">{site.domain}. Grain production is the application anchor — a method that cannot
+        be exemplified on a real grain-production decision is parked, not pursued. All data is
+        publication-friendly surrogate (public agricultural-trial datasets and simulators); no
+        restricted field data enters any package.</p>
+
+      <h2 class="mt-3">How this site was built</h2>
+      <p class="mt-1">Every member name, capability, contract, count, and number on this site was
+        grounded against the orchestra's own source of truth before it was shown; where a fact could
+        not be verified, it was left out or marked open. The frontier tools were checked against their
+        official sources. The site holds itself to the same standard the orchestra holds its science.</p>
+
+      <p class="cta-row">
+        <a class="btn btn-ghost" href={href("/members")}>The catalogue</a>
+        <a class="btn btn-ghost" href={href("/")}>The constellation</a>
+      </p>
+    </div>
+  </section>
+</Base>

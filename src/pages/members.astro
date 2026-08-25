@@ -1,0 +1,116 @@
+---
+import Base from "../layouts/Base.astro";
+import { tiers } from "../data/members";
+import { contracts } from "../data/contracts";
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  name: "ORCHESTRA members",
+  hasPart: tiers.member.map((m) => ({ "@type": "SoftwareSourceCode", name: m.id, description: m.role })),
+};
+const label = { public: "public", gated: "gated", private: "private", disabled: "private · disabled", unspecified: "not public", candidate: "candidate", external: "external" };
+const tierHead = {
+  member: `${tiers.member.length} members`,
+  candidate: `${tiers.candidate.length} candidates — not yet enrolled`,
+  external: `${tiers.external.length} external — consumed by reference`,
+};
+const searchText = (m: (typeof tiers.member)[number]) =>
+  [m.id, m.role, m.method, m.emits, m.guard].filter(Boolean).join(" ").toLowerCase();
+---
+<Base title="Members" description="The full ORCHESTRA catalogue — 16 members, 5 candidates, 3 external upstreams — with honest visibility badges." path="/members" jsonLd={jsonLd}>
+  <section class="wrap">
+    <div class="section-head">
+      <p class="kicker">The catalogue</p>
+      <h1>Members, candidates, and upstreams</h1>
+      <p class="prose muted mt-2">Every package with an honest status badge, expandable to its
+        full capability, guard, and wiring. A repo link appears only where the package is
+        verifiably public; a private or gated member shows its badge, never an implied download.
+        This page is also the plain-text equivalent of the constellation graph.</p>
+    </div>
+
+    <div class="cat-tools" data-cat-tools hidden>
+      <input class="filter" type="search" placeholder="Filter by name, role, method, guard…"
+             aria-label="Filter the catalogue" data-filter-input />
+      <span class="filter-count" data-filter-count aria-live="polite"></span>
+      <button class="btn btn-ghost" type="button" data-expand-all>Expand all</button>
+      <button class="btn btn-ghost" type="button" data-collapse-all>Collapse all</button>
+    </div>
+
+    {(["member","candidate","external"] as const).map((tier) => (
+      <div data-tier>
+        <p class="tier-head">{tierHead[tier]}</p>
+        <div>
+          {tiers[tier].map((m) => (
+            <details class="acc" data-acc data-text={searchText(m)}>
+              <summary>
+                <span class="acc-chev" aria-hidden="true">
+                  <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5.5 3l5 5-5 5" /></svg>
+                </span>
+                <span><span class="acc-id">{m.id}</span>
+                  <span class="acc-role"> — {m.role}</span></span>
+                <span class="acc-badges">
+                  {m.emits && <span class="badge emit">emits</span>}
+                  <span class={`badge ${m.visibility}`}>{label[m.visibility]}</span>
+                </span>
+              </summary>
+              <div class="acc-inner">
+                <p class="method">{m.method}</p>
+                <div class="meta">
+                  {m.emits && <span class="badge emit">emits · {m.emits}</span>}
+                  {m.guard && m.guard !== "none" && <span class="badge">guard · {m.guard}</span>}
+                  {m.repo && <a class="badge public" href={`https://github.com/${m.repo}`}>{m.repo} ↗</a>}
+                </div>
+              </div>
+            </details>
+          ))}
+        </div>
+      </div>
+    ))}
+
+    <div class="section-head mt-4">
+      <p class="kicker">The wiring</p>
+      <h2>Seven contracts</h2>
+      <p class="prose muted mt-2">Members never call each other ad hoc; they meet at typed contracts. One
+        mistyped edge is a hard stop, not a silent coercion.</p>
+    </div>
+    <div class="table-scroll">
+      <table>
+        <caption>The contract registry — owner emits, consumers accept.</caption>
+        <thead><tr><th>id</th><th>contract</th><th>kind</th><th>owner</th><th>consumers</th></tr></thead>
+        <tbody>
+          {contracts.map((c) => (
+            <tr><td>{c.id}</td><td><code>{c.name}</code></td><td>{c.kind}</td><td>{c.owner}</td><td>{c.consumers}</td></tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <script>
+    // catalogue tools — pure enhancement: JS-off, the page is a complete
+    // plain catalogue (accordions open natively; tools stay hidden).
+    const tools = document.querySelector("[data-cat-tools]");
+    if (tools) {
+      tools.hidden = false;
+      const accs = [...document.querySelectorAll("[data-acc]")] as HTMLDetailsElement[];
+      const count = document.querySelector("[data-filter-count]");
+      const input = document.querySelector("[data-filter-input]") as HTMLInputElement;
+      const apply = () => {
+        const q = input.value.trim().toLowerCase();
+        let shown = 0;
+        for (const a of accs) {
+          const hit = !q || (a.dataset.text ?? "").includes(q);
+          if (hit) { a.removeAttribute("data-hide"); shown++; }
+          else a.setAttribute("data-hide", "");
+          if (q && hit) a.open = true;
+        }
+        if (count) count.textContent = q ? `${shown} of ${accs.length} shown` : "";
+      };
+      input.addEventListener("input", apply);
+      document.querySelector("[data-expand-all]")?.addEventListener("click",
+        () => accs.forEach((a) => { if (!a.hasAttribute("data-hide")) a.open = true; }));
+      document.querySelector("[data-collapse-all]")?.addEventListener("click",
+        () => accs.forEach((a) => (a.open = false)));
+    }
+  </script>
+</Base>

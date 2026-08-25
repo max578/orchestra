@@ -1,0 +1,15 @@
+---
+import { href } from "../data/site";
+import Base from "../layouts/Base.astro";
+---
+<Base title="Not found" description="That page could not be found." path="/404">
+  <section class="wrap">
+    <p class="kicker">Error 404</p>
+    <h1>Off the star chart</h1>
+    <p class="prose lead mt-2">That page isn't part of the constellation.</p>
+    <p class="cta-row">
+      <a class="btn btn-accent" href={href("/")}>Home</a>
+      <a class="btn btn-ghost" href={href("/members")}>Members</a>
+    </p>
+  </section>
+</Base>

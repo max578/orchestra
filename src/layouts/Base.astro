@@ -1,0 +1,88 @@
+---
+import "../styles/global.css";
+import SiteHeader from "../components/SiteHeader.astro";
+import SiteFooter from "../components/SiteFooter.astro";
+import { site, href, base } from "../data/site";
+// preload the two render-critical faces (display + body) so the swap lands
+// before LCP settles; same files the @font-face rules reference (G7 woff2-only)
+import frauncesUrl from "@fontsource-variable/fraunces/files/fraunces-latin-opsz-normal.woff2?url";
+import instrumentUrl from "@fontsource/instrument-sans/files/instrument-sans-latin-400-normal.woff2?url";
+
+interface Props {
+  title: string;
+  description: string;
+  path: string;
+  jsonLd?: Record<string, unknown>;
+}
+const { title, description, path, jsonLd } = Astro.props;
+const origin = Astro.site ?? new URL("https://example.invalid");
+const canonical = new URL(href(path), origin).href;
+const full = path === "/" ? `${site.name} — ${site.tagline}` : `${title} — ${site.name}`;
+const ogSlug = path === "/" ? "home" : path.slice(1).replace(/\//g, "-");
+const ogImage = new URL(`${base}/og/${ogSlug}.png`, origin).href;
+---
+<!doctype html>
+<html lang="en-AU">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{full}</title>
+    <meta name="description" content={description} />
+    <!-- In-document CSP: the same policy as public/_headers minus frame-ancestors
+         (not expressible in a meta tag). Hosts that cannot set response headers
+         (GitHub Pages) still get the script/style/img/font/connect restrictions. -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; base-uri 'self'; form-action 'self'" />
+    <link rel="canonical" href={canonical} />
+    <meta name="author" content="Max Moldovan" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={full} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content={ogImage} />
+    <link rel="preload" as="font" type="font/woff2" href={frauncesUrl} crossorigin="anonymous" />
+    <link rel="preload" as="font" type="font/woff2" href={instrumentUrl} crossorigin="anonymous" />
+    <link rel="icon" href={`${base}/favicon.svg`} type="image/svg+xml" />
+    <link rel="sitemap" href={`${base}/sitemap-index.xml`} />
+    {jsonLd && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <SiteHeader path={path} />
+    <main id="main"><slot /></main>
+    <SiteFooter />
+    <script>
+      // mark JS present — the CSS hides .reveal ONLY under html.js, so with no
+      // JS (or reduced-motion) every section is visible by default. Enhancement,
+      // never a requirement (the lesson from the first build's hidden body).
+      document.documentElement.classList.add("js");
+      // scroll-reveal (T2): reveal sections as they enter the viewport.
+      const io = new IntersectionObserver((es) => {
+        for (const e of es) if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); }
+      }, { rootMargin: "0px 0px -8% 0px" });
+      document.querySelectorAll(".reveal").forEach((el) => io.observe(el));
+      // stat counters — enhancement only: the real number is SSR'd as content,
+      // JS merely counts up to it. Skipped entirely under reduced motion.
+      if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        const run = (el: Element) => {
+          const target = Number((el as HTMLElement).dataset.count);
+          if (!Number.isFinite(target)) return;
+          const t0 = performance.now(), dur = 900;
+          const tick = (t: number) => {
+            const p = Math.min(1, (t - t0) / dur);
+            el.textContent = String(Math.round(target * (1 - Math.pow(1 - p, 3))));
+            if (p < 1) requestAnimationFrame(tick);
+          };
+          requestAnimationFrame(tick);
+        };
+        const ioN = new IntersectionObserver((es) => {
+          for (const e of es) if (e.isIntersecting) { ioN.unobserve(e.target); run(e.target); }
+        });
+        document.querySelectorAll("[data-count]").forEach((el) => ioN.observe(el));
+      }
+    </script>
+  </body>
+</html>

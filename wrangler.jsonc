@@ -1,0 +1,14 @@
+{
+  // ORCHESTRA showcase — Cloudflare Workers static assets (no Worker script:
+  // assets-only deployment). The workers.dev subdomain is the launch origin;
+  // a custom domain, if ever wanted, is added here + in DNS (V12 portability).
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "orchestra",
+  "compatibility_date": "2026-08-25",
+  "assets": {
+    "directory": "./dist",
+    "not_found_handling": "404-page",
+    "html_handling": "auto-trailing-slash"
+  },
+  "workers_dev": true
+}

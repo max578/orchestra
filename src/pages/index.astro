@@ -1,0 +1,173 @@
+---
+import Base from "../layouts/Base.astro";
+import Constellation from "../components/Constellation.astro";
+import { site, href } from "../data/site";
+import { clusters, coverage } from "../data/clusters";
+import { leadership, smallN, limit, ladder } from "../data/parsimony";
+import { operators, typedEdge } from "../data/contracts";
+import { filled, open } from "../data/gaps";
+import { scorePath, edges } from "../data/graph";
+
+// short, grounded action phrase per pipeline step (the ORCHESTRA.md app chain)
+const action: Record<string, string> = {
+  masque: "Clone the data faithfully — develop on a synthetic copy that keeps the treatment→outcome map.",
+  PESTO: "Calibrate the crop simulator to the field by inverting it, with an ensemble of uncertainty.",
+  proxymix: "Compress the posterior to a tractable Gaussian mixture the causal test can consume.",
+  kernR: "Test that the effect is consistent with the mechanism (TACI) — not merely with the outcome.",
+  decideR: "Choose the loss-optimal, risk-aware action — or refuse if an input is ungrounded.",
+  grainPlan: "Turn the decision into a grain plan: nitrogen rate, variety, grade target, season.",
+};
+// presentation split of the grounded tagline — reconstructs it byte-identical
+const [tagPre, tagPost] = site.tagline.split(", not ");
+const jsonLd = {
+  "@context": "https://schema.org", "@type": "WebSite",
+  name: site.name, description: site.intro,
+  author: { "@type": "Person", name: "Max Moldovan", identifier: "https://orcid.org/0000-0001-9680-8474" },
+};
+---
+<Base title="Home" description={site.intro} path="/" jsonLd={jsonLd}>
+  <section class="wrap">
+    <div class="hero-in">
+      <p class="kicker">Crop analytics · {site.counts.members} members · {site.counts.contracts} contracts</p>
+      <h1 class="hero-h1">{tagPre}, <em>not</em> {tagPost}</h1>
+      <p class="lead mt-3">{site.intro}</p>
+      <div class="hero-stats">
+        <div class="hs"><span class="n" data-count={site.counts.members}>{site.counts.members}</span><span class="l">members</span></div>
+        <div class="hs"><span class="n" data-count={site.counts.contracts}>{site.counts.contracts}</span><span class="l">typed contracts</span></div>
+        <div class="hs"><span class="n" data-count={edges.length}>{edges.length}</span><span class="l">contract edges</span></div>
+      </div>
+    </div>
+    <div class="mt-4"><Constellation /></div>
+  </section>
+
+  <section class="wrap reveal">
+    <div class="section-head">
+      <p class="kicker">The thesis</p>
+      <h2>Composition, <em>not</em> consolidation</h2>
+    </div>
+    <p class="prose lead">Most analytics platforms grow by absorbing everything into one
+      monolith. The orchestra does the opposite — many small, single-responsibility
+      packages, each doing one thing well, wired behind <em>one</em> result contract
+      (the <code>orchestra_manifest</code>) and performed by an engine that refuses a
+      mistyped connection and abstains when the evidence is under-powered.</p>
+    <p class="prose muted mt-3">{typedEdge}</p>
+  </section>
+
+  <section class="band"><div class="wrap reveal" id="pipeline">
+    <div class="section-head">
+      <p class="kicker">How a score runs</p>
+      <h2>From a synthetic clone to a grounded decision</h2>
+      <p class="prose muted mt-2">One real chain, end to end — the "score" the constellation
+        plays. Every step is a single-responsibility tool; the engine checks the typed contract
+        between each pair, and the two operators can abstain or reconcile before any decision is issued.</p>
+    </div>
+    <div class="pipe" data-stagger>
+      {scorePath.map((id, i) => (
+        <div class="pstep">
+          <div class="pn">step {i + 1} of {scorePath.length}</div>
+          <div class="pid">{id}</div>
+          <div class="pd">{action[id]}</div>
+        </div>
+      ))}
+    </div>
+    <p class="prose muted small mt-3">Between the steps: <code>abstain_gate</code> halts the
+      branch if the evidence is under-powered; <code>triangulate</code> reconciles independent
+      lenses (agreement corroborates, a split is flagged). A mistyped edge is a hard stop, not
+      a silent coercion.</p>
+  </div></section>
+
+  <section class="wrap reveal" id="clusters">
+    <div class="section-head">
+      <p class="kicker">Problem clusters</p>
+      <h2>What it solves — and who leads</h2>
+      <p class="prose muted mt-2">Every question factorises as a response family crossed with a
+        model structure, under one of a few inferential tasks. Each task has a lead member; the
+        explorer at the top of the page shows the exact subset each one composes.</p>
+    </div>
+    <div class="matrix" data-stagger>
+      {clusters.map((c) => (
+        <div class="cl">
+          <div class="task">{c.task}</div>
+          <div class="lead">lead · {c.lead} · {c.members.length} tool{c.members.length > 1 ? "s" : ""}</div>
+          <p>{c.blurb}</p>
+        </div>
+      ))}
+    </div>
+    <p class="prose muted small mt-3">Coverage — families [{coverage.families.join(", ")}] ×
+      structures [{coverage.structures.join(", ")}]. {coverage.note}</p>
+  </section>
+
+  <section class="wrap reveal" id="parsimony">
+    <div class="section-head">
+      <p class="kicker">Parsimony</p>
+      <h2>One tool when one is enough. Many when needed. <em>Never</em> more.</h2>
+    </div>
+    <p class="takeaway">Every study is multi-tool <em>by design</em> — each lead package drives
+      at least three members, so no result rests on a single lens. The signature is the other
+      direction: the system <strong>abstains</strong> rather than over-reach.</p>
+    <p class="explore-lbl mt-3">Members each lead drives</p>
+    <div class="lead-cards" data-stagger>
+      {leadership.map((l) => (<div class="lc"><div class="n" data-count={l.members}>{l.members}</div><div class="who">{l.lead}</div></div>))}
+    </div>
+    <div class="table-scroll mt-3">
+      <table class="num">
+        <caption>Small-N stress test — fraction "confident but wrong" (lower is better). The calibrated design abstains; the others stay confident.</caption>
+        <thead><tr><th>design</th>{smallN.cols.map((c) => <th>{c}</th>)}</tr></thead>
+        <tbody>{smallN.rows.map((r) => (<tr><td>{r.design}</td>{r.cells.map((c) => <td>{c}</td>)}<td>{r.abstains}</td></tr>))}</tbody>
+      </table>
+    </div>
+    <p class="prose muted mt-3">{limit}</p>
+    <p class="prose muted mt-2">{ladder}</p>
+  </section>
+
+  <section class="band"><div class="wrap reveal" id="disciplines">
+    <div class="section-head">
+      <p class="kicker">The two disciplines</p>
+      <h2>Abstain, and triangulate</h2>
+    </div>
+    <div class="grid grid-2" data-stagger>
+      {operators.map((op) => (
+        <div class="card">
+          <h3><code>{op.name}</code></h3>
+          <p class="muted mt-2">{op.what}</p>
+          <p class="small mt-3"><span class="badge">when</span> {op.when}</p>
+          <p class="small mt-2"><span class="badge">modes</span> {op.modes}</p>
+        </div>
+      ))}
+    </div>
+  </div></section>
+
+  <section class="wrap reveal" id="gaps">
+    <div class="section-head">
+      <p class="kicker">Vacant places</p>
+      <h2>The frontier — filled where verified, open where not</h2>
+      <p class="prose muted mt-2">The orchestra maps its own edges. Where a strong external tool
+        exists, it names the one to wrap (with the licence caveat that matters). Where none
+        survives scrutiny yet, it says so — the same abstention discipline, applied to itself.</p>
+    </div>
+    <p class="explore-lbl">Filled — a verified tool to wrap</p>
+    <div class="gaps" data-stagger>
+      {filled.map((g) => (
+        <div class="gap filled">
+          <h3>{g.gap}</h3>
+          <p class="use">{g.use}</p>
+          <p class="tool">→ {g.tool}</p>
+          <p class="lic">licence · {g.licence}</p>
+          <p class="use mt-2">{g.caveat}</p>
+        </div>
+      ))}
+    </div>
+    <p class="explore-lbl mt-3">Open — no tool verified yet</p>
+    <div class="gaps" data-stagger>
+      {open.map((g) => (
+        <div class="gap open">
+          <h3>{g.gap}</h3>
+          <p class="use">{g.use}</p>
+          <p class="use mt-2">{g.note}</p>
+        </div>
+      ))}
+    </div>
+    <p class="cta-row"><a class="btn btn-accent" href={href("/members")}>The full catalogue</a>
+      <a class="btn btn-ghost" href={href("/about")}>Why it's built this way</a></p>
+  </section>
+</Base>

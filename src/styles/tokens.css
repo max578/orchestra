@@ -1,0 +1,67 @@
+/* ORCHESTRA showcase — design tokens · card: constellation_graphite v2
+   ("Night Field"). Committed identity is DARK (the constellation glows),
+   delivered via prefers-color-scheme: dark; a legible LIGHT scheme is the
+   :root default so light-preference users are honoured (V2/U3). Every text
+   pair AA-verified by tokens_contrast.py in BOTH scopes. Signal-ember is the
+   single accent; teal is the secondary (the animated "score" path only).
+   v2 elevation (2026-07-12): self-hosted type (Fraunces / Instrument Sans /
+   JetBrains Mono), a full step up in reading sizes, lifted muted contrast,
+   deeper textured ground. */
+
+:root {
+  /* pair: --paper-ink on --paper */
+  --paper: #F7F5F1;
+  --paper-ink: #1D2023;
+  /* pair: --surface-ink on --surface */
+  --surface: #FFFFFF;
+  --surface-ink: #1D2023;
+  /* pair: --muted on --paper */
+  --muted: #50544D;
+  /* pair: --muted on --surface */
+  --muted-s: #50544D;
+  /* pair: --accent on --paper */    /* accent as link/text */
+  --accent: #B8431B;
+  /* pair: --accent-ink on --accent */ /* text on an accent surface */
+  --accent-ink: #FFFFFF;
+  /* pair: --accent2 on --paper */
+  --accent2: #186353;
+  --edge: #E2E0DA;
+  --glowline: #C9C6BE; /* constellation edges, decorative (non-text) */
+
+  /* type — self-hosted woff2 (fontsource, bundled; V7) */
+  --sans: "Instrument Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  --display: "Fraunces Variable", Georgia, "Iowan Old Style", serif;
+
+  /* fluid scale — reading sizes a full step up from v1 */
+  --step--2: 0.8125rem;
+  --step--1: clamp(0.9375rem, 0.91rem + 0.15vw, 1rem);
+  --step-0:  clamp(1.0625rem, 1rem + 0.3vw, 1.1875rem);
+  --step-1:  clamp(1.3rem, 1.2rem + 0.55vw, 1.625rem);
+  --step-2:  clamp(1.7rem, 1.5rem + 1.1vw, 2.4rem);
+  --step-3:  clamp(2.2rem, 1.8rem + 2.2vw, 3.7rem);
+  --step-4:  clamp(2.9rem, 2.1rem + 3.8vw, 5.2rem);
+  --step-5:  clamp(3.4rem, 2.3rem + 5.2vw, 6.6rem);
+
+  --measure: 68ch;
+  --space-1: 0.5rem; --space-2: 1rem; --space-3: 1.75rem;
+  --space-4: 3.25rem; --space-5: 5.5rem;
+  --radius: 12px;
+  --border: 1px solid var(--edge);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --paper: #0E1013;
+    --paper-ink: #EEEFEB;
+    --surface: #171A20;
+    --surface-ink: #EEEFEB;
+    --muted: #B2B6AF;
+    --muted-s: #B2B6AF;
+    --accent: #FF8159;
+    --accent-ink: #1A0A03;
+    --accent2: #7FD6C4;
+    --edge: #2F333B;
+    --glowline: #3B404A;
+  }
+}

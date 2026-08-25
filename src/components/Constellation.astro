@@ -1,0 +1,174 @@
+---
+// The interactive constellation — the showcase's centrepiece and its one
+// client-JS island. SSR renders the FULL static SVG (every member + contract
+// edge); the bundled script only ENHANCES: ambient life, an auto-demo score,
+// hover/focus tooltips (grounded roles from members.ts), hover-to-light-
+// contracts, and the problem→tools explorer. Grounded geometry (graph.ts)
+// + grounded cluster member-sets (clusters.ts). Nodes are keyboard-focusable
+// with a visible :focus-visible ring; the tooltip is aria-hidden (the same
+// information lives in each node's aria-label).
+import { nodes, edges } from "../data/graph";
+import { clusters } from "../data/clusters";
+import { members } from "../data/members";
+const pos = Object.fromEntries(nodes.map((n) => [n.id, n]));
+const roleOf = Object.fromEntries(members.map((m) => [m.id, m.role]));
+---
+<div class="explorer" data-constellation>
+  <div class="stage">
+    <div class="stage-bar">
+      <span class="lbl">16 members · 21 contract edges</span>
+      <button class="btn btn-ghost" type="button" data-play>▶ Play a score</button>
+    </div>
+    <svg viewBox="0 0 100 100" role="img"
+         aria-label="Constellation of the 16 ORCHESTRA member packages connected by the C1 to C7 data contracts. The full catalogue in text is on the Members page.">
+      <defs>
+        <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+          <feGaussianBlur stdDeviation="1.1" result="b" />
+          <feMerge><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge>
+        </filter>
+      </defs>
+      {edges.map((e) => {
+        const a = pos[e.from], b = pos[e.to];
+        return <path class="edge" data-from={e.from} data-to={e.to}
+                     d={`M${a.x} ${a.y} L${b.x} ${b.y}`} />;
+      })}
+      {nodes.map((n) => (
+        <g class={`node${n.hub ? " hub" : ""}`} data-id={n.id} data-x={n.x} data-y={n.y}
+           tabindex="0" aria-label={`${n.id} — ${roleOf[n.id] ?? "member"}`}
+           transform={`translate(${n.x} ${n.y})`}>
+          <circle r={n.hub ? 3.4 : 2.5}></circle>
+          <text y={n.hub ? -4.9 : -3.9}>{n.id}</text>
+        </g>
+      ))}
+    </svg>
+    <div class="tip" data-tip aria-hidden="true"></div>
+  </div>
+
+  <div class="explore-panel">
+    <p class="explore-lbl">Explore by problem — see how many tools it needs</p>
+    <div class="cluster-btns">
+      {clusters.map((c) => (
+        <button class="cbtn" type="button" data-members={c.members.join(",")}
+                data-count={c.members.length} data-blurb={c.blurb} data-lead={c.lead}>
+          {c.task}<span class="cbtn-n">{c.members.length}</span>
+        </button>
+      ))}
+      <button class="cbtn cbtn-all" type="button">All 16</button>
+    </div>
+    <p class="readout" data-readout aria-live="polite">Hover or Tab to a node to light its
+      contracts, or pick a problem to see which tools compose to solve it — and
+      how few it takes.</p>
+  </div>
+</div>
+
+<script>
+  import { edges, scorePath } from "../data/graph";
+  import { members } from "../data/members";
+  const roleOf = Object.fromEntries(members.map((m) => [m.id, m.role]));
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  document.querySelectorAll("[data-constellation]").forEach((root) => {
+    const nEls = new Map();
+    root.querySelectorAll(".node").forEach((g) => nEls.set(g.dataset.id, g));
+    const eEls = new Map();
+    root.querySelectorAll(".edge").forEach((p) => {
+      eEls.set(p.dataset.from + "~" + p.dataset.to, p);
+      eEls.set(p.dataset.to + "~" + p.dataset.from, p);
+    });
+    const readout = root.querySelector("[data-readout]");
+    const tip = root.querySelector("[data-tip]");
+    const svg = root.querySelector("svg");
+    const clear = () => {
+      nEls.forEach((g) => g.classList.remove("dim", "hot", "onpath"));
+      eEls.forEach((p) => p.classList.remove("hot", "path"));
+      root.querySelectorAll(".cbtn").forEach((b) => b.classList.remove("on"));
+    };
+    const neighbours = (id) => {
+      const s = new Set([id]);
+      edges.forEach((e) => { if (e.from === id) s.add(e.to); else if (e.to === id) s.add(e.from); });
+      return s;
+    };
+    const degree = (id) =>
+      edges.reduce((k, e) => k + (e.from === id || e.to === id ? 1 : 0), 0);
+    const showTip = (g) => {
+      const id = g.dataset.id;
+      const n = degree(id);
+      tip.innerHTML = `<span class="t-id">${id}</span>${roleOf[id] ?? "member"} · ${n} contract edge${n === 1 ? "" : "s"}`;
+      const r = svg.getBoundingClientRect(), s = root.querySelector(".stage").getBoundingClientRect();
+      tip.style.left = `${r.left - s.left + (Number(g.dataset.x) / 100) * r.width}px`;
+      tip.style.top = `${r.top - s.top + (Number(g.dataset.y) / 100) * r.height - 12}px`;
+      tip.style.transform = "translate(-50%, -100%)";
+      tip.classList.add("show");
+    };
+    const hideTip = () => tip.classList.remove("show");
+    const hover = (id) => {
+      if (root.dataset.locked) return; // a cluster is pinned
+      const near = neighbours(id);
+      nEls.forEach((g, k) => { g.classList.toggle("dim", !near.has(k)); g.classList.toggle("hot", k === id); });
+      eEls.forEach((p) => p.classList.remove("hot"));
+      edges.forEach((e) => { if (e.from === id || e.to === id) eEls.get(e.from + "~" + e.to)?.classList.add("hot"); });
+    };
+    const unhover = () => { if (!root.dataset.locked) clear(); };
+    nEls.forEach((g, id) => {
+      g.addEventListener("mouseenter", () => { hover(id); showTip(g); });
+      g.addEventListener("mouseleave", () => { unhover(); hideTip(); });
+      g.addEventListener("focus", () => { hover(id); showTip(g); });
+      g.addEventListener("blur", () => { unhover(); hideTip(); });
+    });
+
+    const highlightSet = (ids) => {
+      const set = new Set(ids);
+      nEls.forEach((g, k) => { g.classList.toggle("dim", !set.has(k)); g.classList.toggle("hot", set.has(k)); g.classList.remove("onpath"); });
+      eEls.forEach((p) => p.classList.remove("hot", "path"));
+      edges.forEach((e) => { if (set.has(e.from) && set.has(e.to)) eEls.get(e.from + "~" + e.to)?.classList.add("hot"); });
+    };
+
+    root.querySelectorAll(".cbtn").forEach((b) => {
+      b.addEventListener("click", () => {
+        const all = b.classList.contains("cbtn-all");
+        root.querySelectorAll(".cbtn").forEach((x) => x.classList.remove("on"));
+        if (all) { delete root.dataset.locked; clear();
+          readout.textContent = "All 16 members, wired by the seven contracts. Pick a problem to see the subset it composes."; return; }
+        b.classList.add("on");
+        root.dataset.locked = "1";
+        const ids = b.dataset.members.split(",");
+        highlightSet(ids);
+        const n = ids.length;
+        readout.innerHTML = `<strong>${n} tool${n > 1 ? "s" : ""}</strong> — ${ids.join(" · ")}. ${b.dataset.blurb}`;
+      });
+    });
+
+    const play = () => {
+      root.querySelectorAll(".cbtn").forEach((x) => x.classList.remove("on"));
+      delete root.dataset.locked;
+      clear(); hideTip();
+      readout.innerHTML = "<strong>A score in motion</strong> — a real decision chain: synthetic clone → calibrate → compress → causal-consistency → decide → grain plan.";
+      const light = (i) => {
+        nEls.get(scorePath[i])?.classList.add("onpath");
+        if (i) eEls.get(scorePath[i - 1] + "~" + scorePath[i])?.classList.add("path");
+      };
+      if (reduce) { scorePath.forEach((_, i) => light(i)); return; }
+      let i = 0;
+      const step = () => { light(i); if (++i < scorePath.length) setTimeout(step, 460);
+        else setTimeout(() => { nEls.forEach((g) => g.classList.remove("onpath")); eEls.forEach((p) => p.classList.remove("path")); }, 2600); };
+      step();
+    };
+    root.querySelector("[data-play]")?.addEventListener("click", play);
+
+    if (!reduce) {
+      // ambient life: a slow twinkle so the constellation reads as alive
+      let t = 2;
+      setInterval(() => {
+        if (root.dataset.locked) return;
+        const id = [...nEls.keys()][(t * 5) % nEls.size];
+        nEls.get(id)?.querySelector("circle")?.animate(
+          [{ opacity: 1 }, { opacity: 0.5 }, { opacity: 1 }], { duration: 1500 });
+        t++;
+      }, 1100);
+      // auto-demo once on load so the interactivity announces itself
+      const io = new IntersectionObserver((es) => {
+        es.forEach((e) => { if (e.isIntersecting) { io.disconnect(); setTimeout(play, 700); } });
+      });
+      io.observe(root);
+    }
+  });
+</script>

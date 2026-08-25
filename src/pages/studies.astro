@@ -1,0 +1,98 @@
+---
+import Base from "../layouts/Base.astro";
+import { arms, studies, type Arm } from "../data/studies";
+const order: Arm[] = ["A", "B", "C"];
+const byArm = (a: Arm) => studies.filter((s) => s.arm === a);
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  name: "ORCHESTRA study series",
+  hasPart: studies.map((s) => ({ "@type": "CreativeWork", name: `${s.id} — ${s.title}`, description: s.question })),
+};
+---
+<Base title="Studies" description="The ORCHESTRA study series — a digital-twin arm, a genomic arm and an institutional arm; each study is a different configuration of the same members." path="/studies" jsonLd={jsonLd}>
+  <section class="wrap">
+    <div class="section-head">
+      <p class="kicker">The programme</p>
+      <h1>Two arms, one contract, many configurations</h1>
+      <p class="prose muted mt-2">A configuration is not a list of packages. It is which members, in which
+        order, under which contract on each edge, with which abstention gate. Two configurations can share most
+        of their members and still be different instruments. The series below holds one thing fixed per arm and
+        optimises the other; the angle between the arms is the point.</p>
+    </div>
+
+    <div class="table-scroll">
+      <table>
+        <caption>What each arm holds fixed, and what it optimises.</caption>
+        <thead><tr><th>arm</th><th>fixed</th><th>optimised over</th><th>inference style</th><th>causal question</th></tr></thead>
+        <tbody>
+          {order.map((a) => (
+            <tr><td><strong>{a}</strong> · {arms[a].name}</td><td>{arms[a].fixed}</td><td>{arms[a].optimised}</td><td>{arms[a].style}</td><td>{arms[a].causal}</td></tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+
+    {order.map((a) => (
+      <div>
+        <div class="section-head mt-4">
+          <p class="kicker">Arm {a}</p>
+          <h2>{arms[a].name}</h2>
+        </div>
+        <div class="studies">
+          {byArm(a).map((s) => (
+            <article class={`card study${s.flagship ? " flagship" : ""}`} id={s.id}>
+              <header class="study-head">
+                <span class="study-id">{s.id}</span>
+                <h3>{s.title}</h3>
+                <span class="study-badges">
+                  {s.flagship && <span class="badge emit">flagship</span>}
+                  {s.build && <span class="badge">build {s.build}</span>}
+                </span>
+              </header>
+              <p class="prose">{s.question}</p>
+              <p class="vh" id={`cfg-${s.id}`}>Configuration, in order</p>
+              <ol class="chain" aria-describedby={`cfg-${s.id}`}>
+                {s.chain.map((m) => (
+                  m === "||"
+                    ? <li class="chain-par"><span class="vh">in parallel with</span><span aria-hidden="true">∥</span></li>
+                    : <li class="chip">{m}</li>
+                ))}
+              </ol>
+              <dl class="study-dl">
+                <dt>Data</dt><dd>{s.data}</dd>
+                <dt>Insight sought</dt><dd>{s.insight}</dd>
+                <dt>Value</dt><dd>{s.value.join(" · ")}</dd>
+              </dl>
+            </article>
+          ))}
+        </div>
+      </div>
+    ))}
+
+    <div class="takeaway mt-4">
+      <p class="kicker">The rule</p>
+      <p class="prose">Every study runs on a hypothetical dataset with a known truth <em>and</em> a real twin.
+        The known truth grades the method; the twin grades the correspondence. A result that only has one of the
+        two is reported as such. Sovereign data never leaves its owner: the twin is a structurally faithful clone,
+        and only aggregates reach a page like this one.</p>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .studies { display: grid; gap: 1rem; grid-template-columns: 1fr; }
+  @media (min-width: 900px) { .studies { grid-template-columns: 1fr 1fr; } }
+  .study { display: flex; flex-direction: column; gap: .6rem; }
+  .study.flagship { border-left: 3px solid var(--accent); }
+  .study-head { display: flex; align-items: baseline; gap: .6rem; flex-wrap: wrap; }
+  .study-head h3 { margin: 0; flex: 1 1 auto; }
+  .study-id { font-family: var(--mono); font-weight: 700; letter-spacing: .04em; }
+  .study-badges { display: flex; gap: .4rem; }
+  .chain { list-style: none; display: flex; flex-wrap: wrap; gap: .35rem; padding: 0; margin: 0; align-items: center; }
+  .chain-par { font-weight: 700; padding: 0 .15rem; }
+  .study-dl { display: grid; grid-template-columns: max-content 1fr; gap: .25rem .8rem; margin: 0; font-size: .95em; }
+  .study-dl dt { font-family: var(--mono); text-transform: uppercase; letter-spacing: .06em; font-size: .78em; opacity: 1; }
+  .study-dl dd { margin: 0; }
+  .vh { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+</style>

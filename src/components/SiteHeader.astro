@@ -1,0 +1,15 @@
+---
+import { site, href } from "../data/site";
+interface Props { path: string }
+const { path } = Astro.props;
+---
+<header class="site-header">
+  <div class="wrap bar">
+    <a class="brand" href={href("/")}>{site.name}</a>
+    <nav class="site-nav" aria-label="Primary">
+      {site.nav.filter((n) => n.href !== "/").map((n) => (
+        <a href={href(n.href)} aria-current={path === n.href ? "page" : undefined}>{n.label}</a>
+      ))}
+    </nav>
+  </div>
+</header>
