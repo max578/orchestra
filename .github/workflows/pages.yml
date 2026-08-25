@@ -74,5 +74,5 @@ jobs:
       - run: npm run build
       # Link crawl in the SERVED layout: root-relative links carry the sub-path,
       # so the built tree is placed under _site/<base> before crawling.
-      - run: mkdir -p "_site${SITE_BASE}" && cp -R dist/. "_site${SITE_BASE}/" && npx linkinator _site --recurse --silent
+      - run: mkdir -p "_site${SITE_BASE}" && cp -R dist/. "_site${SITE_BASE}/" && npx linkinator "${SITE_BASE#/}/index.html" --server-root _site --recurse --silent
       - run: node scripts/site_audit.mjs "${{ needs.deploy.outputs.page_url }}"
