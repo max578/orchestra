@@ -72,5 +72,7 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run build
-      - run: node scripts/site_audit.mjs dist --strict
+      # Link crawl in the SERVED layout: root-relative links carry the sub-path,
+      # so the built tree is placed under _site/<base> before crawling.
+      - run: mkdir -p "_site${SITE_BASE}" && cp -R dist/. "_site${SITE_BASE}/" && npx linkinator _site --recurse --silent
       - run: node scripts/site_audit.mjs "${{ needs.deploy.outputs.page_url }}"

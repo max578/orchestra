@@ -28,6 +28,7 @@ const ogImage = new URL(`${base}/og/${ogSlug}.png`, origin).href;
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{full}</title>
     <meta name="description" content={description} />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
     <!-- In-document CSP: the same policy as public/_headers minus frame-ancestors
          (not expressible in a meta tag). Hosts that cannot set response headers
          (GitHub Pages) still get the script/style/img/font/connect restrictions. -->
