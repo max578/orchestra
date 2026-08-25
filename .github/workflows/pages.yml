@@ -4,6 +4,12 @@ name: site
 # the sub-path live in exactly one place (the env below) so the same source
 # publishes under any host (V12 portability). Actions are pinned to commit
 # SHAs resolved from the tag refs on 2026-08-25.
+#
+# Gate placement: offline gates (markup validity, leak guard) run before the
+# deploy; the link crawl, the strict dist audit and the URL-mode battery
+# (Lighthouse, axe, overflow) run AFTER the deploy in `verify`, because the
+# absolute canonical/OG links resolve only on the live origin. A red `verify`
+# is visible in the run history and blocks nothing silently.
 
 on:
   push:
@@ -34,7 +40,7 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run build
-      - run: node scripts/site_audit.mjs dist --strict
+      - run: npx html-validate "dist/**/*.html"
       - run: python3 scripts/leak_guard.py dist
       - uses: actions/configure-pages@983d7736d9b0ae728b81ab479565c72886d7745b # v5
         with:
@@ -49,6 +55,22 @@ jobs:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
+    outputs:
+      page_url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - id: deployment
         uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e # v4
+
+  verify:
+    needs: deploy
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+      - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - run: node scripts/site_audit.mjs dist --strict
+      - run: node scripts/site_audit.mjs "${{ needs.deploy.outputs.page_url }}"
