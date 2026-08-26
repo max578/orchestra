@@ -92,7 +92,7 @@ export const studies: Study[] = [
     title: "In-season rolling update",
     question: "As observations arrive through the season, how should the plan update, and what is a mid-season decision worth?",
     data: "Streaming covariates (rainfall, NDVI, tissue nitrogen) against a season simulated forward from A0.",
-    chain: ["terroir", "kalmix", "PESTO", "kernR", "decideR", "grainPlan"],
+    chain: ["terroir (ocular)", "kalmix", "PESTO", "kernR", "decideR", "grainPlan"],
     insight: "Dual-resolution causal monitoring: the state-space filter tracks, the simulator-as-null test decides whether the mechanism still holds.",
     value: ["option value of top-dressing", "option value of a spray"],
   },

@@ -112,6 +112,9 @@ export const members: Member[] = [
     method: "Spatial design generation for field trials; a candidate for the design studies (B2, C0), held out of studies until its documented defaults are re-verified.",
     guard: "none typed yet", visibility: "candidate" },
 
+  { id: "ocular", tier: "external", role: "Remote-sensing upstream",
+    method: "Sentinel-2 and Landsat retrieval through the Planetary Computer STAC with cloud filtering and pixel masks, batched area series, and sample-free field-boundary delineation (public AAGI-AUS package). Adopted tentatively as a terroir source; an AAGI-AUS namespace stays upstream-only.",
+    visibility: "external" },
   { id: "nert", tier: "external", role: "TERN data upstream",
     method: "Environmental data source consumed by reference. Barred from membership by the GRDC firewall + the max578-namespace invariant.",
     visibility: "external" },
