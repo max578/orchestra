@@ -1,0 +1,4 @@
+# Visible leak-guard suppressions (one regex per line; copied into dist by the build).
+# The study summary carries the orchestra's own grounding tag on inputs that lack a cited
+# source -- it is the honest label, not a draft marker (Independent Oracle Principle).
+information prices are `\[unverified\]`
