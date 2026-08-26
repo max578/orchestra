@@ -5,3 +5,6 @@ dist/
 .DS_Store
 # local gate artefacts (screenshots, probes, baselines) stay out of the public repo
 audits/
+
+# served-layout scratch copy for the sub-path link crawl (CI and local gates)
+_site/

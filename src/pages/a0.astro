@@ -1,0 +1,136 @@
+---
+import Base from "../layouts/Base.astro";
+import { href } from "../data/site";
+import { a0 } from "../data/a0_results";
+const k = (x: number) => Math.round(x).toLocaleString("en-AU");
+const f1 = (x: number) => x.toFixed(1);
+const f2 = (x: number) => x.toFixed(2);
+const pct = Math.round(a0.loss_reduction_vs_naive_pct);
+const fig = (name: string) => href(`/figures/a0/${name}.png`);
+const figw = (name: string) => href(`/figures/a0/${name}.webp`);
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "ScholarlyArticle",
+  name: "Study A0 — N that pays, where it pays, and where to look next",
+  description: "A controlled recovery study on a synthetic barley belt: the orchestra refuses the crop model where the field disagrees and halves the realised loss against a model-only recommendation.",
+  author: { "@type": "Person", name: "Max Moldovan", identifier: "https://orcid.org/0000-0001-9680-8474" },
+  datePublished: "2026-08-26",
+};
+---
+<Base title="Study A0 — results" description="Study A0 on a synthetic barley belt: the orchestra refuses the crop model where the field disagrees, prices the decision, and cuts realised loss by about half against a model-only recommendation. Every number is bound to the study's artefacts." path="/a0" jsonLd={jsonLd}>
+  <section class="wrap">
+    <div class="section-head">
+      <p class="kicker">Study A0 · digital-twin arm · version 0.2 · 2026-08-26</p>
+      <h1>N that pays, where it pays, and where to look next</h1>
+      <p class="prose lead mt-2">For each site-season of a barley belt: which nitrogen rate maximises
+        expected profit net of nitrogen and its nitrous-oxide cost, how confident can we be, where should
+        the crop model be refused, and what is one soil test or one strip trial worth? This page reports the
+        first executed study of the series. It is a controlled recovery exercise on a synthetic belt with a
+        known truth, not a field result, and it says so wherever the distinction matters.</p>
+    </div>
+
+    <h2 class="mt-3">The set-up</h2>
+    <ul class="prose">
+      <li><strong>Synthetic Barley Belt.</strong> {a0.n_sites} sites on real grain-belt coordinates with real
+        climate (NASA POWER) and soil (SoilGrids), five seasons, six nitrogen rates, three varieties, three
+        replicates, yields simulated by APSIM Next Gen.</li>
+      <li><strong>The planted truth.</strong> At {a0.n_constrained_sites} sites a hidden subsoil constraint caps
+        yield and flattens the response above 60 kg N/ha. The simulator used for inversion is never told.</li>
+      <li><strong>The chain.</strong> apsimR (truth) → flexyBayesOrchestra surrogate and PESTO inversion (the
+        mechanism lens) → kernR TACI (does the field agree with the mechanism?) → a plateau-capable
+        field-record lens where TACI refuses → decideR (loss, EVPI, EVSI) → optimix (which sites to test) →
+        grainPlan (the grower-facing plan). Every hand-off is a typed manifest; every refusal is a typed
+        object read downstream. masque provides the sovereign twin of a real trial series (aggregates only,
+        and not shown here).</li>
+      <li><strong>The economics.</strong> Barley at {f1(a0.price_barley_aud_t)} AUD/t, nitrogen at
+        {f2(a0.cost_per_kgn_aud)} AUD/kg N plus an IPCC-default nitrous-oxide shadow price.</li>
+      <li><strong>The discipline.</strong> Seven independent oracles run inside the stage scripts, the report
+        binds every number to a computed object, and the whole chain is re-verified on a re-seeded belt.</li>
+    </ul>
+
+    <h2 class="mt-3">Three numbers</h2>
+    <div class="studies">
+      <article class="card">
+        <p class="kicker">Realised loss against the planted truth</p>
+        <h3>{k(a0.loss_cascade_total_aud_ha)} vs {k(a0.loss_naive_total_aud_ha)} AUD/ha</h3>
+        <p class="prose">Summed over 198 site-seasons, orchestra cascade vs the naive mechanism-only
+          recommendation: <strong>{pct} per cent less loss</strong>. At the constrained cells
+          {f1(a0.loss_cascade_constrained_mean)} vs {f1(a0.loss_naive_constrained_mean)} AUD/ha per
+          site-season; at the unconstrained cells {f1(a0.loss_cascade_unconstrained_mean)} vs
+          {f1(a0.loss_naive_unconstrained_mean)}. The ordering reproduces on a re-seeded belt
+          ({k(a0.rerun_loss_cascade_total)} vs {k(a0.rerun_loss_naive_total)}).</p>
+      </article>
+      <article class="card">
+        <p class="kicker">Nitrogen and emissions</p>
+        <h3>{k(a0.n_saved_vs_naive_kgn)} kg N not applied · {f1(a0.co2e_saved_vs_naive_t_ha)} t CO₂-e/ha avoided</h3>
+        <p class="prose">The field record, read through a lens that can hold a plateau, locates the
+          constraint the model cannot see: the posterior interval of the plateau onset contains the planted
+          60 kg N/ha at {a0.plateau_interval_covers_60_n} of {a0.n_constrained_sites} constrained sites
+          (median onset {Math.round(a0.x0_median_constrained)} vs {Math.round(a0.x0_median_unconstrained)}
+          kg N/ha elsewhere). TACI refuses the mechanism with sensitivity {f2(a0.taci_sensitivity)} and
+          specificity {f2(a0.taci_specificity)}.</p>
+      </article>
+      <article class="card">
+        <p class="kicker">Where the next research dollar pays</p>
+        <h3>{a0.n_evsi_priced} of {a0.n_sites} sites priced · top site {Math.round(a0.evsi_top_aud_ha)} AUD/ha</h3>
+        <p class="prose">The expected value of sample information of one strip trial or one soil nitrate
+          test, per site — a map of where the next test pays. Directional, not calibrated: the
+          importance-weighted estimate is effective-sample-size limited at this posterior size, and the
+          information prices are unverified inputs.</p>
+      </article>
+    </div>
+
+    <h2 class="mt-3">The four panels</h2>
+    <figure class="mt-1">
+      <picture><source srcset={figw("fig_poster_panels")} type="image/webp" /><img src={fig("fig_poster_panels")} width="1600" height="1080" loading="lazy" decoding="async"
+        alt="Four panels. A: a map of the forty sites on real grain-belt coordinates coloured by the lens the cascade used, with the constrained sites ringed. B: yield-response curves at four example sites showing the naive, cascade and truth-optimal rates. C: bar charts of mean realised loss by policy, split by whether the constraint was planted. D: a scatter of growing-season rainfall against clay content coloured by the expected value of sample information." /></picture>
+      <figcaption class="muted">A: where the mechanism was refused and the field record took over. B: what each lens recommends at four sites chosen by a stated rule. C: what each policy loses against the planted truth. D: where the next research dollar pays.</figcaption>
+    </figure>
+    <figure class="mt-2">
+      <picture><source srcset={figw("fig_stat_curves")} type="image/webp" /><img src={fig("fig_stat_curves")} width="1600" height="1028" loading="lazy" decoding="async"
+        alt="Forty small panels, one per site, each showing the observed plot-mean yields at six nitrogen rates with the posterior mean and ninety per cent band of the field-record lens; constrained sites flatten at sixty kilograms of nitrogen per hectare." /></picture>
+      <figcaption class="muted">The field-record lens per site: a leave-one-out weighted mixture of linear-plateau and quadratic-plateau random curves over the observed means. This is the posterior the decision layer uses wherever the mechanism is refused.</figcaption>
+    </figure>
+    <div class="studies mt-2">
+      <figure>
+        <picture><source srcset={figw("fig_policy_ledger")} type="image/webp" /><img src={fig("fig_policy_ledger")} width="1600" height="943" loading="lazy" decoding="async"
+          alt="Bar chart of mean realised loss per site-season for four policies, naive, abstain-to-zero, abstain-to-status-quo and the cascade, split into no-constraint and constraint-planted cells; the cascade is lowest or near-lowest in both." /></picture>
+        <figcaption class="muted">What each fallback convention costs, and where.</figcaption>
+      </figure>
+      <figure>
+        <picture><source srcset={figw("fig_plateau_recovery")} type="image/webp" /><img src={fig("fig_plateau_recovery")} width="1600" height="960" loading="lazy" decoding="async"
+          alt="Per-site posterior median and ninety per cent interval of the plateau onset, unconstrained sites on the left and constrained sites on the right, with a dashed line at the planted sixty kilograms of nitrogen per hectare." /></picture>
+        <figcaption class="muted">Plateau onset recovered from the field record, against the planted plateau at the constrained sites.</figcaption>
+      </figure>
+    </div>
+
+    <h2 class="mt-3">What it does not show</h2>
+    <ul class="prose">
+      <li>A synthetic belt, not a real one. The shape conclusions have real-data cover — the belt's nitrogen-response
+        slopes partially bracket a real barley multi-environment trial series — the dollar magnitudes do not.</li>
+      <li>Two of the seven stage oracles fail and are reported as failures: the plateau-onset separation between
+        constrained and unconstrained sites (unconstrained sites plateau too, so onset alone conflates "has a
+        plateau" with "has the constraint"), and an under-powered site-level test on the re-seeded belt.</li>
+      <li>Version 0.1 of this study lost to the naive arm: its second lens was linear in rate and could only
+        recommend a corner of the candidate grid. The finding was reported before the lens was changed; the
+        oracles were not.</li>
+      <li>The value-of-information figures are directional, and the information prices, the district status-quo
+        rate and the carbon price are unverified inputs, stated as such.</li>
+      <li>No GRDC-origin data enters the belt, the figures or this page.</li>
+    </ul>
+
+    <h2 class="mt-3">Reproduce it</h2>
+    <p class="prose">The study is a driver over eight stage scripts (belt generation with APSIM, surrogate and
+      inversion, the field-record lens, decisions and value of information, the bound report, the sovereign
+      twin, re-verification on a re-seeded belt, and the figure and summary generator), each carrying its own
+      oracle. A five-minute offline demonstration replays one site end to end with live decision calls. The
+      study tree and its bound report are scheduled for public release alongside the AAGI mirror of this
+      site; until then the pointer is the leader workspace's <code>studies/A0/</code>.</p>
+
+    <p class="cta-row">
+      <a class="btn btn-ghost" href={href("/studies")}>The study series</a>
+      <a class="btn btn-ghost" href={href("/members")}>The members</a>
+      <a class="btn btn-ghost" href={href("/governance")}>Governance</a>
+    </p>
+  </section>
+</Base>

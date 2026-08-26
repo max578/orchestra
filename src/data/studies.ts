@@ -48,7 +48,7 @@ export const studies: Study[] = [
     question: "For each site-season, which nitrogen rate maximises expected profit net of nitrogen and environmental cost, how confident can we be, and where the model cannot be trusted, what is a soil test or a trial worth?",
     data: "Hypothetical: forty sites sampled across a real environment space, five real seasons, six N rates, three varieties; yields simulated by the crop model with known soil nitrogen and a hidden subsoil constraint at a third of sites. Twin: an approved barley multi-environment trial series (aggregates only) and a public maize trial.",
     chain: ["terroir", "apsimR", "PESTO", "kernR", "||", "flexyBayes", "triangulate", "decideR", "grainPlan"],
-    insight: "The money is at the sites where the mechanism is wrong: a naive recommendation loses there, the orchestra abstains to the default and loses less. The value of sample information ranks where the next soil test or trial pays.",
+    insight: "The money is at the sites where the mechanism is wrong: a naive recommendation loses there, and the orchestra — refusing the mechanism and deciding from the field record through a plateau-capable lens — loses about half as much over the belt. The value of sample information ranks where the next soil test or trial pays. Results: /a0.",
     value: ["$/ha", "kg N not applied", "t CO₂-e", "EVSI $ per trial", "benefit–cost ratio"],
   },
   {

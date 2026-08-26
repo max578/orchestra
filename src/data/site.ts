@@ -22,6 +22,8 @@ export const site = {
     { href: "/", label: "Home" },
     { href: "/members", label: "Members" },
     { href: "/studies", label: "Studies" },
+    { href: "/a0", label: "A0 results" },
+    { href: "/governance", label: "Governance" },
     { href: "/about", label: "About" },
   ],
 };

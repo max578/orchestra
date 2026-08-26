@@ -344,3 +344,8 @@ table.num td:not(:first-child), table.num th:not(:first-child) { text-align: rig
   .card, .cl, .gap, .acc { border: 1px solid #000; break-inside: avoid; }
   .acc::details-content { block-size: auto; }
 }
+
+/* responsive figures (A0 results page): the width/height attributes reserve space, the CSS keeps them inside the column */
+figure { margin: 0; }
+figure picture, figure img { display: block; max-width: 100%; height: auto; }
+figcaption { margin-top: .5rem; font-size: var(--step--1); }
