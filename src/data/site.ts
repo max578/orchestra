@@ -17,7 +17,7 @@ export const site = {
     "engine that refuses a mistyped connection and abstains when the " +
     "evidence is under-powered.",
   domain: "Australian grain agriculture (wheat · barley · corn) — MET, breeding/genomics, crop simulation",
-  counts: { members: 16, candidates: 4, external: 3, contracts: 7 },
+  counts: { members: 16, candidates: 6, external: 3, contracts: 7 },
   nav: [
     { href: "/", label: "Home" },
     { href: "/members", label: "Members" },

@@ -1,6 +1,10 @@
-// Grounded roster — sourced ONLY from extract/members.json (verified against
-// the live ORCHESTRA_dev repo, 0 hallucinations). No version numbers (drift).
-// repo present ONLY where a source line explicitly says PUBLIC.
+// Grounded roster — first sourced from extract/members.json (verified against
+// the live ORCHESTRA_dev repo, 0 hallucinations). Re-grounded 2026-08-26:
+// visibility and repo links from a read-only `gh repo view` of every
+// max578 repository that day; guard lines from the fleet refusal gate
+// (ORCHESTRA_dev/audit/orchestra_fitness_2026-08-25/wave4/refusal_fleet_table.md,
+// 20/20 members on 2026-08-26); candidates from ORCHESTRA.md. No version
+// numbers (drift). repo present ONLY where `gh` reported PUBLIC.
 // visibility: public | gated | private | disabled | unspecified | candidate | external
 export type Visibility =
   | "public" | "gated" | "private" | "disabled" | "unspecified" | "candidate" | "external";
@@ -32,12 +36,12 @@ export const members: Member[] = [
     visibility: "public", repo: "max578/kernR" },
   { id: "proxymix", tier: "member", role: "Proxy / compression",
     method: "KL-optimal Gaussian-mixture posterior compression + the density-ratio backend kernR routes to.",
-    guard: "none",
+    guard: "orchestra_refusal-classed errors on an out-of-scale treatment or an unobserved treatment level",
     visibility: "public", repo: "max578/proxymix" },
   { id: "gretaR", tier: "member", role: "Engine",
     method: "Torch-native Bayesian MCMC with no Python dependency; a C1 backend flexyBayes can dispatch to.",
-    guard: "none",
-    visibility: "unspecified" },
+    guard: "gretaR_refusal (a classed condition on invalid input); the C1 edge itself is parked",
+    visibility: "public", repo: "max578/gretaR" },
   { id: "koine", tier: "member", role: "Synthesis",
     method: "Orthogonal fourth-opinion lens battery that triangulate() consumes; owns C3; full MET random-effects lift.",
     guard: "Non-Gaussian MET abstains (Gaussian-exact only); PSIS + corroboration diagnostic gates",
@@ -45,16 +49,15 @@ export const members: Member[] = [
   { id: "terroir", tier: "member", role: "Data collector",
     method: "Geo-point climate / NDVI / soil / elevation / ag-economics from free sources; owns C6, feeding flexyBayes · kernR · PESTO.",
     guard: "structured typed refusals (terroir_refusal) on ungrounded facts",
-    visibility: "unspecified" },
+    visibility: "private" },
   { id: "kalmix", tier: "member", role: "State-space & ACI",
     method: "State-space / HMM / Kalman / change-point + N-of-1 interrupted-time-series causal inference (the ACI engine).",
-    guard: "none",
-    // source declares public (MIT), but the live max578/kalmix URL 404s at
-    // build (IOP: G4 caught it) — badge stays public, no dead link shipped
-    visibility: "public" },
+    guard: "kalmix_abstention when the state-space model is inadequate for the series (ACI adequacy grounding)",
+    // MIT-licensed, but the max578/kalmix repository is private (gh, 2026-08-26)
+    visibility: "private" },
   { id: "masque", tier: "member", role: "Data sovereignty",
     method: "Faithful synthetic clones (develop-on-clone, round-trip); conditional mode preserves the treatment→outcome map for causal MET inference.",
-    guard: "none",
+    guard: "Typed masque_*_refusal on bad input; fails closed on a standing leakage finding or an unmasked coordinate",
     visibility: "public", repo: "max578/masque" },
   { id: "apsimR", tier: "member", role: "External-engine member",
     method: "Wraps APSIM Next Gen; forward model, calibrate/sensitivity/emulate, plus the OSSE known-ATE causal test-bench.",
@@ -62,30 +65,30 @@ export const members: Member[] = [
     visibility: "private" },
   { id: "flexyBayesOrchestra", tier: "member", role: "Composition layer",
     method: "Surrogate emulators, ensemble sources/priors; activates the koine fourth-opinion backend + genomic oracle. Keeps flexyBayes core lean.",
-    guard: "none",
-    visibility: "unspecified" },
+    guard: "flexyBayesOrchestra_abstention on an unsupported random-effects structure; a CME gate on the surrogate",
+    visibility: "private" },
   { id: "decideR", tier: "member", role: "Decision layer",
     method: "Loss-optimal, risk-aware closer of the inference→decision loop; manifest-native, duck-typed tail.",
-    guard: "IOP firewall — refuses to act on an ungrounded input",
-    visibility: "private" },
+    guard: "IOP firewall — decideR_abstention on an ungrounded input",
+    visibility: "public", repo: "max578/decideR" },
   { id: "gpfield", tier: "member", role: "Spatial",
     method: "Spatial / spatio-temporal Gaussian-process regression for field & MET data; change-of-support (point↔block).",
-    guard: "Typed honest abstention when range/support won't bear the prediction",
-    visibility: "private" },
+    guard: "gpfield_abstention when range/support won't bear the prediction",
+    visibility: "public", repo: "max578/gpfield" },
   { id: "grainPlan", tier: "member", role: "Decision orchestration",
     method: "Grain-specific last-mile: turns a manifest into nitrogen-rate / variety / grade-target decisions + a season plan.",
-    guard: "Inherits decideR's IOP firewall; worst-case combined at the plan level",
-    visibility: "private" },
+    guard: "Inherits decideR's IOP firewall; grainPlan_abstention on a producer's decline or a wrong inferential target",
+    visibility: "public", repo: "max578/grainPlan" },
   { id: "optimix", tier: "member", role: "Optimisation meta-layer",
     method: "Unified problem contract + engine registry + auto/race selector over gradient / global / Bayesian-opt / combinatorial optimisers.",
     emits: "parameters",
-    guard: "none",
-    visibility: "unspecified" },
+    guard: "optimix_map_abstention when the map engine cannot cover the problem's dimension",
+    visibility: "private" },
   { id: "cdzoo", tier: "member", role: "Causal discovery",
     method: "16 algorithms (pcalg/bnlearn + LiNGAM/DAGMA via reticulate) behind one CPDAG convention + the evidence-routed recommender cd_auto().",
     emits: "structure",
-    guard: "none",
-    visibility: "disabled" },
+    guard: "cdzoo_abstention when the evidence-routed recommender declines",
+    visibility: "private" },
 
   // NB: the `bourse` trading-arm candidate is deliberately OMITTED — the
   // public showcase is agriculture-only (ratified in CLAUDE.md; the trading
@@ -98,10 +101,16 @@ export const members: Member[] = [
     guard: "IOP-gated oracle comparison", visibility: "candidate" },
   { id: "janusplot", tier: "candidate", role: "Diagnostic visualisation",
     method: "Exploratory visualisation hub (asymmetric association matrix, shape metrics); most mature candidate but a terminal consumer, not a producer.",
-    guard: "none", visibility: "candidate" },
+    guard: "janusplot_refusal on degenerate input", visibility: "candidate", repo: "max578/janusplot" },
   { id: "bacipair", tier: "candidate", role: "Quasi-experimental causal",
     method: "Paired DiD / synthetic control / event study / Goodman-Bacon decomposition; off-namespace, overlaps proxymix/kalmix on synthetic control.",
-    guard: "none", visibility: "candidate" },
+    guard: "bacipair_abstention below the donor floor", visibility: "candidate" },
+  { id: "effectsurf", tier: "candidate", role: "Post-estimation surfaces",
+    method: "Effect-surface visualisation over covariates for fitted models (public AAGI-AUS package); adopted as the presentation layer for study results, held out of studies until its documented defaults are re-verified.",
+    guard: "none typed yet", visibility: "candidate" },
+  { id: "speed2", tier: "candidate", role: "Spatial experimental design",
+    method: "Spatial design generation for field trials; a candidate for the design studies (B2, C0), held out of studies until its documented defaults are re-verified.",
+    guard: "none typed yet", visibility: "candidate" },
 
   { id: "nert", tier: "external", role: "TERN data upstream",
     method: "Environmental data source consumed by reference. Barred from membership by the GRDC firewall + the max578-namespace invariant.",
