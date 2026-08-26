@@ -42,8 +42,7 @@ const jsonLd = {
         grainPlan (the grower-facing plan). Every hand-off is a typed manifest; every refusal is a typed
         object read downstream. masque provides the sovereign twin of a real trial series (aggregates only,
         and not shown here).</li>
-      <li><strong>The economics.</strong> Barley at {f1(a0.price_barley_aud_t)} AUD/t, nitrogen at
-        {f2(a0.cost_per_kgn_aud)} AUD/kg N plus an IPCC-default nitrous-oxide shadow price.</li>
+      <li><strong>The economics.</strong> Barley at {f1(a0.price_barley_aud_t)} AUD/t, nitrogen at {f2(a0.cost_per_kgn_aud)} AUD/kg N plus an IPCC-default nitrous-oxide shadow price.</li>
       <li><strong>The discipline.</strong> Seven independent oracles run inside the stage scripts, the report
         binds every number to a computed object, and the whole chain is re-verified on a re-seeded belt.</li>
     </ul>
@@ -54,10 +53,7 @@ const jsonLd = {
         <p class="kicker">Realised loss against the planted truth</p>
         <h3>{k(a0.loss_cascade_total_aud_ha)} vs {k(a0.loss_naive_total_aud_ha)} AUD/ha</h3>
         <p class="prose">Summed over 198 site-seasons, orchestra cascade vs the naive mechanism-only
-          recommendation: <strong>{pct} per cent less loss</strong>. At the constrained cells
-          {f1(a0.loss_cascade_constrained_mean)} vs {f1(a0.loss_naive_constrained_mean)} AUD/ha per
-          site-season; at the unconstrained cells {f1(a0.loss_cascade_unconstrained_mean)} vs
-          {f1(a0.loss_naive_unconstrained_mean)}. The ordering reproduces on a re-seeded belt
+          recommendation: <strong>{pct} per cent less loss</strong>. At the constrained cells {f1(a0.loss_cascade_constrained_mean)} vs {f1(a0.loss_naive_constrained_mean)} AUD/ha per site-season; at the unconstrained cells {f1(a0.loss_cascade_unconstrained_mean)} vs {f1(a0.loss_naive_unconstrained_mean)}. The ordering reproduces on a re-seeded belt
           ({k(a0.rerun_loss_cascade_total)} vs {k(a0.rerun_loss_naive_total)}).</p>
       </article>
       <article class="card">
@@ -66,8 +62,7 @@ const jsonLd = {
         <p class="prose">The field record, read through a lens that can hold a plateau, locates the
           constraint the model cannot see: the posterior interval of the plateau onset contains the planted
           60 kg N/ha at {a0.plateau_interval_covers_60_n} of {a0.n_constrained_sites} constrained sites
-          (median onset {Math.round(a0.x0_median_constrained)} vs {Math.round(a0.x0_median_unconstrained)}
-          kg N/ha elsewhere). TACI refuses the mechanism with sensitivity {f2(a0.taci_sensitivity)} and
+          (median onset {Math.round(a0.x0_median_constrained)} vs {Math.round(a0.x0_median_unconstrained)} kg N/ha elsewhere). TACI refuses the mechanism with sensitivity {f2(a0.taci_sensitivity)} and
           specificity {f2(a0.taci_specificity)}.</p>
       </article>
       <article class="card">
