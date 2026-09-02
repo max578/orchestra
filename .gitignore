@@ -8,3 +8,6 @@ audits/
 
 # served-layout scratch copy for the sub-path link crawl (CI and local gates)
 _site/
+
+# deliverable downloads are tracked deliberately (global ignore has *.pdf)
+!public/downloads/*.pdf
