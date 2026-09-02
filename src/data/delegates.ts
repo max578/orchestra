@@ -65,13 +65,13 @@ export const delegates: Delegate[] = [
     motif: "vessel",
   },
   {
-    id: "flexyBayesOrchestra",
+    id: "quorum",
     people:
-      "The Understudies of Lirren, apprentice mimics who learn a master's hand so a performance can be rehearsed a thousand times cheaply — and who always name the master.",
-    frontier: "Surrogate emulation with a stated error; ensembles composed without touching the original.",
+      "The Understudies of Lirren, apprentice mimics who learn a master's hand so a performance can be rehearsed a thousand times cheaply — and who convene the masters to hear where they disagree.",
+    frontier: "Surrogate emulation with a stated error; a quorum of lenses before an answer is carried.",
     name: "Pell Lirren-Sa",
     title: "First Understudy",
-    creed: "I am not the world; I am its fastest honest imitation, and I say where I differ.",
+    creed: "I am not the world; I am its fastest faithful imitation, and I say where I differ.",
     motif: "mirror",
   },
   {
@@ -147,11 +147,11 @@ export const delegates: Delegate[] = [
   {
     id: "proxymix",
     people:
-      "The Sumfolk of Alloy, who keep memory as a weighted blend of a few honest shapes, and who own the algebra of blending.",
+      "The Sumfolk of Alloy, who keep memory as a weighted blend of a few declared shapes, and who own the algebra of blending.",
     frontier: "Mixture calculus; compression with the cost of compression stated.",
     name: "Etta Alloy-Nine",
     title: "Keeper of the Nine Shapes",
-    creed: "I remember everything as a few honest shapes, and I can tell you what the blending cost.",
+    creed: "I remember everything as a few declared shapes, and I can tell you what the blending cost.",
     motif: "blend",
   },
   {

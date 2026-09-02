@@ -17,12 +17,12 @@ const tierHead = {
 const searchText = (m: (typeof tiers.member)[number]) =>
   [m.id, m.role, m.method, m.emits, m.guard].filter(Boolean).join(" ").toLowerCase();
 ---
-<Base title="Members" description="The full ORCHESTRA catalogue — 16 members, 5 candidates, 3 external upstreams — with honest visibility badges." path="/members" jsonLd={jsonLd}>
+<Base title="Members" description="The full ORCHESTRA catalogue — 16 members, 5 candidates, 3 external upstreams — with plain visibility badges." path="/members" jsonLd={jsonLd}>
   <section class="wrap">
     <div class="section-head">
       <p class="kicker">The catalogue</p>
       <h1>Members, candidates, and upstreams</h1>
-      <p class="prose muted mt-2">Every package with an honest status badge, expandable to its
+      <p class="prose muted mt-2">Every package with a plain status badge, expandable to its
         full capability, guard, and wiring. A repo link appears only where the package is
         verifiably public; a private or gated member shows its badge, never an implied download.
         This page is also the plain-text equivalent of the constellation graph.</p>

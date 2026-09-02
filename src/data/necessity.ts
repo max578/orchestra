@@ -51,12 +51,12 @@ export const necessity: Necessity[] = [
     method: "Adopts APSIM itself; adapts it into the contract; the test-bench is the orchestra's own.",
   },
   {
-    id: "flexyBayesOrchestra", tier: "core",
-    question: "Make the expensive affordable: emulate the simulator, compose ensembles, activate the fourth opinion.",
-    outside: "DiceKriging / hetGP called directly.",
-    why: "The surrogate and ensemble contracts into the hub — A0 is ~80,000 simulator runs without the emulator; the audit's minimal set marks it 'not optional'.",
-    evidence: "A0 compute plan; loads and exports green against flexyBayes 0.10.0 (exercised 2026-09-02).",
-    method: "Adapts standard emulation behind the hub's contracts; keeps the hub single-responsibility.",
+    id: "quorum", tier: "core",
+    question: "Do the lenses agree, and which answer is grounded enough to carry?",
+    outside: "Hand-built cascade code per analysis, and the hub's pairwise triangulate().",
+    why: "N-lens consensus with declared independence and a typed no-quorum abstention. No outside tool asks which lens's answer is grounded enough to act on.",
+    evidence: "Study A0's cascade, 2,960 against 5,818 AUD per hectare, reproduced from the package; the surrogate seam that made A0 affordable; fleet gate line.",
+    method: "Adapters over members' fitters; the consensus operator and the independence ledger are the orchestra's own.",
   },
   {
     id: "terroir", tier: "core",

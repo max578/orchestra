@@ -12,7 +12,7 @@ export const nodes: GNode[] = [
   { id: "kalmix", x: 58, y: 80 }, { id: "gpfield", x: 83, y: 52 },
   { id: "decideR", x: 83, y: 72 }, { id: "grainPlan", x: 72, y: 88 },
   { id: "optimix", x: 86, y: 34 }, { id: "cdzoo", x: 69, y: 20 },
-  { id: "flexyBayesOrchestra", x: 41, y: 70 },
+  { id: "quorum", x: 41, y: 70 },
 ];
 export interface GEdge { from: string; to: string; tag: string }
 export const edges: GEdge[] = [
@@ -21,12 +21,12 @@ export const edges: GEdge[] = [
   { from: "PESTO", to: "kernR", tag: "C2" },
   { from: "flexyBayes", to: "proxymix", tag: "C4" },
   { from: "flexyBayes", to: "kernR", tag: "C4" },
-  { from: "PESTO", to: "flexyBayes", tag: "C5" },
-  { from: "apsimR", to: "flexyBayes", tag: "C5" },
+  { from: "PESTO", to: "quorum", tag: "C5" },
+  { from: "apsimR", to: "quorum", tag: "C5" },
   { from: "terroir", to: "flexyBayes", tag: "C6" },
   { from: "terroir", to: "kernR", tag: "C6" },
   { from: "terroir", to: "PESTO", tag: "C6" },
-  { from: "flexyBayes", to: "PESTO", tag: "C7" },
+  { from: "quorum", to: "PESTO", tag: "C7" },
   { from: "masque", to: "PESTO", tag: "pipeline" },
   { from: "PESTO", to: "proxymix", tag: "pipeline" },
   { from: "proxymix", to: "kernR", tag: "pipeline" },
@@ -36,7 +36,7 @@ export const edges: GEdge[] = [
   { from: "gpfield", to: "flexyBayes", tag: "spatial" },
   { from: "optimix", to: "decideR", tag: "opt" },
   { from: "cdzoo", to: "kernR", tag: "structure" },
-  { from: "flexyBayesOrchestra", to: "flexyBayes", tag: "composition" },
+  { from: "quorum", to: "flexyBayes", tag: "composition" },
 ];
 // the animated "score" — the ORCHESTRA.md application pipeline
 export const scorePath = ["masque", "PESTO", "proxymix", "kernR", "decideR", "grainPlan"];

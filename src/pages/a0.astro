@@ -36,7 +36,7 @@ const jsonLd = {
         replicates, yields simulated by APSIM Next Gen.</li>
       <li><strong>The planted truth.</strong> At {a0.n_constrained_sites} sites a hidden subsoil constraint caps
         yield and flattens the response above 60 kg N/ha. The simulator used for inversion is never told.</li>
-      <li><strong>The chain.</strong> apsimR (truth) → flexyBayesOrchestra surrogate and PESTO inversion (the
+      <li><strong>The chain.</strong> apsimR (truth) → quorum surrogate and PESTO inversion (the
         mechanism lens) → kernR TACI (does the field agree with the mechanism?) → a plateau-capable
         field-record lens where TACI refuses → decideR (loss, EVPI, EVSI) → optimix (which sites to test) →
         grainPlan (the grower-facing plan). Every hand-off is a typed manifest; every refusal is a typed

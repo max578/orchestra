@@ -1,6 +1,6 @@
 // The parsimony evidence — grounded in the benchmark reports
 // (extract/parsimony.json). Message: multi-tool BY DESIGN, but the system
-// abstains rather than over-reach; and it shows its own limit honestly.
+// abstains rather than over-reach; and it states its own limit.
 
 // leadership-≥3: every lead drives ≥3 members, so no study is single-tool by design
 export const leadership = [
@@ -22,7 +22,7 @@ export const smallN = {
 };
 
 export const limit =
-  "An honest limit, shown not hidden: TACI never abstained in the small-N " +
+  "A stated limit, shown not hidden: TACI never abstained in the small-N " +
   "stress test — its gates guard identification quality, not data scarcity, " +
   "so at tiny N it is as confident-wrong as the naive test. The calibrated " +
   "design (synthetic control) abstains when its donors fail. A power-aware " +

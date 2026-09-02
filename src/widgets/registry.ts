@@ -231,11 +231,11 @@ const sketchApsimR: Sketch = (ctx, w, h, col, reduced) => {
   requestAnimationFrame(tick);
 };
 
-// --- flexyBayesOrchestra: the fastest honest imitation ------------------------
+// --- quorum: the fastest faithful imitation ------------------------
 // An expensive simulator is sampled slowly, one point at a time; a cheap
-// surrogate spans the whole domain immediately but is honest about its own
+// surrogate spans the whole domain immediately but states its own
 // error — the band around it narrows only where evidence has accumulated.
-const sketchFlexyBayesOrchestra: Sketch = (ctx, w, h, col, reduced) => {
+const sketchQuorum: Sketch = (ctx, w, h, col, reduced) => {
   const rand = mulberry32(20260906);
   const steps = 120;
   const guessBias = (rand() - 0.5) * 0.2;
@@ -274,7 +274,7 @@ const sketchFlexyBayesOrchestra: Sketch = (ctx, w, h, col, reduced) => {
     }
     ctx.stroke();
     ctx.fillStyle = col.ink; ctx.font = "12px ui-monospace, monospace";
-    ctx.fillText("the fastest honest imitation", 30, 24);
+    ctx.fillText("the fastest faithful imitation", 30, 24);
     ctx.fillText("and it says where it differs", 30, h - 14);
   };
   if (reduced) { draw(1); return; }
@@ -661,7 +661,7 @@ const sketchKoine: Sketch = (ctx, w, h, col, reduced) => {
   requestAnimationFrame(tick);
 };
 
-// --- proxymix: a few honest shapes ------------------------------------------------
+// --- proxymix: a few declared shapes ------------------------------------------------
 // A banana-shaped cloud of points is compressed into three ellipses — the
 // blend. A small meter states the cost of that compression and settles on a
 // nonzero value; the approximation is cheap, not free, and says so.
@@ -704,7 +704,7 @@ const sketchProxymix: Sketch = (ctx, w, h, col, reduced) => {
     ctx.fillStyle = col.ink; ctx.font = "10px ui-monospace, monospace";
     ctx.fillText("cost of blending", mx - 6, my - 6);
     ctx.font = "12px ui-monospace, monospace";
-    ctx.fillText("a few honest shapes", 30, 24);
+    ctx.fillText("a few declared shapes", 30, 24);
     ctx.fillStyle = col.accent;
     ctx.fillText("the blending cost, stated", 30, h - 14);
   };
@@ -862,7 +862,7 @@ const sketches: Record<string, Sketch> = {
   flexyBayes: sketchFlexyBayes,
   kernR: sketchKernR,
   apsimR: sketchApsimR,
-  flexyBayesOrchestra: sketchFlexyBayesOrchestra,
+  quorum: sketchQuorum,
   terroir: sketchTerroir,
   masque: sketchMasque,
   decideR: sketchDecideR,
