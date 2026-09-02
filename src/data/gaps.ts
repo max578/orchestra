@@ -1,6 +1,6 @@
 // Vacant places — grounded in extract/gaps_external.json (deep-research,
 // adversarially verified). 4 filled (with the licence caveat that matters
-// for wrapping), 3 honestly OPEN. Never present an open gap as filled.
+// for wrapping), 3 OPEN, stated plainly. Never present an open gap as filled.
 export interface FilledGap {
   gap: string; use: string; tool: string; licence: string; caveat: string;
 }
