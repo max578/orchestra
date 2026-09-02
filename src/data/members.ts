@@ -22,9 +22,9 @@ export interface Member {
 
 export const members: Member[] = [
   { id: "flexyBayes", tier: "member", role: "Inference hub",
-    method: "Multi-backend hierarchical Bayesian MET/GxE (greta · brms · INLA); GBLUP + GWAS + factor-analytic breeder outputs. Owns C1/C4/C5/C7.",
-    emits: "breeding_values · marker_associations",
-    guard: "brms/INLA honestly abstain as C4 posterior producers (no fabricated log-density, IOP); only greta is a real producer",
+    method: "Multi-backend hierarchical Bayesian MET/GxE (greta · brms · INLA); GBLUP + genomic-selection CV + cross-engine triangulation (the GWAS surface was withdrawn from the public API in 0.10.0). Owns C1; C4 dormant; C5/C7 live in the composition layer.",
+    emits: "breeding_values",
+    guard: "Refuses unsupported model families by name; the C4 posterior-producer path is internal since 0.10.0 -- dormant and declared so",
     visibility: "gated" },
   { id: "PESTO", tier: "member", role: "Calibration",
     method: "Simulator inversion (iterative ensemble smoother) + ensemble UQ over forward models; the authoritative source of the C2 manifest spine.",

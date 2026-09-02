@@ -1,0 +1,163 @@
+---
+// Delegate portrait — one parameterised SVG, fifteen motifs. The geometry IS
+// the method: each people's motif is drawn into a shared head-and-shoulders
+// frame, plainly not human (elongated crown, no facial features), two-colour
+// on the site tokens so it holds in light and dark. Pure static SVG (CSP-safe).
+interface Props {
+  motif: string;
+  label: string;   // accessible name, e.g. "Tesh Oranu, delegate of the Delta-Readers"
+  size?: number;   // rendered width in px (height = 1.25x)
+}
+const { motif, label, size = 160 } = Astro.props;
+
+// Shared frame: shoulders + neck + elongated head outline, drawn last so it
+// sits over the motif. Head occupies roughly x 40..120, y 22..118.
+const frame = `
+  <path d="M20 196 q4 -42 36 -50 q12 -3 24 -3 q12 0 24 3 q32 8 36 50 Z"
+        fill="var(--surface)" stroke="currentColor" stroke-width="2.5"/>
+  <path d="M68 118 q0 18 -6 28 M92 118 q0 18 6 28"
+        fill="none" stroke="currentColor" stroke-width="2.5"/>
+  <path d="M80 20 q-34 0 -37 44 q-2 30 10 44 q11 12 27 12 q16 0 27 -12
+           q12 -14 10 -44 q-3 -44 -37 -44 Z"
+        fill="none" stroke="currentColor" stroke-width="2.5"/>`;
+
+// Per-people motif, drawn inside the head (and sometimes spilling onto the
+// shoulders, which is deliberate — the mathematics is not contained).
+const motifs: Record<string, string> = {
+  // flexyBayes — the Chorum: three echo-assemblies that must agree
+  echoes: `
+    <path d="M80 40 q-18 8 -18 26 q0 18 18 26 q18 -8 18 -26 q0 -18 -18 -26Z"
+          fill="none" stroke="var(--accent)" stroke-width="2"/>
+    <path d="M80 48 q-11 5 -11 18 q0 13 11 18 q11 -5 11 -18 q0 -13 -11 -18Z"
+          fill="none" stroke="currentColor" stroke-width="1.8"/>
+    <circle cx="80" cy="66" r="4.5" fill="var(--accent)"/>
+    <path d="M56 96 q24 12 48 0" fill="none" stroke="var(--accent)" stroke-width="2"/>`,
+  // PESTO — the Delta-Readers: braided channels converging upstream
+  braids: `
+    <path d="M52 104 q8 -20 12 -34 M64 108 q4 -24 8 -40 M80 110 q0 -26 0 -46
+             M96 108 q-4 -24 -8 -40 M108 104 q-8 -20 -12 -34"
+          fill="none" stroke="currentColor" stroke-width="1.8"/>
+    <path d="M64 68 q16 -10 32 0 M58 84 q22 -12 44 0" fill="none"
+          stroke="var(--accent)" stroke-width="1.8"/>
+    <circle cx="80" cy="46" r="5" fill="var(--accent)"/>`,
+  // kernR — the Vell: overlapping witness discs, the intersection is the test
+  discs: `
+    <circle cx="68" cy="70" r="22" fill="none" stroke="currentColor" stroke-width="2"/>
+    <circle cx="92" cy="70" r="22" fill="none" stroke="var(--accent)" stroke-width="2"/>
+    <path d="M80 51 a22 22 0 0 1 0 38 a22 22 0 0 1 0 -38Z"
+          fill="var(--accent)" opacity="0.25"/>
+    <circle cx="80" cy="100" r="3" fill="currentColor"/>`,
+  // apsimR — the Worldwrights: a season grown inside a vessel
+  vessel: `
+    <path d="M64 42 v14 q-14 16 -14 34 a30 26 0 0 0 60 0 q0 -18 -14 -34 v-14Z"
+          fill="none" stroke="currentColor" stroke-width="2"/>
+    <path d="M80 104 v-28 M80 84 q-10 -4 -12 -14 M80 92 q10 -4 12 -14
+             M80 76 q-6 -2 -8 -9 M80 76 q6 -2 8 -9"
+          fill="none" stroke="var(--accent)" stroke-width="2"/>
+    <path d="M60 42 h40" stroke="currentColor" stroke-width="2"/>`,
+  // flexyBayesOrchestra — the Understudies: the master's curve and its mirror
+  mirror: `
+    <path d="M52 86 q10 -34 28 -34 q18 0 28 34" fill="none"
+          stroke="currentColor" stroke-width="2.2"/>
+    <path d="M52 92 q10 -34 28 -34 q18 0 28 34" fill="none"
+          stroke="var(--accent)" stroke-width="1.8" stroke-dasharray="5 4"/>
+    <path d="M60 104 h40" stroke="var(--accent)" stroke-width="1.6"
+          stroke-dasharray="2 4"/>`,
+  // terroir — the Cartouche: the surveyor's seal on the measured ground
+  seal: `
+    <path d="M54 60 h52 M54 76 h52 M54 92 h52 M62 48 v56 M80 44 v64 M98 48 v56"
+          stroke="currentColor" stroke-width="1.2" opacity="0.7"/>
+    <circle cx="80" cy="74" r="14" fill="var(--paper)" stroke="var(--accent)"
+            stroke-width="2.4"/>
+    <path d="M74 74 l4 5 l8 -10" fill="none" stroke="var(--accent)"
+          stroke-width="2.4" stroke-linecap="round"/>`,
+  // masque — the Envoys: the structural half-mask
+  mask: `
+    <path d="M53 62 q27 -14 54 0 q0 26 -14 38 q-8 7 -13 7 q-5 0 -13 -7
+             q-14 -12 -14 -38Z" fill="var(--accent)" opacity="0.18"/>
+    <path d="M53 62 q27 -14 54 0 q0 26 -14 38 q-8 7 -13 7 q-5 0 -13 -7
+             q-14 -12 -14 -38Z" fill="none" stroke="var(--accent)" stroke-width="2"/>
+    <path d="M64 72 q8 -5 12 0 M84 72 q8 -5 12 0" fill="none"
+          stroke="currentColor" stroke-width="2"/>
+    <path d="M80 62 v40" stroke="currentColor" stroke-width="1.4"
+          stroke-dasharray="3 3"/>`,
+  // decideR — the Ledger-Keepers: the loss table with one empty cell
+  table: `
+    <path d="M56 52 h48 v48 h-48 Z M56 68 h48 M56 84 h48 M72 52 v48 M88 52 v48"
+          fill="none" stroke="currentColor" stroke-width="1.8"/>
+    <rect x="73.5" y="69.5" width="13" height="13" fill="var(--accent)" opacity="0.3"/>
+    <rect x="89.5" y="85.5" width="13" height="13" fill="none"
+          stroke="var(--accent)" stroke-width="2" stroke-dasharray="3 3"/>`,
+  // grainPlan — the Tablewrights: the set table, the hearth line
+  hearth: `
+    <path d="M54 78 h52 M60 78 v22 M100 78 v22" stroke="currentColor" stroke-width="2.2"/>
+    <path d="M70 66 q0 -10 10 -10 q10 0 10 10" fill="none"
+          stroke="var(--accent)" stroke-width="2"/>
+    <circle cx="80" cy="70" r="3.5" fill="var(--accent)"/>
+    <path d="M64 92 h32" stroke="var(--accent)" stroke-width="1.6" stroke-dasharray="2 4"/>`,
+  // gpfield — the Continuum Weavers: the cloth, one thread pulled to a block
+  weave: `
+    <path d="M52 58 q28 10 56 0 M52 72 q28 10 56 0 M52 86 q28 10 56 0"
+          fill="none" stroke="currentColor" stroke-width="1.6"/>
+    <path d="M62 50 q10 28 0 52 M80 48 q10 28 0 56 M98 50 q10 28 0 52"
+          fill="none" stroke="currentColor" stroke-width="1.6" opacity="0.7"/>
+    <rect x="70" y="64" width="20" height="16" fill="var(--accent)" opacity="0.28"/>
+    <rect x="70" y="64" width="20" height="16" fill="none"
+          stroke="var(--accent)" stroke-width="2"/>`,
+  // kalmix — the Tidewrights: the polite surface, the answered-for current
+  tide: `
+    <path d="M52 62 q7 -6 14 0 t14 0 t14 0 t14 0" fill="none"
+          stroke="currentColor" stroke-width="1.8"/>
+    <path d="M52 80 q14 -10 28 0 t28 0" fill="none" stroke="var(--accent)"
+          stroke-width="2.4"/>
+    <path d="M88 96 v10 M84 102 l4 6 l4 -6" fill="none" stroke="var(--accent)"
+          stroke-width="2"/>`,
+  // koine — the Second-Tongue: the same truth in two scripts
+  tongues: `
+    <path d="M58 56 h20 M58 66 h16 M58 76 h20" stroke="currentColor" stroke-width="2"/>
+    <path d="M84 60 q6 -6 10 0 q4 6 10 0 M84 72 q6 -6 10 0 q4 6 10 0"
+          fill="none" stroke="var(--accent)" stroke-width="2"/>
+    <path d="M66 92 q14 12 28 0" fill="none" stroke="var(--accent)" stroke-width="1.8"/>
+    <circle cx="80" cy="98" r="2.5" fill="currentColor"/>`,
+  // proxymix — the Sumfolk: few honest shapes, one blend
+  blend: `
+    <circle cx="68" cy="64" r="13" fill="var(--accent)" opacity="0.22"/>
+    <circle cx="93" cy="70" r="10" fill="var(--accent)" opacity="0.32"/>
+    <circle cx="76" cy="88" r="8" fill="var(--accent)" opacity="0.45"/>
+    <circle cx="68" cy="64" r="13" fill="none" stroke="currentColor" stroke-width="1.6"/>
+    <circle cx="93" cy="70" r="10" fill="none" stroke="currentColor" stroke-width="1.6"/>
+    <circle cx="76" cy="88" r="8" fill="none" stroke="currentColor" stroke-width="1.6"/>
+    <path d="M60 104 h40" stroke="var(--accent)" stroke-width="1.4" stroke-dasharray="1 3"/>`,
+  // optimix — the Wayfarers: raced paths, one summit flagged
+  paths: `
+    <path d="M56 102 q10 -18 6 -34 q-2 -10 6 -16 M56 102 q18 -8 22 -28 q2 -12 10 -18
+             M56 102 q26 2 34 -16 q4 -10 12 -12" fill="none"
+          stroke="currentColor" stroke-width="1.6"/>
+    <circle cx="98" cy="52" r="4" fill="var(--accent)"/>
+    <path d="M98 52 v-10 l8 3 l-8 3" fill="var(--accent)" stroke="var(--accent)"
+          stroke-width="1.4"/>`,
+  // cdzoo — the Arrowsmiths: the graph, arrows drawn and one contested
+  arrows: `
+    <circle cx="64" cy="56" r="4" fill="currentColor"/>
+    <circle cx="98" cy="62" r="4" fill="currentColor"/>
+    <circle cx="72" cy="92" r="4" fill="currentColor"/>
+    <circle cx="98" cy="94" r="4" fill="currentColor"/>
+    <path d="M68 58 l24 3 M74 88 l20 4" stroke="var(--accent)" stroke-width="2"
+          marker-end="url(#cd-arr)"/>
+    <path d="M66 61 l5 25" stroke="currentColor" stroke-width="1.6"
+          stroke-dasharray="3 3"/>
+    <defs><marker id="cd-arr" markerWidth="7" markerHeight="7" refX="6" refY="3.5"
+      orient="auto"><path d="M0 0 L7 3.5 L0 7 Z" fill="var(--accent)"/></marker></defs>`,
+};
+
+const inner = motifs[motif] ?? "";
+---
+<svg
+  class="avatar"
+  width={size}
+  height={size * 1.25}
+  viewBox="0 0 160 200"
+  role="img"
+  aria-label={label}
+  set:html={inner + frame}
+/>
