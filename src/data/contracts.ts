@@ -6,7 +6,7 @@ export interface Contract {
 }
 export const contracts: Contract[] = [
   { id: "C1", name: "backend_contract", kind: "interface", owner: "flexyBayes",
-    consumers: "greta · INLA · brms · gretaR · koine" },
+    consumers: "greta · INLA · brms · koine" },
   { id: "C2", name: "pesto_ensemble_manifest", kind: "data", owner: "PESTO",
     consumers: "kernR (live) · flexyBayes (planned)", note: "the manifest spine" },
   { id: "C3", name: "koine_pass / koine_result", kind: "data", owner: "koine",

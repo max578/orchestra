@@ -8,16 +8,16 @@ const jsonLd = {
   name: "ORCHESTRA members",
   hasPart: tiers.member.map((m) => ({ "@type": "SoftwareSourceCode", name: m.id, description: m.role })),
 };
-const label = { public: "public", gated: "gated", private: "private", disabled: "private · disabled", unspecified: "not public", candidate: "candidate", external: "external" };
+const label = { public: "public", gated: "under development", private: "private", disabled: "private · disabled", unspecified: "not public", candidate: "candidate", external: "external" };
 const tierHead = {
   member: `${tiers.member.length} members`,
-  candidate: `${tiers.candidate.length} candidates — not yet enrolled`,
+  candidate: `${tiers.candidate.length} candidate${tiers.candidate.length === 1 ? "" : "s"} — not yet enrolled`,
   external: `${tiers.external.length} external — consumed by reference`,
 };
 const searchText = (m: (typeof tiers.member)[number]) =>
   [m.id, m.role, m.method, m.emits, m.guard].filter(Boolean).join(" ").toLowerCase();
 ---
-<Base title="Members" description="The full ORCHESTRA catalogue — 16 members, 5 candidates, 3 external upstreams — with plain visibility badges." path="/members" jsonLd={jsonLd}>
+<Base title="Members" description={`The full ORCHESTRA catalogue — ${tiers.member.length} members, ${tiers.candidate.length} candidate, ${tiers.external.length} external upstreams — with plain visibility badges.`} path="/members" jsonLd={jsonLd}>
   <section class="wrap">
     <div class="section-head">
       <p class="kicker">The catalogue</p>

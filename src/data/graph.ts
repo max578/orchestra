@@ -1,4 +1,4 @@
-// Constellation geometry — the 16 members + the contract edges. Rendered as
+// Constellation geometry — the 15 released members + the contract edges. Rendered as
 // a static SVG at build (SSR fallback) and enhanced by the island JS.
 // Positions are hand-laid in a 0–100 viewBox. Edges + score path are grounded
 // (contract registry + the ORCHESTRA.md application pipeline).
@@ -7,7 +7,7 @@ export const nodes: GNode[] = [
   { id: "flexyBayes", x: 50, y: 50, hub: true },
   { id: "kernR", x: 71, y: 39 }, { id: "proxymix", x: 69, y: 62 },
   { id: "PESTO", x: 31, y: 60 }, { id: "koine", x: 33, y: 39 },
-  { id: "gretaR", x: 50, y: 24 }, { id: "masque", x: 15, y: 70 },
+  { id: "masque", x: 15, y: 70 },
   { id: "terroir", x: 15, y: 45 }, { id: "apsimR", x: 31, y: 80 },
   { id: "kalmix", x: 58, y: 80 }, { id: "gpfield", x: 83, y: 52 },
   { id: "decideR", x: 83, y: 72 }, { id: "grainPlan", x: 72, y: 88 },
@@ -16,7 +16,6 @@ export const nodes: GNode[] = [
 ];
 export interface GEdge { from: string; to: string; tag: string }
 export const edges: GEdge[] = [
-  { from: "gretaR", to: "flexyBayes", tag: "C1" },
   { from: "koine", to: "flexyBayes", tag: "C3" },
   { from: "PESTO", to: "kernR", tag: "C2" },
   { from: "flexyBayes", to: "proxymix", tag: "C4" },

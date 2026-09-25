@@ -16,11 +16,11 @@ const roleOf = Object.fromEntries(members.map((m) => [m.id, m.role]));
 <div class="explorer" data-constellation>
   <div class="stage">
     <div class="stage-bar">
-      <span class="lbl">16 members · 21 contract edges</span>
+      <span class="lbl">{nodes.length} released members · {edges.length} contract edges</span>
       <button class="btn btn-ghost" type="button" data-play>▶ Play a score</button>
     </div>
     <svg viewBox="0 0 100 100" role="img"
-         aria-label="Constellation of the 16 ORCHESTRA member packages connected by the C1 to C7 data contracts. The full catalogue in text is on the Members page.">
+         aria-label={`Constellation of the ${nodes.length} released ORCHESTRA member packages connected by the C1 to C7 data contracts. The full catalogue in text is on the Members page.`}>
       <defs>
         <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
           <feGaussianBlur stdDeviation="1.1" result="b" />
@@ -62,7 +62,7 @@ const roleOf = Object.fromEntries(members.map((m) => [m.id, m.role]));
 </div>
 
 <script>
-  import { edges, scorePath } from "../data/graph";
+  import { nodes, edges, scorePath } from "../data/graph";
   import { members } from "../data/members";
   const roleOf = Object.fromEntries(members.map((m) => [m.id, m.role]));
   const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -127,7 +127,7 @@ const roleOf = Object.fromEntries(members.map((m) => [m.id, m.role]));
         const all = b.classList.contains("cbtn-all");
         root.querySelectorAll(".cbtn").forEach((x) => x.classList.remove("on"));
         if (all) { delete root.dataset.locked; clear();
-          readout.textContent = "All 16 members, wired by the seven contracts. Pick a problem to see the subset it composes."; return; }
+          readout.textContent = `All ${nodes.length} released members, wired by the seven contracts. Pick a problem to see the subset it composes.`; return; }
         b.classList.add("on");
         root.dataset.locked = "1";
         const ids = b.dataset.members.split(",");

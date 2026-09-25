@@ -6,7 +6,7 @@
 export const leadership = [
   { lead: "flexyBayes", members: 8 }, { lead: "kernR", members: 6 },
   { lead: "masque", members: 5 }, { lead: "proxymix", members: 5 },
-  { lead: "PESTO", members: 4 }, { lead: "gretaR", members: 4 },
+  { lead: "PESTO", members: 4 },
   { lead: "kalmix", members: 4 }, { lead: "koine", members: 4 },
   { lead: "terroir", members: 4 },
 ];
