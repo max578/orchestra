@@ -103,7 +103,7 @@ export function initOrchestraMap() {
     block("What it does", el("p", undefined, n.purpose));
     if (n.kind === "source") {
       const users = edges.filter((e) => e.from === id);
-      const p = el("p", undefined, "Not part of the orchestra. ");
+      const p = el("p", undefined, "Not part of the orchestra: an outside package maintained by others. ");
       p.append(users.length ? "Used through " : "", ...users.flatMap((e, i) => [i ? (i === users.length - 1 ? " and " : ", ") : "", jump(e.to)]), users.length ? "." : "");
       block("Its place", p);
     } else {

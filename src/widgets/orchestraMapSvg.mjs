@@ -22,7 +22,7 @@ const INK = "#1D2023";
 const MUTED = "#50544D";
 const PAPER = "#FFFFFF";
 const VIEW = "80 80 1120 1120";
-const POSTER_VIEW = "95 105 1090 1030";
+const POSTER_VIEW = "80 90 1120 1100";
 
 /** Short labels drawn on the arcs; the panel uses the full label. */
 const ARC_LABEL = {
@@ -231,8 +231,9 @@ export function renderSvg(opts = {}) {
   out.push(`<g class="om-node om-centre" data-id="conductoR" tabindex="0" role="button" aria-label="conductoR: ${esc(byId.conductoR.purpose)}">`);
   out.push(`<circle class="om-halo" cx="${C}" cy="${C}" r="${R_CENTRE + 10}" fill="${GOLD}" fill-opacity="0"/>`);
   out.push(`<circle class="om-disc" cx="${C}" cy="${C}" r="${R_CENTRE}" fill="${INK}"/>`);
-  out.push(`<text class="om-centre-name" x="${C}" y="${C + 2}" text-anchor="middle" font-size="19" font-weight="700" fill="#F7F5F1">conductoR</text>`);
-  out.push(`<text class="om-centre-sub" x="${C}" y="${C + 21}" text-anchor="middle" font-size="11.5" fill="#E7D9AE">runs the plan</text>`);
+  out.push(`<text class="om-centre-name" x="${C}" y="${C - 2}" text-anchor="middle" font-size="19" font-weight="700" fill="#F7F5F1">conductoR</text>`);
+  out.push(`<text class="om-centre-sub" x="${C}" y="${C + 20}" text-anchor="middle" font-size="11" fill="#E7D9AE">runs the</text>`);
+  out.push(`<text class="om-centre-sub" x="${C}" y="${C + 33}" text-anchor="middle" font-size="11" fill="#E7D9AE">analysis plan</text>`);
   out.push("</g>");
 
   // The entry point.
@@ -267,6 +268,7 @@ export function renderSvg(opts = {}) {
     out.push(`<circle class="om-halo" cx="${f(p.x)}" cy="${f(p.y)}" r="${SOURCE_R + 7}" fill="${GREY}" fill-opacity="0"/>`);
     out.push(`<circle class="om-disc" cx="${f(p.x)}" cy="${f(p.y)}" r="${SOURCE_R}" fill="${PAPER}" stroke="${GREY}" stroke-width="2" stroke-dasharray="3 3"/>`);
     out.push(outwardLabel(p, 8, "om-name om-source-name", mode === "poster" ? 15 : 15, n.id, 600, MUTED));
+    out.push(`<text class="om-step" x="${f(p.x + 12)}" y="${f(p.y - 8)}" text-anchor="middle" font-size="13" font-weight="800" fill="#FFFFFF"></text>`);
     out.push("</g>");
   }
 
@@ -274,7 +276,7 @@ export function renderSvg(opts = {}) {
   if (mode === "poster") {
     workedExample.forEach((s, i) => {
       const p = pos[s.id];
-      const bx = p.x + NODE_R * 0.74, by = p.y - NODE_R * 0.74;
+      const bx = p.x + Math.max(p.r, 16) * 0.74, by = p.y - Math.max(p.r, 16) * 0.74;
       out.push(`<circle cx="${f(bx)}" cy="${f(by)}" r="11" fill="#D55E00" stroke="${PAPER}" stroke-width="2"/>`);
       out.push(`<text x="${f(bx)}" y="${f(by + 4.5)}" text-anchor="middle" font-size="13" font-weight="800" fill="#FFFFFF">${i + 1}</text>`);
     });

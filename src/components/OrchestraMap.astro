@@ -18,17 +18,17 @@ const svg = renderSvg({ mode: "web" });
   </div>
   <div class="om-grid">
     <div class="om-stage" data-om-stage set:html={svg} />
-    <aside class="om-panel" data-om-panel aria-live="polite">
+    <aside class="om-panel" data-om-panel aria-live="polite" tabindex="0" aria-label="Details of the chosen package">
       <div class="om-empty">
         <p class="om-kicker">Crop Analytics Orchestra</p>
         <h2 class="om-title">A coordinated, flexible constellation of R packages for crop analytics</h2>
         <p>Each package has its own character and does one job well. They connect through a shared result
-          format, and <b>conductoR</b> at the centre runs a plan across them.</p>
+          format. <b>conductoR</b>, at the centre, runs an analysis plan: each step is done by one package, and each result is checked before the next package uses it.</p>
         <ul class="om-legend">
           {sections.map((s) => (
             <li><span class="om-dot" data-c={s.id}></span>{s.label}</li>
           ))}
-          <li><span class="om-dot om-dot-src"></span>Outside sources the packages use</li>
+          <li><span class="om-dot om-dot-src"></span>Outer ring, dotted: outside R packages the orchestra uses, maintained by others</li>
         </ul>
       </div>
     </aside>
