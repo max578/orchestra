@@ -2,6 +2,7 @@
 import Base from "../layouts/Base.astro";
 import { tiers } from "../data/members";
 import { contracts } from "../data/contracts";
+import OrchestraMap from "../components/OrchestraMap.astro";
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "CollectionPage",
@@ -27,6 +28,8 @@ const searchText = (m: (typeof tiers.member)[number]) =>
         verifiably public; a private or gated member shows its badge, never an implied download.
         This page is also the plain-text equivalent of the constellation graph.</p>
     </div>
+
+    <OrchestraMap />
 
     <div class="cat-tools" data-cat-tools hidden>
       <input class="filter" type="search" placeholder="Filter by name, role, method, guard…"

@@ -1,0 +1,42 @@
+---
+// The orchestra map. The SVG is drawn at build time (JS off, it is a
+// complete static map); orchestraMapClient.ts adds selection, the side panel,
+// the worked example and deep links (#map-<id>).
+import { renderSvg } from "../widgets/orchestraMapSvg.mjs";
+import { sections } from "../data/orchestraMap.mjs";
+import { href } from "../data/site";
+import "../styles/orchestra-map.css";
+const svg = renderSvg({ mode: "web" });
+---
+<div class="om" data-om data-base={href("/")}>
+  <div class="om-bar">
+    <p class="om-hint" data-om-hint>Choose any package to see what it does and how it connects.</p>
+    <div class="om-actions">
+      <button class="btn btn-ghost om-btn" type="button" data-om-play>▶ Worked example</button>
+      <button class="btn btn-ghost om-btn" type="button" data-om-all aria-pressed="false">Show all links</button>
+    </div>
+  </div>
+  <div class="om-grid">
+    <div class="om-stage" data-om-stage set:html={svg} />
+    <aside class="om-panel" data-om-panel aria-live="polite">
+      <div class="om-empty">
+        <p class="om-kicker">Crop Analytics Orchestra</p>
+        <h2 class="om-title">A coordinated, flexible constellation of R packages for crop analytics</h2>
+        <p>Each package has its own character and does one job well. They connect through a shared result
+          format, and <b>conductoR</b> at the centre runs a plan across them.</p>
+        <ul class="om-legend">
+          {sections.map((s) => (
+            <li><span class="om-dot" data-c={s.id}></span>{s.label}</li>
+          ))}
+          <li><span class="om-dot om-dot-src"></span>Outside sources the packages use</li>
+        </ul>
+      </div>
+    </aside>
+  </div>
+  <div class="om-tip" data-om-tip aria-hidden="true"></div>
+</div>
+
+<script>
+  import { initOrchestraMap } from "../widgets/orchestraMapClient";
+  initOrchestraMap();
+</script>
