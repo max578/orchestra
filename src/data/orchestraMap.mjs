@@ -170,7 +170,6 @@ export const edges = [
   { from: "nasapower", to: "terroir", kind: "source", text: "Daily weather from NASA POWER reaches terroir through nasapower." },
   { from: "apsimx", to: "terroir", kind: "source", text: "Soil profiles from ISRIC SoilGrids reach terroir through apsimx." },
   { from: "read.abares", to: "terroir", kind: "source", text: "Grain prices and production statistics reach terroir from ABARES." },
-  { from: "apsimx", to: "apsimR", kind: "source", text: "apsimR drives the APSIM simulator through apsimx." },
   { from: "apsimx", to: "PESTO", kind: "source", text: "PESTO edits and runs APSIM simulations through apsimx." },
   { from: "acir", to: "kalmix", kind: "source", text: "kalmix checks its causal-information rate against the method authors' acir package." },
   { from: "INLA", to: "flexyBayes", kind: "source", text: "flexyBayes can fit a model with INLA." },
@@ -187,7 +186,7 @@ export const formatReaders = ["kernR", "flexyBayes", "decideR", "grainPlan", "co
 /** The worked example (Study A0), in order. */
 export const workedExample = [
   { id: "terroir", text: "Climate and soil records are fetched for each site, with their sources recorded." },
-  { id: "apsimR", text: "APSIM simulates what each season should produce." },
+  { id: "apsimx", text: "apsimx writes each site's weather file and runs APSIM, which simulates what each season should produce." },
   { id: "PESTO", text: "The simulator is fitted to the field observations, and the remaining uncertainty is kept as an ensemble." },
   { id: "kernR", text: "The test asks whether the field agrees with the crop model. Sites where it does not are passed on." },
   { id: "brms", text: "For those sites, a brms model fits the nitrogen response the field shows, including a plateau the crop model cannot see." },

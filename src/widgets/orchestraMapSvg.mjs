@@ -40,7 +40,7 @@ const f = (x) => Math.round(x * 10) / 10;
 const esc = (s) => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 
 /** Positions for every node, and the angular span of each section. */
-export function layout() {
+export function layout(omit = []) {
   const secColour = Object.fromEntries(sections.map((s) => [s.id, s.color]));
   const members = nodes.filter((n) => n.kind === "member");
   const units = members.length + GAP * sections.length;
@@ -70,7 +70,7 @@ export function layout() {
   // Outside sources sit on the outer ring near the member they feed, pushed
   // apart until neighbours are at least MIN_SEP degrees apart.
   const MIN_SEP = 12.5;
-  const srcs = nodes.filter((n) => n.kind === "source").map((n) => {
+  const srcs = nodes.filter((n) => n.kind === "source" && !omit.includes(n.id)).map((n) => {
     const targets = edges.filter((e) => e.from === n.id).map((e) => pos[e.to]).filter((p) => p && p.deg);
     let ideal = targets.length ? targets.reduce((s, p) => s + p.deg, 0) / targets.length : 90;
     if (!targets.length || edges.some((e) => e.from === n.id && e.to === "conductoR")) ideal = 100;
@@ -160,13 +160,15 @@ function outwardLabel(p, gap, cls, size, text, weight, fill) {
 }
 
 /**
- * @param {{ mode?: "web" | "poster", font?: string }} opts
- * mode "poster" draws every flow link faintly and numbers the worked example.
+ * @param {{ mode?: "web" | "poster", font?: string, omit?: string[] }} opts
+ * mode "poster" draws every flow link faintly and numbers the worked example;
+ * omit leaves out the named outside sources and their links.
  */
 export function renderSvg(opts = {}) {
   const mode = opts.mode ?? "web";
   const font = opts.font ?? "Instrument Sans, system-ui, -apple-system, Segoe UI, sans-serif";
-  const { pos, spans } = layout();
+  const omit = opts.omit ?? [];
+  const { pos, spans } = layout(omit);
   const byId = Object.fromEntries(nodes.map((n) => [n.id, n]));
   const colourOf = (id) => pos[id]?.colour ?? GREY;
   const out = [];
@@ -181,15 +183,19 @@ export function renderSvg(opts = {}) {
   }
   out.push("</defs>");
 
-  // Section bands and arc labels.
+  // Section bands and arc labels; on the poster the labels are drawn over the links.
+  const secLabels = [];
   out.push(`<g class="om-sections">`);
   for (const s of spans) {
     const pad = 1.2;
     out.push(`<path class="om-band" data-section="${s.id}" d="${bandPath(R_LABEL - 16, R_MEMBER + NODE_R + 20, s.from + pad, s.to - pad)}" fill="${s.color}" fill-opacity="0.07" stroke="${s.color}" stroke-opacity="0.22" stroke-width="1"/>`);
     const arc = labelArc(R_LABEL, s.from + pad, s.to - pad, ARC_LABEL[s.id], 13, 1.4);
-    out.push(`<path id="om-arc-${s.id}" d="${arc.d}" fill="none" stroke="none"/>`);
-    out.push(`<text class="om-seclabel" font-size="13" font-weight="700" letter-spacing="1.4" fill="${s.color}" dy="${arc.lower ? 11 : 0}"><textPath href="#om-arc-${s.id}" xlink:href="#om-arc-${s.id}">${esc(ARC_LABEL[s.id].toUpperCase())}</textPath></text>`);
+    // Poster: a white halo keeps the label readable where a link crosses it.
+    const halo = mode === "poster" ? ` stroke="${PAPER}" stroke-width="4" stroke-linejoin="round" paint-order="stroke"` : "";
+    secLabels.push(`<path id="om-arc-${s.id}" d="${arc.d}" fill="none" stroke="none"/>`);
+    secLabels.push(`<text class="om-seclabel" font-size="13" font-weight="700" letter-spacing="1.4" fill="${s.color}"${halo} dy="${arc.lower ? 11 : 0}"><textPath href="#om-arc-${s.id}" xlink:href="#om-arc-${s.id}">${esc(ARC_LABEL[s.id].toUpperCase())}</textPath></text>`);
   }
+  if (mode !== "poster") out.push(...secLabels);
   out.push("</g>");
 
   // Links. Hidden on the web until a node is chosen; faint on the poster.
@@ -197,7 +203,7 @@ export function renderSvg(opts = {}) {
   out.push(`<g class="om-edges">`);
   for (const e of edges) {
     const p = pos[e.from], q = pos[e.to];
-    if (!p || !q) continue;
+    if (!p || !q || omit.includes(e.from) || omit.includes(e.to)) continue;
     if (mode === "poster" && e.kind === "source" && e.to === "conductoR") continue;
     const c = colourOf(e.from);
     const dash = e.kind === "build" ? ` stroke-dasharray="7 5"` : e.kind === "source" ? ` stroke-dasharray="2 4"` : "";
@@ -210,6 +216,7 @@ export function renderSvg(opts = {}) {
     out.push(`<path class="om-edge k-${e.kind}${score ? " is-score" : ""}" data-from="${esc(e.from)}" data-to="${esc(e.to)}" d="${edgePath(p, q)}" fill="none" stroke="${stroke}" stroke-width="${width}"${opacity}${dash} ${mode === "poster" && !score && e.kind !== "source" ? "" : ` marker-end="url(#om-arrow-${stroke.slice(1)})"`}/>`);
   }
   out.push("</g>");
+  if (mode === "poster") out.push(`<g class="om-sections">`, ...secLabels, "</g>");
 
   // Shared-format ring. The ring is clickable; the keyboard reaches it through
   // its top label, whose centre is not covered by the connector.
@@ -261,7 +268,7 @@ export function renderSvg(opts = {}) {
   }
 
   // Outside sources.
-  for (const n of nodes.filter((m) => m.kind === "source")) {
+  for (const n of nodes.filter((m) => m.kind === "source" && !omit.includes(m.id))) {
     const p = pos[n.id];
     if (mode === "poster" && edges.filter((e) => e.from === n.id).every((e) => e.to === "conductoR")) continue;
     out.push(`<g class="om-node om-source" data-id="${esc(n.id)}" tabindex="0" role="button" aria-label="${esc(n.id)}, outside source: ${esc(n.purpose)}">`);
@@ -276,7 +283,9 @@ export function renderSvg(opts = {}) {
   if (mode === "poster") {
     workedExample.forEach((s, i) => {
       const p = pos[s.id];
-      const bx = p.x + Math.max(p.r, 16) * 0.74, by = p.y - Math.max(p.r, 16) * 0.74;
+      // an outer node near the top has its name above it, so its number goes below
+      const below = p.r < 20 && Math.sin(rad(p.deg)) < -0.6;
+      const bx = p.x + Math.max(p.r, 16) * 0.74, by = p.y + (below ? 1 : -1) * Math.max(p.r, 16) * 0.74;
       out.push(`<circle cx="${f(bx)}" cy="${f(by)}" r="11" fill="#D55E00" stroke="${PAPER}" stroke-width="2"/>`);
       out.push(`<text x="${f(bx)}" y="${f(by + 4.5)}" text-anchor="middle" font-size="13" font-weight="800" fill="#FFFFFF">${i + 1}</text>`);
     });
