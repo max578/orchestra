@@ -40,10 +40,9 @@ const jsonLd = {
         mechanism lens) → kernR TACI (does the field agree with the mechanism?) → a plateau-capable
         field-record lens where TACI refuses → decideR (loss, EVPI, EVSI) → optimix (which sites to test) →
         grainPlan (the grower-facing plan). Every hand-off is a typed manifest; every refusal is a typed
-        object read downstream. masque provides the sovereign twin of a real trial series (aggregates only,
-        and not shown here).</li>
+        object read downstream.</li>
       <li><strong>The economics.</strong> Barley at {f1(a0.price_barley_aud_t)} AUD/t, nitrogen at {f2(a0.cost_per_kgn_aud)} AUD/kg N plus an IPCC-default nitrous-oxide shadow price.</li>
-      <li><strong>The discipline.</strong> Seven independent oracles run inside the stage scripts, the report
+      <li><strong>The discipline.</strong> Six independent oracles run inside the stage scripts, the report
         binds every number to a computed object, and the whole chain is re-verified on a re-seeded belt.</li>
     </ul>
 
@@ -101,9 +100,9 @@ const jsonLd = {
 
     <h2 class="mt-3">What it does not show</h2>
     <ul class="prose">
-      <li>A synthetic belt, not a real one. The shape conclusions have real-data cover — the belt's nitrogen-response
-        slopes partially bracket a real barley multi-environment trial series — the dollar magnitudes do not.</li>
-      <li>Two of the seven stage oracles fail and are reported as failures: the plateau-onset separation between
+      <li>A synthetic belt, not a real one. The study speaks to shape (which sites respond, where a constraint flattens
+        the curve), not to real-world dollar magnitudes.</li>
+      <li>Two of the six stage oracles fail and are reported as failures: the plateau-onset separation between
         constrained and unconstrained sites (unconstrained sites plateau too, so onset alone conflates "has a
         plateau" with "has the constraint"), and an under-powered site-level test on the re-seeded belt.</li>
       <li>Version 0.1 of this study lost to the naive arm: its second lens was linear in rate and could only
@@ -115,7 +114,7 @@ const jsonLd = {
     </ul>
 
     <h2 class="mt-3">Reproduce it</h2>
-    <p class="prose">The study is a driver over eight stage scripts, each a standalone R pipeline with its
+    <p class="prose">The study is a driver over seven stage scripts, each a standalone R pipeline with its
       own oracle. Read them in this order:</p>
     <ol class="prose">
       <li><strong>Generate the belt.</strong> Sample {a0.n_sites} sites on real grain-belt coordinates, collect NASA POWER
@@ -135,8 +134,7 @@ const jsonLd = {
     </ol>
     <p class="prose">The scripts are written in the house pipeline style and commented stage by stage. They are
       released as one archive with a README that lists what each stage reads and writes, alongside the study tree.
-      The sovereign-twin stage is withheld because it reads a confidential dataset, and the generated data are not
-      shipped: stage 01 regenerates them from the public sources named above.</p>
+      The generated data are not shipped: stage 01 regenerates them from the public sources named above.</p>
 
     <h2 class="mt-3">Take it with you</h2>
     <ul class="prose">
