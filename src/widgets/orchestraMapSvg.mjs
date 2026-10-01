@@ -40,7 +40,7 @@ const f = (x) => Math.round(x * 10) / 10;
 const esc = (s) => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 
 /** Positions for every node, and the angular span of each section. */
-export function layout(omit = []) {
+export function layout(omit = [], place = {}) {
   const secColour = Object.fromEntries(sections.map((s) => [s.id, s.color]));
   const members = nodes.filter((n) => n.kind === "member");
   const units = members.length + GAP * sections.length;
@@ -74,6 +74,7 @@ export function layout(omit = []) {
     const targets = edges.filter((e) => e.from === n.id).map((e) => pos[e.to]).filter((p) => p && p.deg);
     let ideal = targets.length ? targets.reduce((s, p) => s + p.deg, 0) / targets.length : 90;
     if (!targets.length || edges.some((e) => e.from === n.id && e.to === "conductoR")) ideal = 100;
+    if (place[n.id] !== undefined) ideal = place[n.id];
     return { id: n.id, deg: ideal };
   }).sort((p, q) => p.deg - q.deg);
   for (let it = 0; it < 400; it++) {
@@ -160,15 +161,17 @@ function outwardLabel(p, gap, cls, size, text, weight, fill) {
 }
 
 /**
- * @param {{ mode?: "web" | "poster", font?: string, omit?: string[] }} opts
+ * @param {{ mode?: "web" | "poster", font?: string, omit?: string[], place?: Record<string, number>, hideLinks?: string[] }} opts
  * mode "poster" draws every flow link faintly and numbers the worked example;
- * omit leaves out the named outside sources and their links.
+ * omit leaves out the named outside sources and their links; place sets the
+ * angle (degrees) an outside source starts from before neighbours are spaced;
+ * hideLinks drops links named "from>to".
  */
 export function renderSvg(opts = {}) {
   const mode = opts.mode ?? "web";
   const font = opts.font ?? "Instrument Sans, system-ui, -apple-system, Segoe UI, sans-serif";
   const omit = opts.omit ?? [];
-  const { pos, spans } = layout(omit);
+  const { pos, spans } = layout(omit, opts.place ?? {});
   const byId = Object.fromEntries(nodes.map((n) => [n.id, n]));
   const colourOf = (id) => pos[id]?.colour ?? GREY;
   const out = [];
@@ -205,6 +208,7 @@ export function renderSvg(opts = {}) {
     const p = pos[e.from], q = pos[e.to];
     if (!p || !q || omit.includes(e.from) || omit.includes(e.to)) continue;
     if (mode === "poster" && e.kind === "source" && e.to === "conductoR") continue;
+    if ((opts.hideLinks ?? []).includes(`${e.from}>${e.to}`)) continue;
     const c = colourOf(e.from);
     const dash = e.kind === "build" ? ` stroke-dasharray="7 5"` : e.kind === "source" ? ` stroke-dasharray="2 4"` : "";
     const score = scorePairs.has(`${e.from}>${e.to}`);
