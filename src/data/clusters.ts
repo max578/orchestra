@@ -13,7 +13,7 @@ export const clusters: Cluster[] = [
   { task: "Estimates with uncertainty", lead: "flexyBayes", members: ["flexyBayes"],
     blurb: "Hierarchical Bayesian models for multi-environment trials and genotype-by-environment interaction, reporting the full range of plausible values rather than one number. The main estimation engine: flexyBayes alone." },
   { task: "Coarse to fine scale", lead: "kernR", members: ["terroir", "kernR"],
-    blurb: "Moves estimates from a coarse scale to a fine one with kernR's kernel methods. terroir supplies the weather and soil inputs; two packages." },
+    blurb: "Downscales estimates from coarse to fine resolution with kernR's kernel methods. terroir supplies the weather and soil inputs; two packages." },
   { task: "Which variable drives which", lead: "kalmix", members: ["kalmix", "kernR"],
     blurb: "Which of two variables drives the other? Assimilative causal inference (ACI) answers this from time series, combining a model of how the system changes over time (kalmix) with kernel tests (kernR)." },
   { task: "Calibrating a simulator", lead: "PESTO", members: ["PESTO", "proxymix", "kernR"],
@@ -23,7 +23,7 @@ export const clusters: Cluster[] = [
   { task: "Does the effect fit the mechanism (TACI)", lead: "kernR", members: ["PESTO", "kernR", "proxymix"],
     blurb: "Kernel tests of whether an estimated effect is consistent with how the crop works, not only with the measured outcome. TACI is a method in development and not yet published." },
   { task: "Decisions", lead: "grainPlan", members: ["kernR", "decideR", "grainPlan"],
-    blurb: "Turns an estimate into a recommended action (a nitrogen rate, a variety, a grade target), weighing what a wrong call costs and allowing for risk, or declines to recommend when an input has not been checked." },
+    blurb: "Turns an estimate into a recommended action (a nitrogen rate, a variety, a grade target), weighing what a wrong call costs and allowing for risk, or gives no recommendation when an input has not been checked." },
 ];
 
 // response-family × model-structure coverage (grounded counts, illustrative rows)

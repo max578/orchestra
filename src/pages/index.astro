@@ -46,14 +46,10 @@ const jsonLd = {
       <p class="kicker">The thesis</p>
       <h2>Composition, <em>not</em> consolidation</h2>
     </div>
-    <p class="prose lead">Most analytics platforms grow by absorbing everything into one
-      large program. The orchestra does the opposite: many small packages, each doing one
-      job well. Every package writes its results in <em>one</em> shared record, the
-      manifest (<code>orchestra_manifest</code>), and passes them on through {site.counts.contracts}
-      contracts, agreed formats for handing a result from one package to the next. The
-      software that runs a study stops when a result arrives in the wrong form, and
-      abstains, meaning it declines to answer and says why, when there is too little
-      evidence.</p>
+    <p class="prose lead">The orchestra is many small packages, each doing one job. Every
+      package writes its results in <em>one</em> shared record, the manifest
+      (<code>orchestra_manifest</code>), and passes them on through {site.counts.contracts}{" "}
+      contracts, agreed formats for handing a result from one package to the next.</p>
     <p class="prose muted mt-3">{typedEdge}</p>
     <p class="prose mt-3"><strong>{dataHub.id}</strong> is the data layer underneath the
       packages; it is not an R package. It holds {dataHub.nDatasets} open datasets,{" "}
@@ -110,11 +106,11 @@ const jsonLd = {
   <section class="wrap reveal" id="parsimony">
     <div class="section-head">
       <p class="kicker">As few tools as needed</p>
-      <h2>One tool when one is enough. Many when needed. <em>Never</em> more.</h2>
+      <h2>How many packages a task uses</h2>
     </div>
     <p class="takeaway">Studies use several packages <em>by design</em>: each lead package
-      works with at least three packages, so no result rests on a single method. Just as
-      important, the system <strong>abstains</strong> rather than claim more than the
+      works with between four and eight packages (counts below), so no result rests on a
+      single method. The system also withholds a result rather than claim more than the
       evidence supports.</p>
     <p class="explore-lbl mt-3">Packages each lead package works with</p>
     <div class="lead-cards" data-stagger>
@@ -122,7 +118,7 @@ const jsonLd = {
     </div>
     <div class="table-scroll mt-3">
       <table class="num">
-        <caption>Test with very few observations (N): the share of results that were confident but wrong (lower is better). The calibrated design, synthetic control, declines to answer; the other two stay confident.</caption>
+        <caption>Test with very few observations (N): the share of results that were confident but wrong (lower is better). Synthetic control withholds a result when its comparison units fail; the other two always return one.</caption>
         <thead><tr><th>design</th>{smallN.cols.map((c) => <th>{c}</th>)}</tr></thead>
         <tbody>{smallN.rows.map((r) => (<tr><td>{r.design}</td>{r.cells.map((c) => <td>{c}</td>)}<td>{r.abstains}</td></tr>))}</tbody>
       </table>
@@ -134,7 +130,7 @@ const jsonLd = {
   <section class="band"><div class="wrap reveal" id="disciplines">
     <div class="section-head">
       <p class="kicker">Two built-in checks</p>
-      <h2>Decline when unsure, and compare independent answers</h2>
+      <h2>Withhold when unsure, and compare independent answers</h2>
     </div>
     <div class="grid grid-2" data-stagger>
       {operators.map((op) => (
@@ -142,7 +138,7 @@ const jsonLd = {
           <h3><code>{op.name}</code></h3>
           <p class="muted mt-2">{op.what}</p>
           <p class="small mt-3"><span class="badge">when</span> {op.when}</p>
-          <p class="small mt-2"><span class="badge">modes</span> {op.modes}</p>
+          <p class="small mt-2"><span class="badge">{op.modesLabel}</span> {op.modes}</p>
         </div>
       ))}
     </div>
@@ -152,10 +148,8 @@ const jsonLd = {
     <div class="section-head">
       <p class="kicker">Gaps</p>
       <h2>What is not covered yet: filled where a tool has been checked, open where not</h2>
-      <p class="prose muted mt-2">The orchestra lists its own gaps. Where a strong outside tool
-        exists, it names the one the orchestra would call, with the licence condition that
-        matters. Where no tool has passed checking yet, it says so: the same rule of declining
-        to answer, applied to itself.</p>
+      <p class="prose muted mt-2">Gaps in coverage, with an existing package where one is
+        available and its licence.</p>
     </div>
     <p class="explore-lbl">Filled: a checked outside tool the orchestra can call</p>
     <div class="gaps" data-stagger>

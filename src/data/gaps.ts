@@ -7,16 +7,16 @@ export interface FilledGap {
 export const filled: FilledGap[] = [
   { gap: "Compositional data (parts of a whole)", use: "soil texture, nutrient and species composition",
     tool: "DirichletReg (regression) · robCompositions (actively maintained core)", licence: "GPL-2 | GPL-3",
-    caveat: "No package for compositional data claims well-calibrated uncertainty ranges; the orchestra's own checks would supply the intervals." },
+    caveat: "None of these packages checks how often its intervals cover the true value." },
   { gap: "Extreme values", use: "frost, heat and rainfall extremes; climate tail risk",
     tool: "extRemes", licence: "GPL",
-    caveat: "A clean fit: variables that change over time can enter every parameter of the extreme-value distributions (GEV and GPD), and it gives a full set of uncertainty ranges for return levels, such as the size of a 1-in-100-year event." },
+    caveat: "Covariates, including ones that change over time, can enter every parameter of the extreme-value distributions (GEV and GPD), and the package gives intervals for return levels, such as the size of a 1-in-100-year event." },
   { gap: "Counts more variable than usual (over-dispersed)", use: "insect and disease-lesion counts (Conway-Maxwell-Poisson)",
     tool: "glmmTMB (mixed-effects) · mpcmp (GLM only)", licence: "glmmTMB: AGPL-3, needs a licence check",
     caveat: "AGPL-3 is stricter than the orchestra's default licence, so compatibility must be checked before the orchestra calls it. mpcmp is the lighter alternative." },
   { gap: "Quantiles and whole distributions", use: "yield quantiles, the full distribution of a response",
     tool: "qgam", licence: "GPL",
-    caveat: "Fast, calibrated additive quantile regression built on the mgcv package; smooth effects of agricultural variables fit naturally." },
+    caveat: "Fast, calibrated additive quantile regression built on the mgcv package." },
 ];
 
 export interface OpenGap { gap: string; use: string; note: string }

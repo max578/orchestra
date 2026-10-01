@@ -12,10 +12,9 @@ export const site = {
   tagline: "Composition, not consolidation",
   intro:
     "Small R packages for grain-crop analytics (multi-environment trials, " +
-    "breeding, crop simulation), each doing one job. Every package writes its " +
-    "results in the same shared record, and the software that runs them stops " +
-    "when a result arrives in the wrong form, and declines to answer, saying " +
-    "why, when there is too little evidence.",
+    "breeding, crop simulation), each doing one job. The packages share one " +
+    "result format. A package stops if it is handed a result in the wrong " +
+    "format. It gives no result, with the reason, when the data are too thin.",
   domain: "Australian grain agriculture (wheat · barley · corn): multi-environment trials, breeding and genomics, crop simulation",
   counts: { members: 20, external: 10, contracts: 7 },
   nav: [

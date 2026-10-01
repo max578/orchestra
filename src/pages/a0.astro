@@ -11,7 +11,7 @@ const figw = (name: string) => href(`/figures/a0/${name}.webp`);
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "ScholarlyArticle",
-  name: "Study A0 — Nitrogen that pays, where it pays, and where to look next",
+  name: "Study A0 — Profitable nitrogen rates for barley by site, and where more testing pays (simulated)",
   description: "A simulation study of barley farms at real locations, where the right answer is set in advance: the orchestra stops using the crop model where the field data disagree with it, and roughly halves the money lost against a recommendation from the crop model alone.",
   author: { "@type": "Person", name: "Max Moldovan", identifier: "https://orcid.org/0000-0001-9680-8474" },
   datePublished: "2026-08-26",
@@ -21,13 +21,13 @@ const jsonLd = {
   <section class="wrap">
     <div class="section-head">
       <p class="kicker">Study A0 · simulated farms (digital twin) · version 0.2 · 2026-08-26</p>
-      <h1>Nitrogen that pays, where it pays, and where to look next</h1>
+      <h1>Profitable nitrogen rates for barley by site, and where more testing pays (simulated)</h1>
       <p class="prose lead mt-2">For each site in each season (a site-season) of a barley-growing region:
         which nitrogen rate gives the highest expected profit after paying for the nitrogen and for its
         nitrous-oxide emissions, how confident can we be, where should the crop model's advice be set aside,
         and what is one soil test or one strip trial worth? This page reports the first completed study of
         the series. It runs on simulated data in which the right answer was set in advance, so we can check
-        whether the methods find it. It is not a field result, and the page says so wherever that matters.</p>
+        whether the methods find it. It is not a field result.</p>
     </div>
 
     <h2 class="mt-3">The set-up</h2>
@@ -36,16 +36,16 @@ const jsonLd = {
         climate (NASA POWER) and soil (SoilGrids) data, five seasons, six nitrogen rates, three varieties and
         three replicates, with yields simulated by the APSIM Next Gen crop model.</li>
       <li><strong>The answer set in advance.</strong> At {a0.n_constrained_sites} sites a hidden subsoil
-        constraint caps yield, so yield stops rising above 60 kg N/ha. The copy of the crop model that is
-        calibrated to the field data is never told.</li>
+        constraint caps yield, so yield stops rising above 60 kg N/ha. The calibrated crop model is not given
+        this information.</li>
       <li><strong>The chain.</strong> APSIM, run through apsimx, produces the true yields → quorum builds a fast
         stand-in for the crop model and PESTO calibrates it to the field data → kernR's TACI test (a method in
         development) asks whether the field data still agree with the calibrated model → where they do not,
         a curve fitted to the field data alone, one that can level off, takes over → decideR prices each rate:
         the expected loss, the value of perfect information (EVPI) and the value of one more sample (EVSI) →
         optimix picks which sites to test → grainPlan writes the plan for the grower. Each package hands its
-        result on in the manifest, the shared result record every package writes. When a package declines to
-        answer, it records why, and the next package reads that record.</li>
+        result on in the manifest, the shared result record every package writes. When a package gives no
+        result, it records why, and the next package reads that record.</li>
       <li><strong>The economics.</strong> Barley at {f1(a0.price_barley_aud_t)} AUD/t, nitrogen at {f2(a0.cost_per_kgn_aud)} AUD/kg N, plus a notional cost for the nitrous oxide it releases, based on IPCC default values.</li>
       <li><strong>The checks.</strong> Six independent checks run inside the study scripts, each comparing a
         result with a reference result the methods did not produce. Every number in the report is read from a
@@ -58,8 +58,8 @@ const jsonLd = {
       <article class="card">
         <p class="kicker">Money lost against the best possible rate</p>
         <h3>{k(a0.loss_cascade_total_aud_ha)} vs {k(a0.loss_naive_total_aud_ha)} AUD/ha</h3>
-        <p class="prose">Summed over 198 site-seasons, the orchestra's step-by-step approach (the
-          cascade) against the rate the crop model alone recommends: <strong>{pct} per cent less loss</strong>. Where the constraint was planted, {f1(a0.loss_cascade_constrained_mean)} vs {f1(a0.loss_naive_constrained_mean)} AUD/ha per site-season; elsewhere, {f1(a0.loss_cascade_unconstrained_mean)} vs {f1(a0.loss_naive_unconstrained_mean)}. The second simulated region gives the same order
+        <p class="prose">Summed over 198 site-seasons, the full sequence of packages
+          against the rate the crop model alone recommends: <strong>{pct} per cent less loss</strong>. Where the constraint was planted, {f1(a0.loss_cascade_constrained_mean)} vs {f1(a0.loss_naive_constrained_mean)} AUD/ha per site-season; elsewhere, {f1(a0.loss_cascade_unconstrained_mean)} vs {f1(a0.loss_naive_unconstrained_mean)}. The second simulated region gives the same order
           ({k(a0.rerun_loss_cascade_total)} vs {k(a0.rerun_loss_naive_total)}).</p>
       </article>
       <article class="card">
@@ -76,16 +76,14 @@ const jsonLd = {
         <h3>{a0.n_evsi_priced} of {a0.n_sites} sites priced · top site {Math.round(a0.evsi_top_aud_ha)} AUD/ha</h3>
         <p class="prose">For each site, the expected value of sample information (EVSI): what one strip
           trial or one soil nitrate test is worth before it is done. The result is a map of where the next test
-          pays. Read it as a ranking rather than exact dollars: the estimate reweights a limited number of
-          simulated draws, which caps its precision, and the prices of the tests are assumptions that have not
-          been checked.</p>
+          pays. The estimate reweights a limited number of simulated draws, which caps its precision.</p>
       </article>
     </div>
 
     <h2 class="mt-3">The four panels</h2>
     <figure class="mt-1">
       <picture><source srcset={figw("fig_poster_panels")} type="image/webp" /><img src={fig("fig_poster_panels")} width="1600" height="1080" loading="lazy" decoding="async"
-        alt="Four panels. A: a map of the forty sites on real grain-belt coordinates coloured by the method the cascade used, with the constrained sites ringed. B: yield-response curves at four example sites showing the rate from the crop model alone, the cascade rate and the truly best rate. C: bar charts of mean money lost under each rule, split by whether the constraint was planted. D: a scatter of growing-season rainfall against clay content coloured by the expected value of sample information." /></picture>
+        alt="Four panels. A: a map of the forty sites on real grain-belt coordinates coloured by the method the full sequence of packages used, with the constrained sites ringed. B: yield-response curves at four example sites showing the rate from the crop model alone, the rate from the full sequence of packages and the truly best rate. C: bar charts of mean money lost under each rule, split by whether the constraint was planted. D: a scatter of growing-season rainfall against clay content coloured by the expected value of sample information." /></picture>
       <figcaption class="muted">A: where the crop model was rejected and the field-data fit took over. B: what each method recommends at four sites chosen by a stated rule. C: what each approach loses against the best possible rate. D: where the next research dollar pays.</figcaption>
     </figure>
     <figure class="mt-2">
@@ -96,7 +94,7 @@ const jsonLd = {
     <div class="studies mt-2">
       <figure>
         <picture><source srcset={figw("fig_policy_ledger")} type="image/webp" /><img src={fig("fig_policy_ledger")} width="1600" height="943" loading="lazy" decoding="async"
-          alt="Bar chart of mean money lost per site-season for four rules: the crop model alone; no nitrogen where no recommendation is given; the district's usual rate where no recommendation is given; and the cascade. Bars are split by whether the constraint was planted; the cascade is lowest or near-lowest in both." /></picture>
+          alt="Bar chart of mean money lost per site-season for four rules: the crop model alone; no nitrogen where no recommendation is given; the district's usual rate where no recommendation is given; and the full sequence of packages. Bars are split by whether the constraint was planted; the full sequence is lowest or near-lowest in both." /></picture>
         <figcaption class="muted">What each fallback rule (what to apply when no recommendation is given) costs, and where.</figcaption>
       </figure>
       <figure>
@@ -116,11 +114,9 @@ const jsonLd = {
         constraint". The second is a site-level test on the second simulated region that had too little data
         to detect the effect.</li>
       <li>Version 0.1 of this study lost to the crop model alone: its field-data fit was a straight line in
-        nitrogen rate, so it could only ever recommend the lowest or the highest rate tried. That result was
-        reported before the fit was changed, and the checks were left unchanged.</li>
-      <li>The value-of-information figures are a ranking rather than exact dollars. The prices of the tests,
-        the district's usual nitrogen rate and the carbon price are assumptions that have not been checked,
-        and are stated as such.</li>
+        nitrogen rate, so it could only ever recommend the lowest or the highest rate tried.</li>
+      <li>The value-of-information figures are a ranking rather than exact dollars. They rest on assumed prices for the
+        tests and for carbon, and on an assumed district nitrogen rate.</li>
       <li>No GRDC-origin data enters the simulated region, the figures or this page.</li>
     </ul>
 
@@ -131,10 +127,10 @@ const jsonLd = {
       <li><strong>Generate the region.</strong> Sample {a0.n_sites} sites on real grain-belt coordinates, collect NASA POWER
         climate and SoilGrids soil, run APSIM barley for every site, season, variety and rate, then plant the hidden
         subsoil constraint at {a0.n_constrained_sites} sites after the simulation has run.</li>
-      <li><strong>Invert and test.</strong> Train a fast stand-in for the crop model for each site-season, calibrate it
+      <li><strong>Calibrate and test.</strong> Train a fast stand-in for the crop model for each site-season, calibrate it
         with PESTO on the low rates (0 to 60 kg N/ha), and let kernR test, on the higher rates, whether the field
         data still agree with the calibrated model.</li>
-      <li><strong>Fit the field record.</strong> Fit linear-plateau and quadratic-plateau curves with brms on all
+      <li><strong>Fit curves to the field data.</strong> Fit linear-plateau and quadratic-plateau curves with brms on all
         plots, weight them by how well each predicts plots left out of the fit, and pass the range of likely yields at
         each site to the next stage.</li>
       <li><strong>Decide and value.</strong> Price every candidate rate by expected profit with decideR, using the
@@ -144,8 +140,7 @@ const jsonLd = {
       <li><strong>Re-verify.</strong> Run the whole chain again on the second simulated region.</li>
       <li><strong>Figure and summary.</strong> Draw the four panels and write the table that links each poster number to its computed result.</li>
     </ol>
-    <p class="prose">The scripts follow one consistent style and are commented stage by stage. They are
-      released as one archive with a README that lists what each stage reads and writes, alongside the study tree.
+    <p class="prose">The scripts are released as one archive with a README that lists what each stage reads and writes, alongside the study tree.
       The generated data are not shipped: stage 01 regenerates them from the public sources named above.</p>
 
     <h2 class="mt-3">Take it with you</h2>

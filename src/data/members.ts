@@ -47,7 +47,7 @@ export const members: Member[] = [
     visibility: "public", repo: "max578/decideR", install: PUBLIC },
   { id: "grainPlan", tier: "member", role: "Plans for growers",
     method: "Turns an analysis into a grower's plan: nitrogen rate, variety and grade target.",
-    guard: "Gives no plan when the analysis before it declined to answer, or answered a different question.",
+    guard: "Gives no plan when the analysis before it gave no result, or answered a different question.",
     visibility: "public", repo: "max578/grainPlan", install: PUBLIC },
   { id: "apsimR", tier: "member", role: "Crop simulation",
     method: "Runs the APSIM Next Generation crop simulator from R.",
@@ -72,7 +72,7 @@ export const members: Member[] = [
 
   // Supporting 6
   { id: "koine", tier: "member", role: "A fourth opinion",
-    method: "Adds a fourth opinion built from a battery of inference methods, and stays silent when it adds nothing.",
+    method: "Cross-checks a fit with several other inference methods, and gives no result when they add nothing.",
     guard: "Works only with normally distributed errors in multi-environment trials; for other kinds of data it gives no answer.",
     visibility: "private", install: NOT_YET },
   { id: "cdzoo", tier: "member", role: "Causal discovery",
@@ -81,7 +81,7 @@ export const members: Member[] = [
     visibility: "private", install: NOT_YET },
   { id: "proxymix", tier: "member", role: "Simplifying distributions",
     method: "Replaces a complicated distribution with a small mixture of bell curves and states the information lost.",
-    guard: "Refuses a treatment outside the range or the levels it was given.",
+    guard: "Refuses to predict for treatment levels outside those it was fitted on.",
     visibility: "public", repo: "max578/proxymix", install: PUBLIC },
   { id: "optimix", tier: "member", role: "Choosing an optimiser",
     method: "Gives one problem to many optimisers and picks the best for it.",

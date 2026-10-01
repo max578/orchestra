@@ -23,13 +23,15 @@ export const contracts: Contract[] = [
 
 export const operators = [
   { name: "abstain_gate",
-    what: "Reads the summary in one earlier step's manifest and decides whether to pass it on or to abstain (decline to answer and record why), writing its decision to a manifest of its own.",
-    when: "the earlier step has already flagged itself; or no effect was found and the effective sample size is below 25; or no effect was found and an approximate power score (z) is below 2, meaning too little data to have seen an effect; or any declared minimum for identifying the effect is not met.",
-    modes: "flag the result · stop this branch · send the work by another route" },
+    what: "Reads the summary in one earlier step's manifest, then passes the result on or withholds it, and records why in a manifest of its own.",
+    when: "it withholds when the previous step has already flagged a problem; or no effect was found and the effective sample size is below 25; or no effect was found and the approximate z-statistic is below 2 (too little data to detect an effect); or any declared minimum for identifying the effect is not met.",
+    modesLabel: "options",
+    modes: "flag the result, stop the analysis, or switch to a different method" },
   { name: "triangulate",
     what: "Combines the verdicts of several packages into one shared decision: when they agree, each supports the other; when they split, the split is flagged, never averaged.",
-    when: "several packages have given verdicts. The possible outcomes are an effect confirmed by more than one method; no effect, confirmed by more than one method; an effect seen by one method only; no effect, seen by one method only; methods disagree (flagged); or decline to answer.",
-    modes: "two or more methods answering the same question, or methods approaching it from different angles" },
+    when: "several packages have given verdicts. The possible outcomes are an effect confirmed by more than one method; no effect, confirmed by more than one method; an effect seen by one method only; no effect, seen by one method only; methods disagree (flagged); or no result.",
+    modesLabel: "use",
+    modes: "when two or more methods address the same question" },
 ];
 
 export const typedEdge =

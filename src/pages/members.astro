@@ -22,7 +22,7 @@ const searchText = (m: (typeof tiers.member)[number]) =>
     <div class="section-head">
       <p class="kicker">The catalogue</p>
       <h1>The packages</h1>
-      <p class="prose muted mt-2">Every package, what it does, and when it declines to answer.
+      <p class="prose muted mt-2">Every package, what it does, and when it gives no result.
         A link to the code appears only where the package is public. The list below says in
         words what the map shows.</p>
     </div>
@@ -63,7 +63,7 @@ const searchText = (m: (typeof tiers.member)[number]) =>
               <div class="acc-inner">
                 <p class="method">{m.method}</p>
                 <div class="meta">
-                  {m.guard && <span class="badge">when it declines · {m.guard}</span>}
+                  {m.guard && <span class="badge">when it gives no result · {m.guard}</span>}
                   {m.repo && <a class="badge public" href={`https://github.com/${m.repo}`}>{m.repo} ↗</a>}
                 </div>
               </div>
@@ -82,7 +82,7 @@ const searchText = (m: (typeof tiers.member)[number]) =>
     </div>
     <div class="table-scroll">
       <table>
-        <caption>The seven contracts, listed by their names in the code. A data contract fixes the shape of a result; an interface contract fixes how one package calls another. The owner defines the contract; the users follow it.</caption>
+        <caption>The seven contracts, listed by their names in the code. A data contract fixes the shape of a result; an interface contract fixes how one package calls another.</caption>
         <thead><tr><th>No.</th><th>Name in the code</th><th>Kind</th><th>Owner</th><th>Used by</th></tr></thead>
         <tbody>
           {contracts.map((c) => (

@@ -6,22 +6,21 @@ import { site, href } from "../data/site";
   <section class="wrap">
     <div class="section-head">
       <p class="kicker">About</p>
-      <h1>An orchestra of packages for decisions based on cause and effect</h1>
+      <h1>R packages for crop decisions based on cause and effect</h1>
     </div>
     <div class="prose">
       <p class="lead">Scientific analysis increasingly feeds a fitted model straight into an automated
         decision, and the risk is easy to miss: a model that fits an outcome well can still rest on an
         association that is driven by some third factor, or that nobody has checked, and a pipeline that
         simply tunes a model and then optimises against it will act on that association.</p>
-      <p class="mt-2">The orchestra's answer is to build from small packages, each doing one job, held to
-        firm rules. Every package writes its results in the same versioned record, the manifest, and an
-        engine runs the analysis plan, checking at each step that the result passed on is the kind the next
-        step expects. Two rules carry the weight. <strong>Declining to answer</strong>: the system gives no
-        recommendation when the evidence is too thin to detect the effect, when the different methods applied
-        to the same question disagree, or when an input has not been checked, and it records why. And
-        <strong>the independent-check rule</strong>: every fact about an outside source (a service, a
-        dataset's columns, a constant, a citation) is checked against a reference the orchestra did not
-        produce itself, and a fact that has not been checked is refused rather than acted on.</p>
+      <p class="mt-2"><strong>Withholding a result</strong>: the system gives no recommendation when the
+        evidence is too thin to detect the effect, when the different methods applied to the same question
+        disagree, or when an input has not been checked, and it records why. <strong>The independent-check
+        rule</strong>: facts about outside sources are checked against a reference the orchestra did not
+        produce, and unchecked inputs are not used (set out in full under
+        <a href={href("/governance")}>Governance</a>). Every package writes its results in the same versioned
+        record, the manifest, and an engine runs the analysis plan, checking at each step that the result
+        passed on is the kind the next step expects.</p>
 
       <h2 class="mt-3">Domain</h2>
       <p class="mt-1">{site.domain}. Every method must be shown working on a real grain-production
@@ -30,11 +29,8 @@ import { site, href } from "../data/site";
         enters any package.</p>
 
       <h2 class="mt-3">How this site was checked</h2>
-      <p class="mt-1">Every package name, capability, interface between packages, count and number on
-        this site was checked against the orchestra's own records before it was shown; where a fact could
-        not be checked, it was left out or marked as open. The newer outside tools the site describes were
-        checked against their official sources. The site is held to the same standard as the orchestra's
-        science.</p>
+      <p class="mt-1">Every package name, description and count on this site was checked against the
+        packages' own DESCRIPTION files and the DataHub catalogue on 1 October 2026.</p>
 
       <p class="cta-row">
         <a class="btn btn-ghost" href={href("/members")}>The packages</a>
