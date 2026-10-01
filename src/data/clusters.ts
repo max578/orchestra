@@ -21,7 +21,7 @@ export const clusters: Cluster[] = [
   { task: "Validation / concordance", lead: "kernR", members: ["flexyBayes", "koine", "kernR"],
     blurb: "Do two independent fits agree? A split is a signal, not something to average away." },
   { task: "Causal consistency (TACI)", lead: "kernR", members: ["PESTO", "kernR", "proxymix"],
-    blurb: "The flagship: kernel tests that a fitted effect is consistent with the mechanism, not just the outcome." },
+    blurb: "Kernel tests of whether a fitted effect is consistent with the mechanism, not just the outcome. A method in development, not yet published." },
   { task: "Decision / loss-optimal", lead: "grainPlan", members: ["kernR", "decideR", "grainPlan"],
     blurb: "Close the loop to a risk-aware action — nitrogen rate, variety, grade — or abstain when the input is unverified." },
 ];

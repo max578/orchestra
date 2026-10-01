@@ -59,7 +59,7 @@ export const members: Member[] = [
     guard: "IES over-determination guard",
     visibility: "public", repo: "max578/PESTO", install: PUBLIC },
   { id: "kernR", tier: "member", role: "Validation & causal",
-    method: "Kernel two-sample / independence / goodness-of-fit tests + CME downscaling; the TACI flagship's causal-consistency engine.",
+    method: "Kernel two-sample / independence / goodness-of-fit tests + CME downscaling; the test engine behind TACI, a causal-consistency method in development.",
     guard: "ESS floor (abstains below the effective-sample threshold)",
     visibility: "public", repo: "max578/kernR", install: PUBLIC },
   { id: "terroir", tier: "member", role: "Data collector",
