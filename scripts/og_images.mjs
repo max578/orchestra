@@ -82,6 +82,7 @@ for (const p of pages(dist)) {
   const route = rel === "index.html" ? "/" : "/" + rel.replace(/\/index\.html$/, "").replace(/\.html$/, "");
   const slug = route === "/" ? "home" : route.slice(1).replace(/\//g, "-");
   const html = readFileSync(p, "utf8");
+  if (/http-equiv="refresh"/i.test(html)) continue; // forwarding pages need no card
   const title = (html.match(/<title>([^<]+)<\/title>/i) || [, slug])[1]
     .split("—")[0].trim();
   const mark = (html.match(/<meta[^>]+name="author"[^>]+content="([^"]+)"/i) || [, ""])[1];

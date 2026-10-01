@@ -8,7 +8,7 @@ export const base = BASE;
 // Site-level metadata. Grounded framing from ORCHESTRA.md; no version numbers
 // (they drift — GROUNDING_NOTES rule 2), agriculture-only (trading excluded).
 export const site = {
-  name: "The ORCHESTRA",
+  name: "Crop Analytics Orchestra",
   tagline: "Composition, not consolidation",
   intro:
     "Small R packages for grain-crop analytics (multi-environment trials, " +
@@ -19,12 +19,9 @@ export const site = {
   counts: { members: 20, external: 10, contracts: 7 },
   nav: [
     { href: "/", label: "Home" },
-    { href: "/members", label: "Members" },
-    { href: "/studies", label: "Studies" },
-    { href: "/a0", label: "A0 results" },
-    { href: "/governance", label: "Governance" },
+    { href: "/members", label: "Packages" },
+    { href: "/a0", label: "Study" },
     { href: "/delegates", label: "Delegates" },
-    { href: "/trial", label: "Trial" },
     { href: "/about", label: "About" },
   ],
 };

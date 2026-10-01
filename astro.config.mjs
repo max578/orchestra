@@ -16,7 +16,8 @@ export default defineConfig({
   // never inline CSS/JS as <style>/<script> — keep everything external so the
   // CSP can stay strict (style-src 'self', script-src 'self', no unsafe-inline)
   build: { format: "directory", inlineStylesheets: "never" },
-  integrations: [sitemap()],
+  // pages that only forward to their new home stay out of the sitemap
+  integrations: [sitemap({ filter: (page) => !/\/(governance|trial|studies)\/$|\/members\/[^/]+\/$/.test(page) })],
   // Never inline scripts: the strict CSP (script-src 'self', no unsafe-inline)
   // blocks inline <script type="module">, which Astro emits for small hoisted
   // scripts by default. 0 forces every script (and asset) to a same-origin file.

@@ -5,7 +5,6 @@ import { sections, nodes, edges, workedExample, formatWriters, formatReaders } f
 
 type MapNode = (typeof nodes)[number] & { similar?: string[]; similarNote?: string; status?: string; section?: string | null };
 
-const MEMBER_PAGES = new Set(nodes.filter((n) => n.kind !== "source").map((n) => n.id));
 const sectionOf = Object.fromEntries(sections.map((s) => [s.id, s]));
 const byId = Object.fromEntries(nodes.map((n) => [n.id, n as MapNode]));
 
@@ -142,11 +141,6 @@ export function initOrchestraMap() {
     if (rel.children.length) block("Works with", rel);
 
     if (n.status) panel.append(el("p", "om-note", n.status));
-    if (MEMBER_PAGES.has(id)) {
-      const a = el("a", "om-more", "Full page and installation →");
-      a.href = `${base}/members/${encodeURIComponent(id)}/`;
-      panel.append(a);
-    }
   }
 
   function playExample() {

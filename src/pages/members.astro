@@ -1,7 +1,6 @@
 ---
 import Base from "../layouts/Base.astro";
-import { tiers, dataHub } from "../data/members";
-import { contracts } from "../data/contracts";
+import { tiers, dataHub, installBlock } from "../data/members";
 import OrchestraMap from "../components/OrchestraMap.astro";
 const jsonLd = {
   "@context": "https://schema.org",
@@ -17,14 +16,13 @@ const tierHead = {
 const searchText = (m: (typeof tiers.member)[number]) =>
   [m.id, m.role, m.method, m.guard].filter(Boolean).join(" ").toLowerCase();
 ---
-<Base title="Members" description={`The ${tiers.member.length} packages of the orchestra, the data layer, and the ${tiers.external.length} outside packages they use.`} path="/members" jsonLd={jsonLd}>
+<Base title="Packages" description={`The ${tiers.member.length} packages of the orchestra, the data layer, and the ${tiers.external.length} outside packages they use.`} path="/members" jsonLd={jsonLd}>
   <section class="wrap">
     <div class="section-head">
       <p class="kicker">The catalogue</p>
       <h1>The packages</h1>
-      <p class="prose muted mt-2">Every package, what it does, and when it gives no result.
-        A link to the code appears only where the package is public. The list below says in
-        words what the map shows.</p>
+      <p class="prose muted mt-2">The list under the map says what the map shows, with the
+        install line wherever the package is public.</p>
     </div>
 
     <OrchestraMap />
@@ -49,7 +47,7 @@ const searchText = (m: (typeof tiers.member)[number]) =>
         <p class="tier-head">{tierHead[tier]}</p>
         <div>
           {tiers[tier].map((m) => (
-            <details class="acc" data-acc data-text={searchText(m)}>
+            <details class="acc" id={`pkg-${m.id}`} data-acc data-text={searchText(m)}>
               <summary>
                 <span class="acc-chev" aria-hidden="true">
                   <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5.5 3l5 5-5 5" /></svg>
@@ -66,6 +64,8 @@ const searchText = (m: (typeof tiers.member)[number]) =>
                   {m.guard && <span class="badge">when it gives no result · {m.guard}</span>}
                   {m.repo && <a class="badge public" href={`https://github.com/${m.repo}`}>{m.repo} ↗</a>}
                 </div>
+                {installBlock(m).lines.length > 0 &&
+                  <div class="table-scroll mt-2"><pre class="chip"><code>{installBlock(m).lines.join("\n")}</code></pre></div>}
               </div>
             </details>
           ))}
@@ -73,24 +73,6 @@ const searchText = (m: (typeof tiers.member)[number]) =>
       </div>
     ))}
 
-    <div class="section-head mt-4">
-      <p class="kicker">How results are handed on</p>
-      <h2>Seven contracts</h2>
-      <p class="prose muted mt-2">A contract is an agreed shape for a result passed from one package to
-        another. Every hand-over between packages follows one. If a result arrives in the wrong shape, the
-        receiving package stops with an error instead of quietly converting it.</p>
-    </div>
-    <div class="table-scroll">
-      <table>
-        <caption>The seven contracts, listed by their names in the code. A data contract fixes the shape of a result; an interface contract fixes how one package calls another.</caption>
-        <thead><tr><th>No.</th><th>Name in the code</th><th>Kind</th><th>Owner</th><th>Used by</th></tr></thead>
-        <tbody>
-          {contracts.map((c) => (
-            <tr><td>{c.id}</td><td><code>{c.name}</code></td><td>{c.kind}</td><td>{c.owner}</td><td>{c.consumers}</td></tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
   </section>
 
   <script>

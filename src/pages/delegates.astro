@@ -26,7 +26,7 @@ const jsonLd = {
         sends its foremost specialist as a delegate. Every delegate knows the others'
         knowledge; none acts on an unchecked fact. Each delegate stands for one package in
         this release of the orchestra. <strong>This page is fiction told to teach; the
-        science is on the package pages and in the studies.</strong></p>
+        science is on the packages page and in the study.</strong></p>
     </div>
 
     <div class="grid grid-2">
@@ -41,7 +41,7 @@ const jsonLd = {
                 <h3>{d.name}</h3>
                 <p class="small muted">{d.title}</p>
                 <div class="meta mt-1">
-                  <a class="badge" href={href(`/members/${d.id}`)}>{d.id} ↗</a>
+                  <a class="badge" href={href(`/members/#map-${d.id}`)}>{d.id} ↗</a>
                   {tier && <span class="badge">{tier}</span>}
                 </div>
               </div>

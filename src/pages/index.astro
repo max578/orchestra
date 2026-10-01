@@ -1,25 +1,17 @@
 ---
 import Base from "../layouts/Base.astro";
-import Constellation from "../components/Constellation.astro";
 import { site, href } from "../data/site";
-import { clusters, coverage } from "../data/clusters";
-import { leadership, smallN, limit, ladder } from "../data/parsimony";
-import { operators, typedEdge } from "../data/contracts";
-import { filled, open } from "../data/gaps";
-import { scorePath, edges } from "../data/graph";
 import { dataHub } from "../data/members";
+import { a0 } from "../data/a0_results";
 
-// short, grounded action phrase per pipeline step (the ORCHESTRA.md app chain)
-const action: Record<string, string> = {
-  masque: "Build a synthetic copy of the private data that keeps the link between treatment and outcome, and develop the analysis on it.",
-  PESTO: "Calibrate the crop simulator to the field: work backwards from the measurements to the settings that reproduce them, running many versions to show the uncertainty.",
-  proxymix: "Summarise the range of plausible settings as a simple mix of bell curves that the next test can use.",
-  kernR: "Test whether the effect agrees with how the crop works, not only with the measured outcome (TACI, a method in development).",
-  decideR: "Choose the action that weighs what a wrong call costs and allows for risk, or refuse if any input has not been checked.",
-  grainPlan: "Turn the decision into a grain plan: nitrogen rate, variety, grade target, season.",
-};
-// presentation split of the grounded tagline — reconstructs it byte-identical
-const [tagPre, tagPost] = site.tagline.split(", not ");
+const k = (x: number) => Math.round(x).toLocaleString("en-AU");
+const pct = Math.round(a0.loss_reduction_vs_naive_pct);
+const principles = [
+  { h: "One result format", p: "Every package writes its result in the same structure, so the next package can check it and use it directly." },
+  { h: "Declining to answer", p: "A package that cannot answer soundly says so, with its reason, in the same format. Later packages carry that forward instead of guessing." },
+  { h: "conductoR runs the plan", p: "An analysis plan is a list of steps, each done by one package. conductoR runs them in order and stops if a result is the wrong kind for the next step." },
+  { h: "Open data underneath", p: `DataHub holds ${dataHub.nDatasets} open datasets, ${dataHub.nAustralia} of them Australian, each with its source and licence, indexed by the questions it can answer.` },
+];
 const jsonLd = {
   "@context": "https://schema.org", "@type": "WebSite",
   name: site.name, description: site.intro,
@@ -29,151 +21,54 @@ const jsonLd = {
 <Base title="Home" description={site.intro} path="/" jsonLd={jsonLd}>
   <section class="wrap">
     <div class="hero-in">
-      <p class="kicker">Crop analytics · {site.counts.members} R packages · {site.counts.contracts} contracts</p>
-      <h1 class="hero-h1">{tagPre}, <em>not</em> {tagPost}</h1>
-      <p class="lead mt-3">{site.intro}</p>
-      <div class="hero-stats">
-        <div class="hs"><span class="n" data-count={site.counts.members}>{site.counts.members}</span><span class="l">R packages</span></div>
-        <div class="hs"><span class="n" data-count={site.counts.contracts}>{site.counts.contracts}</span><span class="l">contracts (agreed hand-over formats)</span></div>
-        <div class="hs"><span class="n" data-count={edges.length}>{edges.length}</span><span class="l">links between packages</span></div>
-      </div>
+      <p class="kicker">Crop analytics · {site.counts.members} R packages</p>
+      <h1 class="hero-h1">Crop Analytics Orchestra</h1>
+      <p class="lead mt-3">Crop analytics usually joins separate tools by hand, one analysis
+        at a time. These {site.counts.members} R packages are built to work together. Each does
+        one job well on its own, all return results in one shared format, and each can decline
+        to answer when the data cannot support an answer.</p>
+      <p class="cta-row">
+        <a class="btn btn-accent" href={href("/members")}>Explore the packages</a>
+        <a class="btn btn-ghost" href={href("/a0")}>See the study</a>
+      </p>
     </div>
-    <div class="mt-4"><Constellation /></div>
   </section>
 
-  <section class="wrap reveal">
+  <section class="band"><div class="wrap">
     <div class="section-head">
-      <p class="kicker">The thesis</p>
-      <h2>Composition, <em>not</em> consolidation</h2>
+      <p class="kicker">How the packages work together</p>
     </div>
-    <p class="prose lead">The orchestra is many small packages, each doing one job. Every
-      package writes its results in <em>one</em> shared record, the manifest
-      (<code>orchestra_manifest</code>), and passes them on through {site.counts.contracts}{" "}
-      contracts, agreed formats for handing a result from one package to the next.</p>
-    <p class="prose muted mt-3">{typedEdge}</p>
-    <p class="prose mt-3"><strong>{dataHub.id}</strong> is the data layer underneath the
-      packages; it is not an R package. It holds {dataHub.nDatasets} open datasets,{" "}
-      {dataHub.nAustralia} of them Australian, each recorded with its source and licence
-      and indexed by the questions it can answer, so a study can find the data it needs.</p>
-  </section>
-
-  <section class="band"><div class="wrap reveal" id="pipeline">
-    <div class="section-head">
-      <p class="kicker">How a study runs</p>
-      <h2>From a synthetic copy of the data to a checked decision</h2>
-      <p class="prose muted mt-2">One real chain of steps, end to end. Each step is done by
-        one package; the software checks every hand-over between two packages, and two
-        further checks can stop a branch or reconcile conflicting answers before any
-        decision is issued.</p>
-    </div>
-    <div class="pipe" data-stagger>
-      {scorePath.map((id, i) => (
-        <div class="pstep">
-          <div class="pn">step {i + 1} of {scorePath.length}</div>
-          <div class="pid">{id}</div>
-          <div class="pd">{action[id]}</div>
-        </div>
-      ))}
-    </div>
-    <p class="prose muted small mt-3">Between the steps, the first check stops a branch when
-      there is too little evidence. The second compares answers from independent methods:
-      when they agree, each supports the other; when they split, the split is flagged. A
-      result in the wrong form stops the run rather than being quietly converted.</p>
-  </div></section>
-
-  <section class="wrap reveal" id="clusters">
-    <div class="section-head">
-      <p class="kicker">Kinds of problem</p>
-      <h2>What it solves, and which package leads</h2>
-      <p class="prose muted mt-2">Every question is described by two things: the kind of
-        response measured and the structure of the model. Questions fall into a few tasks,
-        each led by one package; the explorer at the top of the page shows exactly which
-        packages each task uses.</p>
-    </div>
-    <div class="matrix" data-stagger>
-      {clusters.map((c) => (
-        <div class="cl">
-          <div class="task">{c.task}</div>
-          <div class="lead">lead · {c.lead} · {c.members.length} tool{c.members.length > 1 ? "s" : ""}</div>
-          <p>{c.blurb}</p>
-        </div>
-      ))}
-    </div>
-    <p class="prose muted small mt-3">Kinds of response covered: {coverage.families.join(", ")}.
-      Model structures covered: {coverage.structures.join(", ")}. {coverage.note}</p>
-  </section>
-
-  <section class="wrap reveal" id="parsimony">
-    <div class="section-head">
-      <p class="kicker">As few tools as needed</p>
-      <h2>How many packages a task uses</h2>
-    </div>
-    <p class="takeaway">Studies use several packages <em>by design</em>: each lead package
-      works with between four and eight packages (counts below), so no result rests on a
-      single method. The system also withholds a result rather than claim more than the
-      evidence supports.</p>
-    <p class="explore-lbl mt-3">Packages each lead package works with</p>
-    <div class="lead-cards" data-stagger>
-      {leadership.map((l) => (<div class="lc"><div class="n" data-count={l.members}>{l.members}</div><div class="who">{l.lead}</div></div>))}
-    </div>
-    <div class="table-scroll mt-3">
-      <table class="num">
-        <caption>Test with very few observations (N): the share of results that were confident but wrong (lower is better). Synthetic control withholds a result when its comparison units fail; the other two always return one.</caption>
-        <thead><tr><th>design</th>{smallN.cols.map((c) => <th>{c}</th>)}</tr></thead>
-        <tbody>{smallN.rows.map((r) => (<tr><td>{r.design}</td>{r.cells.map((c) => <td>{c}</td>)}<td>{r.abstains}</td></tr>))}</tbody>
-      </table>
-    </div>
-    <p class="prose muted mt-3">{limit}</p>
-    <p class="prose muted mt-2">{ladder}</p>
-  </section>
-
-  <section class="band"><div class="wrap reveal" id="disciplines">
-    <div class="section-head">
-      <p class="kicker">Two built-in checks</p>
-      <h2>Withhold when unsure, and compare independent answers</h2>
-    </div>
-    <div class="grid grid-2" data-stagger>
-      {operators.map((op) => (
+    <div class="grid four">
+      {principles.map((x) => (
         <div class="card">
-          <h3><code>{op.name}</code></h3>
-          <p class="muted mt-2">{op.what}</p>
-          <p class="small mt-3"><span class="badge">when</span> {op.when}</p>
-          <p class="small mt-2"><span class="badge">{op.modesLabel}</span> {op.modes}</p>
+          <h3>{x.h}</h3>
+          <p class="muted mt-2">{x.p}</p>
         </div>
       ))}
     </div>
   </div></section>
 
-  <section class="wrap reveal" id="gaps">
+  <section class="wrap">
     <div class="section-head">
-      <p class="kicker">Gaps</p>
-      <h2>What is not covered yet: filled where a tool has been checked, open where not</h2>
-      <p class="prose muted mt-2">Gaps in coverage, with an existing package where one is
-        available and its licence.</p>
+      <p class="kicker">One nitrogen decision</p>
+      <h2>{pct}% less money lost than trusting the crop simulator alone</h2>
+      <p class="prose muted mt-2">On a synthetic barley belt built on real climate and soil
+        records at {a0.n_sites} sites, the full chain of packages chose nitrogen rates site by
+        site. Where the field record disagreed with the simulator, the chain stopped using the
+        simulator and fitted the field data instead.</p>
     </div>
-    <p class="explore-lbl">Filled: a checked outside tool the orchestra can call</p>
-    <div class="gaps" data-stagger>
-      {filled.map((g) => (
-        <div class="gap filled">
-          <h3>{g.gap}</h3>
-          <p class="use">{g.use}</p>
-          <p class="tool">→ {g.tool}</p>
-          <p class="lic">licence · {g.licence}</p>
-          <p class="use mt-2">{g.caveat}</p>
-        </div>
-      ))}
+    <div class="hero-stats">
+      <div class="hs"><span class="n">{k(a0.loss_cascade_total_aud_ha)}</span><span class="l">AUD/ha lost, orchestra</span></div>
+      <div class="hs"><span class="n">{k(a0.loss_naive_total_aud_ha)}</span><span class="l">AUD/ha lost, simulator alone</span></div>
+      <div class="hs"><span class="n">{k(a0.n_saved_vs_naive_kgn)}</span><span class="l">kg N not applied</span></div>
     </div>
-    <p class="explore-lbl mt-3">Open: no tool checked yet</p>
-    <div class="gaps" data-stagger>
-      {open.map((g) => (
-        <div class="gap open">
-          <h3>{g.gap}</h3>
-          <p class="use">{g.use}</p>
-          <p class="use mt-2">{g.note}</p>
-        </div>
-      ))}
-    </div>
-    <p class="cta-row"><a class="btn btn-accent" href={href("/members")}>The full catalogue</a>
-      <a class="btn btn-ghost" href={href("/about")}>Why it's built this way</a></p>
+    <p class="prose muted small mt-3">The belt is synthetic: the numbers show the method at
+      work, not what a real paddock would earn.</p>
+    <p class="cta-row"><a class="btn btn-ghost" href={href("/a0")}>The study, step by step</a></p>
   </section>
 </Base>
+
+<style>
+  .four { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  @media (max-width: 40rem) { .four { grid-template-columns: 1fr; } }
+</style>

@@ -2,39 +2,49 @@
 import Base from "../layouts/Base.astro";
 import { site, href } from "../data/site";
 ---
-<Base title="About" description="What the orchestra is, the crops and decisions it serves, and the two rules that make its results safe to act on." path="/about">
+<Base title="About" description="Why the orchestra is built the way it is, which data it uses, and how its results are recorded." path="/about">
   <section class="wrap">
     <div class="section-head">
       <p class="kicker">About</p>
       <h1>R packages for crop decisions based on cause and effect</h1>
     </div>
     <div class="prose">
-      <p class="lead">Scientific analysis increasingly feeds a fitted model straight into an automated
-        decision, and the risk is easy to miss: a model that fits an outcome well can still rest on an
-        association that is driven by some third factor, or that nobody has checked, and a pipeline that
-        simply tunes a model and then optimises against it will act on that association.</p>
-      <p class="mt-2"><strong>Withholding a result</strong>: the system gives no recommendation when the
-        evidence is too thin to detect the effect, when the different methods applied to the same question
-        disagree, or when an input has not been checked, and it records why. <strong>The independent-check
-        rule</strong>: facts about outside sources are checked against a reference the orchestra did not
-        produce, and unchecked inputs are not used (set out in full under
-        <a href={href("/governance")}>Governance</a>). Every package writes its results in the same versioned
-        record, the manifest, and an engine runs the analysis plan, checking at each step that the result
-        passed on is the kind the next step expects.</p>
+      <p class="lead">A model that fits an outcome well can still rest on an association nobody
+        has checked. A pipeline that tunes a model and then optimises against it will act on that
+        association. The orchestra is built so that it does not.</p>
 
-      <h2 class="mt-3">Domain</h2>
-      <p class="mt-1">{site.domain}. Every method must be shown working on a real grain-production
-        decision; a method that cannot be is set aside, not pursued. All data used are data that can be
-        published (public agricultural trial datasets and crop simulators); no restricted field data
-        enters any package.</p>
+      <h2 class="mt-3">Two rules</h2>
+      <p class="mt-1"><strong>Withhold when unsure.</strong> A package gives no result when the
+        evidence is too thin, when independent methods disagree, or when an input has not been
+        checked. It records why, and the decision packages do not price a withheld answer.</p>
+      <p class="mt-2"><strong>Check against an outside reference.</strong> Every fact about an
+        outside source, such as a dataset's columns, a constant or a citation, is checked against
+        a reference the orchestra did not produce. Unchecked facts are not used.</p>
+
+      <h2 class="mt-3">Where every result came from</h2>
+      <p class="mt-1">Each result is saved in the shared record every package writes. It names the
+        package and version that produced it, the earlier records it was built from, and a
+        checksum that fails if anything is altered, so every number in a report can be traced
+        back to the record it came from.</p>
+
+      <h2 class="mt-3">Data</h2>
+      <p class="mt-1">{site.domain}. Package examples, tests and studies use public data
+        (published trials, open climate and soil services, crop simulators) or synthetic data
+        built around a known answer. Confidential data is analysed only through a synthetic copy
+        made by its owner with masque; only summary figures leave. No GRDC-origin code or data
+        enters any package, study output or page.</p>
+
+      <h2 class="mt-3">Licence</h2>
+      <p class="mt-1">The public packages are released under the MIT licence through
+        <code>max578.r-universe.dev</code>. The others are still in development.</p>
 
       <h2 class="mt-3">How this site was checked</h2>
-      <p class="mt-1">Every package name, description and count on this site was checked against the
-        packages' own DESCRIPTION files and the DataHub catalogue on 1 October 2026.</p>
+      <p class="mt-1">Every package name, description and count on this site was checked against
+        the packages' own DESCRIPTION files and the DataHub catalogue on 1 October 2026.</p>
 
       <p class="cta-row">
         <a class="btn btn-ghost" href={href("/members")}>The packages</a>
-        <a class="btn btn-ghost" href={href("/")}>Home</a>
+        <a class="btn btn-ghost" href={href("/a0")}>The study</a>
       </p>
     </div>
   </section>

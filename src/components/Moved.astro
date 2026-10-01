@@ -1,0 +1,17 @@
+---
+// A page that has moved: sends the visitor on and keeps old links working.
+import { href } from "../data/site";
+interface Props { to: string }
+const { to } = Astro.props;
+const dest = href(to);
+---
+<!doctype html>
+<html lang="en-AU">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="refresh" content={`0; url=${dest}`} />
+    <meta name="robots" content="noindex" />
+    <title>Moved</title>
+  </head>
+  <body><p>This page has moved to <a href={dest}>{dest}</a>.</p></body>
+</html>
