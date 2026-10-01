@@ -16,11 +16,11 @@ const roleOf = Object.fromEntries(members.map((m) => [m.id, m.role]));
 <div class="explorer" data-constellation>
   <div class="stage">
     <div class="stage-bar">
-      <span class="lbl">{nodes.length} released members · {edges.length} contract edges</span>
-      <button class="btn btn-ghost" type="button" data-play>▶ Play a score</button>
+      <span class="lbl">{nodes.length} analysis packages · {edges.length} links between them</span>
+      <button class="btn btn-ghost" type="button" data-play>▶ Play a study</button>
     </div>
     <svg viewBox="0 0 100 100" role="img"
-         aria-label={`Constellation of the ${nodes.length} released ORCHESTRA member packages connected by the C1 to C7 data contracts. The full catalogue in text is on the Members page.`}>
+         aria-label={`Map of ${nodes.length} ORCHESTRA analysis packages, linked by the C1 to C7 data contracts. The full catalogue in text is on the Members page.`}>
       <defs>
         <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
           <feGaussianBlur stdDeviation="1.1" result="b" />
@@ -34,7 +34,7 @@ const roleOf = Object.fromEntries(members.map((m) => [m.id, m.role]));
       })}
       {nodes.map((n) => (
         <g class={`node${n.hub ? " hub" : ""}`} data-id={n.id} data-x={n.x} data-y={n.y}
-           tabindex="0" aria-label={`${n.id} — ${roleOf[n.id] ?? "member"}`}
+           tabindex="0" aria-label={`${n.id} — ${roleOf[n.id] ?? "package"}`}
            transform={`translate(${n.x} ${n.y})`}>
           <circle r={n.hub ? 3.4 : 2.5}></circle>
           <text y={n.hub ? -4.9 : -3.9}>{n.id}</text>
@@ -45,7 +45,7 @@ const roleOf = Object.fromEntries(members.map((m) => [m.id, m.role]));
   </div>
 
   <div class="explore-panel">
-    <p class="explore-lbl">Explore by problem — see how many tools it needs</p>
+    <p class="explore-lbl">Pick a problem to see how many packages it needs</p>
     <div class="cluster-btns">
       {clusters.map((c) => (
         <button class="cbtn" type="button" data-members={c.members.join(",")}
@@ -53,10 +53,10 @@ const roleOf = Object.fromEntries(members.map((m) => [m.id, m.role]));
           {c.task}<span class="cbtn-n">{c.members.length}</span>
         </button>
       ))}
-      <button class="cbtn cbtn-all" type="button">All 16</button>
+      <button class="cbtn cbtn-all" type="button">All {nodes.length}</button>
     </div>
-    <p class="readout" data-readout aria-live="polite">Hover or Tab to a node to light its
-      contracts, or pick a problem to see which tools compose to solve it — and
+    <p class="readout" data-readout aria-live="polite">Hover over or tab to a package to light up its
+      links, or pick a problem to see which packages work together to solve it, and
       how few it takes.</p>
   </div>
 </div>
@@ -92,7 +92,7 @@ const roleOf = Object.fromEntries(members.map((m) => [m.id, m.role]));
     const showTip = (g) => {
       const id = g.dataset.id;
       const n = degree(id);
-      tip.innerHTML = `<span class="t-id">${id}</span>${roleOf[id] ?? "member"} · ${n} contract edge${n === 1 ? "" : "s"}`;
+      tip.innerHTML = `<span class="t-id">${id}</span>${roleOf[id] ?? "package"} · ${n} link${n === 1 ? "" : "s"}`;
       const r = svg.getBoundingClientRect(), s = root.querySelector(".stage").getBoundingClientRect();
       tip.style.left = `${r.left - s.left + (Number(g.dataset.x) / 100) * r.width}px`;
       tip.style.top = `${r.top - s.top + (Number(g.dataset.y) / 100) * r.height - 12}px`;
@@ -127,13 +127,13 @@ const roleOf = Object.fromEntries(members.map((m) => [m.id, m.role]));
         const all = b.classList.contains("cbtn-all");
         root.querySelectorAll(".cbtn").forEach((x) => x.classList.remove("on"));
         if (all) { delete root.dataset.locked; clear();
-          readout.textContent = `All ${nodes.length} released members, wired by the seven contracts. Pick a problem to see the subset it composes.`; return; }
+          readout.textContent = `All ${nodes.length} analysis packages, linked through the seven contracts. Pick a problem to see the packages it uses.`; return; }
         b.classList.add("on");
         root.dataset.locked = "1";
         const ids = b.dataset.members.split(",");
         highlightSet(ids);
         const n = ids.length;
-        readout.innerHTML = `<strong>${n} tool${n > 1 ? "s" : ""}</strong> — ${ids.join(" · ")}. ${b.dataset.blurb}`;
+        readout.innerHTML = `<strong>${n} package${n > 1 ? "s" : ""}</strong>: ${ids.join(" · ")}. ${b.dataset.blurb}`;
       });
     });
 
@@ -141,7 +141,7 @@ const roleOf = Object.fromEntries(members.map((m) => [m.id, m.role]));
       root.querySelectorAll(".cbtn").forEach((x) => x.classList.remove("on"));
       delete root.dataset.locked;
       clear(); hideTip();
-      readout.innerHTML = "<strong>A score in motion</strong> — a real decision chain: synthetic clone → calibrate → compress → causal-consistency → decide → grain plan.";
+      readout.innerHTML = "<strong>A study, step by step</strong>: a real decision chain. Synthetic copy of the data → calibrate the simulator → summarise → check against the crop model → decide → grain plan.";
       const light = (i) => {
         nEls.get(scorePath[i])?.classList.add("onpath");
         if (i) eEls.get(scorePath[i - 1] + "~" + scorePath[i])?.classList.add("path");

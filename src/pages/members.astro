@@ -1,6 +1,6 @@
 ---
 import Base from "../layouts/Base.astro";
-import { tiers } from "../data/members";
+import { tiers, dataHub } from "../data/members";
 import { contracts } from "../data/contracts";
 import OrchestraMap from "../components/OrchestraMap.astro";
 const jsonLd = {
@@ -11,35 +11,40 @@ const jsonLd = {
 };
 const label = { public: "public", gated: "under development", private: "private", disabled: "private · disabled", unspecified: "not public", candidate: "candidate", external: "external" };
 const tierHead = {
-  member: `${tiers.member.length} members`,
-  candidate: `${tiers.candidate.length} candidate${tiers.candidate.length === 1 ? "" : "s"} — not yet enrolled`,
-  external: `${tiers.external.length} external — consumed by reference`,
+  member: `${tiers.member.length} packages in the orchestra`,
+  external: `${tiers.external.length} outside packages the orchestra uses`,
 };
 const searchText = (m: (typeof tiers.member)[number]) =>
-  [m.id, m.role, m.method, m.emits, m.guard].filter(Boolean).join(" ").toLowerCase();
+  [m.id, m.role, m.method, m.guard].filter(Boolean).join(" ").toLowerCase();
 ---
-<Base title="Members" description={`The full ORCHESTRA catalogue — ${tiers.member.length} members, ${tiers.candidate.length} candidate, ${tiers.external.length} external upstreams — with plain visibility badges.`} path="/members" jsonLd={jsonLd}>
+<Base title="Members" description={`The ${tiers.member.length} packages of the orchestra, the data layer, and the ${tiers.external.length} outside packages they use.`} path="/members" jsonLd={jsonLd}>
   <section class="wrap">
     <div class="section-head">
       <p class="kicker">The catalogue</p>
-      <h1>Members, candidates, and upstreams</h1>
-      <p class="prose muted mt-2">Every package with a plain status badge, expandable to its
-        full capability, guard, and wiring. A repo link appears only where the package is
-        verifiably public; a private or gated member shows its badge, never an implied download.
-        This page is also the plain-text equivalent of the constellation graph.</p>
+      <h1>The packages</h1>
+      <p class="prose muted mt-2">Every package, what it does, and when it declines to answer.
+        A link to the code appears only where the package is public. The list below says in
+        words what the map shows.</p>
     </div>
 
     <OrchestraMap />
 
+    <div class="card mt-3" id="datahub">
+      <p class="kicker">{dataHub.role}</p>
+      <h2 class="mt-1">{dataHub.id}</h2>
+      <p class="prose mt-2">{dataHub.method} It holds {dataHub.nDatasets} open datasets,{" "}
+        {dataHub.nAustralia} of them Australian. DataHub is not an R package.</p>
+    </div>
+
     <div class="cat-tools" data-cat-tools hidden>
-      <input class="filter" type="search" placeholder="Filter by name, role, method, guard…"
+      <input class="filter" type="search" placeholder="Filter by name or by what a package does…"
              aria-label="Filter the catalogue" data-filter-input />
       <span class="filter-count" data-filter-count aria-live="polite"></span>
       <button class="btn btn-ghost" type="button" data-expand-all>Expand all</button>
       <button class="btn btn-ghost" type="button" data-collapse-all>Collapse all</button>
     </div>
 
-    {(["member","candidate","external"] as const).map((tier) => (
+    {(["member","external"] as const).map((tier) => (
       <div data-tier>
         <p class="tier-head">{tierHead[tier]}</p>
         <div>
@@ -52,15 +57,13 @@ const searchText = (m: (typeof tiers.member)[number]) =>
                 <span><span class="acc-id">{m.id}</span>
                   <span class="acc-role"> — {m.role}</span></span>
                 <span class="acc-badges">
-                  {m.emits && <span class="badge emit">emits</span>}
                   <span class={`badge ${m.visibility}`}>{label[m.visibility]}</span>
                 </span>
               </summary>
               <div class="acc-inner">
                 <p class="method">{m.method}</p>
                 <div class="meta">
-                  {m.emits && <span class="badge emit">emits · {m.emits}</span>}
-                  {m.guard && m.guard !== "none" && <span class="badge">guard · {m.guard}</span>}
+                  {m.guard && <span class="badge">when it declines · {m.guard}</span>}
                   {m.repo && <a class="badge public" href={`https://github.com/${m.repo}`}>{m.repo} ↗</a>}
                 </div>
               </div>
@@ -71,15 +74,16 @@ const searchText = (m: (typeof tiers.member)[number]) =>
     ))}
 
     <div class="section-head mt-4">
-      <p class="kicker">The wiring</p>
+      <p class="kicker">How results are handed on</p>
       <h2>Seven contracts</h2>
-      <p class="prose muted mt-2">Members never call each other ad hoc; they meet at typed contracts. One
-        mistyped edge is a hard stop, not a silent coercion.</p>
+      <p class="prose muted mt-2">A contract is an agreed shape for a result passed from one package to
+        another. Every hand-over between packages follows one. If a result arrives in the wrong shape, the
+        receiving package stops with an error instead of quietly converting it.</p>
     </div>
     <div class="table-scroll">
       <table>
-        <caption>The contract registry — owner emits, consumers accept.</caption>
-        <thead><tr><th>id</th><th>contract</th><th>kind</th><th>owner</th><th>consumers</th></tr></thead>
+        <caption>The seven contracts, listed by their names in the code. A data contract fixes the shape of a result; an interface contract fixes how one package calls another. The owner defines the contract; the users follow it.</caption>
+        <thead><tr><th>No.</th><th>Name in the code</th><th>Kind</th><th>Owner</th><th>Used by</th></tr></thead>
         <tbody>
           {contracts.map((c) => (
             <tr><td>{c.id}</td><td><code>{c.name}</code></td><td>{c.kind}</td><td>{c.owner}</td><td>{c.consumers}</td></tr>

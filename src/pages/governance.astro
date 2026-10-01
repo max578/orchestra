@@ -2,60 +2,68 @@
 import Base from "../layouts/Base.astro";
 import { href } from "../data/site";
 ---
-<Base title="Governance" description="How the ORCHESTRA handles data, licences, provenance and refusal: data classes, the GRDC firewall, per-package licences, the Independent Oracle Principle and the typed decline." path="/governance">
+<Base title="Governance" description="How the orchestra handles data, licences, record-keeping and refusals: the four classes of data, keeping GRDC code and data out of the packages, per-package licences, the independent-check rule and the recorded refusal to answer." path="/governance">
   <section class="wrap">
     <div class="section-head">
       <p class="kicker">Governance</p>
-      <h1>Data, licences, provenance, refusal</h1>
-      <p class="prose lead mt-2">Four rules make the orchestra's outputs safe to act on and safe to share.
-        They are stated here so a research manager, a data custodian or a reviewer can check them without
-        reading code.</p>
+      <h1>Data, licences, record-keeping and refusals</h1>
+      <p class="prose lead mt-2">Four rules make the orchestra's results safe to act on and safe to share.
+        They are set out here so that a research manager, a data custodian or a reviewer can check them
+        without reading code.</p>
     </div>
 
     <div class="prose">
-      <h2 class="mt-3">Data classes</h2>
+      <h2 class="mt-3">Classes of data</h2>
       <ul>
-        <li><strong>Public.</strong> Published trial datasets, public climate and soil services, simulators.
-          The only class that appears in package examples, tests and vignettes.</li>
-        <li><strong>Synthetic with a known truth.</strong> Generated belts and multi-environment trials whose
-          truth is planted, so a method can be graded on recovery. Every study in the series runs on one.</li>
-        <li><strong>Sovereign twin.</strong> A structurally faithful synthetic clone of a real dataset,
-          produced by the owner with masque. Analysis is developed on the clone and replayed on the real
-          rows by the custodian; only aggregates leave. No real row enters a package, a page or a poster.</li>
-        <li><strong>Restricted.</strong> Ethics-restricted or contract-restricted data. Never enters the
+        <li><strong>Public.</strong> Published trial datasets, public climate and soil services, and crop
+          simulators. This is the only class of data used in package examples, tests and vignettes (the worked
+          tutorials that come with each package).</li>
+        <li><strong>Synthetic, with a known right answer.</strong> Generated sets of sites and multi-environment
+          trials built around a right answer chosen in advance, so a method can be marked on whether it recovers
+          it. Every study in the series runs on one.</li>
+        <li><strong>Synthetic copy made by the data owner.</strong> The owner uses masque to make a synthetic
+          copy of a real dataset that keeps the real data's structure. The analysis is developed on the copy and
+          then rerun on the real rows by the custodian; only summary figures leave. No real row enters a package,
+          a page or a poster.</li>
+        <li><strong>Restricted.</strong> Data restricted by ethics approval or by contract. It never enters the
           orchestra's packages, tests, sites or publications, in any form.</li>
       </ul>
 
-      <h2 class="mt-3">The GRDC firewall</h2>
-      <p class="mt-1">No GRDC-origin code or data enters any orchestra package, study artefact or public
-        surface. Where a GRDC-approved dataset is used for research, it is used only through the sovereign-twin
-        route, aggregates only, and any publication of those aggregates is gated on the GRDC manager's
-        agreement. The orchestra is generic on purpose: that is what lets a GRDC pipeline consume it downstream.</p>
+      <h2 class="mt-3">No GRDC code or data in the packages</h2>
+      <p class="mt-1">No code or data that came from the GRDC (Grains Research and Development Corporation)
+        enters any orchestra package, study output or public page. Where a GRDC-approved dataset is used for
+        research, it is used only through a synthetic copy made by the owner, only summary figures leave, and
+        publishing those figures needs the GRDC manager's agreement. The packages are deliberately general, and
+        that is what lets a GRDC analysis pipeline use them.</p>
 
-      <h2 class="mt-3">Licences and channels</h2>
-      <p class="mt-1">Members are open source under MIT or GPL, per package, and are published or staged under
-        <code>max578</code> with an R-universe channel. An AAGI-AUS mirror of this site and of the member
-        packages is prepared but not declared: no licence is chosen for the mirror until the licence
-        conversation with the GRDC manager has happened among all interested parties.</p>
+      <h2 class="mt-3">Licences and where the packages are published</h2>
+      <p class="mt-1">The packages are open source, under MIT or GPL depending on the package, and are published,
+        or being prepared for publishing, under the <code>max578</code> account, with an R-universe channel (a
+        repository from which R users can install them). An AAGI-AUS copy of this site and of the packages is
+        prepared but not yet released: no licence is chosen for that copy until the licence has been discussed
+        with the GRDC manager and all interested parties.</p>
 
-      <h2 class="mt-3">Provenance</h2>
-      <p class="mt-1">Every inference result is an <code>orchestra_manifest</code>: emitter, version,
-        inferential target, parameter draws, outputs, a hash over the payload, and the lineage of the manifests
-        it consumed. A tampered manifest fails verification, a derived manifest without lineage is rejected,
-        and a report generated from manifests can bind every printed number to the object it came from.</p>
+      <h2 class="mt-3">Where every result came from</h2>
+      <p class="mt-1">Every result is saved as a manifest, the shared result record every package writes. It
+        holds the package that produced it and its version, the quantity being estimated, the sampled parameter
+        values that describe how uncertain the result is, the outputs, a checksum (a fingerprint of the contents
+        that changes if anything is altered), and a list of the earlier records it was built from. A record that
+        has been altered fails the check, a record built from others without that list is rejected, and a report
+        built from these records can link every printed number to the record it came from.</p>
 
-      <h2 class="mt-3">The Independent Oracle Principle</h2>
-      <p class="mt-1">A fact about an external authority — a service's response shape, a dataset's columns, a
-        constant, a citation — is checked against a reference the orchestra did not itself produce. A test whose
-        expected value shares the claim's source proves self-consistency, not correspondence to reality.
-        Un-grounded facts are marked <em>unverified</em> and a decision layer refuses to price them: this is how a
-        crop-model posterior the field has rejected never becomes a nitrogen rate.</p>
+      <h2 class="mt-3">The independent-check rule</h2>
+      <p class="mt-1">Every fact about an outside source (a service's response format, a dataset's columns, a
+        constant, a citation) is checked against a reference the orchestra did not produce itself. A test whose
+        expected answer comes from the same place as the claim shows only that the claim agrees with itself, not
+        that it is true. Facts that have not been checked are marked as not confirmed, and the decision step
+        refuses to put a price on them. This is how a crop-model estimate that field results have contradicted
+        never becomes a nitrogen rate.</p>
 
-      <h2 class="mt-3">The typed decline</h2>
-      <p class="mt-1">A refusal or an abstention is an object, not an error message. Every member can emit one,
-        every consumer can recognise one with a single predicate, and a fleet gate exercises one real trigger
-        per member. A decision taken over a decline is a contract violation, and the decision layer does not
-        take it.</p>
+      <h2 class="mt-3">Recording a refusal to answer</h2>
+      <p class="mt-1">When a package declines to answer, it returns a record saying so and why, not an error
+        message. Every package can produce one, every package that receives results can recognise one with a
+        single check, and a test run across all packages triggers one real refusal in each. Making a decision
+        on top of a refusal breaks the rules every package follows, and the decision step does not do it.</p>
 
       <p class="cta-row">
         <a class="btn btn-ghost" href={href("/a0")}>Study A0 results</a>

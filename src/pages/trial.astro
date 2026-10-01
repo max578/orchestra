@@ -4,27 +4,27 @@ import { href } from "../data/site";
 
 const stages = [
   { id: "S0 — the shadow season", window: "2026-09 to 2027-02",
-    what: "Predictions sealed (hashed and dated) before outcomes exist, never acted on, scored against independently published results: flowering windows for public NVT trial sites, then variety rankings sealed before the season's results are released. A typed refusal is a first-class prediction — sealed, counted, and scored for correctness.",
-    counterfactual: "The published district record; a naive carry-over baseline the orchestra must beat before claiming anything." },
+    what: "Predictions are sealed (fingerprinted and dated) before the outcomes exist, never acted on, and scored against results published by others: first flowering windows for public National Variety Trials (NVT) sites, then variety rankings sealed before the season's results are released. A refusal to predict counts as a prediction in its own right: it is sealed, counted and scored on whether refusing was right.",
+    counterfactual: "The published district record, and a simple baseline that carries the previous result forward, which the orchestra must beat before claiming anything." },
   { id: "S1 — paired strips", window: "2027 winter-crop season",
-    what: "On partner paddocks: the orchestra's sealed recommendation on one strip, the grower's standard practice on its pair, strip position randomised, harvest split-weighed. Primary endpoint: paired difference in realised profit per hectare at grounded prices; where the orchestra refuses, it recommends standard practice — recorded as the null it is.",
-    counterfactual: "The paired strip itself." },
-  { id: "S2 — the programme", window: "the AAGI2 horizon",
-    what: "The district measurement programme (a fortnightly flowering map with confidence or refusal), the breeding arm with genetic gain per year on the record, and programme-level impact attribution — each with its own locked protocol before its first sealed output.",
-    counterfactual: "Stated per protocol at each lock; annual benefit-cost reported with counterfactual, attribution and adoption profile." },
+    what: "On partner paddocks: the orchestra's sealed recommendation on one strip and the grower's usual practice on the strip paired with it, with the position of each strip chosen at random and each strip harvested and weighed separately. Main measure: the difference in profit per hectare between the paired strips, at checked prices. Where the orchestra refuses, it recommends the grower's usual practice, and that is recorded as a no-difference result.",
+    counterfactual: "The other strip in the pair." },
+  { id: "S2 — the programme", window: "over the AAGI2 programme",
+    what: "A district measurement programme (a fortnightly map of flowering, with a confidence level or a refusal), a breeding strand that records genetic gain per year, and measurement of how much of any change the programme itself caused. Each has its own protocol, fixed before its first sealed output.",
+    counterfactual: "Stated in each protocol when it is fixed; the yearly benefit-cost is reported alongside what would have happened without the programme, how much of the change the programme caused, and how widely it was adopted." },
 ];
 ---
 <Base title="Trial"
-      description="Orchestra in Season — a staged, pre-registered real-time trial: every prediction sealed before its outcome exists, every refusal scored, the economics recorded decision by decision."
+      description="Orchestra in Season: a trial run in stages, in real time, with its methods registered in advance. Every prediction is sealed before its outcome exists, every refusal is scored, and the costs and returns of each decision are recorded."
       path="/trial">
   <section class="wrap">
     <div class="section-head">
       <p class="kicker">Orchestra in Season</p>
       <h1>Sealed before scored</h1>
-      <p class="lead mt-3">The synthetic-belt study was the rehearsal. The trial is the
-        season itself: the orchestra commits its predictions and decisions in real time,
-        each one hashed and dated <em>before</em> the outcome exists, and the economics
-        are recorded decision by decision.</p>
+      <p class="lead mt-3">The study on simulated sites was the rehearsal. The trial is the
+        real season: the orchestra records its predictions and decisions as it makes them,
+        each one fingerprinted and dated <em>before</em> the outcome exists, and the costs
+        and returns are recorded decision by decision.</p>
     </div>
     <div class="grid grid-3">
       {stages.map((s) => (
@@ -32,7 +32,7 @@ const stages = [
           <p class="kicker">{s.id}</p>
           <p class="small muted mt-1">{s.window}</p>
           <p class="prose small mt-2">{s.what}</p>
-          <p class="prose small muted mt-2"><strong>Counterfactual:</strong> {s.counterfactual}</p>
+          <p class="prose small muted mt-2"><strong>Compared against:</strong> {s.counterfactual}</p>
         </div>
       ))}
     </div>
@@ -40,39 +40,39 @@ const stages = [
 
   <section class="wrap">
     <div class="section-head">
-      <p class="kicker">The discipline</p>
-      <h2>Reporting provisions, in force before the first seal</h2>
+      <p class="kicker">The rules</p>
+      <h2>Reporting rules, fixed before the first prediction is sealed</h2>
     </div>
     <ul class="prose">
-      <li>A sealed prediction is scored whatever it shows; unscorable sites are accounted in a flow table, never dropped.</li>
-      <li>Refusals are predictions: sealed, counted, and scored for whether refusing was right.</li>
-      <li>One primary endpoint per sub-study, stated in the locked analysis plan; everything else is labelled exploratory.</li>
-      <li>Null and negative results are reported with the same prominence as positive ones.</li>
-      <li>Every reported number resolves to a ledger row or a hashed artefact.</li>
-      <li>Partner farm data never leaves its custodian (the sovereign-twin route); public identifiers are opaque; nothing finer than district-level location is ever published.</li>
+      <li>A sealed prediction is scored whatever it shows; sites that cannot be scored are listed in a table that accounts for every site, never dropped.</li>
+      <li>Refusals count as predictions: sealed, counted, and scored on whether refusing was right.</li>
+      <li>One main outcome per sub-study, stated in the analysis plan fixed in advance; everything else is labelled exploratory.</li>
+      <li>Null and negative results are reported as prominently as positive ones.</li>
+      <li>Every reported number can be traced to an entry in the decision record or to a fingerprinted file.</li>
+      <li>Partner farm data never leaves its custodian (the analysis is developed on a synthetic copy made by the owner); sites are published under codes that do not identify the farm; nothing more precise than district-level location is ever published.</li>
     </ul>
   </section>
 
   <section class="wrap">
     <div class="section-head">
-      <p class="kicker">The register</p>
-      <h2>Locks and seals</h2>
-      <p class="prose muted mt-2">The protocol and analysis plan lock (their hashes
-        published here) before the first sealed prediction; the scoreboard appears
-        only after outcomes are published by their independent sources.</p>
+      <p class="kicker">The record</p>
+      <h2>Fixed plans and sealed predictions</h2>
+      <p class="prose muted mt-2">The protocol and analysis plan are fixed, with their
+        fingerprints (hashes) published here, before the first prediction is sealed; scores
+        appear only after the independent sources have published the outcomes.</p>
     </div>
     <div class="table-scroll">
       <table>
-        <caption>Lock register — nothing is sealed yet.</caption>
-        <thead><tr><th scope="col">date</th><th scope="col">what</th><th scope="col">sha256</th></tr></thead>
+        <caption>Record of fixed documents. Nothing is sealed yet.</caption>
+        <thead><tr><th scope="col">date</th><th scope="col">what</th><th scope="col">fingerprint (SHA-256)</th></tr></thead>
         <tbody>
-          <tr><td colspan="3" class="muted">Stage 0 target lock: 2026-09-20. The full
-            protocol and analysis-plan texts are published here at lock.</td></tr>
+          <tr><td colspan="3" class="muted">Target date for fixing stage 0: 2026-09-20. The full
+            protocol and analysis plan are published here when they are fixed.</td></tr>
         </tbody>
       </table>
     </div>
-    <p class="prose muted mt-3">Governance — the refusal contract, the conformance
-      gates, and the data firewall — is on the
+    <p class="prose muted mt-3">The rules on refusals, the checks every package must
+      pass, and keeping restricted data out are on the
       <a href={href("/governance")}>governance page</a>.</p>
   </section>
 </Base>

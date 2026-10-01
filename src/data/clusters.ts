@@ -8,27 +8,27 @@ export interface Cluster { task: string; lead: string; blurb: string; members: s
 // is the parsimony message made literal: one tool when one is enough, more only
 // when the evidence demands it.
 export const clusters: Cluster[] = [
-  { task: "Synthetic / privacy", lead: "masque", members: ["masque"],
-    blurb: "A faithful synthetic clone to develop on. One tool is enough — masque alone." },
-  { task: "Estimation & UQ", lead: "flexyBayes", members: ["flexyBayes"],
-    blurb: "Hierarchical Bayesian MET/GxE with full posterior uncertainty. The inferential backbone — flexyBayes alone." },
-  { task: "Downscaling", lead: "kernR", members: ["terroir", "kernR"],
-    blurb: "Conditional-mean-embedding change-of-support from coarse to fine. Covariates in, two tools." },
-  { task: "Causal direction (ACI)", lead: "kalmix", members: ["kalmix", "kernR"],
-    blurb: "Which way does the arrow point? Assimilative causal inference on time series — state-space + kernel." },
-  { task: "Calibration / inverse", lead: "PESTO", members: ["PESTO", "proxymix", "kernR"],
-    blurb: "Invert a forward simulator to its parameters, compress, and check fidelity — three tools." },
-  { task: "Validation / concordance", lead: "kernR", members: ["flexyBayes", "koine", "kernR"],
-    blurb: "Do two independent fits agree? A split is a signal, not something to average away." },
-  { task: "Causal consistency (TACI)", lead: "kernR", members: ["PESTO", "kernR", "proxymix"],
-    blurb: "Kernel tests of whether a fitted effect is consistent with the mechanism, not just the outcome. A method in development, not yet published." },
-  { task: "Decision / loss-optimal", lead: "grainPlan", members: ["kernR", "decideR", "grainPlan"],
-    blurb: "Close the loop to a risk-aware action — nitrogen rate, variety, grade — or abstain when the input is unverified." },
+  { task: "Private data", lead: "masque", members: ["masque"],
+    blurb: "Builds a synthetic stand-in that behaves like the private data, so the analysis can be developed on it. One package is enough: masque alone." },
+  { task: "Estimates with uncertainty", lead: "flexyBayes", members: ["flexyBayes"],
+    blurb: "Hierarchical Bayesian models for multi-environment trials and genotype-by-environment interaction, reporting the full range of plausible values rather than one number. The main estimation engine: flexyBayes alone." },
+  { task: "Coarse to fine scale", lead: "kernR", members: ["terroir", "kernR"],
+    blurb: "Moves estimates from a coarse scale to a fine one with kernR's kernel methods. terroir supplies the weather and soil inputs; two packages." },
+  { task: "Which variable drives which", lead: "kalmix", members: ["kalmix", "kernR"],
+    blurb: "Which of two variables drives the other? Assimilative causal inference (ACI) answers this from time series, combining a model of how the system changes over time (kalmix) with kernel tests (kernR)." },
+  { task: "Calibrating a simulator", lead: "PESTO", members: ["PESTO", "proxymix", "kernR"],
+    blurb: "Works backwards from field measurements to the crop-simulator settings that reproduce them, summarises the range of plausible settings, and checks the fit. Three packages." },
+  { task: "Do independent fits agree", lead: "kernR", members: ["flexyBayes", "koine", "kernR"],
+    blurb: "Do two independent analyses of the same data agree? A disagreement is reported as a finding, not averaged away." },
+  { task: "Does the effect fit the mechanism (TACI)", lead: "kernR", members: ["PESTO", "kernR", "proxymix"],
+    blurb: "Kernel tests of whether an estimated effect is consistent with how the crop works, not only with the measured outcome. TACI is a method in development and not yet published." },
+  { task: "Decisions", lead: "grainPlan", members: ["kernR", "decideR", "grainPlan"],
+    blurb: "Turns an estimate into a recommended action (a nitrogen rate, a variety, a grade target), weighing what a wrong call costs and allowing for risk, or declines to recommend when an input has not been checked." },
 ];
 
 // response-family × model-structure coverage (grounded counts, illustrative rows)
 export const coverage = {
-  families: ["gaussian", "poisson", "binomial", "genomic", "time-to-event*", "extreme-value*"],
-  structures: ["fixed", "(1|g)", "genomic", "state-space", "spatial", "differential-eq", "MET/GxE", "spatio-temporal*"],
-  note: "* frontier families/structures — led by a candidate or an open member (see Vacant places). The live registry factorises every scenario as response-family × model-structure; the lead package per cell is what the matrix encodes.",
+  families: ["continuous (Gaussian)", "counts (Poisson)", "yes/no and proportions (binomial)", "genomic", "time to an event*", "extremes*"],
+  structures: ["fixed effects", "random group effects", "genomic relationships", "change over time (state-space)", "spatial", "differential equations", "multi-environment trials (G×E)", "space and time together*"],
+  note: "* Not yet fully covered: led by a package still under review or by one listed as open (see Gaps below). The registry describes every scenario by the kind of response and the model structure, and records the lead package for each combination.",
 };

@@ -2,40 +2,43 @@
 import Base from "../layouts/Base.astro";
 import { site, href } from "../data/site";
 ---
-<Base title="About" description="What the ORCHESTRA is, the domain it serves, and the disciplines that make its outputs trustworthy." path="/about">
+<Base title="About" description="What the orchestra is, the crops and decisions it serves, and the two rules that make its results safe to act on." path="/about">
   <section class="wrap">
     <div class="section-head">
       <p class="kicker">About</p>
-      <h1>An orchestra for causal decision support</h1>
+      <h1>An orchestra of packages for decisions based on cause and effect</h1>
     </div>
     <div class="prose">
-      <p class="lead">Scientific analytics increasingly chain a fitted model to an automated
-        decision, and the danger is silent: a model that fits an outcome well can still encode a
-        confounded or unverified association, and a naive calibrate-then-optimise pipeline will act
-        on it.</p>
-      <p class="mt-2">The orchestra's answer is composition under discipline. Single-responsibility
-        packages meet at one versioned result contract; a contract-typed engine performs the plan.
-        Two disciplines are load-bearing. <strong>Calibrated abstention</strong>: the system refuses to
-        issue a decision when the evidence is under-powered, the lenses disagree, or an input is
-        unverified. And the <strong>Independent Oracle Principle</strong>: every fact about an external
-        authority is grounded against a reference the system did not produce, and an ungrounded fact
-        is refused rather than acted on.</p>
+      <p class="lead">Scientific analysis increasingly feeds a fitted model straight into an automated
+        decision, and the risk is easy to miss: a model that fits an outcome well can still rest on an
+        association that is driven by some third factor, or that nobody has checked, and a pipeline that
+        simply tunes a model and then optimises against it will act on that association.</p>
+      <p class="mt-2">The orchestra's answer is to build from small packages, each doing one job, held to
+        firm rules. Every package writes its results in the same versioned record, the manifest, and an
+        engine runs the analysis plan, checking at each step that the result passed on is the kind the next
+        step expects. Two rules carry the weight. <strong>Declining to answer</strong>: the system gives no
+        recommendation when the evidence is too thin to detect the effect, when the different methods applied
+        to the same question disagree, or when an input has not been checked, and it records why. And
+        <strong>the independent-check rule</strong>: every fact about an outside source (a service, a
+        dataset's columns, a constant, a citation) is checked against a reference the orchestra did not
+        produce itself, and a fact that has not been checked is refused rather than acted on.</p>
 
       <h2 class="mt-3">Domain</h2>
-      <p class="mt-1">{site.domain}. Grain production is the application anchor — a method that cannot
-        be exemplified on a real grain-production decision is parked, not pursued. All data is
-        publication-friendly surrogate (public agricultural-trial datasets and simulators); no
-        restricted field data enters any package.</p>
+      <p class="mt-1">{site.domain}. Every method must be shown working on a real grain-production
+        decision; a method that cannot be is set aside, not pursued. All data used are data that can be
+        published (public agricultural trial datasets and crop simulators); no restricted field data
+        enters any package.</p>
 
-      <h2 class="mt-3">How this site was built</h2>
-      <p class="mt-1">Every member name, capability, contract, count, and number on this site was
-        grounded against the orchestra's own source of truth before it was shown; where a fact could
-        not be verified, it was left out or marked open. The frontier tools were checked against their
-        official sources. The site holds itself to the same standard the orchestra holds its science.</p>
+      <h2 class="mt-3">How this site was checked</h2>
+      <p class="mt-1">Every package name, capability, interface between packages, count and number on
+        this site was checked against the orchestra's own records before it was shown; where a fact could
+        not be checked, it was left out or marked as open. The newer outside tools the site describes were
+        checked against their official sources. The site is held to the same standard as the orchestra's
+        science.</p>
 
       <p class="cta-row">
-        <a class="btn btn-ghost" href={href("/members")}>The catalogue</a>
-        <a class="btn btn-ghost" href={href("/")}>The constellation</a>
+        <a class="btn btn-ghost" href={href("/members")}>The packages</a>
+        <a class="btn btn-ghost" href={href("/")}>Home</a>
       </p>
     </div>
   </section>

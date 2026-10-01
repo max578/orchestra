@@ -13,23 +13,26 @@ export const leadership = [
 
 // small-N: fraction "confident but wrong". Lower is better; abstaining beats bravado.
 export const smallN = {
-  cols: ["N ≈ 2–3", "N = 5", "N ≈ 8–13", "N ≈ 21–30", "abstains?"],
+  cols: ["N ≈ 2–3", "N = 5", "N ≈ 8–13", "N ≈ 21–30", "declines to answer?"],
   rows: [
-    { design: "naive t-test", cells: ["0.48–0.54", "0.36", "0.22–0.30", "0.18"], abstains: "never" },
-    { design: "TACI (mechanism)", cells: ["0.48", "0.32", "0.30–0.40", "0.26"], abstains: "never" },
+    { design: "plain t-test", cells: ["0.48–0.54", "0.36", "0.22–0.30", "0.18"], abstains: "never" },
+    { design: "TACI (mechanism check, in development)", cells: ["0.48", "0.32", "0.30–0.40", "0.26"], abstains: "never" },
     { design: "synthetic control", cells: ["—", "0.50", "0.08–0.16", "0.06"], abstains: "yes" },
   ],
 };
 
 export const limit =
-  "A stated limit, shown not hidden: TACI never abstained in the small-N " +
-  "stress test — its gates guard identification quality, not data scarcity, " +
-  "so at tiny N it is as confident-wrong as the naive test. The calibrated " +
-  "design (synthetic control) abstains when its donors fail. A power-aware " +
-  "scarcity gate for TACI is the next backlog item.";
+  "A stated limit: TACI never declined to answer in the small-sample test. " +
+  "Its checks ask whether the effect can be separated from other causes, not " +
+  "whether there is enough data, so with very few observations it is about as " +
+  "often confidently wrong as the plain t-test. Synthetic control, the calibrated " +
+  "design, declines to answer when its comparison units fail. A check for too " +
+  "little data is the next planned addition to TACI.";
 
 export const ladder =
-  "How few observations, by design: from N_treated = 1 (synthetic control — " +
-  "proxymix donors + a kernR pre-fit gate, four ingredients) up to N ≈ 15–30 " +
-  "for a kernel instrumental-variable design (weak-instrument fragile). The " +
-  "right number of tools for the evidence — never more than needed.";
+  "How few observations each design can work with: from a single treated unit " +
+  "(synthetic control, built from four ingredients including comparison units " +
+  "from proxymix and a kernR check of the fit before treatment) up to N ≈ 15–30 " +
+  "for a kernel instrumental-variable design, which is fragile when the " +
+  "instrument is weak. The number of packages matches the evidence and is never " +
+  "more than needed.";

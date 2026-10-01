@@ -10,21 +10,22 @@ const jsonLd = {
   hasPart: studies.map((s) => ({ "@type": "CreativeWork", name: `${s.id} — ${s.title}`, description: s.question })),
 };
 ---
-<Base title="Studies" description="The ORCHESTRA study series — a digital-twin arm, a genomic arm and an institutional arm; each study is a different configuration of the same members." path="/studies" jsonLd={jsonLd}>
+<Base title="Studies" description="The orchestra's study series: a digital-twin arm (a computer model of a grain farm business), a genomics arm and a research-investment arm. Each study combines the same packages in a different way to answer a different question." path="/studies" jsonLd={jsonLd}>
   <section class="wrap">
     <div class="section-head">
       <p class="kicker">The programme</p>
-      <h1>Two arms, one contract, many configurations</h1>
-      <p class="prose muted mt-2">A configuration is not a list of packages. It is which members, in which
-        order, under which contract on each edge, with which abstention gate. Two configurations can share most
-        of their members and still be different instruments. The series below holds one thing fixed per arm and
-        optimises the other; the angle between the arms is the point.</p>
+      <h1>Two arms and an institutional third: one shared result record, many combinations of packages</h1>
+      <p class="prose muted mt-2">A configuration is more than a list of packages. It is which packages run,
+        in what order, what kind of result each one passes to the next, and where the analysis stops and declines
+        to answer. Two configurations can share most of their packages and still be different tools. Each arm
+        below holds one thing fixed and searches over the rest; the arms look at the same problem from different
+        directions, and that difference is the point.</p>
     </div>
 
     <div class="table-scroll">
       <table>
         <caption>What each arm holds fixed, and what it optimises.</caption>
-        <thead><tr><th>arm</th><th>fixed</th><th>optimised over</th><th>inference style</th><th>causal question</th></tr></thead>
+        <thead><tr><th>arm</th><th>held fixed</th><th>searched over</th><th>kind of analysis</th><th>cause-and-effect question</th></tr></thead>
         <tbody>
           {order.map((a) => (
             <tr><td><strong>{a}</strong> · {arms[a].name}</td><td>{arms[a].fixed}</td><td>{arms[a].optimised}</td><td>{arms[a].style}</td><td>{arms[a].causal}</td></tr>
@@ -46,12 +47,12 @@ const jsonLd = {
                 <span class="study-id">{s.id}</span>
                 <h3>{s.title}</h3>
                 <span class="study-badges">
-                  {s.flagship && <span class="badge emit">flagship</span>}
-                  {s.build && <span class="badge">build {s.build}</span>}
+                  {s.flagship && <span class="badge emit">lead study</span>}
+                  {s.build && <span class="badge">build order {s.build}</span>}
                 </span>
               </header>
               <p class="prose">{s.question}</p>
-              <p class="vh" id={`cfg-${s.id}`}>Configuration, in order</p>
+              <p class="vh" id={`cfg-${s.id}`}>Packages, in order</p>
               <ol class="chain" aria-describedby={`cfg-${s.id}`}>
                 {s.chain.map((m) => (
                   m === "||"
@@ -61,8 +62,8 @@ const jsonLd = {
               </ol>
               <dl class="study-dl">
                 <dt>Data</dt><dd>{s.data}</dd>
-                <dt>Insight sought</dt><dd>{s.insight}</dd>
-                <dt>Value</dt><dd>{s.value.join(" · ")}</dd>
+                <dt>What it should show</dt><dd>{s.insight}</dd>
+                <dt>Value measured in</dt><dd>{s.value.join(" · ")}</dd>
               </dl>
             </article>
           ))}
@@ -72,10 +73,12 @@ const jsonLd = {
 
     <div class="takeaway mt-4">
       <p class="kicker">The rule</p>
-      <p class="prose">Every study runs on a hypothetical dataset with a known truth <em>and</em> a real twin.
-        The known truth grades the method; the twin grades the correspondence. A result that only has one of the
-        two is reported as such. Sovereign data never leaves its owner: the twin is a structurally faithful clone,
-        and only aggregates reach a page like this one.</p>
+      <p class="prose">Every study runs on a simulated dataset whose right answer was chosen in advance
+        <em>and</em> on a real counterpart dataset. The simulated data tests whether the method finds the right
+        answer; the real data tests whether the results match what happens in the field. A result that has only
+        one of the two is reported as such. Data that belongs to an owner never leaves that owner: the analysis is
+        run on a synthetic copy that keeps the real data's structure, and only summary figures reach a page like
+        this one.</p>
     </div>
   </section>
 </Base>

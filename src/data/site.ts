@@ -11,13 +11,13 @@ export const site = {
   name: "The ORCHESTRA",
   tagline: "Composition, not consolidation",
   intro:
-    "A constellation of single-responsibility R packages for grain-crop " +
-    "analytics — multi-environment trials, breeding, crop simulation — " +
-    "unified by one result contract and performed by a contract-typed " +
-    "engine that refuses a mistyped connection and abstains when the " +
-    "evidence is under-powered.",
-  domain: "Australian grain agriculture (wheat · barley · corn) — MET, breeding/genomics, crop simulation",
-  counts: { members: 20, candidates: 1, external: 14, contracts: 7 },
+    "Small R packages for grain-crop analytics (multi-environment trials, " +
+    "breeding, crop simulation), each doing one job. Every package writes its " +
+    "results in the same shared record, and the software that runs them stops " +
+    "when a result arrives in the wrong form, and declines to answer, saying " +
+    "why, when there is too little evidence.",
+  domain: "Australian grain agriculture (wheat · barley · corn): multi-environment trials, breeding and genomics, crop simulation",
+  counts: { members: 20, external: 10, contracts: 7 },
   nav: [
     { href: "/", label: "Home" },
     { href: "/members", label: "Members" },

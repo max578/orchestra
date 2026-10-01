@@ -122,7 +122,6 @@ export const nodes = [
   { id: "apsimx", kind: "source", purpose: "R package that runs the APSIM crop simulator and retrieves soil profiles from ISRIC SoilGrids." },
   { id: "INLA", kind: "source", purpose: "R package for fast approximate Bayesian model fitting." },
   { id: "brms", kind: "source", purpose: "R package for Bayesian regression models fitted with Stan." },
-  { id: "greta", kind: "source", purpose: "R package for Bayesian models fitted with TensorFlow." },
   { id: "acir", kind: "source", purpose: "The method authors' R package for the causal information rate." },
   { id: "agridat", kind: "source", purpose: "R package of published agricultural field-trial datasets." },
   { id: "targets", kind: "source", purpose: "R package for pipelines that re-run only the steps whose inputs changed." },
@@ -174,7 +173,6 @@ export const edges = [
   { from: "acir", to: "kalmix", kind: "source", text: "kalmix checks its causal-information rate against the method authors' acir package." },
   { from: "INLA", to: "flexyBayes", kind: "source", text: "flexyBayes can fit a model with INLA." },
   { from: "brms", to: "flexyBayes", kind: "source", text: "flexyBayes can fit a model with brms and Stan." },
-  { from: "greta", to: "flexyBayes", kind: "source", text: "flexyBayes can fit a model with greta." },
   { from: "targets", to: "conductoR", kind: "source", text: "A conductoR plan can be run as a targets pipeline." },
   { from: "agridat", to: "conductoR", kind: "source", text: "conductoR's guide runs a plan on a published nitrogen trial from agridat." },
 ];

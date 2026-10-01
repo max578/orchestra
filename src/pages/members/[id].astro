@@ -15,7 +15,7 @@ const member = tiers.member.find((m) => m.id === id)!;
 const need = necessityById.get(id!);
 const delegate = delegateById.get(id!);
 const install = installBlock(member);
-const roster = need ? `${need.tier} roster` : "member";
+const roster = need ? `${need.tier} package` : "package";
 
 const order = tiers.member.map((m) => m.id);
 const i = order.indexOf(id!);
@@ -39,7 +39,7 @@ const jsonLd = {
 <Base title={member.id} description={need ? `${member.role} — ${need.question}` : member.role}
       path={`/members/${id}`} jsonLd={jsonLd}>
   <section class="wrap">
-    <p class="kicker"><a href={href("/members")}>Members</a> · {roster}</p>
+    <p class="kicker"><a href={href("/members")}>Packages</a> · {roster}</p>
     <div class="member-hero">
       {delegate && <Avatar motif={delegate.motif}
         label={`${delegate.name}, delegate of ${delegate.people.split(",")[0]}`} />}
@@ -49,7 +49,6 @@ const jsonLd = {
         <div class="meta mt-2">
           {need && <span class="badge">{need.tier}</span>}
           <span class={`badge ${member.visibility}`}>{label[member.visibility]}</span>
-          {member.emits && <span class="badge emit">emits · {member.emits}</span>}
           {member.repo &&
             <a class="badge public" href={`https://github.com/${member.repo}`}>{member.repo} ↗</a>}
         </div>
@@ -66,8 +65,8 @@ const jsonLd = {
           <p class="prose muted mt-2"><strong>When it says no:</strong> {member.guard}</p>}
       </div>
       {need && <div class="card">
-        <p class="kicker">Why not the nearest outside tool</p>
-        <p class="prose mt-2"><strong>Nearest:</strong> {need.outside}</p>
+        <p class="kicker">Why not use the nearest existing tool</p>
+        <p class="prose mt-2"><strong>Nearest existing tool:</strong> {need.outside}</p>
         <p class="prose mt-2">{need.why}</p>
         <p class="prose muted mt-2"><em>{need.method}</em></p>
       </div>}
@@ -78,25 +77,25 @@ const jsonLd = {
     <div class="section-head">
       <p class="kicker">See it move</p>
       <h2>The idea, animated</h2>
-      <p class="prose muted mt-2">A seeded, self-contained sketch of the method — not a
-        computation, an intuition. The evidence lives below and in the studies.</p>
+      <p class="prose muted mt-2">An animated sketch of the idea behind the method. It is
+        drawn to give an intuition and computes nothing; the evidence is below and in the studies.</p>
     </div>
     <div class="stage">
       <canvas class="widget-canvas" data-widget={id} width="880" height="360"
         role="img" aria-label={`Animated sketch of the ${member.id} method`}></canvas>
-      <noscript><p class="prose muted">The sketch needs JavaScript; the member's
-        method and evidence on this page are complete without it.</p></noscript>
+      <noscript><p class="prose muted">The sketch needs JavaScript. The method and the
+        evidence on this page are complete without it.</p></noscript>
     </div>
   </section>
 
   <section class="wrap">
     <div class="grid grid-2">
       {need && <div class="card">
-        <p class="kicker">Where it was load-bearing</p>
+        <p class="kicker">Where it has been used and checked</p>
         <p class="prose mt-2">{need.evidence}</p>
       </div>}
       {delegate && <aside class="card delegate-card">
-        <p class="kicker">The delegate · a narrative device</p>
+        <p class="kicker">The delegate · a teaching story</p>
         <h3 class="mt-2">{delegate.name} — <span class="muted">{delegate.title}</span></h3>
         <p class="prose mt-2">{delegate.people}</p>
         <p class="prose mt-2"><strong>Frontier:</strong> {delegate.frontier}</p>
@@ -116,8 +115,9 @@ const jsonLd = {
     {install.lines.length > 0
       ? <div class="table-scroll"><pre class="chip repro-pre"><code>{install.lines.join("\n")}</code></pre></div>
       : <p class="prose mt-2">{member.id}: {install.note}.</p>}
-    <p class="prose muted mt-2">Where the member is public its repository above carries
-      vignettes and tests; the fleet-wide refusal and conformance gates are recorded on
+    <p class="prose muted mt-2">Where the package is public, its repository (linked above)
+      holds worked examples and tests. The checks that every package declines correctly and
+      writes its results in the shared format are described on
       the <a href={href("/governance")}>governance page</a>.</p>
     <div class="cta-row">
       <a class="btn btn-ghost" href={href(`/members/${prev}`)}>← {prev}</a>
