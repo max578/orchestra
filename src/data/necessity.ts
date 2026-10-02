@@ -20,11 +20,11 @@ export interface Necessity {
 export const necessity: Necessity[] = [
   {
     id: "flexyBayes", tier: "core",
-    question: "Fit the multi-level model of yield across many trial environments that every study relies on, and show when two fitting engines disagree.",
+    question: "Fit the multi-level model of yield across many trial environments that every study relies on, written in the model notation breeders already use.",
     outside: "brms, INLA or asreml called directly.",
-    why: "None of these, used on its own, compares its answer with the other engines and holds the result back when they disagree, refuses model types an engine cannot fit, or writes its result in the shared result record that the other packages read. flexyBayes gives one way in to all three engines and reports their disagreement as a result in its own right.",
+    why: "None of these, used on its own, reads a model written in ASReml notation and fits it with free engines, refuses a model type an engine cannot fit faithfully, or writes its result in the shared result record that the other packages read. flexyBayes gives one way in to brms and INLA from that notation.",
     evidence: "Its estimated variety effects (best linear unbiased predictions, BLUPs) matched an independent fit by restricted maximum likelihood (REML) at r = 1.00. Declined correctly in the refusal check of 2026-09-02, in which every package was given one real case it should not answer.",
-    method: "Uses three existing engines; adds the cross-engine comparison; passes results to the decision step in the shared result record.",
+    method: "Uses existing engines (brms, INLA); adds the translation from ASReml notation and the refusal of models it cannot fit faithfully; passes results to the decision step in the shared result record.",
   },
   {
     id: "PESTO", tier: "core",
@@ -110,7 +110,7 @@ export const necessity: Necessity[] = [
     id: "koine", tier: "supporting",
     question: "Check the Bayesian fit with an independent second method, restricted maximum likelihood (REML), and treat any disagreement as information.",
     outside: "lme4 / glmmTMB called directly.",
-    why: "koine is not just another model-fitting package. It reports how far its answer differs from the Bayesian fit, in a form that flexyBayes's cross-engine comparison reads. Its results are exact for models with normally distributed errors; outside those models it declines to answer and says why.",
+    why: "koine is not just another model-fitting package. It reports how far its answer differs from the Bayesian fit. Its results are exact for models with normally distributed errors; outside those models it declines to answer and says why.",
     evidence: "Estimated variety effects (BLUPs) matched a production REML fit at r = 1.00, and exact marginal values agreed to within 1.4e-14. Declined correctly in the refusal check of 2026-09-02, in which every package was given one real case it should not answer.",
     method: "Uses REML fitting; the agreed format for reporting agreement and disagreement is the orchestra's own.",
   },

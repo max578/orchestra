@@ -2,7 +2,8 @@
 // the ratified Core 9 and Supporting 6, the shared format and entry point
 // (orchestraManifest, cropOrchestra), the orchestration engine (conductoR),
 // and two members joined that day (bacipair, survkit). Visibility and repo
-// links are from a read-only `gh repo list max578` on 2026-09-25; `install`
+// links are from a read-only `gh repo list max578` on 2026-09-25 (kalmix,
+// orchestraManifest, cropOrchestra, conductoR, bacipair public 2026-10-02); `install`
 // is the only source of a member page's install block, so a change in
 // availability is one field here, never a page edit. Guard lines from the
 // fleet refusal gate (audit/orchestra_fitness_2026-08-25/wave4). No version
@@ -30,6 +31,7 @@ export interface Member {
 
 const PUBLIC: Install = { github: true, runiverse: true };
 const NOT_YET: Install = { github: false, runiverse: false };
+const GITHUB_ONLY: Install = { github: true, runiverse: false };
 
 export const members: Member[] = [
   // Core 9
@@ -94,28 +96,28 @@ export const members: Member[] = [
   { id: "kalmix", tier: "member", role: "Series over time",
     method: "Does Kalman filtering, regime switching and change-point detection on series over time, and checks its causal information rate against the method authors' acir package.",
     guard: "Gives no causal reading when the time-series model does not fit the series.",
-    visibility: "private", install: NOT_YET },
+    visibility: "public", repo: "max578/kalmix", install: GITHUB_ONLY },
 
   // Shared format, entry point, engine
   { id: "orchestraManifest", tier: "member", role: "Shared result format",
     method: "The result format every package writes: it records who produced a result, from what, and which question it answers.",
     guard: "A result whose version or contents do not check out is stopped, never quietly converted.",
-    visibility: "unspecified", install: NOT_YET },
+    visibility: "public", repo: "max578/orchestraManifest", install: GITHUB_ONLY },
   { id: "cropOrchestra", tier: "member", role: "Install and check",
     method: "Installs the set and checks it works together.",
-    visibility: "unspecified", install: NOT_YET },
+    visibility: "public", repo: "max578/cropOrchestra", install: GITHUB_ONLY },
   { id: "conductoR", tier: "member", role: "Running an analysis plan",
     method: "Runs an analysis plan step by step, checking that each result handed from one package to the next is the right kind.",
-    visibility: "unspecified", install: NOT_YET },
+    visibility: "public", repo: "max578/conductoR", install: GITHUB_ONLY },
 
   // Members joined 2026-09-25
   { id: "bacipair", tier: "member", role: "Before and after comparisons",
     method: "Compares treated sites with matched control sites, before and after a change.",
-    guard: "Gives no estimate when there are too few control sites.",
-    visibility: "unspecified", install: NOT_YET },
+    guard: "Its synthetic-control estimate is withheld when there are too few control sites or too few years before the change.",
+    visibility: "public", repo: "max578/bacipair", install: GITHUB_ONLY },
   { id: "survkit", tier: "member", role: "Time to an event",
     method: "Analyses time-to-event data through one interface.",
-    guard: "Gives no estimate when too few events were observed.",
+    guard: "Warns when too few events were observed, and gives no estimate when asked to withhold one.",
     visibility: "private", install: NOT_YET },
 
   // Outside packages the orchestra uses, as drawn on the poster map
