@@ -176,7 +176,7 @@ export function renderSvg(opts = {}) {
   const colourOf = (id) => pos[id]?.colour ?? GREY;
   const out = [];
 
-  out.push(`<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="${mode === "poster" ? POSTER_VIEW : VIEW}" class="om-svg" font-family="${esc(font)}" role="group" aria-label="Map of the Crop Analytics Orchestra: ${nodes.filter((n) => n.kind === "member").length} member packages in six sections around the connector, conductoR, with the outside sources they use on the outer ring.">`);
+  out.push(`<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="${mode === "poster" ? POSTER_VIEW : VIEW}" class="om-svg" font-family="${esc(font)}" role="group" aria-label="Map of the Crop Analytics Orchestra: ${nodes.filter((n) => n.kind === "member").length} members in six sections around the connector, conductoR, with the outside sources they use on the outer ring.">`);
 
   // Arrowheads, one per colour.
   const colours = [...new Set([...sections.map((s) => s.color), GOLD, GREY])];

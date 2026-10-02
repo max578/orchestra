@@ -151,12 +151,12 @@ export const members: Member[] = [
     visibility: "external" },
 ];
 
-// The data layer. DataHub is not an R package. Counts read from DataHub's
+// DataHub, the orchestra's data catalogue: on the map in the data section; not an R package. Counts read from DataHub's
 // catalogue by ORCHESTRA_dev/poster/aagi/datahub_numbers.R (held datasets only).
 export const dataHub = {
   id: "DataHub",
-  role: "The data layer",
-  method: "Holds open datasets, each recorded with its source and licence and indexed by what it can answer, so a question can find its data.",
+  role: "In the orchestra · data catalogue",
+  method: "Holds open datasets for testing analyses, each with its source and licence, and finds the datasets that can answer a given question.",
   nDatasets: 81,
   nAustralia: 15,
 };

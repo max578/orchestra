@@ -6,11 +6,12 @@ import { a0 } from "../data/a0_results";
 
 const k = (x: number) => Math.round(x).toLocaleString("en-AU");
 const pct = Math.round(a0.loss_reduction_vs_naive_pct);
+const t2 = (kg: number) => (kg / 1000).toFixed(2);
 const principles = [
   { h: "One result format", p: "Every package writes its result in the same structure, so the next package can check it and use it directly." },
   { h: "Declining to answer", p: "A package that cannot answer soundly says so, with its reason, in the same format. Later packages carry that forward instead of guessing." },
   { h: "conductoR runs the plan", p: "An analysis plan is a list of steps, each done by one package. conductoR runs them in order and stops if a result is the wrong kind for the next step." },
-  { h: "Open data underneath", p: `DataHub holds ${dataHub.nDatasets} open datasets, ${dataHub.nAustralia} of them Australian, each with its source and licence, indexed by the questions it can answer.` },
+  { h: "Open data in the orchestra", p: `DataHub holds ${dataHub.nDatasets} open datasets, ${dataHub.nAustralia} of them Australian, each with its source and licence, and finds the datasets that can answer a given question.` },
 ];
 const jsonLd = {
   "@context": "https://schema.org", "@type": "WebSite",
@@ -21,12 +22,12 @@ const jsonLd = {
 <Base title="Home" description={site.intro} path="/" jsonLd={jsonLd}>
   <section class="wrap">
     <div class="hero-in">
-      <p class="kicker">Crop analytics · {site.counts.members} R packages</p>
+      <p class="kicker">Crop analytics · {site.counts.members} R packages and a data catalogue</p>
       <h1 class="hero-h1">Crop Analytics Orchestra</h1>
       <p class="lead mt-3">Crop analytics usually joins separate tools by hand, one analysis
-        at a time. These {site.counts.members} R packages are built to work together. Each does
-        one job well on its own, all return results in one shared format, and each can decline
-        to answer when the data cannot support an answer.</p>
+        at a time. These {site.counts.members} R packages and an open data catalogue, DataHub, are
+        built to work together. Each does one job well on its own, all return results in one shared
+        format, and each can decline to answer when the data cannot support an answer.</p>
       <p class="cta-row">
         <a class="btn btn-accent" href={href("/members")}>Explore the packages</a>
         <a class="btn btn-ghost" href={href("/a0")}>See the study</a>
@@ -62,6 +63,10 @@ const jsonLd = {
       <div class="hs"><span class="n">{k(a0.loss_naive_total_aud_ha)}</span><span class="l">AUD/ha lost, simulator alone</span></div>
       <div class="hs"><span class="n">{k(a0.n_saved_vs_naive_kgn)}</span><span class="l">kg N not applied</span></div>
     </div>
+    <p class="prose muted mt-3">Cause and effect: in farm-style records drawn from the same plots, where
+      wetter sites get more nitrogen, a naive reading puts the gain from 150 kg N/ha at{" "}
+      {t2(a0.causal_naive_150)} t/ha against a planted {t2(a0.causal_truth_150)}. Adjusting for rainfall
+      gives {t2(a0.causal_backdoor_150)} t/ha (medians of {a0.causal_n_samples} samples).</p>
     <p class="prose muted small mt-3">The belt is synthetic: the numbers show the method at
       work, not what a real paddock would earn.</p>
     <p class="cta-row"><a class="btn btn-ghost" href={href("/a0")}>The study, step by step</a></p>

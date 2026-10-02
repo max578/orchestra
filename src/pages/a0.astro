@@ -6,6 +6,7 @@ const k = (x: number) => Math.round(x).toLocaleString("en-AU");
 const f1 = (x: number) => x.toFixed(1);
 const f2 = (x: number) => x.toFixed(2);
 const pct = Math.round(a0.loss_reduction_vs_naive_pct);
+const t2 = (kg: number) => (kg / 1000).toFixed(2);
 const fig = (name: string) => href(`/figures/a0/${name}.png`);
 const figw = (name: string) => href(`/figures/a0/${name}.webp`);
 const jsonLd = {
@@ -20,7 +21,7 @@ const jsonLd = {
 <Base title="Study" description="Study A0, on simulated barley farms at real locations: the orchestra stops using the crop model where the field data disagree with it, prices each nitrogen rate, and cuts the money lost by about half against a recommendation from the crop model alone. Every number on the page is read from the study's computed results." path="/a0" jsonLd={jsonLd}>
   <section class="wrap">
     <div class="section-head">
-      <p class="kicker">Study A0 · simulated farms (digital twin) · version 0.2 · 2026-08-26</p>
+      <p class="kicker">Study A0 · simulated farms (digital twin) · version 0.2 · 2026-08-26 · cause-and-effect check added 2026-10-02</p>
       <h1>Profitable nitrogen rates for barley by site, and where more testing pays (simulated)</h1>
       <p class="prose lead mt-2">For each site in each season (a site-season) of a barley-growing region:
         which nitrogen rate gives the highest expected profit after paying for the nitrogen and for its
@@ -73,7 +74,7 @@ const jsonLd = {
       </article>
       <article class="card">
         <p class="kicker">Where the next research dollar pays</p>
-        <h3>{a0.n_evsi_priced} of {a0.n_sites} sites priced · top site {Math.round(a0.evsi_top_aud_ha)} AUD/ha</h3>
+        <h3>{a0.n_evsi_priced} of {a0.n_sites} sites priced · top site {Math.round(a0.evsi_top_aud_ha)} AUD/ha for one strip trial</h3>
         <p class="prose">For each site, the expected value of sample information (EVSI): what one strip
           trial or one soil nitrate test is worth before it is done. The result is a map of where the next test
           pays. The estimate reweights a limited number of simulated draws, which caps its precision.</p>
@@ -104,6 +105,35 @@ const jsonLd = {
       </figure>
     </div>
 
+    <h2 class="mt-3">Cause and effect</h2>
+    <p class="prose">A nitrogen decision needs the yield gained by applying a rate. In this study every
+      site gets every rate, so a plain comparison of plot yields measures that gain: at 150 kg N/ha it
+      matches the planted gain of {t2(a0.causal_truth_150)} t/ha to within{" "}
+      {(Math.abs(a0.causal_trial_150 - a0.causal_truth_150) / 1000 + 0.005).toFixed(2)} t/ha.
+      Farm records are different. Wetter sites tend to get more nitrogen, and wetter sites also yield more
+      (across the simulated region, rainfall and unfertilised yield have a correlation of {f2(a0.causal_cor_gsr_y0)}).
+      A plain comparison then credits nitrogen with yield that rainfall produced.</p>
+    <p class="prose">To show the size of that error, {a0.causal_n_samples} farm-style samples were drawn
+      from the same {a0.causal_n_units} site-season-variety units: one rate per unit, with higher rates more
+      likely at wetter sites. The yield gained from nitrogen was then read three ways and compared with
+      the planted gain.</p>
+    <ul class="prose">
+      <li><strong>Naive comparison:</strong> {t2(a0.causal_naive_150)} t/ha at 150 kg N/ha (80 per cent of
+        samples between {t2(a0.causal_naive_q10_150)} and {t2(a0.causal_naive_q90_150)}), about{" "}
+        {f1(a0.causal_naive_ratio_150)} times the planted gain.</li>
+      <li><strong>Adjusted for rainfall:</strong> {t2(a0.causal_backdoor_150)} t/ha (all three values are
+        medians over the samples). The units are split into
+        five rainfall bands, the gain is measured within each band, and the bands are averaged.</li>
+      <li><strong>proxymix's mixture model:</strong> {t2(a0.causal_mixture_150)} t/ha. proxymix fits one
+        mixture of bell curves to yield, nitrogen and rainfall together; from it, the expected yield with
+        and without nitrogen is computed at each unit's own rainfall, and the differences are averaged.</li>
+    </ul>
+    <figure class="mt-1">
+      <picture><source srcset={figw("fig_causal_layer")} type="image/webp" /><img src={fig("fig_causal_layer")} width="1600" height="1120" loading="lazy" decoding="async"
+        alt="Line chart of extra yield over no nitrogen against nitrogen rate. The planted response rises to about 1.3 tonnes per hectare at 150 kilograms of nitrogen. The naive comparison rises to about 2.8. The rainfall-adjusted and mixture-model lines stay close to the planted response, with shaded bands for the spread across samples." /></picture>
+      <figcaption class="muted">Median over {a0.causal_n_samples} farm-style samples; bands hold 80 per cent of them. The adjusted lines stay near the planted gain; at other rates an error of up to {t2(a0.causal_backdoor_bias_max)} t/ha remains.</figcaption>
+    </figure>
+
     <h2 class="mt-3">What it does not show</h2>
     <ul class="prose">
       <li>The region is simulated, not real. The study shows patterns (which sites respond, where a constraint
@@ -117,11 +147,21 @@ const jsonLd = {
         nitrogen rate, so it could only ever recommend the lowest or the highest rate tried.</li>
       <li>The value-of-information figures are a ranking rather than exact dollars. They rest on assumed prices for the
         tests and for carbon, and on an assumed district nitrogen rate.</li>
+      <li>The cause-and-effect check was set before its reported run to pass only if both adjusted readings
+        came within 15 per cent of the planted gain at every rate. It fails: the rainfall adjustment is{" "}
+        {Math.round(a0.causal_backdoor_relerr_max * 100)} per cent high at its worst rate and the mixture model{" "}
+        {Math.round(a0.causal_mixture_relerr_max * 100)} per cent, both at 30 kg N/ha, where the gain is smallest.
+        At 120 kg N/ha the rainfall adjustment reads more than at 150, so its close match at 150 is partly chance.
+        The rainfall adjustment also gives no answer for {a0.causal_backdoor_declined} of its {a0.causal_n_samples * 5} readings, where a
+        rainfall band had no plot at a rate. The farm-style samples are drawn from the simulated trial, so the
+        size of the gap depends on how strongly the samples tie nitrogen to rainfall. Rainfall is the only
+        thing that sets the rate in these samples, so adjusting for it is enough by design; on real farms soil,
+        rotation and the grower also shape the rate, and each would have to be measured.</li>
       <li>No GRDC-origin data enters the simulated region, the figures or this page.</li>
     </ul>
 
     <h2 class="mt-3">Reproduce it</h2>
-    <p class="prose">The study is one control script that runs seven stage scripts in turn. Each stage is a
+    <p class="prose">The study is one control script that runs seven stage scripts in turn, and an eighth that adds the cause-and-effect check. Each stage is a
       standalone R script with its own independent check. Read them in this order:</p>
     <ol class="prose">
       <li><strong>Generate the region.</strong> Sample {a0.n_sites} sites on real grain-belt coordinates, collect NASA POWER
@@ -139,13 +179,14 @@ const jsonLd = {
       <li><strong>Report.</strong> Read every number on this page and in the report from a computed result.</li>
       <li><strong>Re-verify.</strong> Run the whole chain again on the second simulated region.</li>
       <li><strong>Figure and summary.</strong> Draw the four panels and write the table that links each poster number to its computed result.</li>
+      <li><strong>Cause and effect.</strong> Draw the farm-style samples and read the gain from nitrogen three ways against the planted gain.</li>
     </ol>
     <p class="prose">The scripts are released as one archive with a README that lists what each stage reads and writes, alongside the study tree.
       The generated data are not shipped: stage 01 regenerates them from the public sources named above.</p>
 
     <h2 class="mt-3">Take it with you</h2>
     <ul class="prose">
-      <li><a href={href("/downloads/a0_poster.pdf")}>The symposium poster</a> (PDF, A0 portrait, version 5 of 2026-10-01; every number is read from the same table as this page).</li>
+      <li><a href={href("/downloads/a0_poster.pdf")}>The symposium poster</a> (PDF, A0 portrait, version 6 of 2026-10-02; every number is read from the same table as this page).</li>
       <li><a href={href("/downloads/orchestra_brief.pdf")}>A one-page briefing note</a> (PDF) for research managers and data custodians.</li>
       <li><a href={href("/downloads/a0_summary.md")}>The one-page study summary</a> (Markdown).</li>
     </ul>

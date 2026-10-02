@@ -27,6 +27,10 @@ export const nodes = [
     purpose: "Supplies climate, soil and satellite series for any field location.",
     character: "Each value records where it came from and can be fetched again with the same result. A value whose source cannot be confirmed is flagged, not passed on silently. It wraps established data packages rather than replacing them.",
     similar: ["nasapower", "soilDB", "elevatr"] },
+  { id: "DataHub", kind: "member", section: "data", motif: "catalogue",
+    purpose: "Holds open datasets for testing analyses, each with its source and licence, and finds the datasets that can answer a given question.",
+    character: "Each dataset is measured when it is added, so a question such as \"which datasets record yield at several nitrogen rates\" is answered from what the data hold, not from tags. It is a catalogue, not an R package.",
+    similar: ["Frictionless Data", "DuckDB"], similarNote: "It is built on the Frictionless Data descriptor format and a DuckDB index." },
 
   // Crop simulation
   { id: "apsimR", kind: "member", section: "mech", motif: "vessel",
@@ -194,6 +198,7 @@ export const workedExample = [
 
 /** Small drawings inside member nodes, in a 44 34 72 78 box; C stands for the section colour. */
 export const motifs = {
+  "catalogue": "<ellipse cx='80' cy='50' rx='24' ry='8' fill='none' stroke='currentColor' stroke-width='2.2'/><path d='M56 50 v40 a24 8 0 0 0 48 0 v-40' fill='none' stroke='currentColor' stroke-width='2.2'/><path d='M56 64 a24 8 0 0 0 48 0 M56 78 a24 8 0 0 0 48 0' fill='none' stroke='C' stroke-width='2.4'/>",
   "echoes": "<path d='M80 40 q-18 8 -18 26 q0 18 18 26 q18 -8 18 -26 q0 -18 -18 -26Z' fill='none' stroke='C' stroke-width='2.4'/><path d='M80 48 q-11 5 -11 18 q0 13 11 18 q11 -5 11 -18 q0 -13 -11 -18Z' fill='none' stroke='currentColor' stroke-width='2'/><circle cx='80' cy='66' r='4.5' fill='C'/><path d='M56 96 q24 12 48 0' fill='none' stroke='C' stroke-width='2.4'/>",
   "braids": "<path d='M52 104 q8 -20 12 -34 M64 108 q4 -24 8 -40 M80 110 q0 -26 0 -46 M96 108 q-4 -24 -8 -40 M108 104 q-8 -20 -12 -34' fill='none' stroke='currentColor' stroke-width='2'/><path d='M64 68 q16 -10 32 0 M58 84 q22 -12 44 0' fill='none' stroke='C' stroke-width='2.2'/><circle cx='80' cy='46' r='5' fill='C'/>",
   "discs": "<circle cx='68' cy='70' r='22' fill='none' stroke='currentColor' stroke-width='2.2'/><circle cx='92' cy='70' r='22' fill='none' stroke='C' stroke-width='2.2'/><path d='M80 51 a22 22 0 0 1 0 38 a22 22 0 0 1 0 -38Z' fill='C' opacity='0.3'/><circle cx='80' cy='100' r='3' fill='currentColor'/>",

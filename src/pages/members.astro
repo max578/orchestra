@@ -16,7 +16,7 @@ const tierHead = {
 const searchText = (m: (typeof tiers.member)[number]) =>
   [m.id, m.role, m.method, m.guard].filter(Boolean).join(" ").toLowerCase();
 ---
-<Base title="Packages" description={`The ${tiers.member.length} packages of the orchestra, the data layer, and the ${tiers.external.length} outside packages they use.`} path="/members" jsonLd={jsonLd}>
+<Base title="Packages" description={`The ${tiers.member.length} packages of the orchestra, its data catalogue DataHub, and the ${tiers.external.length} outside packages they use.`} path="/members" jsonLd={jsonLd}>
   <section class="wrap">
     <div class="section-head">
       <p class="kicker">The catalogue</p>
@@ -31,7 +31,8 @@ const searchText = (m: (typeof tiers.member)[number]) =>
       <p class="kicker">{dataHub.role}</p>
       <h2 class="mt-1">{dataHub.id}</h2>
       <p class="prose mt-2">{dataHub.method} It holds {dataHub.nDatasets} open datasets,{" "}
-        {dataHub.nAustralia} of them Australian. DataHub is not an R package.</p>
+        {dataHub.nAustralia} of them Australian. It sits on the map in the data section, beside terroir and
+        masque. It is a catalogue, not an R package.</p>
     </div>
 
     <div class="cat-tools" data-cat-tools hidden>
