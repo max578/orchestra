@@ -53,9 +53,9 @@ export const necessity: Necessity[] = [
   {
     id: "quorum", tier: "core",
     question: "Do the different analyses agree, and which answer is well enough supported to act on?",
-    outside: "Code written by hand for each analysis to decide which method's answer to use, and flexyBayes's comparison of two analyses at a time.",
+    outside: "Code written by hand for each analysis to decide which method's answer to use.",
     why: "quorum compares any number of analyses, records which of them are independent of each other, and, when too few agree, declines to answer and says why. No outside tool asks which analysis's answer is well enough supported to act on.",
-    evidence: "Reproduced, from the package, Study A0's result for the full sequence of packages: 2,960 against 5,818 AUD per hectare of summed loss. Its fast stand-in for the crop simulator made Study A0 affordable to run. Declined correctly in the refusal check of 2026-09-02, in which every package was given one real case it should not answer.",
+    evidence: "Reproduced, from the package, Study A0's result for the full sequence of packages: 2,960 AUD per hectare of summed loss, against 5,818 for the crop model alone. Its fast stand-in for the crop simulator made Study A0 affordable to run. Declined correctly in the refusal check of 2026-09-02, in which every package was given one real case it should not answer.",
     method: "Connects to the other packages' model-fitting functions; the way it reaches agreement and its record of which analyses are independent are the orchestra's own.",
   },
   {
@@ -77,8 +77,8 @@ export const necessity: Necessity[] = [
   {
     id: "decideR", tier: "core",
     question: "Turn an estimate into a recommended action: the action with the lowest expected cost of being wrong, the value of one more test, or a refusal to price an estimate the field data have rejected.",
-    outside: "No R package makes expected-value decisions that refuse to act on unchecked facts; the alternative is writing the cost calculations by hand.",
-    why: "If any input fact has not been checked, decideR returns no rate. It reads the shared result record directly. Both rules were shown working in the live demonstration.",
+    outside: "voi, BCEA, dampack and rdecision, which compute expected values and the value of information.",
+    why: "decideR adds a rule: if any input fact has not been checked, it returns no rate. It reads the shared result record directly. Both were shown working in the live demonstration.",
     evidence: "In Study A0 the full sequence of packages lost 2,960 AUD/ha in total on the simulated region, against 5,818 for the crop model alone. In the live demonstration it refused to price a rejected estimate (log of 2026-09-02).",
     method: "Uses standard decision theory; the rule that an unchecked fact gets no price is the orchestra's own; turns shared result records into actions.",
   },

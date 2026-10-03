@@ -1,6 +1,8 @@
 // Base-path helper: internal links are authored root-relative ("/members")
 // and prefixed at render with the configured base (import.meta.env.BASE_URL),
 // so the same source serves a root origin and a GitHub Pages sub-path.
+import { tiers } from "./members";
+
 const BASE = (import.meta.env.BASE_URL ?? "/").replace(/\/$/, "");
 export const href = (p: string): string => (p === "/" ? `${BASE}/` : `${BASE}${p}`);
 export const base = BASE;
@@ -16,12 +18,11 @@ export const site = {
     "result format. A package stops if it is handed a result in the wrong " +
     "format. It gives no result, with the reason, when the data are too thin.",
   domain: "Australian grain agriculture (wheat · barley · corn): multi-environment trials, breeding and genomics, crop simulation",
-  counts: { members: 20, external: 10, contracts: 7 },
+  counts: { members: tiers.member.length, external: tiers.external.length, contracts: 7 },
   nav: [
     { href: "/", label: "Home" },
-    { href: "/members", label: "Packages" },
+    { href: "/members", label: "Members" },
     { href: "/a0", label: "Study" },
-    { href: "/delegates", label: "Delegates" },
     { href: "/about", label: "About" },
   ],
 };

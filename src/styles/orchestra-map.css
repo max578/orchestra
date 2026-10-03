@@ -15,9 +15,8 @@
 /* Theme */
 .om-svg .om-name { fill: var(--surface-ink); stroke: var(--surface); }
 .om-svg .om-source-name { fill: var(--muted-s); }
-.om-svg .om-member .om-disc, .om-svg .om-source .om-disc, .om-svg .om-pill, .om-svg .om-msurf { fill: var(--surface); }
+.om-svg .om-member .om-disc, .om-svg .om-source .om-disc, .om-svg .om-msurf { fill: var(--surface); }
 .om-svg .om-motif { color: var(--surface-ink); }
-.om-svg .om-sub { fill: var(--muted-s); }
 
 /* Nodes */
 .om-node { cursor: pointer; transition: opacity .2s ease; }
@@ -30,7 +29,6 @@
 .om-node:focus-visible .om-halo { fill-opacity: .3; }
 .om-format:hover .om-ring, .om-format.is-sel .om-ring { stroke-opacity: .85; }
 .om-svg.has-sel .om-format-label.is-sel ~ .om-centre { opacity: 1; }
-.om-entry:hover .om-pill, .om-entry.is-sel .om-pill, .om-entry:focus-visible .om-pill { stroke-width: 3.5; }
 .om-centre:hover .om-disc, .om-centre.is-sel .om-disc, .om-centre:focus-visible .om-disc { fill: #33373d; }
 .om-svg.has-sel .om-node:not(.is-sel):not(.is-near):not(.is-step) { opacity: .22; }
 .om-svg.has-sel .om-band { fill-opacity: .035; }

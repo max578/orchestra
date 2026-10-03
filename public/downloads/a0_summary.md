@@ -9,7 +9,7 @@ For each site-season of a barley belt, which nitrogen rate maximises expected pr
 ## The set-up
 
 - **Synthetic Barley Belt**: 40 sites on real eastern- and western-Australian grain-belt coordinates with real climate (NASA POWER) and soil (SoilGrids), 5 seasons, 6 N rates x 3 varieties x 3 replicates, yields from APSIM Next Gen. At 12 sites a **hidden subsoil constraint** caps yield and flattens the response above 60 kg N/ha; the simulator used for inversion is never told.
-- **The orchestra chain**: apsimR (truth) -> flexyBayesOrchestra surrogate + PESTO inversion (mechanism lens) -> kernR TACI (does the field agree with the mechanism?) -> a plateau-capable field-record lens (brms) where TACI refuses -> decideR (loss, EVPI, EVSI) -> optimix (which sites to test) -> grainPlan (the grower-facing plan). Each hand-off is a typed manifest; each refusal is typed and read downstream.
+- **The orchestra chain**: apsimR (truth) -> flexyBayesOrchestra surrogate + PESTO inversion (mechanism lens) -> kernR TACI (does the field agree with the mechanism?) -> a plateau-capable field-record lens (brms) where TACI refuses -> decideR (loss, EVPI, EVSI) -> optimix (which sites to test) -> grainPlan (the grower-facing plan). Each hand-off is a typed result record; each refusal is typed and read downstream.
 - **Independent oracles in every stage** (7 of them; 5 pass, and the 2 that fail are reported as failures in `REPORT.md` section 7).
 
 ## Three numbers

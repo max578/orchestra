@@ -14,8 +14,8 @@ export const sections = [
 
 /**
  * kind: "member" sits on the ring; "centre" is the connector; "format" is the
- * shared-format ring; "entry" is the starting point; "source" is outside the
- * orchestra and drawn on the outer ring.
+ * shared-format ring; "source" is outside the orchestra and drawn on the outer
+ * ring. `label`, where present, is the name shown in place of the id.
  */
 export const nodes = [
   // Data and confidentiality
@@ -90,7 +90,7 @@ export const nodes = [
     similar: [], similarNote: "This step is usually written by hand for each analysis." },
   { id: "flexyBayes", kind: "member", section: "hub", motif: "echoes",
     purpose: "Fits Bayesian mixed models for multi-environment trials through several engines behind one interface.",
-    character: "When two engines disagree on the same model, the disagreement is reported as a warning. A model family it cannot fit is refused by name.",
+    character: "A model written in ASReml notation is fitted with free engines. A model family it cannot fit faithfully is refused by name.",
     similar: ["brms", "INLA", "asreml"],
     status: "Under development and not yet public." },
 
@@ -98,7 +98,7 @@ export const nodes = [
   { id: "decideR", kind: "member", section: "decision", motif: "table",
     purpose: "Finds the best action under uncertainty and what more information would be worth.",
     character: "It will not put a price on an input that has not been verified. It reads the shared result format directly.",
-    similar: [], similarNote: "Decision code of this kind is usually written by hand for each analysis." },
+    similar: ["voi", "BCEA", "dampack", "rdecision"], similarNote: "These value information and compare decisions. decideR adds the refusal to price an unchecked input." },
   { id: "grainPlan", kind: "member", section: "decision", motif: "hearth",
     purpose: "Turns an analysis into a grower's plan: nitrogen rate, variety choice and grade target.",
     character: "Every refusal made earlier in the chain is carried into the plan, so the plan gives no recommendation where the evidence was refused.",
@@ -109,14 +109,10 @@ export const nodes = [
     purpose: "Runs an analysis plan: a list of steps, each done by one package of the orchestra, in order.",
     character: "It checks that each result handed from one package to the next is the right kind, and stops the plan before a wrong one is used. Two built-in steps decline to report a null result the study had too little power to detect, and reconcile several independent estimates.",
     similar: ["targets"], similarNote: "A conductoR plan can be run as a targets pipeline." },
-  { id: "orchestraManifest", kind: "format", section: null,
+  { id: "sharedFormat", label: "Shared result format", kind: "format", section: null,
     purpose: "The shared result format: the one structure every member writes and reads.",
     character: "Because every result has the same form, any member's output can be checked and passed on without extra code to connect them. A member that cannot answer soundly returns a refusal in the same format, stating why it declined.",
     similar: [], similarNote: "It is the orchestra's own agreement between members." },
-  { id: "cropOrchestra", kind: "entry", section: null, glyph: "✓",
-    purpose: "The place to start: lists the members, installs them and checks that they work together.",
-    character: "It runs no analysis of its own.",
-    similar: ["tidyverse"], similarNote: "It plays the role the tidyverse package plays for its family: one install for the whole set." },
 
   // Outside sources
   { id: "nasapower", kind: "source", purpose: "R package that downloads daily weather for any location from NASA POWER." },
@@ -166,7 +162,7 @@ export const edges = [
   { from: "conductoR", to: "PESTO", kind: "flow", text: "conductoR can run PESTO as a step in a plan." },
   { from: "bacipair", to: "conductoR", kind: "flow", text: "bacipair's estimate enters a conductoR plan as one of several independent estimates." },
   { from: "survkit", to: "conductoR", kind: "flow", text: "survkit's fit enters a conductoR plan as one of several independent estimates." },
-  { from: "conductoR", to: "orchestraManifest", kind: "format", text: "conductoR checks every handoff against orchestraManifest." },
+  { from: "conductoR", to: "sharedFormat", kind: "format", text: "conductoR checks every handoff against the shared result format." },
 
   { from: "ocular", to: "terroir", kind: "source", text: "Sentinel-2 and Landsat series reach terroir through ocular." },
   { from: "nert", to: "terroir", kind: "source", text: "TERN ecosystem data reach terroir through nert." },

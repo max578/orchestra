@@ -309,8 +309,22 @@ table.num td:not(:first-child), table.num th:not(:first-child) { text-align: rig
   .acc-badges { grid-column: 2; justify-self: start; }
   .acc-inner { padding-left: 1.25rem; }
 }
-.tier-head { font-family: var(--mono); text-transform: uppercase; letter-spacing: .14em; font-size: var(--step--1); color: var(--muted); margin: var(--space-4) 0 1rem; display: flex; align-items: center; gap: .8rem; }
-.tier-head::after { content: ""; flex: 1; height: 1px; background: var(--edge); }
+h2.tier-title { font-size: var(--step-2); margin: var(--space-4) 0 .7rem; }
+.tier-intro { margin: 0 0 1.1rem; max-width: var(--measure); font-size: var(--step--1); }
+.facts { margin: 0; max-width: var(--measure); }
+.facts dt { font-family: var(--mono); font-size: var(--step--2); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin-top: .95rem; }
+.facts dt:first-child { margin-top: .2rem; }
+.facts dd { margin: .25rem 0 0; color: var(--surface-ink); line-height: 1.6; }
+.adv { list-style: none; margin: 0; padding: 0; }
+.adv li { display: grid; grid-template-columns: 6.2rem 1fr; gap: .7rem; align-items: baseline; }
+.adv li + li { margin-top: .45rem; }
+.adv .badge { text-align: center; font-size: .72rem; padding: .18rem .4rem; }
+@media (max-width: 40rem) {
+  .adv li { display: block; }
+  .adv .badge { display: inline-block; min-width: 5.2rem; margin: 0 .5rem .15rem 0; }
+}
+.badge.adv-tested { border-color: var(--accent2); color: var(--accent2); }
+.badge.adv-claimed { border-style: dashed; }
 
 /* catalogue tools (JS enhancement — hidden until JS reveals them) */
 .cat-tools { display: flex; flex-wrap: wrap; gap: .8rem; align-items: center; margin-top: 1.4rem; }

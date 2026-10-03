@@ -3,7 +3,7 @@
 // #map-<id>. Panel text is set with textContent only.
 import { sections, nodes, edges, workedExample, formatWriters, formatReaders } from "../data/orchestraMap.mjs";
 
-type MapNode = (typeof nodes)[number] & { similar?: string[]; similarNote?: string; status?: string; section?: string | null };
+type MapNode = (typeof nodes)[number] & { label?: string; similar?: string[]; similarNote?: string; status?: string; section?: string | null };
 
 const sectionOf = Object.fromEntries(sections.map((s) => [s.id, s]));
 const byId = Object.fromEntries(nodes.map((n) => [n.id, n as MapNode]));
@@ -37,8 +37,7 @@ export function initOrchestraMap() {
   const neighbours = (id: string) => {
     const set = new Set<string>([id]);
     for (const e of edges) { if (e.from === id) set.add(e.to); if (e.to === id) set.add(e.from); }
-    if (id === "orchestraManifest") [...formatWriters, ...formatReaders].forEach((m) => set.add(m));
-    if (id === "cropOrchestra") nodes.filter((n) => n.kind !== "source").forEach((n) => set.add(n.id));
+    if (id === "sharedFormat") [...formatWriters, ...formatReaders].forEach((m) => set.add(m));
     return set;
   };
 
@@ -71,7 +70,7 @@ export function initOrchestraMap() {
   }
 
   function jump(id: string) {
-    const b = el("button", "om-jump", id);
+    const b = el("button", "om-jump", byId[id]?.label ?? id);
     b.type = "button";
     b.addEventListener("click", () => { select(id); svg.querySelector<SVGGElement>(`.om-node[data-id="${CSS.escape(id)}"]`)?.focus(); });
     return b;
@@ -88,10 +87,10 @@ export function initOrchestraMap() {
 
     const sec = n.section ? sectionOf[n.section] : null;
     const kicker = el("p", "om-kicker", sec ? sec.label
-      : n.kind === "source" ? "Outside source" : n.kind === "centre" ? "The connector"
-      : n.kind === "format" ? "The shared result format" : "The entry point");
+      : n.kind === "source" ? "Invited member" : n.kind === "centre" ? "The connector"
+      : "At the centre");
     if (sec) kicker.dataset.c = sec.id;
-    panel.append(kicker, el("h2", "om-title om-mono", n.id));
+    panel.append(kicker, el("h2", n.label ? "om-title" : "om-title om-mono", n.label ?? n.id));
 
     const block = (title: string, ...kids: (Node | string)[]) => {
       const s = el("div", "om-block");
@@ -102,7 +101,7 @@ export function initOrchestraMap() {
     block("What it does", el("p", undefined, n.purpose));
     if (n.kind === "source") {
       const users = edges.filter((e) => e.from === id);
-      const p = el("p", undefined, "Not part of the orchestra: an outside package maintained by others. ");
+      const p = el("p", undefined, "A package by other authors that the orchestra uses. Listing it implies no affiliation. ");
       p.append(users.length ? "Used through " : "", ...users.flatMap((e, i) => [i ? (i === users.length - 1 ? " and " : ", ") : "", jump(e.to)]), users.length ? "." : "");
       block("Its place", p);
     } else {
@@ -127,16 +126,11 @@ export function initOrchestraMap() {
       if (e.from === id) add("→", e.to, e.text);
       else if (e.to === id) add("←", e.from, e.text);
     }
-    if (formatWriters.includes(id)) add("→", "orchestraManifest", `${id} writes its results in the shared format.`);
-    if (formatReaders.includes(id) && id !== "conductoR") add("←", "orchestraManifest", `${id} reads results in the shared format.`);
-    if (id === "orchestraManifest") {
+    if (formatWriters.includes(id)) add("→", "sharedFormat", `${id} writes its results in the shared format.`);
+    if (formatReaders.includes(id) && id !== "conductoR") add("←", "sharedFormat", `${id} reads results in the shared format.`);
+    if (id === "sharedFormat") {
       formatWriters.forEach((m) => add("←", m, `${m} writes its results in this format.`));
       formatReaders.filter((m) => m !== "conductoR").forEach((m) => add("→", m, `${m} reads results in this format.`));
-    }
-    if (id === "cropOrchestra") {
-      const li = el("li");
-      li.append(el("span", "om-reltext", "Installs and checks every member of the orchestra."));
-      rel.append(li);
     }
     if (rel.children.length) block("Works with", rel);
 
@@ -175,7 +169,7 @@ export function initOrchestraMap() {
     n.addEventListener("pointerenter", () => {
       if (!matchMedia("(hover: hover)").matches) return;
       tip.textContent = "";
-      tip.append(el("b", undefined, id), el("span", undefined, byId[id].purpose));
+      tip.append(el("b", undefined, byId[id].label ?? id), el("span", undefined, byId[id].purpose));
       tip.classList.add("show");
     });
     n.addEventListener("pointermove", (ev) => {

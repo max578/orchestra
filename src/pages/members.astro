@@ -1,6 +1,6 @@
 ---
 import Base from "../layouts/Base.astro";
-import { tiers, dataHub, installBlock } from "../data/members";
+import { tiers, dataHub, installBlock, type Member } from "../data/members";
 import OrchestraMap from "../components/OrchestraMap.astro";
 const jsonLd = {
   "@context": "https://schema.org",
@@ -9,20 +9,23 @@ const jsonLd = {
   hasPart: tiers.member.map((m) => ({ "@type": "SoftwareSourceCode", name: m.id, description: m.role })),
 };
 const label = { public: "public", gated: "under development", private: "private", disabled: "private · disabled", unspecified: "not public", candidate: "candidate", external: "external" };
-const tierHead = {
-  member: `${tiers.member.length} packages in the orchestra`,
-  external: `${tiers.external.length} outside packages the orchestra uses`,
-};
-const searchText = (m: (typeof tiers.member)[number]) =>
-  [m.id, m.role, m.method, m.guard].filter(Boolean).join(" ").toLowerCase();
+const sectionsOf = [
+  { tier: "member" as const, id: "full", title: "Full members",
+    intro: `The ${tiers.member.length} packages of the orchestra. Open one to see what it does, when it gives no result, the work still to do, its nearest alternatives and its advantages. An advantage marked tested has a recorded result behind it. One marked claimed has no recorded result yet.` },
+  { tier: "external" as const, id: "invited", title: "Invited members",
+    intro: "Packages by other authors that the orchestra uses. Listing them implies no affiliation." },
+];
+const searchText = (m: Member) =>
+  [m.id, m.role, m.method, m.guard, m.work, ...(m.alternatives ?? []), ...(m.advantages ?? []).map((a) => a.text)]
+    .filter(Boolean).join(" ").toLowerCase();
 ---
-<Base title="Packages" description={`The ${tiers.member.length} packages of the orchestra, its data catalogue DataHub, and the ${tiers.external.length} outside packages they use.`} path="/members" jsonLd={jsonLd}>
+<Base title="Members" description={`The ${tiers.member.length} full members of the orchestra, its data catalogue DataHub, and the ${tiers.external.length} packages by other authors it uses.`} path="/members" jsonLd={jsonLd}>
   <section class="wrap">
     <div class="section-head">
       <p class="kicker">The catalogue</p>
-      <h1>The packages</h1>
-      <p class="prose muted mt-2">The list under the map says what the map shows, with the
-        install line wherever the package is public.</p>
+      <h1>Members</h1>
+      <p class="prose muted mt-2">The map shows how the packages connect. The lists under it give each
+        package's details, with the install line wherever the package is public.</p>
     </div>
 
     <OrchestraMap />
@@ -43,11 +46,12 @@ const searchText = (m: (typeof tiers.member)[number]) =>
       <button class="btn btn-ghost" type="button" data-collapse-all>Collapse all</button>
     </div>
 
-    {(["member","external"] as const).map((tier) => (
-      <div data-tier>
-        <p class="tier-head">{tierHead[tier]}</p>
+    {sectionsOf.map((sec) => (
+      <div data-tier id={sec.id}>
+        <h2 class="tier-title">{sec.title}</h2>
+        <p class="prose muted tier-intro">{sec.intro}</p>
         <div>
-          {tiers[tier].map((m) => (
+          {tiers[sec.tier].map((m) => (
             <details class="acc" id={`pkg-${m.id.replace(/[^A-Za-z0-9_-]/g, "-")}`} data-acc data-text={searchText(m)}>
               <summary>
                 <span class="acc-chev" aria-hidden="true">
@@ -56,15 +60,29 @@ const searchText = (m: (typeof tiers.member)[number]) =>
                 <span><span class="acc-id">{m.id}</span>
                   <span class="acc-role"> — {m.role}</span></span>
                 <span class="acc-badges">
-                  <span class={`badge ${m.visibility}`}>{label[m.visibility]}</span>
+                  <span class={`badge ${m.visibility}`}>{sec.tier === "external" ? "invited" : label[m.visibility]}</span>
                 </span>
               </summary>
               <div class="acc-inner">
-                <p class="method">{m.method}</p>
-                <div class="meta">
-                  {m.guard && <span class="badge">when it gives no result · {m.guard}</span>}
-                  {m.repo && <a class="badge public" href={`https://github.com/${m.repo}`}>{m.repo} ↗</a>}
-                </div>
+                <dl class="facts">
+                  <dt>What it does</dt>
+                  <dd>{m.method}</dd>
+                  {m.guard && <><dt>When it gives no result</dt><dd>{m.guard}</dd></>}
+                  {m.work && <><dt>Work still to do</dt><dd>{m.work}</dd></>}
+                  {m.alternatives && m.alternatives.length > 0 &&
+                    <><dt>Nearest alternatives</dt><dd>{m.alternatives.join(", ")}</dd></>}
+                  {m.advantages && m.advantages.length > 0 && <>
+                    <dt>Advantages</dt>
+                    <dd><ul class="adv">
+                      {m.advantages.map((a) => (
+                        <li><span class={`badge adv-${a.status}`}>{a.status === "tested" ? "Tested" : "Claimed"}</span>
+                          <span>{a.text}</span></li>
+                      ))}
+                    </ul></dd>
+                  </>}
+                </dl>
+                {m.repo &&
+                  <div class="meta"><a class="badge public" href={`https://github.com/${m.repo}`}>{m.repo} ↗</a></div>}
                 {installBlock(m).lines.length > 0 &&
                   <div class="table-scroll mt-2"><pre class="chip"><code>{installBlock(m).lines.join("\n")}</code></pre></div>}
               </div>

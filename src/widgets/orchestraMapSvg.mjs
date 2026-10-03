@@ -63,9 +63,7 @@ export function layout(omit = [], place = {}) {
     spans.push({ ...s, from, to: a });
   }
   pos.conductoR = { x: C, y: C, deg: 0, r: R_CENTRE, colour: GOLD };
-  pos.orchestraManifest = { x: C, y: C, deg: 0, r: R_FORMAT, colour: GOLD };
-  const [ex, ey] = polar(158, 90);
-  pos.cropOrchestra = { x: ex, y: ey, deg: 90, r: 22, colour: GOLD };
+  pos.sharedFormat = { x: C, y: C, deg: 0, r: R_FORMAT, colour: GOLD };
 
   // Outside sources sit on the outer ring near the member they feed, pushed
   // apart until neighbours are at least MIN_SEP degrees apart.
@@ -176,7 +174,7 @@ export function renderSvg(opts = {}) {
   const colourOf = (id) => pos[id]?.colour ?? GREY;
   const out = [];
 
-  out.push(`<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="${mode === "poster" ? POSTER_VIEW : VIEW}" class="om-svg" font-family="${esc(font)}" role="group" aria-label="Map of the Crop Analytics Orchestra: ${nodes.filter((n) => n.kind === "member").length} members in six sections around the connector, conductoR, with the outside sources they use on the outer ring.">`);
+  out.push(`<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="${mode === "poster" ? POSTER_VIEW : VIEW}" class="om-svg" font-family="${esc(font)}" role="group" aria-label="Map of the Crop Analytics Orchestra: ${nodes.filter((n) => n.kind === "member").length} members in six sections around the connector, conductoR, with the invited members, packages by other authors, on the outer ring.">`);
 
   // Arrowheads, one per colour.
   const colours = [...new Set([...sections.map((s) => s.color), GOLD, GREY])];
@@ -225,15 +223,13 @@ export function renderSvg(opts = {}) {
   // Shared-format ring. The ring is clickable; the keyboard reaches it through
   // its top label, whose centre is not covered by the connector.
   const top = labelArc(R_FORMAT + 16, 200, 340, "SHARED RESULT FORMAT", 12.5, 1.2);
-  const bottom = labelArc(R_FORMAT + 16, 35, 145, "ORCHESTRAMANIFEST", 12.5, 1.2);
   const label = (id, arc, text) =>
     `<path id="${id}" d="${arc.d}" fill="none" stroke="none"/><text class="om-ringlabel" font-size="12.5" font-weight="700" letter-spacing="1.2" fill="${GOLD}" dy="${arc.lower ? 10 : 0}"><textPath href="#${id}" xlink:href="#${id}">${text}</textPath></text>`;
-  out.push(`<g class="om-node om-format" data-id="orchestraManifest" aria-hidden="true">`);
+  out.push(`<g class="om-node om-format" data-id="sharedFormat" aria-hidden="true">`);
   out.push(`<circle class="om-hit" cx="${C}" cy="${C}" r="${R_FORMAT}" fill="none" stroke="transparent" stroke-width="26"/>`);
   out.push(`<circle class="om-ring" cx="${C}" cy="${C}" r="${R_FORMAT}" fill="none" stroke="${GOLD}" stroke-width="9" stroke-opacity="0.5"/>`);
-  out.push(label("om-arc-ring-b", bottom, "ORCHESTRAMANIFEST"));
   out.push("</g>");
-  out.push(`<g class="om-node om-format-label" data-id="orchestraManifest" tabindex="0" role="button" aria-label="orchestraManifest: ${esc(byId.orchestraManifest.purpose)}">`);
+  out.push(`<g class="om-node om-format-label" data-id="sharedFormat" tabindex="0" role="button" aria-label="${esc(byId.sharedFormat.purpose)}">`);
   out.push(`<path class="om-hit" d="${top.d} Z" fill="transparent" stroke="transparent" stroke-width="24"/>`);
   out.push(label("om-arc-ring", top, "SHARED RESULT FORMAT"));
   out.push("</g>");
@@ -246,16 +242,6 @@ export function renderSvg(opts = {}) {
   out.push(`<text class="om-centre-sub" x="${C}" y="${C + 20}" text-anchor="middle" font-size="11" fill="#E7D9AE">runs the</text>`);
   out.push(`<text class="om-centre-sub" x="${C}" y="${C + 33}" text-anchor="middle" font-size="11" fill="#E7D9AE">analysis plan</text>`);
   out.push("</g>");
-
-  // The entry point.
-  {
-    const p = pos.cropOrchestra;
-    out.push(`<g class="om-node om-entry" data-id="cropOrchestra" tabindex="0" role="button" aria-label="cropOrchestra: ${esc(byId.cropOrchestra.purpose)}">`);
-    out.push(`<rect class="om-pill" x="${f(p.x - 76)}" y="${f(p.y - 17)}" width="152" height="34" rx="17" fill="${PAPER}" stroke="${GOLD}" stroke-width="2"/>`);
-    out.push(`<text class="om-name" x="${f(p.x)}" y="${f(p.y + 5)}" text-anchor="middle" font-size="14" font-weight="700" fill="${INK}">cropOrchestra</text>`);
-    out.push(`<text class="om-sub" x="${f(p.x)}" y="${f(p.y + 34)}" text-anchor="middle" font-size="11.5" fill="${MUTED}">start here</text>`);
-    out.push("</g>");
-  }
 
   // Members.
   for (const n of nodes.filter((m) => m.kind === "member")) {
@@ -275,7 +261,7 @@ export function renderSvg(opts = {}) {
   for (const n of nodes.filter((m) => m.kind === "source" && !omit.includes(m.id))) {
     const p = pos[n.id];
     if (mode === "poster" && edges.filter((e) => e.from === n.id).every((e) => e.to === "conductoR")) continue;
-    out.push(`<g class="om-node om-source" data-id="${esc(n.id)}" tabindex="0" role="button" aria-label="${esc(n.id)}, outside source: ${esc(n.purpose)}">`);
+    out.push(`<g class="om-node om-source" data-id="${esc(n.id)}" tabindex="0" role="button" aria-label="${esc(n.id)}, invited member: ${esc(n.purpose)}">`);
     out.push(`<circle class="om-halo" cx="${f(p.x)}" cy="${f(p.y)}" r="${SOURCE_R + 7}" fill="${GREY}" fill-opacity="0"/>`);
     out.push(`<circle class="om-disc" cx="${f(p.x)}" cy="${f(p.y)}" r="${SOURCE_R}" fill="${PAPER}" stroke="${GREY}" stroke-width="2" stroke-dasharray="3 3"/>`);
     out.push(outwardLabel(p, 8, "om-name om-source-name", mode === "poster" ? 15 : 15, n.id, 600, MUTED));
