@@ -20,10 +20,21 @@ export const a0 = {
   co2e_saved_vs_naive_t_ha: 6.1776, // decisions.rds$ledger
   evsi_top_aud_ha: 164.0183, // evsi.rds$evsi
   n_evsi_priced: 40, // evsi.rds$evsi
-  rerun_loss_cascade_total: 2548.8864, // oracle_07.rds$b
-  rerun_loss_naive_total: 5002.1017, // oracle_07.rds$b
+  rerun_loss_cascade_total: 2488.6479, // oracle_07.rds$b
+  rerun_loss_naive_total: 5174.7425, // oracle_07.rds$b
   price_barley_aud_t: 314.5, // belt_config.rds$economics
   cost_per_kgn_aud: 2.0652, // belt_config.rds$economics
+  n_plots: 10800, // belt_obs.rds
+  n_cells: 200, // decisions.rds$decisions
+  n_cells_compared: 198, // decisions.rds$decisions
+  n_taci_refused_constrained: 7, // taci_verdicts.rds$table
+  n_taci_refused_unconstrained: 2, // taci_verdicts.rds$table
+  n_seasons: 5, // belt_config.rds
+  n_rates: 6, // belt_config.rds
+  n_varieties: 3, // belt_config.rds
+  n_reps: 3, // belt_config.rds
+  yield_cap_min: 0.5681, // belt_sites.rds
+  yield_cap_max: 0.7717, // belt_sites.rds
   causal_truth_150: 1316.96206491197, // 09_causal_layer.R
   causal_trial_150: 1324.69994115932, // 09_causal_layer.R
   causal_naive_150: 2786.22748073364, // 09_causal_layer.R
@@ -66,6 +77,17 @@ export const a0Sources = {
   rerun_loss_naive_total: "oracle_07.rds$b",
   price_barley_aud_t: "belt_config.rds$economics",
   cost_per_kgn_aud: "belt_config.rds$economics",
+  n_plots: "belt_obs.rds",
+  n_cells: "decisions.rds$decisions",
+  n_cells_compared: "decisions.rds$decisions",
+  n_taci_refused_constrained: "taci_verdicts.rds$table",
+  n_taci_refused_unconstrained: "taci_verdicts.rds$table",
+  n_seasons: "belt_config.rds",
+  n_rates: "belt_config.rds",
+  n_varieties: "belt_config.rds",
+  n_reps: "belt_config.rds",
+  yield_cap_min: "belt_sites.rds",
+  yield_cap_max: "belt_sites.rds",
   causal_truth_150: "09_causal_layer.R",
   causal_trial_150: "09_causal_layer.R",
   causal_naive_150: "09_causal_layer.R",
