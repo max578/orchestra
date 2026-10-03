@@ -158,15 +158,28 @@ if (!isUrl) {
   results.push({ gate: "G2:lighthouse", status: "deferred", detail: "needs a running origin (URL mode); CI runs both modes" });
   results.push({ gate: "G3:axe", status: "deferred", detail: "needs a running origin (URL mode); CI runs both modes" });
 } else {
-  results.push(run("G2:lighthouse", "npx", ["--no-install", "lighthouse", target,
-    "--quiet", "--chrome-flags=--headless", "--only-categories=performance,accessibility,best-practices,seo",
-    "--output=json", "--output-path=stdout"],
-    out => {
-      const r = JSON.parse(out);
-      const s = Object.fromEntries(Object.entries(r.categories).map(([k, v]) => [k, Math.round(v.score * 100)]));
-      if (s.performance < 95) throw Object.assign(new Error("perf<95"), { stdout: JSON.stringify(s) });
-      return s;
-    }));
+  // three runs, gated on the median run by performance score: one run on a
+  // shared CI machine varies by several points (Lighthouse docs, variability)
+  const lhRuns = [];
+  for (let i = 0; i < 3; i++) {
+    lhRuns.push(run("G2:lighthouse", "npx", ["--no-install", "lighthouse", target,
+      "--quiet", "--chrome-flags=--headless", "--only-categories=performance,accessibility,best-practices,seo",
+      "--output=json", "--output-path=stdout"],
+      out => {
+        const r = JSON.parse(out);
+        return Object.fromEntries(Object.entries(r.categories).map(([k, v]) => [k, Math.round(v.score * 100)]));
+      }));
+  }
+  const lhDone = lhRuns.filter(r => r.status === "pass");
+  if (lhDone.length < lhRuns.length) {
+    results.push(lhRuns.find(r => r.status !== "pass"));
+  } else {
+    const byPerf = [...lhDone].sort((a, b) => a.detail.performance - b.detail.performance);
+    const s = { ...byPerf[1].detail, performance_runs: lhDone.map(r => r.detail.performance) };
+    results.push(s.performance < 95
+      ? { gate: "G2:lighthouse", status: "fail", detail: `${JSON.stringify(s)} perf<95` }
+      : { gate: "G2:lighthouse", status: "pass", detail: s });
+  }
   results.push(runSibling("G3:axe", "a11y_sweep.mjs", [target]));
   results.push(run("G4:links", "npx", ["--no-install", "linkinator", target, "--recurse", "--silent"]));
   results.push(runSibling("G11b:overflow", "overflow_check.mjs", [target]));

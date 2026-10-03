@@ -135,6 +135,9 @@ section:first-of-type { border-top: none; padding-top: var(--space-4); }
 .grid { display: grid; gap: 1.1rem; }
 .grid-2 { grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr)); }
 .grid-3 { grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); }
+/* home page: four cards, two per row, one per row on a phone */
+.four { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+@media (max-width: 40rem) { .four { grid-template-columns: 1fr; } }
 .card { background: var(--surface); border: var(--border); border-radius: var(--radius); padding: 1.5rem 1.6rem; }
 .card h3 { color: var(--surface-ink); }
 @media (prefers-reduced-motion: no-preference) {
