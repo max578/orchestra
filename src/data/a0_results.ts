@@ -11,8 +11,8 @@ export const a0 = {
   loss_naive_unconstrained_mean: 9.4627, // decisions.rds$decisions
   n_constrained_sites: 12, // belt_sites.rds
   n_sites: 40, // belt_sites.rds
-  mechanism_sensitivity: 0.5833, // mechanism_verdicts.rds$table
-  mechanism_specificity: 0.9286, // mechanism_verdicts.rds$table
+  mechanism_sensitivity: 0.5833, // A0 stage 02 verdict table
+  mechanism_specificity: 0.9286, // A0 stage 02 verdict table
   plateau_interval_covers_60_n: 12, // oracle_03.rds$leg_b
   x0_median_constrained: 66.6289, // oracle_03.rds$leg_b
   x0_median_unconstrained: 96.8971, // oracle_03.rds$leg_b
@@ -27,8 +27,8 @@ export const a0 = {
   n_plots: 10800, // belt_obs.rds
   n_cells: 200, // decisions.rds$decisions
   n_cells_compared: 198, // decisions.rds$decisions
-  n_mechanism_refused_constrained: 7, // mechanism_verdicts.rds$table
-  n_mechanism_refused_unconstrained: 2, // mechanism_verdicts.rds$table
+  n_mechanism_refused_constrained: 7, // A0 stage 02 verdict table
+  n_mechanism_refused_unconstrained: 2, // A0 stage 02 verdict table
   n_seasons: 5, // belt_config.rds
   n_rates: 6, // belt_config.rds
   n_varieties: 3, // belt_config.rds
@@ -64,8 +64,8 @@ export const a0Sources = {
   loss_naive_unconstrained_mean: "decisions.rds$decisions",
   n_constrained_sites: "belt_sites.rds",
   n_sites: "belt_sites.rds",
-  mechanism_sensitivity: "mechanism_verdicts.rds$table",
-  mechanism_specificity: "mechanism_verdicts.rds$table",
+  mechanism_sensitivity: "A0 stage 02 verdict table",
+  mechanism_specificity: "A0 stage 02 verdict table",
   plateau_interval_covers_60_n: "oracle_03.rds$leg_b",
   x0_median_constrained: "oracle_03.rds$leg_b",
   x0_median_unconstrained: "oracle_03.rds$leg_b",
@@ -80,8 +80,8 @@ export const a0Sources = {
   n_plots: "belt_obs.rds",
   n_cells: "decisions.rds$decisions",
   n_cells_compared: "decisions.rds$decisions",
-  n_mechanism_refused_constrained: "mechanism_verdicts.rds$table",
-  n_mechanism_refused_unconstrained: "mechanism_verdicts.rds$table",
+  n_mechanism_refused_constrained: "A0 stage 02 verdict table",
+  n_mechanism_refused_unconstrained: "A0 stage 02 verdict table",
   n_seasons: "belt_config.rds",
   n_rates: "belt_config.rds",
   n_varieties: "belt_config.rds",
