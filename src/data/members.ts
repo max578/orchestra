@@ -116,7 +116,7 @@ export const members: Member[] = [
       { text: "Keeps its false-alarm rate at the stated level, as dHSIC and energy do.", status: "tested" },
       { text: "Detects a change in spread with fewer samples than the energy test.", status: "tested" },
       { text: "Its fast version was the only test compared whose run time grew close to linearly with sample size.", status: "tested" },
-      { text: "Tests field data against a crop model's own predictions with TACI, a method in development, unpublished.", status: "claimed" },
+      { text: "Tests field data against a crop model's own predictions with its mechanism-consistency test, a method in development, unpublished.", status: "claimed" },
     ] },
   { id: "terroir", tier: "member", role: "Climate, soil and farm data",
     method: "Fetches climate, weather, soil, elevation and farm-economics data for any location, and records where every value came from.",

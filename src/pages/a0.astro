@@ -40,7 +40,7 @@ const jsonLd = {
         constraint caps yield, so yield stops rising above 60 kg N/ha. The calibrated crop model is not given
         this information.</li>
       <li><strong>The chain.</strong> APSIM, run through apsimx, produces the true yields → quorum builds a fast
-        stand-in for the crop model and PESTO calibrates it to the field data → kernR's TACI test (a method in
+        stand-in for the crop model and PESTO calibrates it to the field data → kernR's mechanism-consistency test (a method in
         development) asks whether the field data still agree with the calibrated model → where they do not,
         a curve fitted to the field data alone, one that can level off, takes over → decideR prices each rate:
         the expected loss, the value of perfect information (EVPI) and the value of one more sample (EVSI) →
@@ -69,8 +69,8 @@ const jsonLd = {
         <p class="prose">Curves that can level off, fitted to the field data, find the constraint the
           crop model cannot see: the likely range for the rate at which yield levels off contains the planted
           60 kg N/ha at {a0.plateau_interval_covers_60_n} of {a0.n_constrained_sites} sites with the constraint
-          (median {Math.round(a0.x0_median_constrained)} vs {Math.round(a0.x0_median_unconstrained)} kg N/ha elsewhere). The TACI test rejects the crop model with sensitivity {f2(a0.taci_sensitivity)} (the share of
-          constrained cases it rejects) and specificity {f2(a0.taci_specificity)} (the share of unconstrained cases it accepts).</p>
+          (median {Math.round(a0.x0_median_constrained)} vs {Math.round(a0.x0_median_unconstrained)} kg N/ha elsewhere). The mechanism-consistency test rejects the crop model with sensitivity {f2(a0.mechanism_sensitivity)} (the share of
+          constrained cases it rejects) and specificity {f2(a0.mechanism_specificity)} (the share of unconstrained cases it accepts).</p>
       </article>
       <article class="card">
         <p class="kicker">Where the next research dollar pays</p>
