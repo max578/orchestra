@@ -168,7 +168,7 @@ export const edges = [
   { from: "nert", to: "terroir", kind: "source", text: "TERN ecosystem data reach terroir through nert." },
   { from: "nasapower", to: "terroir", kind: "source", text: "Daily weather from NASA POWER reaches terroir through nasapower." },
   { from: "apsimx", to: "terroir", kind: "source", text: "Soil profiles from ISRIC SoilGrids reach terroir through apsimx." },
-  { from: "read.abares", to: "terroir", kind: "source", text: "Grain prices and production statistics reach terroir from ABARES." },
+  { from: "read.abares", to: "terroir", kind: "source", text: "Farm survey data from ABARES (Australian Gridded Farm Data) reach terroir through read.abares." },
   { from: "apsimx", to: "PESTO", kind: "source", text: "PESTO edits and runs APSIM simulations through apsimx." },
   { from: "acir", to: "kalmix", kind: "source", text: "kalmix checks its causal-information rate against the method authors' acir package." },
   { from: "INLA", to: "flexyBayes", kind: "source", text: "flexyBayes can fit a model with INLA." },
