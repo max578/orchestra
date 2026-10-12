@@ -1,0 +1,188 @@
+---
+import Base from "../layouts/Base.astro";
+import { href } from "../data/site";
+import { c2 } from "../data/c2_results";
+const f2 = (x: number) => x.toFixed(2);
+const iv = (v: number[]) => `${f2(v[1])} to ${f2(v[2])}`;
+const pc = (x: number) => Math.round(x * 100);
+const usd = (x: number) => `$${Math.round(x)}`;
+const gainPct = Math.round((c2.asreml_ate[0] / c2.mean_main_yield) * 100);
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "ScholarlyArticle",
+  name: "Study C2: does wheat sown earlier yield more?",
+  description: "Same-paddock pairs of Early and Main National Variety Trials in NSW and Queensland, 2008 to 2017: the same variety yielded about 0.2 t/ha more when sown in the Early window.",
+  author: { "@type": "Person", name: "Max Moldovan", identifier: "https://orcid.org/0000-0001-9680-8474" },
+  datePublished: "2026-10-13",
+};
+const rows = [
+  { label: "All pairs", n: c2.n_pairs, a: c2.asreml_ate, b: c2.fb_ate, p: c2.pm_ate, s: c2.apsim_ate },
+  { label: "Southern NSW", n: c2.n_pairs_south, a: c2.asreml_south, b: c2.fb_south, p: c2.pm_south, s: c2.apsim_south },
+  { label: "North", n: c2.n_pairs_north, a: c2.asreml_north, b: c2.fb_north, p: c2.pm_north, s: c2.apsim_north },
+];
+const cell = (v: number[]) => (Number.isFinite(v[0]) ? `${f2(v[0])} (${iv(v)})` : "not run");
+---
+<Base title="Sowing time" description="Study C2, on real trial data: in same-paddock pairs of Early and Main National Variety Trials in NSW and Queensland, 2008 to 2017, the same wheat variety yielded about 0.2 t/ha more when sown in the Early window. How the packages worked together, what the gain is worth, and what the data cannot rule out." path="/c2" jsonLd={jsonLd}>
+  <section class="wrap">
+    <div class="section-head">
+      <p class="kicker">Study C2 · real trial data · 2026-10-13</p>
+      <h1>Does wheat sown earlier yield more?</h1>
+      <p class="prose lead mt-2">Some National Variety Trial (NVT) sites sow wheat twice in a season, in
+        two trials side by side: an Early series ahead of the usual sowing window and the Main series
+        within it. Because both trials share the paddock, the season and the varieties, comparing them
+        shows what an earlier sowing date does to yield with most other influences held fixed.</p>
+    </div>
+
+    <h2 class="mt-3">The data</h2>
+    <ul class="prose">
+      <li><strong>The pairs.</strong> An Early and a Main trial of the same season on the same paddock
+        form a pair. The pairs were fixed before any yield was read: {c2.n_pairs} pairs at {c2.n_sites}{" "}
+        sites in NSW and Queensland, {c2.year_min} to {c2.year_max}, sown {c2.gap_min_days} to
+        {" "}{c2.gap_max_days} days apart (median {c2.gap_median_days}).</li>
+      <li><strong>The comparison.</strong> Each variety grown in both trials of a pair gives one
+        difference, Early yield minus Main yield: {c2.n_variety_pairs.toLocaleString("en-AU")} differences
+        across {c2.n_varieties} varieties.</li>
+      <li><strong>The source.</strong> The open NVT results compiled by Newman and Furbank (2021), read
+        through DataHub, with soil, rainfall and fertiliser records for each trial. Sites are split into
+        southern NSW and the north (northern NSW and Queensland) at 31.5° S.</li>
+    </ul>
+
+    <h2 class="mt-3">How it was analysed</h2>
+    <ul class="prose">
+      <li><strong>Did the trials match before sowing?</strong> kernR compared Early and Main trials on
+        soil (clay, pH, water-holding capacity) and on the nitrogen applied on or before the sowing day,
+        all at once.
+        It found no difference (permutation p = {f2(c2.kernr_p_primary)}). The month before sowing was slightly wetter
+        for Early trials ({Math.round(c2.rain_early_mm)} against {Math.round(c2.rain_main_mm)} mm), as
+        expected from the earlier date; with rainfall added the test still finds no difference
+        (p = {f2(c2.kernr_p_with_rain)}).</li>
+      <li><strong>The main estimate.</strong> ASReml and flexyBayes fit the same mixed model to the
+        within-pair differences, with site, year, variety and pair as random effects. Comparing within a
+        pair already holds site, season and variety fixed, so these models use no other covariates.
+        flexyBayes also gives the full posterior that the decision step uses.</li>
+      <li><strong>A check without the pairing.</strong> proxymix, a mixture model that does not assume
+        normal errors, estimates the gain from the same rows without using the pairs. It adjusts instead
+        for where the site is, its soil, the rain before sowing and the nitrogen applied on or before the sowing day.</li>
+      <li><strong>What the crop model expects.</strong> apsimx wrote each site's weather and simulation
+        files and ran APSIM at both sowing dates. PESTO calibrated APSIM's starting soil water and nitrogen
+        to each pair's site.</li>
+      <li><strong>Comparing the analyses.</strong> quorum compared the estimates: whether they agree on the
+        size of the gain and on how uncertain it is.</li>
+      <li><strong>What it is worth.</strong> decideR turned the flexyBayes posterior and the wheat price of
+        the study seasons into a value per hectare and a choice between the two sowing windows.</li>
+      <li><strong>One plan, run blind first.</strong> conductoR ran the main analysis as one plan, written
+        in a YAML file, and logged each step. The plan ran first on a table in which the Early and Main
+        labels of a random half of the pairs had been swapped, was then frozen, and ran once on the real
+        labels.</li>
+      <li><strong>A known answer first.</strong> Before either run, each analysis had to recover a known
+        effect ({f2(c2.pc_truth)} t/ha) from a copy of the same design with yields simulated by APSIM. All
+        three did.</li>
+    </ul>
+
+    <h2 class="mt-3">Three numbers</h2>
+    <div class="studies">
+      <article class="card">
+        <p class="kicker">The average gain</p>
+        <h3>{f2(c2.asreml_ate[0])} t/ha ({iv(c2.asreml_ate)})</h3>
+        <p class="prose">On the same paddock and in the same season, the same variety yielded
+          {" "}{f2(c2.asreml_ate[0])} t/ha more sown in the Early window, about {gainPct} per cent of a
+          mean Main-window yield of {c2.mean_main_yield.toFixed(1)} t/ha (ASReml). flexyBayes gives
+          {" "}{f2(c2.fb_ate[0])}{Number.isFinite(c2.pm_ate[0]) && <> and proxymix {f2(c2.pm_ate[0])}</>}.</p>
+      </article>
+      <article class="card">
+        <p class="kicker">What it is worth</p>
+        <h3>{usd(c2.value_ate_aud_ha[0])}/ha ({usd(c2.value_ate_aud_ha[1])} to {usd(c2.value_ate_aud_ha[2])})</h3>
+        <p class="prose">The flexyBayes gain valued at {usd(c2.price_aud_t)}/t, the ABARES wheat gross unit
+          value (the value of production per tonne) averaged over the ten study seasons ({usd(c2.price_low_aud_t)} to {usd(c2.price_high_aud_t)}/t
+          across them), with early sowing taken to cost nothing extra. The range covers yield uncertainty
+          only. The chance that the average gain is positive is {pc(c2.p_gain)} per cent, and decideR
+          chooses the Early window.</p>
+      </article>
+      <article class="card">
+        <p class="kicker">On any one paddock</p>
+        <h3>{pc(c2.p_gain_new_paddock)} per cent chance of a gain</h3>
+        <p class="prose">The gain varies widely between sites and seasons. On a new paddock and season the
+          expected value of sowing early is similar, {usd(c2.decider_value_new_paddock_aud_ha)}/ha in
+          decideR, but the chance of any gain at all falls to about two in three.</p>
+      </article>
+    </div>
+
+    <h2 class="mt-3">The estimates</h2>
+    <p class="prose">Early minus Main yield, t/ha. In brackets, the 90 per cent interval: a confidence
+      interval for ASReml, a credible interval for flexyBayes, a bootstrap interval for proxymix and the
+      spread of the calibrated simulations for APSIM.</p>
+    <div class="table-scroll mt-1">
+      <table class="num">
+        <thead>
+          <tr><th scope="col">Pairs</th><th scope="col">n</th><th scope="col">ASReml</th><th scope="col">flexyBayes</th><th scope="col">proxymix</th><th scope="col">APSIM with PESTO</th></tr>
+        </thead>
+        <tbody>
+          {rows.map((r) => (
+            <tr><th scope="row">{r.label}</th><td>{r.n}</td><td>{cell(r.a)}</td><td>{cell(r.b)}</td><td>{cell(r.p)}</td><td>{cell(r.s)}</td></tr>
+          ))}
+          <tr><th scope="row">Sown under a week apart</th><td>{c2.n_pairs_same_week}</td><td>{cell(c2.asreml_same_week)}</td><td>{cell(c2.fb_same_week)}</td><td>not estimated</td><td>not estimated</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <ul class="prose mt-2">
+      <li>The gain is clearest in southern NSW. In the north the ASReml and flexyBayes intervals include
+        zero, so a gain there is not established.</li>
+      <li>APSIM, calibrated with PESTO, expected less than the trials show. Every ASReml and flexyBayes
+        interval still overlaps the APSIM range.</li>
+      <li>quorum reports the analyses as agreeing on where the gain lies but not on how uncertain it is.
+        proxymix's interval is much narrower, most likely because it does not carry the variation between
+        sites and seasons that the mixed models include.</li>
+    </ul>
+
+    <h2 class="mt-3">Nitrogen applied by sowing day</h2>
+    <p class="prose">About half of the nitrogen applied to these trials goes on after sowing, as an in-crop
+      top-dressing. On average, Early trials received {Math.round(c2.n_total_early)} kg N/ha, of which
+      {" "}{Math.round(c2.n_sow_early)} was applied on or before the sowing day; Main trials received
+      {" "}{Math.round(c2.n_total_main)}, of which {Math.round(c2.n_sow_main)}. How much nitrogen goes on
+      in-crop can depend on how the crop looks, and so on when it was sown, so it cannot be used to check
+      that the trials matched before sowing. The balance check and the proxymix covariates therefore use
+      only the nitrogen applied on or before the sowing day. The ASReml and flexyBayes
+      estimates use no covariates and are unchanged.</p>
+
+    <h2 class="mt-3">What it does not show</h2>
+    <ul class="prose">
+      <li><strong>Trials with no yields.</strong> A trial with no yields in the data cannot be paired, and
+        the data do not say why. Of {c2.lost_candidates} same-paddock pairs sown a week or more apart,
+        {" "}{c2.lost_early_only} lost only the Early trial's yields, {c2.lost_main_only} only the Main
+        trial's and {c2.lost_both} both. Early trials lost their yields more often. If those crops failed,
+        leaving them out raises the Early average, and no adjustment removes that.</li>
+      <li><strong>More than sowing date.</strong> Pairs sown under a week apart still differed by
+        {" "}{f2(c2.asreml_same_week[0])} t/ha ({iv(c2.asreml_same_week)}), so part of the gap may come
+        from the trial series rather than the sowing date. These pairs sit at different sites from the
+        rest, so the figure is reported beside the main estimate and not subtracted from it.</li>
+      <li><strong>Where on the paddock.</strong> In the causal graph of the design (Hernán and Robins
+        2020), a pair shares site, season and variety, so comparing within it adjusts for them. Anything
+        else that differs between the Early and Main trials is not adjusted for. The estimate assumes the
+        Early trials were not sown on a better or worse part of the paddock than the Main trials.</li>
+      <li><strong>The price.</strong> The value assumes early sowing costs nothing extra and uses the
+        average price of the study seasons, weighted by the number of comparisons in each, not a forecast.</li>
+    </ul>
+
+    <h2 class="mt-3">References</h2>
+    <ul class="prose refs">
+      <li>ABARES (2026). <em>Agricultural commodities: September quarter 2026</em>, statistical tables,
+        Table 6. Australian Bureau of Agricultural and Resource Economics and Sciences.</li>
+      <li>Hernán, M. A., &amp; Robins, J. M. (2020). <em>Causal inference: What if</em>. Chapman &amp;
+        Hall/CRC.</li>
+      <li>Newman, S. J., &amp; Furbank, R. T. (2021). A multiple species, continent-wide, million-phenotype
+        agronomic plant dataset. <em>Scientific Data</em>, 8, 116.
+        <a href="https://doi.org/10.1038/s41597-021-00898-8">https://doi.org/10.1038/s41597-021-00898-8</a>
+        (author correction: <em>Scientific Data</em>, 9, 437, 2022).</li>
+      <li>Sparks, A. (2026). <em>read.abares: Read data from ABARES and ABS</em> (R package version 3.0.0).
+        <a href="https://docs.ropensci.org/read.abares/">https://docs.ropensci.org/read.abares/</a></li>
+      <li>The VSNi Team (2026). <em>asreml: Fits linear mixed models using REML</em> (R package version
+        4.2.0.482). VSN International.</li>
+    </ul>
+
+    <p class="cta-row">
+      <a class="btn btn-ghost" href={href("/a0")}>The simulated study</a>
+      <a class="btn btn-ghost" href={href("/members")}>The members</a>
+      <a class="btn btn-ghost" href={href("/about")}>About</a>
+    </p>
+  </section>
+</Base>

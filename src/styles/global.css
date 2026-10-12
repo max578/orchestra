@@ -118,6 +118,7 @@ section:first-of-type { border-top: none; padding-top: var(--space-4); }
 .site-footer { border-top: var(--border); padding-block: var(--space-3); margin-top: var(--space-5); }
 .site-footer .bar { font-family: var(--mono); font-size: var(--step--2); color: var(--muted); }
 .site-footer a { padding-block: .4rem; margin-block: -.4rem; }
+.refs a { overflow-wrap: anywhere; }
 .site-footer .ack { font-size: var(--step--2); color: var(--muted); max-width: var(--measure); margin-top: var(--space-1); }
 
 /* ---- buttons ------------------------------------------------------------ */
