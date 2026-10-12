@@ -19,6 +19,11 @@ export const site = {
     "format. It gives no result, with the reason, when the data are too thin.",
   domain: "Australian grain agriculture (wheat · barley · corn): multi-environment trials, breeding and genomics, crop simulation",
   counts: { members: tiers.member.length, external: tiers.external.length, contracts: 7 },
+  acknowledgement:
+    "This work was done under AAGI project AAGI-AU-RD-CSL, Causal learning for optimising " +
+    "industry relevant traits in Australian grain production systems. The support of the " +
+    "Grains Research and Development Corporation (GRDC) provided through the Analytics for " +
+    "the Australian Grains Industry (AAGI) project is acknowledged.",
   nav: [
     { href: "/", label: "Home" },
     { href: "/members", label: "Members" },
