@@ -3,16 +3,19 @@
 // complete static map); orchestraMapClient.ts adds selection, the side panel,
 // the worked example and deep links (#map-<id>).
 import { renderSvg } from "../widgets/orchestraMapSvg.mjs";
-import { sections } from "../data/orchestraMap.mjs";
+import { sections, nodes, edges, workedExample, workedExampleSource, formatWriters, formatReaders } from "../data/orchestraMap.mjs";
 import { href } from "../data/site";
 import "../styles/orchestra-map.css";
 const svg = renderSvg({ mode: "web" });
+const mapData = JSON.stringify({ sections, nodes, edges, workedExample, workedExampleSource, formatWriters, formatReaders })
+  .replace(/</g, "\\u003c");
 ---
 <div class="om" data-om data-base={href("/")}>
+  <script type="application/json" data-om-data set:html={mapData} />
   <div class="om-bar">
     <p class="om-hint" data-om-hint>Choose any package to see what it does and how it connects.</p>
     <div class="om-actions">
-      <button class="btn btn-ghost om-btn" type="button" data-om-play>▶ Worked example</button>
+      <button class="btn btn-ghost om-btn" type="button" data-om-play>▶ Worked example {workedExampleSource.id}</button>
       <button class="btn btn-ghost om-btn" type="button" data-om-all aria-pressed="false">Show all links</button>
     </div>
   </div>
@@ -23,11 +26,12 @@ const svg = renderSvg({ mode: "web" });
         <p class="om-kicker">Crop Analytics Orchestra</p>
         <h2 class="om-title">A coordinated, flexible constellation of R packages for crop analytics</h2>
         <p>Each package does one job, and they share a result format. <b>conductoR</b>, at the centre, runs an analysis plan: each step is done by one package, and each result is checked before the next package uses it.</p>
+        <p>The links are the ones recorded when the four worked examples ran: a line from the centre means conductoR ran that package, a solid line is a result handed from one package to another, and a dotted line is where an example's data came from. Dashed lines, shown when you choose a package, are dependencies listed in the packages' DESCRIPTION files.</p>
         <ul class="om-legend">
           {sections.map((s) => (
             <li><span class="om-dot" data-c={s.id}></span>{s.label}</li>
           ))}
-          <li><span class="om-dot om-dot-src"></span>Dotted outer ring: invited members, packages by other authors that the orchestra uses.</li>
+          <li><span class="om-dot om-dot-src"></span>Outer ring: packages by other authors that an example used.</li>
         </ul>
       </div>
     </aside>

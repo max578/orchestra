@@ -36,6 +36,7 @@
 /* Links: hidden until chosen, or all shown faintly */
 .om-edge { opacity: 0; pointer-events: none; transition: opacity .25s ease; }
 .om-svg.show-all .om-edge { opacity: .38; }
+.om-svg.show-all .om-edge.k-build:not(.is-on) { opacity: 0; }
 .om-svg .om-edge.is-on { opacity: .95; stroke-width: 3; }
 .om-svg .om-edge.is-lit-score { opacity: 1; stroke: #D55E00; stroke-width: 4; }
 .om-svg.show-all.has-sel .om-edge:not(.is-on) { opacity: .08; }

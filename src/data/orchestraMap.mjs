@@ -1,6 +1,9 @@
 // The orchestra map: one source for the interactive map on /members and the
 // poster figure (ORCHESTRA_dev/poster/build_map.mjs). Roster of 2026-09-25.
 // No version numbers here; the member pages carry install and status.
+// Links between packages are only those recorded in the worked examples'
+// run files (src/data/examples/) and the dependencies in DESCRIPTION files.
+import { examples } from "./examples.mjs";
 
 /** Sections in clockwise order, following the flow from data to decision. */
 export const sections = [
@@ -20,7 +23,7 @@ export const sections = [
 export const nodes = [
   // Data and confidentiality
   { id: "masque", kind: "member", section: "data", motif: "mask",
-    purpose: "Lets analysts develop on a synthetic copy of confidential field data, then run the finished analysis on the real data.",
+    purpose: "Makes a masked copy of a data table, so an analysis plan can be written and tested before the real data are used.",
     character: "The copy keeps the relationships an analysis depends on, including how treatment relates to outcome within each block. It is rebuilt from a stored recipe, and every assumption made while cleaning a table is reported.",
     similar: ["synthpop", "sdcMicro"] },
   { id: "terroir", kind: "member", section: "data", motif: "seal",
@@ -88,6 +91,10 @@ export const nodes = [
     purpose: "Combines several independent estimates of the same quantity into one verdict, or reports that they do not agree enough to act on.",
     character: "Each estimate declares how independent it is and which question it answers. When no quorum forms, no answer is carried forward.",
     similar: [], similarNote: "This step is usually written by hand for each analysis." },
+  { id: "janusplot", kind: "member", section: "hub", motif: "lattice",
+    purpose: "Shows how each pair of continuous variables is related, as a matrix of smoothed curves, and names the shape of each curve.",
+    character: "Each pair is fitted in both directions with mgcv, so leverage, uneven spread and curvature in one direction show up. Its shape label is a screen, not a verdict: a curve that looks like a rise and fall still needs a formal test.",
+    similar: ["corrplot", "GGally"], similarNote: "Correlation-matrix plots show one number per pair; janusplot shows the fitted curve in each direction." },
   { id: "flexyBayes", kind: "member", section: "hub", motif: "echoes",
     purpose: "Fits Bayesian mixed models for multi-environment trials through several engines behind one interface.",
     character: "A model written in ASReml notation is fitted with free engines. A model family it cannot fit faithfully is refused by name.",
@@ -114,83 +121,133 @@ export const nodes = [
     character: "Because every result has the same form, any member's output can be checked and passed on without extra code to connect them. A member that cannot answer soundly returns a refusal in the same format, stating why it declined.",
     similar: [], similarNote: "It is the orchestra's own agreement between members." },
 
-  // Outside sources
-  { id: "nasapower", kind: "source", purpose: "R package that downloads daily weather for any location from NASA POWER." },
-  { id: "ocular", kind: "source", purpose: "R package for Sentinel-2 and Landsat satellite series." },
-  { id: "nert", kind: "source", purpose: "R package for data from TERN, Australia's ecosystem observatory." },
-  { id: "read.abares", kind: "source", purpose: "R package for agricultural statistics from ABARES, including grain prices." },
-  { id: "apsimx", kind: "source", purpose: "R package that runs the APSIM crop simulator and retrieves soil profiles from ISRIC SoilGrids." },
-  { id: "INLA", kind: "source", purpose: "R package for fast approximate Bayesian model fitting." },
-  { id: "brms", kind: "source", purpose: "R package for Bayesian regression models fitted with Stan." },
-  { id: "acir", kind: "source", purpose: "The method authors' R package for the causal information rate." },
-  { id: "agridat", kind: "source", purpose: "R package of published agricultural field-trial datasets." },
-  { id: "targets", kind: "source", purpose: "R package for pipelines that re-run only the steps whose inputs changed." },
 ];
 
 /**
- * Relations. kind: "flow" passes a result on; "build" is one member built on
- * or optionally using another; "source" is an outside source or engine;
- * "format" writes or reads the shared format. Each text names both ends so it
- * reads correctly in either member's panel.
+ * Outside packages that an example's plan ran or read its data from. Only the
+ * ones an example names are drawn; `near` is the member they sit beside,
+ * `side` (1 or -1) which side of it.
  */
-export const edges = [
-  { from: "koine", to: "quorum", kind: "flow", text: "koine's independent fit enters quorum as a second opinion." },
-  { from: "quorum", to: "flexyBayes", kind: "build", text: "quorum is built on flexyBayes and compares its fits with other estimates." },
-  { from: "PESTO", to: "quorum", kind: "flow", text: "PESTO's ensembles of simulator runs, and its fast stand-in for the simulator, enter quorum as estimates." },
-  { from: "apsimR", to: "quorum", kind: "flow", text: "APSIM runs from apsimR enter quorum as estimates." },
-  { from: "kernR", to: "quorum", kind: "flow", text: "kernR's fast stand-in model can enter quorum as an estimate." },
-  { from: "terroir", to: "flexyBayes", kind: "flow", text: "terroir supplies the climate and soil covariates for flexyBayes models." },
-  { from: "terroir", to: "kernR", kind: "flow", text: "terroir supplies the covariates that kernR's test conditions on." },
-  { from: "terroir", to: "PESTO", kind: "flow", text: "terroir supplies the weather and soil series that drive PESTO's simulator runs." },
-  { from: "terroir", to: "apsimR", kind: "flow", text: "terroir's climate and soil records drive apsimR's simulations." },
-  { from: "apsimR", to: "PESTO", kind: "flow", text: "PESTO fits apsimR's simulator to the field observations." },
-  { from: "PESTO", to: "kernR", kind: "flow", text: "kernR's test reads PESTO's ensemble of simulator runs." },
-  { from: "kernR", to: "brms", kind: "flow", text: "In the worked example, sites where the field and the crop model disagree go from kernR to a brms model of the field response." },
-  { from: "brms", to: "decideR", kind: "flow", text: "In the worked example, decideR prices the brms field-response result." },
-  { from: "PESTO", to: "decideR", kind: "flow", text: "decideR prices PESTO's simulator-based result, or declines to." },
-  { from: "flexyBayes", to: "decideR", kind: "flow", text: "decideR prices the statistical result from flexyBayes." },
-  { from: "decideR", to: "grainPlan", kind: "flow", text: "decideR's priced action becomes grainPlan's plan for the grower." },
-  { from: "masque", to: "PESTO", kind: "build", text: "PESTO can be developed on masque's synthetic copy of confidential field data." },
-  { from: "PESTO", to: "proxymix", kind: "flow", text: "proxymix compresses PESTO's ensemble into a few shapes." },
-  { from: "proxymix", to: "kernR", kind: "build", text: "kernR can use proxymix to compute density ratios." },
-  { from: "cdzoo", to: "kernR", kind: "flow", text: "cdzoo's causal structure tells kernR what to adjust for." },
-  { from: "gpfield", to: "flexyBayes", kind: "flow", text: "gpfield's area-level predictions become covariates in flexyBayes models." },
-  { from: "optimix", to: "decideR", kind: "flow", text: "optimix tells decideR where extra sampling is worth most." },
-  { from: "kernR", to: "kalmix", kind: "build", text: "kalmix's causal-information rate is built on kernR's entropy metric." },
-  { from: "optimix", to: "proxymix", kind: "build", text: "optimix can use proxymix to map every good solution with its uncertainty." },
-  { from: "cdzoo", to: "proxymix", kind: "build", text: "cdzoo can use proxymix's mixture model to test which variables are independent." },
-  { from: "conductoR", to: "PESTO", kind: "flow", text: "conductoR can run PESTO as a step in a plan." },
-  { from: "bacipair", to: "conductoR", kind: "flow", text: "bacipair's estimate enters a conductoR plan as one of several independent estimates." },
-  { from: "survkit", to: "conductoR", kind: "flow", text: "survkit's fit enters a conductoR plan as one of several independent estimates." },
-  { from: "conductoR", to: "sharedFormat", kind: "format", text: "conductoR checks every handoff against the shared result format." },
+const SOURCE_CATALOGUE = {
+  agridat: { purpose: "R package of published agricultural field-trial datasets.", near: "masque" },
+  sp: { purpose: "R package for spatial data. It includes the meuse river soil samples.", near: "masque" },
+  asreml: { purpose: "Commercial R package from VSN International that fits linear mixed models by REML.", near: "koine", side: -1 },
+  lme4: { purpose: "R package for linear and generalised linear mixed models.", near: "survkit", side: 1 },
+  nlme: { purpose: "R package for linear and nonlinear mixed models, including spatial correlation.", near: "gpfield" },
+  gstat: { purpose: "R package for geostatistics: variograms and kriging.", near: "gpfield" },
+  mgcv: { purpose: "R package for generalised additive models.", near: "gpfield" },
+  INLA: { purpose: "R package for fast approximate Bayesian model fitting.", near: "flexyBayes" },
+  brms: { purpose: "R package for Bayesian regression models fitted with Stan.", near: "flexyBayes" },
+  apsimx: { purpose: "R package that edits and runs APSIM Next Generation crop simulations.", near: "PESTO" },
+};
 
-  { from: "ocular", to: "terroir", kind: "source", text: "Sentinel-2 and Landsat series reach terroir through ocular." },
-  { from: "nert", to: "terroir", kind: "source", text: "TERN ecosystem data reach terroir through nert." },
-  { from: "nasapower", to: "terroir", kind: "source", text: "Daily weather from NASA POWER reaches terroir through nasapower." },
-  { from: "apsimx", to: "terroir", kind: "source", text: "Soil profiles from ISRIC SoilGrids reach terroir through apsimx." },
-  { from: "read.abares", to: "terroir", kind: "source", text: "Farm survey data from ABARES (Australian Gridded Farm Data) reach terroir through read.abares." },
-  { from: "apsimx", to: "PESTO", kind: "source", text: "PESTO edits and runs APSIM simulations through apsimx." },
-  { from: "acir", to: "kalmix", kind: "source", text: "kalmix checks its causal-information rate against the method authors' acir package." },
-  { from: "INLA", to: "flexyBayes", kind: "source", text: "flexyBayes can fit a model with INLA." },
-  { from: "brms", to: "flexyBayes", kind: "source", text: "flexyBayes can fit a model with brms and Stan." },
-  { from: "targets", to: "conductoR", kind: "source", text: "A conductoR plan can be run as a targets pipeline." },
-  { from: "agridat", to: "conductoR", kind: "source", text: "conductoR's guide runs a plan on a published nitrogen trial from agridat." },
+const MEMBER_IDS = nodes.map((n) => n.id);
+/** The map node for a package name as an example file writes it, or null. */
+function nodeIdOf(name) {
+  const bare = String(name).split("::")[0].trim();
+  const all = [...MEMBER_IDS, ...Object.keys(SOURCE_CATALOGUE)];
+  return all.find((id) => id === bare) ?? all.find((id) => id.toLowerCase() === bare.toLowerCase()) ?? null;
+}
+const listOf = (ids) => (ids.length < 2 ? ids.join("") : `${ids.slice(0, -1).join(", ")} and ${ids.at(-1)}`);
+const cap = (s) => { const x = String(s).replace(/_/g, " "); return x.charAt(0).toUpperCase() + x.slice(1); };
+
+/** Relations recorded in the examples, merged across examples. */
+const recorded = new Map();
+function record(from, to, kind, what, exId) {
+  if (from === to) return;
+  const key = `${from}>${to}>${kind}`;
+  const r = recorded.get(key) ?? { from, to, kind, whats: new Map() };
+  const exs = r.whats.get(what) ?? [];
+  if (!exs.includes(exId)) exs.push(exId);
+  r.whats.set(what, exs);
+  recorded.set(key, r);
+}
+const usedSources = new Set();
+for (const ex of examples) {
+  const memberOf = Object.fromEntries(ex.compose.steps.map((s) => [s.id, s.member]));
+  const resolve = (name, where) => {
+    const id = nodeIdOf(name);
+    if (!id) throw new Error(`${ex.id}: ${where} names "${name}", which is neither a member nor an outside package the map describes (add it to SOURCE_CATALOGUE in orchestraMap.mjs).`);
+    if (SOURCE_CATALOGUE[id]) usedSources.add(id);
+    return id;
+  };
+  record("masque", "conductoR", "flow", "the masked copy that the plan was written and tested on", ex.id);
+  for (const s of ex.compose.steps) {
+    const m = resolve(s.member, `step ${s.id}`);
+    if (m !== "conductoR") record("conductoR", m, "run", "run", ex.id);
+  }
+  for (const e of ex.compose.edges) {
+    const a = resolve(memberOf[e.from] ?? e.from, `edge ${e.from} to ${e.to}`);
+    const b = resolve(memberOf[e.to] ?? e.to, `edge ${e.from} to ${e.to}`);
+    record(a, b, "flow", e.what, ex.id);
+  }
+  const src = nodeIdOf(ex.data.source);
+  if (src && src !== "masque") {
+    if (SOURCE_CATALOGUE[src]) usedSources.add(src);
+    record(src, "masque", "data", "data", ex.id);
+  }
+}
+for (const id of Object.keys(SOURCE_CATALOGUE).filter((s) => usedSources.has(s))) {
+  const { purpose, near, side } = SOURCE_CATALOGUE[id];
+  nodes.push({ id, kind: "source", purpose, near, side });
+}
+
+const textOf = (r) => {
+  const all = [...r.whats.values()].flat();
+  const exs = [...new Set(all)].sort();
+  if (r.kind === "run") return `conductoR ran ${r.to} in ${listOf(exs)}.`;
+  if (r.kind === "data") return `masque masked the data read from ${r.from}, in ${listOf(exs)}.`;
+  return [...r.whats].map(([what, ids]) => `${cap(what)}, in ${listOf(ids.sort())}.`).join(" ");
+};
+
+/**
+ * Package dependencies stated in each member's DESCRIPTION (checked
+ * 2026-10-19), drawn from the package used to the package that uses it.
+ */
+const BUILD = [
+  { from: "PESTO", to: "kernR", text: "kernR is built on PESTO (Imports)." },
+  { from: "flexyBayes", to: "quorum", text: "quorum is built on flexyBayes (Imports)." },
+  { from: "decideR", to: "grainPlan", text: "grainPlan is built on decideR (Imports)." },
+  { from: "proxymix", to: "kernR", text: "kernR can use proxymix when it is installed (Suggests)." },
+  { from: "proxymix", to: "cdzoo", text: "cdzoo can use proxymix when it is installed (Suggests)." },
+  { from: "proxymix", to: "optimix", text: "optimix can use proxymix when it is installed (Suggests)." },
+  { from: "kernR", to: "kalmix", text: "kalmix can use kernR when it is installed (Suggests)." },
+  { from: "PESTO", to: "apsimR", text: "apsimR can use PESTO when it is installed (Suggests)." },
+  { from: "optimix", to: "apsimR", text: "apsimR can use optimix when it is installed (Suggests)." },
+  { from: "kernR", to: "quorum", text: "quorum can use kernR when it is installed (Suggests)." },
+  { from: "PESTO", to: "quorum", text: "quorum can use PESTO when it is installed (Suggests)." },
+  { from: "koine", to: "quorum", text: "quorum can use koine when it is installed (Suggests)." },
+  { from: "PESTO", to: "conductoR", text: "conductoR can use PESTO when it is installed (Suggests)." },
+  { from: "kernR", to: "janusplot", text: "janusplot can use kernR when it is installed (Suggests)." },
 ];
+
+/**
+ * Relations. kind: "flow" is a result handed from one package to another in
+ * an example's run; "run" is conductoR running a package's step; "data" is
+ * where an example's data came from; "build" is a dependency in DESCRIPTION.
+ */
+const drawn = [...recorded.values()].map((r) => ({ from: r.from, to: r.to, kind: r.kind, text: textOf(r) }));
+// A hand-off from conductoR to a package it ran shares that line: one path, both texts.
+for (const run of drawn.filter((e) => e.kind === "run")) {
+  const same = drawn.find((e) => e.kind === "flow" && e.from === run.from && e.to === run.to);
+  if (same) { run.text += ` ${same.text}`; drawn.splice(drawn.indexOf(same), 1); }
+}
+export const edges = [...drawn, ...BUILD.map((b) => ({ ...b, kind: "build" }))];
 
 /** Members that write or read the shared format (roster of 2026-09-25). */
 export const formatWriters = ["PESTO", "proxymix", "cdzoo", "optimix", "gpfield", "apsimR", "masque", "survkit"];
 export const formatReaders = ["kernR", "flexyBayes", "decideR", "grainPlan", "conductoR"];
 
-/** The worked example (Study A0), in order. */
-export const workedExample = [
-  { id: "terroir", text: "Climate and soil records are fetched for each site, with their sources recorded." },
-  { id: "apsimx", text: "apsimx writes each site's weather file and runs APSIM, which simulates what each season should produce." },
-  { id: "PESTO", text: "The simulator is fitted to the field observations, and the remaining uncertainty is kept as an ensemble." },
-  { id: "kernR", text: "The test asks whether the field agrees with the crop model. Sites where it does not are passed on." },
-  { id: "brms", text: "For those sites, a brms model fits the nitrogen response the field shows, including a plateau the crop model cannot see." },
-  { id: "decideR", text: "The best action is priced, or pricing is refused where an input is unverified." },
-  { id: "grainPlan", text: "The grower receives a nitrogen plan that keeps every refusal made along the way." },
-];
+/** The worked example (E1), in the order of its plan; consecutive steps by one package are joined. */
+export const workedExample = [];
+for (const s of examples[0].compose.steps) {
+  const id = nodeIdOf(s.member);
+  const last = workedExample.at(-1);
+  if (last && last.id === id) last.text += ` ${s.does}`;
+  else workedExample.push({ id, text: s.does });
+}
+/** The example the worked example comes from. */
+export const workedExampleSource = { id: examples[0].id, slug: examples[0].slug, title: examples[0].title };
 
 /** Small drawings inside member nodes, in a 44 34 72 78 box; C stands for the section colour. */
 export const motifs = {
@@ -211,5 +268,6 @@ export const motifs = {
   "paths": "<path d='M56 102 q10 -18 6 -34 q-2 -10 6 -16 M56 102 q18 -8 22 -28 q2 -12 10 -18 M56 102 q26 2 34 -16 q4 -10 12 -12' fill='none' stroke='currentColor' stroke-width='1.8'/><circle cx='98' cy='52' r='4' fill='C'/><path d='M98 52 v-10 l8 3 l-8 3' fill='C' stroke='C' stroke-width='1.4'/>",
   "arrows": "<circle cx='64' cy='56' r='4' fill='currentColor'/><circle cx='98' cy='62' r='4' fill='currentColor'/><circle cx='72' cy='92' r='4' fill='currentColor'/><circle cx='98' cy='94' r='4' fill='currentColor'/><path d='M68 58 l24 3 M74 88 l20 4' stroke='C' stroke-width='2.4'/><path d='M90 58 l4 3.5 l-4.6 2.6Z M92 90 l4 3.5 l-4.6 2.6Z' fill='C'/><path d='M66 61 l5 25' stroke='currentColor' stroke-width='1.8' stroke-dasharray='3 3'/>",
   "pair": "<path d='M54 100 h52' stroke='currentColor' stroke-width='2'/><rect x='58' y='72' width='10' height='28' fill='none' stroke='currentColor' stroke-width='2'/><rect x='72' y='60' width='10' height='40' fill='C' opacity='0.35' stroke='C' stroke-width='2'/><rect x='90' y='70' width='10' height='30' fill='none' stroke='currentColor' stroke-width='2'/><rect x='104' y='66' width='10' height='34' fill='none' stroke='currentColor' stroke-width='2'/><path d='M80 44 v12' stroke='C' stroke-width='2.4' stroke-dasharray='3 3'/><path d='M63 50 h18 M97 50 h18' stroke='currentColor' stroke-width='1.6' opacity='0.7'/>",
+  "lattice": "<path d='M54 52 h52 v52 h-52 Z M80 52 v52 M54 78 h52' fill='none' stroke='currentColor' stroke-width='1.8'/><path d='M57 74 q10 -22 20 0' fill='none' stroke='C' stroke-width='2.4'/><path d='M83 100 q4 -16 20 -18' fill='none' stroke='C' stroke-width='2.4'/><path d='M57 100 l20 -16' stroke='currentColor' stroke-width='1.6' opacity='0.6'/><path d='M83 74 l20 -16' stroke='currentColor' stroke-width='1.6' opacity='0.6'/>",
   "curve": "<path d='M54 100 h52 M54 100 v-52' stroke='currentColor' stroke-width='1.8'/><path d='M54 50 h10 v10 h8 v8 h8 v12 h10 v10 h8 v8 h8' fill='none' stroke='C' stroke-width='2.8'/><path d='M54 50 h10 v10 h8 v8 h8 v12 h10 v10 h8 v8 h8 V100 H54 Z' fill='C' opacity='0.18'/><path d='M96 62 l4 4 l6 -8' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round'/>"
 };

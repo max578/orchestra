@@ -15,7 +15,7 @@ const R_SOURCE = 486;
 const NODE_R = 34;
 const SOURCE_R = 11;
 const GAP = 0.9;
-const START = -152;
+const START = -164;
 const GOLD = "#B08D2B";
 const GREY = "#8a8f96";
 const INK = "#1D2023";
@@ -32,7 +32,7 @@ const ARC_LABEL = {
 
 /** Order around the ring, chosen to keep the worked example short. */
 const ORDER = ["masque", "terroir", "apsimR", "PESTO", "cdzoo", "bacipair", "kalmix", "kernR", "gpfield",
-  "koine", "flexyBayes", "quorum", "survkit", "decideR", "grainPlan", "optimix", "proxymix"];
+  "koine", "janusplot", "flexyBayes", "quorum", "survkit", "decideR", "grainPlan", "optimix", "proxymix"];
 
 const rad = (deg) => (deg * Math.PI) / 180;
 const polar = (r, deg) => [C + r * Math.cos(rad(deg)), C + r * Math.sin(rad(deg))];
@@ -72,6 +72,8 @@ export function layout(omit = [], place = {}) {
     const targets = edges.filter((e) => e.from === n.id).map((e) => pos[e.to]).filter((p) => p && p.deg);
     let ideal = targets.length ? targets.reduce((s, p) => s + p.deg, 0) / targets.length : 90;
     if (!targets.length || edges.some((e) => e.from === n.id && e.to === "conductoR")) ideal = 100;
+    // half a member slot to one side, so a line from the centre does not cross the neighbour
+    if (n.near && pos[n.near]) ideal = pos[n.near].deg + (n.side ?? 1) * step / 2;
     if (place[n.id] !== undefined) ideal = place[n.id];
     return { id: n.id, deg: ideal };
   }).sort((p, q) => p.deg - q.deg);
@@ -208,7 +210,7 @@ export function renderSvg(opts = {}) {
     if (mode === "poster" && e.kind === "source" && e.to === "conductoR") continue;
     if ((opts.hideLinks ?? []).includes(`${e.from}>${e.to}`)) continue;
     const c = colourOf(e.from);
-    const dash = e.kind === "build" ? ` stroke-dasharray="7 5"` : e.kind === "source" ? ` stroke-dasharray="2 4"` : "";
+    const dash = e.kind === "build" ? ` stroke-dasharray="7 5"` : e.kind === "source" || e.kind === "data" ? ` stroke-dasharray="2 4"` : "";
     const score = scorePairs.has(`${e.from}>${e.to}`);
     // Poster: the worked example stands out; every other link is faint.
     const posterScore = mode === "poster" && score;

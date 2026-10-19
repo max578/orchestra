@@ -1,12 +1,14 @@
 // Interaction for the orchestra map: choose a node to light its links and
 // open its panel; play the worked example; show every link; deep link with
-// #map-<id>. Panel text is set with textContent only.
-import { sections, nodes, edges, workedExample, formatWriters, formatReaders } from "../data/orchestraMap.mjs";
-
-type MapNode = (typeof nodes)[number] & { label?: string; similar?: string[]; similarNote?: string; status?: string; section?: string | null };
-
-const sectionOf = Object.fromEntries(sections.map((s) => [s.id, s]));
-const byId = Object.fromEntries(nodes.map((n) => [n.id, n as MapNode]));
+// #map-<id>. Panel text is set with textContent only. The map data arrive in
+// a JSON block written at build time, so the example files stay out of the
+// browser bundle.
+type MapNode = { id: string; kind: string; label?: string; purpose: string; character?: string; similar?: string[];
+  similarNote?: string; status?: string; section?: string | null };
+type MapEdge = { from: string; to: string; kind: string; text: string };
+type MapData = { sections: { id: string; label: string }[]; nodes: MapNode[]; edges: MapEdge[];
+  workedExample: { id: string; text: string }[]; workedExampleSource: { id: string; slug: string; title: string };
+  formatWriters: string[]; formatReaders: string[] };
 
 function el<K extends keyof HTMLElementTagNameMap>(tag: K, cls?: string, text?: string) {
   const e = document.createElement(tag);
@@ -18,6 +20,11 @@ function el<K extends keyof HTMLElementTagNameMap>(tag: K, cls?: string, text?: 
 export function initOrchestraMap() {
   const root = document.querySelector<HTMLElement>("[data-om]");
   if (!root) return;
+  const data: MapData = JSON.parse(root.querySelector("[data-om-data]")?.textContent ?? "null");
+  if (!data) return;
+  const { sections, nodes, edges, workedExample, workedExampleSource, formatWriters, formatReaders } = data;
+  const sectionOf = Object.fromEntries(sections.map((s) => [s.id, s]));
+  const byId = Object.fromEntries(nodes.map((n) => [n.id, n]));
   const stage = root.querySelector<HTMLElement>("[data-om-stage]")!;
   const svg = stage.querySelector("svg")!;
   const panel = root.querySelector<HTMLElement>("[data-om-panel]")!;
@@ -141,12 +148,12 @@ export function initOrchestraMap() {
     clearSelection();
     svg.classList.add("has-sel", "is-playing");
     panel.innerHTML = "";
-    panel.append(el("p", "om-kicker", "Worked example (Study A0)"), el("h2", "om-title", "From weather and soil records to a nitrogen plan"));
+    panel.append(el("p", "om-kicker", `Worked example ${workedExampleSource.id}`), el("h2", "om-title", workedExampleSource.title));
     const ol = el("ol", "om-steps");
     workedExample.forEach((s) => { const li = el("li"); li.append(jump(s.id), el("span", undefined, " " + s.text)); ol.append(li); });
     panel.append(ol);
-    const a = el("a", "om-more", "The full study →");
-    a.href = `${base}/a0/`;
+    const a = el("a", "om-more", "The full example →");
+    a.href = `${base}/examples/${workedExampleSource.slug}/`;
     panel.append(a);
     const stepMs = reduced ? 0 : 900;
     workedExample.forEach((s, i) => {
@@ -156,6 +163,7 @@ export function initOrchestraMap() {
         const t = n?.querySelector(".om-step"); if (t) t.textContent = String(i + 1);
         ol.children[i]?.classList.add("is-on");
         if (i > 0) edgeEls.find((e) => e.dataset.from === workedExample[i - 1].id && e.dataset.to === s.id)?.classList.add("is-lit-score");
+        edgeEls.find((e) => e.dataset.from === "conductoR" && e.dataset.to === s.id)?.classList.add("is-lit-score");
       }, i * stepMs));
     });
   }
