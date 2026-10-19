@@ -1,0 +1,468 @@
+{
+  "generated": "2026-10-15",
+  "currency": "AUD",
+  "method": {
+    "model": "COCOMO II.2000 post-architecture",
+    "a": 2.94,
+    "exponent": 1.0997,
+    "hours_per_person_month": 152,
+    "hours_per_year": 1725,
+    "effort_multipliers": {
+      "rely_high": 1.1,
+      "docu_high": 1.11,
+      "cplx": {
+        "L": 0.87,
+        "N": 1,
+        "H": 1.17,
+        "VH": 1.34,
+        "XH": 1.74
+      },
+      "personnel_skilled": 0.4553,
+      "personnel_commercial": 1
+    },
+    "design_share": 0.07,
+    "evidence": {
+      "test_lines_per_source_line": 0.91,
+      "tests": 4877,
+      "vignettes": 66
+    }
+  },
+  "scenarios": {
+    "lean": {
+      "total_aud": 3308619,
+      "band_aud": {
+        "low": 1770000,
+        "high": 5150000
+      },
+      "subtotals_by_group_aud": {
+        "package": 2588466,
+        "contract": 8848,
+        "data": 166467,
+        "study": 462845,
+        "publication": 65307,
+        "governance": 16686
+      },
+      "hours": 58498,
+      "person_months_cocomo_152h": 384.9,
+      "person_years_1725h": 33.91,
+      "cost_per_line_aud": 25.68,
+      "lines_counted": 128833,
+      "sensitivity": {
+        "mid": {
+          "total_aud": 3308619,
+          "hours": 58498
+        },
+        "COCOMO constant A -30%": {
+          "total_aud": 2396644,
+          "hours": 42374
+        },
+        "COCOMO constant A +30%": {
+          "total_aud": 4220595,
+          "hours": 74622
+        },
+        "complexity one step lower": {
+          "total_aud": 2830613,
+          "hours": 50047
+        },
+        "complexity one step higher": {
+          "total_aud": 3529095,
+          "hours": 62396
+        },
+        "rates low": {
+          "total_aud": 2838389,
+          "hours": 58498
+        },
+        "rates high": {
+          "total_aud": 3778845,
+          "hours": 58498
+        },
+        "all favourable": {
+          "total_aud": 1768977,
+          "hours": 36458
+        },
+        "all unfavourable": {
+          "total_aud": 5147795,
+          "hours": 79690
+        },
+        "flexyBayes at very high complexity": {
+          "total_aud": 2973992,
+          "hours": 52582
+        }
+      },
+      "team": [
+        {
+          "role": "postdoctoral fellow (Level A), casual or freelance",
+          "fte": 2,
+          "hours": 58498,
+          "rate_aud_h": 56.56,
+          "rate_source_row": "rates.csv row 11: postdoctoral fellow (academic Level A), salary / 1,725 h, no on-costs",
+          "cost_aud": 3308619
+        }
+      ]
+    },
+    "realistic": {
+      "total_aud": 11064344,
+      "band_aud": {
+        "low": 5750000,
+        "high": 17110000
+      },
+      "subtotals_by_group_aud": {
+        "package": 6882491,
+        "contract": 22742,
+        "data": 435214,
+        "study": 1216062,
+        "publication": 176656,
+        "governance": 893688,
+        "overhead": 1437491
+      },
+      "hours": 73121,
+      "person_months_cocomo_152h": 481.1,
+      "person_years_1725h": 42.39,
+      "cost_per_line_aud": 85.88,
+      "lines_counted": 128833,
+      "sensitivity": {
+        "mid": {
+          "total_aud": 11064344,
+          "hours": 73121
+        },
+        "COCOMO constant A -30%": {
+          "total_aud": 7971128,
+          "hours": 52824
+        },
+        "COCOMO constant A +30%": {
+          "total_aud": 14157555,
+          "hours": 93418
+        },
+        "complexity one step lower": {
+          "total_aud": 9441284,
+          "hours": 62493
+        },
+        "complexity one step higher": {
+          "total_aud": 11812981,
+          "hours": 78023
+        },
+        "rates low": {
+          "total_aud": 9293214,
+          "hours": 73121
+        },
+        "rates high": {
+          "total_aud": 12506438,
+          "hours": 73121
+        },
+        "all favourable": {
+          "total_aud": 5752583,
+          "hours": 45384
+        },
+        "all unfavourable": {
+          "total_aud": 17111198,
+          "hours": 99790
+        },
+        "flexyBayes at very high complexity": {
+          "total_aud": 9928119,
+          "hours": 65681
+        }
+      },
+      "team": [
+        {
+          "role": "principal data scientist / senior research software engineer",
+          "fte": 3,
+          "hours": 61969,
+          "rate_aud_h": 150.72,
+          "rate_source_row": "rates.csv row 30: principal data scientist / senior RSE (industry), hour_rate",
+          "cost_aud": 9339922
+        },
+        {
+          "role": "professor-level methodologist (Level E)",
+          "fte": 0.4,
+          "hours": 8322,
+          "rate_aud_h": 166.58,
+          "rate_source_row": "rates.csv row 26: professor (academic Level E), hour_rate",
+          "cost_aud": 1386236
+        },
+        {
+          "role": "research software engineering lead (HEO10, part time)",
+          "fte": 0.08,
+          "hours": 1616,
+          "rate_aud_h": 111.93,
+          "rate_source_row": "rates.csv row 34: research software engineering lead (university HEO10), hour_rate",
+          "cost_aud": 180881
+        },
+        {
+          "role": "senior crop scientist (CSIRO CSOF7)",
+          "fte": 0.06,
+          "hours": 1214,
+          "rate_aud_h": 129.54,
+          "rate_source_row": "rates.csv row 32: senior crop-modelling scientist (CSIRO CSOF7), hour_rate",
+          "cost_aud": 157305
+        }
+      ]
+    },
+    "commercial": {
+      "total_aud": 29166155,
+      "band_aud": {
+        "low": 16880000,
+        "high": 43440000
+      },
+      "subtotals_by_group_aud": {
+        "package": 14281890,
+        "contract": 53170,
+        "data": 895472,
+        "study": 2489784,
+        "publication": 760547,
+        "governance": 2453258,
+        "overhead": 8232034
+      },
+      "hours": 85836,
+      "person_months_cocomo_152h": 564.7,
+      "person_years_1725h": 49.76,
+      "cost_per_line_aud": 226.39,
+      "lines_counted": 128833,
+      "sensitivity": {
+        "mid": {
+          "total_aud": 29166155,
+          "hours": 85836
+        },
+        "COCOMO constant A -30%": {
+          "total_aud": 21052557,
+          "hours": 61866
+        },
+        "COCOMO constant A +30%": {
+          "total_aud": 37279747,
+          "hours": 109805
+        },
+        "complexity one step lower": {
+          "total_aud": 24895320,
+          "hours": 73297
+        },
+        "complexity one step higher": {
+          "total_aud": 31136082,
+          "hours": 91619
+        },
+        "rates low": {
+          "total_aud": 27258359,
+          "hours": 85836
+        },
+        "rates high": {
+          "total_aud": 31801295,
+          "hours": 85836
+        },
+        "all favourable": {
+          "total_aud": 16881455,
+          "hours": 53089
+        },
+        "all unfavourable": {
+          "total_aud": 43440216,
+          "hours": 117323
+        },
+        "flexyBayes at very high complexity": {
+          "total_aud": 26176348,
+          "hours": 77058
+        }
+      },
+      "team": [
+        {
+          "role": "senior data scientist / statistician",
+          "fte": 4,
+          "hours": 57360,
+          "rate_aud_h": 304.25,
+          "rate_source_row": "rates.csv row 38: senior data scientist / statistician, hour_rate",
+          "cost_aud": 17451799
+        },
+        {
+          "role": "QA / test engineer",
+          "fte": 0.71,
+          "hours": 10170,
+          "rate_aud_h": 230.75,
+          "rate_source_row": "rates.csv row 50: QA / test engineer, hour_rate",
+          "cost_aud": 2346798
+        },
+        {
+          "role": "project manager",
+          "fte": 0.61,
+          "hours": 8775,
+          "rate_aud_h": 260.52,
+          "rate_source_row": "rates.csv row 46: project manager, hour_rate",
+          "cost_aud": 2285990
+        },
+        {
+          "role": "principal consultant",
+          "fte": 0.43,
+          "hours": 6162,
+          "rate_aud_h": 428,
+          "rate_source_row": "rates.csv row 42: principal consultant (head of data science), hour_rate",
+          "cost_aud": 2637125
+        },
+        {
+          "role": "technical writer",
+          "fte": 0.18,
+          "hours": 2543,
+          "rate_aud_h": 176.78,
+          "rate_source_row": "rates.csv row 54: technical writer, hour_rate",
+          "cost_aud": 449477
+        },
+        {
+          "role": "UX / web developer",
+          "fte": 0.06,
+          "hours": 826,
+          "rate_aud_h": 230.75,
+          "rate_source_row": "rates.csv row 58: UX / web developer, hour_rate",
+          "cost_aud": 190685
+        }
+      ]
+    }
+  },
+  "cocomo_cross_check": {
+    "note": "COCOMO II.2000 at all-nominal drivers on package source lines (R + C++), per package, summed.",
+    "hours": 50327,
+    "person_months": 331.1,
+    "per_package_hours": {
+      "flexyBayes": 24865,
+      "PESTO": 2524,
+      "kernR": 2835,
+      "proxymix": 4314,
+      "koine": 1933,
+      "terroir": 805,
+      "kalmix": 1181,
+      "masque": 3786,
+      "apsimR": 897,
+      "quorum": 2199,
+      "decideR": 589,
+      "gpfield": 492,
+      "grainPlan": 313,
+      "optimix": 800,
+      "cdzoo": 1003,
+      "survkit": 333,
+      "bacipair": 310,
+      "conductoR": 1020,
+      "orchestraManifest": 129
+    }
+  },
+  "complexity_multipliers": {
+    "flexyBayes": {
+      "mult": 1.74,
+      "cplx": "XH",
+      "reason": "One model language fitted through separate inference engines, with results kept in agreement with a licensed commercial engine and one engine installed from outside CRAN."
+    },
+    "PESTO": {
+      "mult": 1.34,
+      "cplx": "VH",
+      "reason": "C++17 numerical kernels for ensemble smoothing, external PEST++ binaries driven through files and an APSIM callback."
+    },
+    "kernR": {
+      "mult": 1.34,
+      "cplx": "VH",
+      "reason": "C++ kernels with permutation nulls, small-sample calibration of the tests and a simulator-as-null test."
+    },
+    "proxymix": {
+      "mult": 1.34,
+      "cplx": "VH",
+      "reason": "Mixture calculus with Kullback-Leibler fitting, missing-data handling and posterior compression."
+    },
+    "apsimR": {
+      "mult": 1.17,
+      "cplx": "H",
+      "reason": "An external crop simulator with platform-specific binaries on the .NET 8 runtime and clean abstention when it is absent."
+    },
+    "quorum": {
+      "mult": 1.17,
+      "cplx": "H",
+      "reason": "Reconciles several heavy inference engines on common scales into one verdict."
+    },
+    "koine": {
+      "mult": 1.17,
+      "cplx": "H",
+      "reason": "Reproduces another engine's models through compiled nimble code and compares marginal likelihoods."
+    },
+    "terroir": {
+      "mult": 1.17,
+      "cplx": "H",
+      "reason": "Many external web data services, each with its own access rules and failure modes."
+    },
+    "kalmix": {
+      "mult": 1.17,
+      "cplx": "H",
+      "reason": "Numerically stable Kalman filtering and smoothing, hidden Markov models and a single-unit causal method."
+    },
+    "masque": {
+      "mult": 1.17,
+      "cplx": "H",
+      "reason": "Confidentiality guarantees backed by leak tests while keeping experimental design structure."
+    },
+    "gpfield": {
+      "mult": 1.17,
+      "cplx": "H",
+      "reason": "Change-of-support integration from points to blocks with typed abstention."
+    },
+    "optimix": {
+      "mult": 1.17,
+      "cplx": "H",
+      "reason": "Many optimiser back ends behind one contract and an automatic selector."
+    },
+    "cdzoo": {
+      "mult": 1.17,
+      "cplx": "H",
+      "reason": "Mixed R and Python stack and fair benchmarking across discovery algorithms."
+    },
+    "conductoR": {
+      "mult": 1.17,
+      "cplx": "H",
+      "reason": "Runs a schema-validated plan across every member's contract."
+    },
+    "decideR": {
+      "mult": 1,
+      "cplx": "N",
+      "reason": "Decision theory in pure R with a small surface."
+    },
+    "grainPlan": {
+      "mult": 1,
+      "cplx": "N",
+      "reason": "A thin grain-specific front end on the decision package."
+    },
+    "survkit": {
+      "mult": 1,
+      "cplx": "N",
+      "reason": "One interface over established survival back ends."
+    },
+    "bacipair": {
+      "mult": 1,
+      "cplx": "N",
+      "reason": "Established quasi-experimental estimators in a small package."
+    },
+    "orchestraManifest": {
+      "mult": 1,
+      "cplx": "N",
+      "reason": "Small set of S7 classes that define the shared result format."
+    }
+  },
+  "assumptions": ["Effort follows the COCOMO II.2000 post-architecture model: person-months = 2.94 x KSLOC^1.0997 x the product of the effort multipliers, with all five scale factors nominal (sum 18.97) and 152 hours per person-month.", "Size is source lines only: R lines that are not comments plus C++ lines. Tests, vignettes and help pages are not added as lines because COCOMO's development effort already includes testing and documentation.", "Each package, study folder and other code item is estimated separately, so the diseconomy of scale applies within an item and not across the whole suite.", "Required reliability is rated high (1.10) and documentation high (1.11) for every package, on the evidence of 0.91 test lines per source line, 4,877 tests and 66 vignettes. Studies, DataHub, website and poster scripts keep both at nominal.", "Product complexity (CPLX) is rated per package from the difficulty notes: extra high 1.74, very high 1.34, high 1.17 or nominal 1.00. Studies, DataHub, website and poster scripts are nominal.", "TOOL, SITE, SCED, DATA, RUSE, TIME, STOR and PVOL are nominal (1.00).", "All three teams are rated skilled and experienced: analyst capability very high (0.71), programmer capability high (0.88), application, platform and language experience high (0.88, 0.91, 0.91), personnel continuity nominal (1.00); product 0.455. Hours are therefore the same in every scenario before overheads; the commercial difference comes from charge-out rates, project management, QA, technical writing, discovery, contingency and warranty.", "Method design is 7% of each package's development effort, the share COCOMO II adds for plans and requirements outside its development estimate.", "Release engineering is 24 h of set-up plus 8 h per release recorded in NEWS, as maintenance that falls outside one development cycle.", "Per-item rates: 16 h per study plan or addendum, 12 per report, 3 per dataset enrolled, 2 per held dataset formatted, 6 per poster content version, 1.5 per decision record, six minutes per manuscript line plus 80 h, 40 h website design, 40 h to design the shared result format, four cross-package audits of 40 h.", "Lean prices everyone at the Level A salary divided by 1,725 h with no on-costs and no casual loading, as for a casual or freelance engagement at academic pay; no coordination, review, management or QA.", "Only the latest poster build script and its figure script are priced as code; earlier build versions are covered by 6 h per content version.", "Person-years are hours / 1,725 throughout.", "Realistic adds a 10% senior review of development hours, gives release engineering to the research software engineering lead and adds 15% coordination on all hours at the principal data scientist rate.", "Commercial adds project management at 15%, discovery at 5% and warranty at 5% of delivery hours, QA at 20% of development hours, technical writing at 25% of documentation hours (taken as 20% of development hours) and a 15% contingency on all priced work. The firm's margin is inside the charge-out rates and is not added again.", "A trial run of study S2 is left out; the 13 study folders and shared helpers are priced; the 16 study design files in the coordination plan folder are priced like in-folder plans.", "Not priced: hardware, software licences, cloud services, travel and recruitment."],
+  "unsourced": [
+    {
+      "item": "Freelance R developer rate in Australia",
+      "assumption": "The lean team is priced at the university Level A salary without on-costs."
+    },
+    {
+      "item": "Australian consulting firm rate card",
+      "assumption": "Charge-out = mid salary / 1,725 h x 3.21, the average billing multiple of a US engineering-firm benchmark."
+    },
+    {
+      "item": "Peer-reviewed effort to build an R package",
+      "assumption": "COCOMO II.2000 on measured source lines, package by package."
+    },
+    {
+      "item": "Cost of CRAN-grade quality assurance",
+      "assumption": "Release checks and four cross-package audits, plus 10% review (realistic) or 20% QA (commercial)."
+    },
+    {
+      "item": "Consulting utilisation",
+      "assumption": "Not needed: charge-out rates apply to delivered hours only."
+    },
+    {
+      "item": "Hours per plan, report, dataset, poster version, decision record and manuscript line",
+      "assumption": "Planning rates listed in the assumptions; no published benchmark."
+    },
+    {
+      "item": "Cost-driver ratings (CPLX per package, RELY, DOCU, personnel)",
+      "assumption": "Ratings are judgement from the measured evidence; the multiplier values themselves are the published COCOMO II.2000 table."
+    }
+  ]
+}
