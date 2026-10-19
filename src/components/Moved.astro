@@ -1,9 +1,12 @@
 ---
 // A page that has moved: sends the visitor on and keeps old links working.
-import { href } from "../data/site";
+import { href, base } from "../data/site";
 interface Props { to: string }
 const { to } = Astro.props;
 const dest = href(to);
+const origin = Astro.site ?? new URL("https://example.invalid");
+const canonical = new URL(dest, origin).href;
+const description = "This page has moved.";
 ---
 <!doctype html>
 <html lang="en-AU">
@@ -12,6 +15,12 @@ const dest = href(to);
     <meta http-equiv="refresh" content={`0; url=${dest}`} />
     <meta name="robots" content="noindex" />
     <title>Moved</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <meta property="og:title" content="Moved" />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={new URL(`${base}/og/home.png`, origin).href} />
+    <meta name="twitter:card" content="summary_large_image" />
   </head>
   <body><p>This page has moved to <a href={dest}>{dest}</a>.</p></body>
 </html>

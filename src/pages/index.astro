@@ -1,17 +1,19 @@
 ---
 import Base from "../layouts/Base.astro";
+import LoopFigure from "../components/LoopFigure.astro";
+import FixtureNote from "../components/FixtureNote.astro";
 import { site, href } from "../data/site";
-import { dataHub } from "../data/members";
-import { a0 } from "../data/a0_results";
+import { examples } from "../data/examples.mjs";
+import { withRange } from "../data/format";
 
-const k = (x: number) => Math.round(x).toLocaleString("en-AU");
-const pct = Math.round(a0.loss_reduction_vs_naive_pct);
-const t2 = (kg: number) => (kg / 1000).toFixed(2);
+const line = (ex: any) => ex.result.refused
+  ? `No estimate released: ${ex.result.refusal_reason}`
+  : `${ex.result.estimand}: ${withRange(ex.result.estimate, ex.result.lo, ex.result.hi)} ${ex.result.unit} (${ex.result.interval_label})`;
 const principles = [
-  { h: "One result format", p: "Every package writes its result in the same structure, so the next package can check it and use it directly." },
-  { h: "Declining to answer", p: "A package that cannot answer soundly says so, with its reason, in the same format. Later packages carry that forward instead of guessing." },
-  { h: "conductoR runs the plan", p: "An analysis plan is a list of steps, each done by one package. conductoR runs them in order and stops if a result is the wrong kind for the next step." },
-  { h: "Open data in the orchestra", p: `DataHub holds ${dataHub.nDatasets} open datasets, ${dataHub.nAustralia} of them Australian, each with its source and licence, and finds the datasets that can answer a given question.` },
+  { h: "A masked copy first", p: "masque makes a masked copy of every dataset, open or confidential. The analyst writes the plan on the copy and never sees the real table." },
+  { h: "Tested, then sealed", p: "On the copy, the plan must find an effect planted in the data and must not find one where none was planted. Only then is it sealed, and its fingerprint recorded." },
+  { h: "Run where the data are held", p: "conductoR runs the sealed plan on the real data. Each step is done by one package, and each result is checked before the next package uses it." },
+  { h: "Little comes back", p: "A failed step returns its name and the kind of error, nothing more. A warning sign the plan was told to look for returns only its name. The result is released once." },
 ];
 const jsonLd = {
   "@context": "https://schema.org", "@type": "WebSite",
@@ -29,15 +31,40 @@ const jsonLd = {
         built to work together. Each does one job well on its own, all return results in one shared
         format, and each can decline to answer when the data cannot support an answer.</p>
       <p class="cta-row">
-        <a class="btn btn-accent" href={href("/members")}>Explore the members</a>
-        <a class="btn btn-ghost" href={href("/a0")}>See the study</a>
+        <a class="btn btn-accent" href={href("/examples")}>See the examples</a>
+        <a class="btn btn-ghost" href={href("/members")}>Explore the members</a>
       </p>
     </div>
   </section>
 
   <section class="band"><div class="wrap">
     <div class="section-head">
-      <p class="kicker">How the packages work together</p>
+      <p class="kicker">How every example runs</p>
+      <h2>Five steps, the same each time</h2>
+    </div>
+    <LoopFigure />
+  </div></section>
+
+  <section class="wrap">
+    <div class="section-head">
+      <p class="kicker">Examples</p>
+      <h2>Worked examples on open data</h2>
+    </div>
+    <FixtureNote />
+    <div class="grid grid-2">
+      {examples.map((ex) => (
+        <a class="card ex-card" href={href(`/examples/${ex.slug}`)}>
+          <p class="kicker">{ex.id} · {ex.data.name}</p>
+          <h3>{ex.title}</h3>
+          <p class="muted mt-2">{line(ex)}</p>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <section class="band"><div class="wrap">
+    <div class="section-head">
+      <p class="kicker">Principles</p>
     </div>
     <div class="grid four">
       {principles.map((x) => (
@@ -48,27 +75,4 @@ const jsonLd = {
       ))}
     </div>
   </div></section>
-
-  <section class="wrap">
-    <div class="section-head">
-      <p class="kicker">One nitrogen decision</p>
-      <h2>{pct}% less money lost than trusting the crop simulator alone</h2>
-      <p class="prose muted mt-2">On a synthetic barley belt built on real climate and soil
-        records at {a0.n_sites} sites, the full chain of packages chose nitrogen rates site by
-        site. Where the field record disagreed with the simulator, the chain stopped using the
-        simulator and fitted the field data instead.</p>
-    </div>
-    <div class="hero-stats">
-      <div class="hs"><span class="n">{k(a0.loss_cascade_total_aud_ha)}</span><span class="l">AUD/ha lost, orchestra</span></div>
-      <div class="hs"><span class="n">{k(a0.loss_naive_total_aud_ha)}</span><span class="l">AUD/ha lost, simulator alone</span></div>
-      <div class="hs"><span class="n">{k(a0.n_saved_vs_naive_kgn)}</span><span class="l">kg N not applied</span></div>
-    </div>
-    <p class="prose muted mt-3">Cause and effect: in farm-style records drawn from the same plots, where
-      wetter sites get more nitrogen, a naive reading puts the gain from 150 kg N/ha at{" "}
-      {t2(a0.causal_naive_150)} t/ha against a planted {t2(a0.causal_truth_150)}. Adjusting for rainfall
-      gives {t2(a0.causal_backdoor_150)} t/ha (medians of {a0.causal_n_samples} samples).</p>
-    <p class="prose muted small mt-3">The belt is synthetic: the numbers show the method at
-      work, not what a real paddock would earn.</p>
-    <p class="cta-row"><a class="btn btn-ghost" href={href("/a0")}>The study, step by step</a></p>
-  </section>
 </Base>

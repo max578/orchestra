@@ -16,6 +16,7 @@ export type Visibility =
 export interface Install {
   github: boolean;     // installable with remotes::install_github("max578/<id>")
   runiverse: boolean;  // on max578.r-universe.dev
+  cran?: boolean;      // on CRAN
 }
 
 export interface Member {
@@ -128,8 +129,8 @@ export const members: Member[] = [
       { text: "Every figure carries its source and date, and can be fetched again with the same result.", status: "claimed" },
       { text: "A figure that cannot be traced to its source is refused, with the reason.", status: "claimed" },
     ] },
-  { id: "masque", tier: "member", role: "Synthetic copies of private data",
-    method: "Makes a synthetic copy of a confidential table that keeps its experimental design, so an analysis can be built before anyone sees the real data.",
+  { id: "masque", tier: "member", role: "Masked copies of data tables",
+    method: "Makes a masked copy of a data table that keeps its experimental design, so an analysis plan can be written and tested before anyone uses the real data.",
     guard: "Refuses to hand over a copy when it finds that real values could be recovered from it, or that a location was left unmasked.",
     visibility: "public", repo: "max578/masque", install: PUBLIC,
     work: "Copies do not yet keep differences between varieties across environments. Copies made with older versions should be rebuilt.",
@@ -236,6 +237,15 @@ export const members: Member[] = [
       { text: "Checks whether enough events were observed to trust the model, and can return a refusal instead of a fit.", status: "tested" },
       { text: "Compares several time-to-event methods on the same data through one function.", status: "claimed" },
     ] },
+  // janusplot joined 2026-10-19 as the shape screen of the worked examples. Public status read live that day:
+  // CRAN 0.1.1 (published 2026-07-02) and github.com/max578/janusplot; not on max578.r-universe.dev.
+  { id: "janusplot", tier: "member", role: "Shapes of associations",
+    method: "Draws a matrix of smoothed associations between continuous variables, each pair fitted in both directions with mgcv, and names the shape of every fitted curve from a list of 24.",
+    visibility: "public", repo: "max578/janusplot", install: { github: true, runiverse: false, cran: true },
+    alternatives: ["corrplot", "GGally"],
+    advantages: [
+      { text: "Shows heteroscedasticity, leverage and curvature in one direction that a single correlation hides.", status: "claimed" },
+    ] },
 
   // Invited members: packages by other authors that the orchestra uses
   { id: "nasapower", tier: "external", role: "Weather",
@@ -291,6 +301,7 @@ export const installBlock = (m: Member): { lines: string[]; note?: string } => {
   if (m.tier !== "member" || !m.install) return { lines: [] };
   if (m.visibility === "gated") return { lines: [], note: "under development, public release to follow" };
   const lines: string[] = [];
+  if (m.install.cran) lines.push(`install.packages("${m.id}")`);
   if (m.install.github) lines.push(`remotes::install_github("max578/${m.id}")`);
   if (m.install.runiverse)
     lines.push(`install.packages("${m.id}", repos = c("https://max578.r-universe.dev", "https://cloud.r-project.org"))`);

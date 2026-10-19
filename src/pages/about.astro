@@ -28,14 +28,14 @@ import { site, href } from "../data/site";
         back to the record it came from.</p>
 
       <h2 class="mt-3">Data</h2>
-      <p class="mt-1">{site.domain}. Package examples, tests and studies use public data
-        (published trials, open climate and soil services, crop simulators) or synthetic data
-        built around a known answer. Confidential data is analysed only through a synthetic copy
-        made by its owner with masque; only summary figures leave. No GRDC-origin code or data
-        enters any package, study output or page.</p>
+      <p class="mt-1">{site.domain}. The worked examples use open data only. Each starts with a
+        masked copy made by masque, even of open data. The same steps then work for confidential data:
+        the analysis plan is written on the copy, and only short messages and the final result leave
+        the place where the data are held. Package tests also use simulated data built around a known
+        answer. No GRDC-origin code or data enters any package, example or page.</p>
 
       <h2 class="mt-3">Licence</h2>
-      <p class="mt-1">The public packages are released under the MIT licence through
+      <p class="mt-1">The public packages are released under the MIT licence through{" "}
         <code>max578.r-universe.dev</code>. The others are still in development.</p>
 
       <h2 class="mt-3">How this site was checked</h2>
@@ -47,7 +47,7 @@ import { site, href } from "../data/site";
 
       <p class="cta-row">
         <a class="btn btn-ghost" href={href("/members")}>The members</a>
-        <a class="btn btn-ghost" href={href("/a0")}>The study</a>
+        <a class="btn btn-ghost" href={href("/examples")}>The examples</a>
       </p>
     </div>
   </section>

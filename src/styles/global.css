@@ -117,7 +117,7 @@ section:first-of-type { border-top: none; padding-top: var(--space-4); }
 .site-nav a[aria-current="page"] { color: var(--accent); }
 .site-footer { border-top: var(--border); padding-block: var(--space-3); margin-top: var(--space-5); }
 .site-footer .bar { font-family: var(--mono); font-size: var(--step--2); color: var(--muted); }
-.site-footer a { padding-block: .4rem; margin-block: -.4rem; }
+.site-footer a { padding-block: .4rem; margin-block: -.4rem; white-space: nowrap; }
 .refs a { overflow-wrap: anywhere; }
 .site-footer .ack { font-size: var(--step--2); color: var(--muted); max-width: var(--measure); margin-top: var(--space-1); }
 
@@ -364,7 +364,61 @@ h2.tier-title { font-size: var(--step-2); margin: var(--space-4) 0 .7rem; }
   .acc::details-content { block-size: auto; }
 }
 
-/* responsive figures (A0 results page): the width/height attributes reserve space, the CSS keeps them inside the column */
+/* responsive figures: the width/height attributes reserve space, the CSS keeps them inside the column */
 figure { margin: 0; }
 figure picture, figure img { display: block; max-width: 100%; height: auto; }
 figcaption { margin-top: .5rem; font-size: var(--step--1); }
+
+/* ---- the five-step loop figure (components/LoopFigure.astro) --------------- */
+.loop-fig { margin-top: 1.4rem; }
+.lf { display: block; width: 100%; height: auto; font-family: var(--sans); }
+.lf-tall { display: none; max-width: 28rem; margin-inline: auto; }
+@media (max-width: 56rem) { .lf-wide { display: none; } .lf-tall { display: block; } }
+.lf-box { fill: var(--surface); stroke: var(--edge); stroke-width: 1.5; }
+.lf-num { fill: var(--accent); }
+.lf-numt { fill: var(--accent-ink); font-size: 14px; font-weight: 700; }
+.lf-h { fill: var(--surface-ink); font-size: 16px; font-weight: 650; }
+.lf-t { fill: var(--muted-s); font-size: 14px; }
+.lf-side { fill: var(--muted); font-family: var(--mono); font-size: 12px; letter-spacing: .1em; text-transform: uppercase; }
+.lf-halo { paint-order: stroke; stroke: var(--paper); stroke-width: 8px; stroke-linejoin: round; }
+.lf-split { stroke: var(--muted); stroke-width: 1.2; stroke-dasharray: 4 5; }
+.lf-arrow { stroke: var(--muted); stroke-width: 2; }
+.lf-ah { fill: var(--muted); }
+.lf-back { fill: none; stroke: var(--accent2); stroke-width: 2; stroke-dasharray: 6 4; }
+.lf-ah2 { fill: var(--accent2); }
+.lf-backt { fill: var(--accent2); font-size: 14px; font-weight: 600; }
+.lf-next { fill: none; stroke: var(--accent); stroke-width: 2; }
+.lf-ah3 { fill: var(--accent); }
+.lf-nextt { fill: var(--accent); font-size: 14px; font-weight: 600; }
+.lf-signal { fill: none; stroke: var(--paper-ink); stroke-width: 1.6; stroke-dasharray: 2 4; }
+.lf-ah4 { fill: var(--paper-ink); }
+.lf-signalt { fill: var(--paper-ink); font-size: 14px; font-weight: 600; }
+.loop-fig figcaption { max-width: var(--measure); }
+
+/* ---- worked examples ---------------------------------------------------------- */
+.fixture-note { border: 2px dashed var(--accent); color: var(--accent); border-radius: var(--radius); padding: .8rem 1.1rem; margin: 0 0 1.4rem; font-family: var(--mono); font-size: var(--step--1); }
+.result-n { font-family: var(--display); font-size: var(--step-2); line-height: 1.15; color: var(--accent); margin-top: .3rem; font-variant-numeric: tabular-nums; }
+.ex-steps { list-style: none; padding: 0; margin: 1rem 0 0; display: grid; gap: 1rem; }
+.ex-steps > li { min-width: 0; }
+.ex-steps h3 { font-size: var(--step-1); }
+@media (max-width: 40rem) { .ex-steps > li.card, .facts.card { padding: 1.1rem 1rem; } }
+.ex-steps p { max-width: var(--measure); }
+.hash { overflow-wrap: anywhere; word-break: break-all; }
+.ex-card { display: block; color: var(--surface-ink); }
+.ex-card:hover { text-decoration: none; border-color: var(--accent); }
+.ex-card-h { font-size: var(--step-1); font-family: var(--sans); font-weight: 650; line-height: 1.2; }
+td code, th code { white-space: nowrap; }
+table.t-wide { min-width: 40rem; }
+@media (max-width: 40rem) { th, td { padding: .6rem .75rem; } }
+.ex-steps h4 { font-family: var(--sans); font-size: var(--step-0); font-weight: 650; margin: 1.75rem 0 0; }
+.rounds { padding-left: 1.2rem; max-width: var(--measure); }
+.rounds > li + li { margin-top: .7rem; }
+.rounds ul { margin: .3rem 0 0; padding-left: 1.1rem; }
+ul.chips { list-style: none; padding: 0; margin-bottom: 0; }
+h2.mt-4 + :is(p, ul, ol, div, dl), h2.mt-3 + :is(p, ul, ol, div, dl) { margin-top: 1rem; }
+.sketch { display: block; color: var(--accent2); }
+.sketch-axis { stroke: var(--edge); stroke-width: 1.5; fill: none; }
+.sketch-line { stroke: currentColor; stroke-width: 2.4; fill: none; stroke-linecap: round; }
+.sketch-dot { fill: currentColor; }
+.sketch-q { stroke: currentColor; stroke-width: 1.5; stroke-dasharray: 3 3; fill: none; }
+.ex-fig img { border: var(--border); border-radius: var(--radius); background: #fff; }

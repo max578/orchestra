@@ -26,8 +26,8 @@ export const site = {
     "the Australian Grains Industry (AAGI) project is acknowledged.",
   nav: [
     { href: "/", label: "Home" },
+    { href: "/examples", label: "Examples" },
     { href: "/members", label: "Members" },
-    { href: "/a0", label: "Study" },
     { href: "/about", label: "About" },
   ],
 };
