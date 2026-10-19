@@ -14,6 +14,10 @@ import { copyFileSync, existsSync, mkdirSync, readFileSync, rmSync, writeFileSyn
 import { basename, dirname, join, relative, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { EXAMPLE_IDS, validateExample } from "../src/data/examples_spec.mjs";
+import sharp from "sharp";
+
+// Web copies are capped at this width; the released file keeps its full size.
+const MAX_FIG_PX = 2400;
 
 const here = dirname(fileURLToPath(import.meta.url));
 const site = resolve(here, "..");
@@ -64,7 +68,12 @@ for (const [id, ex, figs] of ready) {
   ex._figures = [];
   if (figs.length) mkdirSync(dir, { recursive: true });
   for (const f of figs) {
-    copyFileSync(f, join(dir, basename(f)));
+    const to = join(dir, basename(f));
+    const { width } = await sharp(f).metadata();
+    if (/\.png$/i.test(f) && width > MAX_FIG_PX) {
+      await sharp(f).resize({ width: MAX_FIG_PX }).png({ palette: true, quality: 90, compressionLevel: 9 }).toFile(to);
+      console.log(`sync_examples: ${id} ${basename(f)} resized from ${width} px to ${MAX_FIG_PX} px wide`);
+    } else copyFileSync(f, to);
     ex._figures.push({ src: `/figures/examples/${id}/${basename(f)}`,
       alt: /janus/i.test(basename(f)) ? `janusplot matrix of smoothed associations, example ${id}` : `Figure from the released results of example ${id}: ${basename(f)}` });
   }
