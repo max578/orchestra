@@ -1,0 +1,1050 @@
+{
+  "id": "E1",
+  "slug": "sowing-time",
+  "title": "Does wheat sown earlier yield more?",
+  "question": "What is the average effect of sowing wheat in the Early rather than the Main window, where does it differ, and what is it worth?",
+  "data": {
+    "name": "NVT wheat trials, same-paddock Early and Main pairs",
+    "source": "DataHub (figshare_million_phenotype)",
+    "citation": "Newman, S. J., & Furbank, R. T. (2021). A multiple species, continent-wide, million-phenotype agronomic plant dataset. Scientific Data, 8, 116. https://doi.org/10.1038/s41597-021-00898-8. Correction notice: Scientific Data, 9, 437 (2022). https://doi.org/10.1038/s41597-022-01536-7",
+    "licence": "CC BY 4.0",
+    "url": "https://doi.org/10.6084/m9.figshare.c.5296369.v4",
+    "n_rows": 3137,
+    "n_units": 287,
+    "unit_label": "same-paddock pairs (usable and same-week)",
+    "period": "2008 to 2017",
+    "place": "New South Wales and Queensland"
+  },
+  "mask": {
+    "masque_version": "0.14.0",
+    "n_rows_real": 3137,
+    "n_rows_clone": 3137,
+    "roles": {
+      "covariate": [
+        "B_c",
+        "dN",
+        "dN_missing",
+        "lsd_E",
+        "lsd_M",
+        "sow_doy_M",
+        "presow_rain_30_M",
+        "clay_M",
+        "ph_M",
+        "awc_M",
+        "latitude",
+        "longitude"
+      ],
+      "design": [
+        "pair_id",
+        "variety",
+        "set",
+        "scope",
+        "region",
+        "site",
+        "trial_year",
+        "gap"
+      ],
+      "outcome": [
+        "y_E",
+        "y_M"
+      ],
+      "treatment": [
+        "set"
+      ]
+    },
+    "coordinates_jittered": true,
+    "audit": [
+      {
+        "check": "rows, clone vs real",
+        "value": "3137 vs 3137",
+        "pass": true
+      },
+      {
+        "check": "pairs by set identical",
+        "value": "pair_id x set",
+        "pass": true
+      },
+      {
+        "check": "varieties within pairs identical",
+        "value": "pair_id x variety",
+        "pass": true
+      },
+      {
+        "check": "region, site, year per pair identical",
+        "value": "pair_id x region x site x trial_year",
+        "pass": true
+      },
+      {
+        "check": "no NA in the columns the plan reads",
+        "value": "d, w, y_E, y_M, v_E, v_M, covariates",
+        "pass": true
+      },
+      {
+        "check": "exact match with real, y_E (%)",
+        "value": "0",
+        "pass": true
+      },
+      {
+        "check": "exact match with real, y_M (%)",
+        "value": "0",
+        "pass": true
+      },
+      {
+        "check": "exact match with real, d (%)",
+        "value": "0",
+        "pass": true
+      },
+      {
+        "check": "exact match with real, B_c (%)",
+        "value": "0.1",
+        "pass": true
+      },
+      {
+        "check": "exact match with real, dN (%)",
+        "value": "71.5",
+        "pass": true
+      },
+      {
+        "check": "exact match with real, lsd_E (%)",
+        "value": "3.4",
+        "pass": true
+      },
+      {
+        "check": "exact match with real, lsd_M (%)",
+        "value": "4.7",
+        "pass": true
+      },
+      {
+        "check": "exact match with real, sow_doy_M (%)",
+        "value": "3.7",
+        "pass": true
+      },
+      {
+        "check": "exact match with real, presow_rain_30_M (%)",
+        "value": "1.1",
+        "pass": true
+      },
+      {
+        "check": "exact match with real, clay_M (%)",
+        "value": "4.6",
+        "pass": true
+      },
+      {
+        "check": "exact match with real, ph_M (%)",
+        "value": "5.5",
+        "pass": true
+      },
+      {
+        "check": "exact match with real, awc_M (%)",
+        "value": "15.1",
+        "pass": true
+      },
+      {
+        "check": "jittered points vs paddock keys",
+        "value": "221 vs 221",
+        "pass": true
+      },
+      {
+        "check": "displacement km, min",
+        "value": "5.1",
+        "pass": true
+      },
+      {
+        "check": "displacement km, max",
+        "value": "19.9",
+        "pass": true
+      },
+      {
+        "check": "latitude exact match with real (%)",
+        "value": "0",
+        "pass": true
+      },
+      {
+        "check": "long table, window as treatment: conditioning used",
+        "value": "window",
+        "pass": false
+      },
+      {
+        "check": "long table, window as treatment: SD of pair mean d (t/ha)",
+        "value": "0.196",
+        "pass": false
+      },
+      {
+        "check": "conditional clone",
+        "value": "set",
+        "pass": true
+      },
+      {
+        "check": "terms carried as shifts",
+        "value": "variety, pair_id",
+        "pass": true
+      },
+      {
+        "check": "rows per conditioning stratum",
+        "value": "1568.5",
+        "pass": true
+      },
+      {
+        "check": "fallback share",
+        "value": "0",
+        "pass": true
+      },
+      {
+        "check": "mean d usable, real vs clone (t/ha)",
+        "value": "0.211 vs 0.219",
+        "pass": true
+      },
+      {
+        "check": "effect retention, clone / real (%)",
+        "value": "103.4",
+        "pass": true
+      },
+      {
+        "check": "SD of pair mean d, real vs clone (t/ha)",
+        "value": "0.573 vs 0.574",
+        "pass": true
+      },
+      {
+        "check": "SD of d, real vs clone (t/ha)",
+        "value": "0.669 vs 0.681",
+        "pass": true
+      },
+      {
+        "check": "correlation of y_E and y_M, real vs clone",
+        "value": "0.912 vs 0.907",
+        "pass": true
+      },
+      {
+        "check": "audit_mask high findings",
+        "value": "0",
+        "pass": true
+      }
+    ]
+  },
+  "compose": {
+    "n_clone_runs": 5,
+    "plan_hash": "sha256:0881164845750875f8c1c29e78d081cc58be97dcc131fcf7b7c8cad01cb3ed9b",
+    "plan_hash_round1": "sha256:e58f03d81798eb183b7c1a5e95c2909978f2ab072ade303bca11d5465a289dba",
+    "n_steps": 15,
+    "members": [
+      "masque",
+      "conductoR",
+      "asreml",
+      "flexyBayes",
+      "proxymix",
+      "apsimx",
+      "PESTO",
+      "quorum",
+      "decideR"
+    ],
+    "steps": [
+      {
+        "id": "pc_L1",
+        "label": "check: ASReml on simulated yields",
+        "member": "asreml",
+        "does": "Fits the ASReml lens to a copy whose yields are APSIM simulations plus trial noise, and checks it recovers the simulated effect."
+      },
+      {
+        "id": "pc_L2",
+        "label": "check: flexyBayes on simulated yields",
+        "member": "flexyBayes",
+        "does": "Fits the flexyBayes lens to the same simulated copy and checks it recovers the simulated effect."
+      },
+      {
+        "id": "pc_L3",
+        "label": "check: proxymix on simulated yields",
+        "member": "proxymix",
+        "does": "Fits the proxymix lens to the same simulated copy and checks it recovers the simulated effect."
+      },
+      {
+        "id": "A0",
+        "label": "crop model, uncalibrated",
+        "member": "apsimx",
+        "does": "Takes the Early-minus-Main difference from APSIM runs with default settings, per pair."
+      },
+      {
+        "id": "A1",
+        "label": "crop model, calibrated",
+        "member": "PESTO",
+        "does": "Takes the Early-minus-Main difference from APSIM calibrated to each pair with PESTO."
+      },
+      {
+        "id": "gate_L1",
+        "label": "gate for ASReml",
+        "member": "conductoR",
+        "does": "Withholds the ASReml lens if its positive control failed."
+      },
+      {
+        "id": "gate_L2",
+        "label": "gate for flexyBayes",
+        "member": "conductoR",
+        "does": "Withholds the flexyBayes lens if its positive control failed."
+      },
+      {
+        "id": "gate_L3",
+        "label": "gate for proxymix",
+        "member": "conductoR",
+        "does": "Withholds the proxymix lens if its positive control failed."
+      },
+      {
+        "id": "L1",
+        "label": "mixed model (ASReml)",
+        "member": "asreml",
+        "does": "REML mixed model of the Early-minus-Main difference, with site, year, variety and pair effects and trial weights."
+      },
+      {
+        "id": "L2",
+        "label": "Bayesian model (flexyBayes)",
+        "member": "flexyBayes",
+        "does": "Bayesian version of the same model (INLA), giving posterior draws of the average effect and of a new paddock and season."
+      },
+      {
+        "id": "L3",
+        "label": "no-normality model (proxymix)",
+        "member": "proxymix",
+        "does": "Gaussian-mixture uplift model of Early and Main yields with pre-sowing covariates; interval from a bootstrap over pairs."
+      },
+      {
+        "id": "quorum",
+        "label": "spread check between methods",
+        "member": "quorum",
+        "does": "Judges whether the three lenses agree on the average effect."
+      },
+      {
+        "id": "compare",
+        "label": "trials against crop model",
+        "member": "conductoR",
+        "does": "Sets the field estimates beside the two crop-model arms."
+      },
+      {
+        "id": "money",
+        "label": "value per hectare and decision",
+        "member": "decideR",
+        "does": "Turns the flexyBayes posterior into dollars per hectare at the ABARES wheat price and chooses a sowing window."
+      },
+      {
+        "id": "agree_loc",
+        "label": "agreement on effect size",
+        "member": "conductoR",
+        "does": "Checks that the three lenses' average effects lie within 0.10 t/ha of each other."
+      }
+    ],
+    "edges": [
+      {
+        "from": "pc_L1",
+        "to": "gate_L1",
+        "what": "treatment_effects"
+      },
+      {
+        "from": "pc_L2",
+        "to": "gate_L2",
+        "what": "treatment_effects"
+      },
+      {
+        "from": "pc_L3",
+        "to": "gate_L3",
+        "what": "treatment_effects"
+      },
+      {
+        "from": "gate_L1",
+        "to": "L1",
+        "what": "decisions"
+      },
+      {
+        "from": "gate_L2",
+        "to": "L2",
+        "what": "decisions"
+      },
+      {
+        "from": "gate_L3",
+        "to": "L3",
+        "what": "decisions"
+      },
+      {
+        "from": "L1",
+        "to": "quorum",
+        "what": "treatment_effects"
+      },
+      {
+        "from": "L2",
+        "to": "quorum",
+        "what": "treatment_effects"
+      },
+      {
+        "from": "L3",
+        "to": "quorum",
+        "what": "treatment_effects"
+      },
+      {
+        "from": "L1",
+        "to": "compare",
+        "what": "treatment_effects"
+      },
+      {
+        "from": "L2",
+        "to": "compare",
+        "what": "treatment_effects"
+      },
+      {
+        "from": "A0",
+        "to": "compare",
+        "what": "treatment_effects"
+      },
+      {
+        "from": "A1",
+        "to": "compare",
+        "what": "treatment_effects"
+      },
+      {
+        "from": "L2",
+        "to": "money",
+        "what": "treatment_effects"
+      },
+      {
+        "from": "L1",
+        "to": "agree_loc",
+        "what": "treatment_effects"
+      },
+      {
+        "from": "L2",
+        "to": "agree_loc",
+        "what": "treatment_effects"
+      },
+      {
+        "from": "L3",
+        "to": "agree_loc",
+        "what": "treatment_effects"
+      }
+    ]
+  },
+  "rehearsal": {
+    "planted_effect": 0.2,
+    "tolerance": 0.1,
+    "recovered": 0.228189653451112,
+    "recovered_lo": 0.0677959634982983,
+    "recovered_hi": 0.391071870500275,
+    "pass": true,
+    "null_estimate": 0.0272234514978007,
+    "null_lo": -0.133194695074982,
+    "null_hi": 0.187036974830949,
+    "null_pass": true,
+    "agreement_rule": [
+      {
+        "clone": "effect",
+        "max_lens_gap": 0.0307719978637864,
+        "should_fire": false,
+        "fired": false,
+        "pass": true
+      },
+      {
+        "clone": "null",
+        "max_lens_gap": 0.0307717978169776,
+        "should_fire": false,
+        "fired": false,
+        "pass": true
+      },
+      {
+        "clone": "shift",
+        "max_lens_gap": 0.171807435047087,
+        "should_fire": true,
+        "fired": true,
+        "pass": true
+      }
+    ]
+  },
+  "real_run": {
+    "date": "2026-10-19",
+    "n_rounds": 2,
+    "messages": [
+      {
+        "round": 1,
+        "message": "quorum assumption_check_failed"
+      },
+      {
+        "round": 2,
+        "message": "stop"
+      }
+    ],
+    "plan_hash": "sha256:0881164845750875f8c1c29e78d081cc58be97dcc131fcf7b7c8cad01cb3ed9b",
+    "plan_hash_matches_seal": true,
+    "plan_hash_round1": "sha256:e58f03d81798eb183b7c1a5e95c2909978f2ab072ade303bca11d5465a289dba",
+    "plan_hash_round1_matches_seal": true
+  },
+  "result": {
+    "estimand": "Average effect of Early rather than Main sowing on wheat yield, same variety, same paddock and season (Early minus Main)",
+    "estimate": 0.223261037819538,
+    "lo": 0.0642713885525274,
+    "hi": 0.382464274373936,
+    "interval_label": "90% credible interval (flexyBayes)",
+    "unit": "t/ha",
+    "refused": false,
+    "refusal_reason": null,
+    "same_as_round1": false,
+    "max_abs_diff_round1": 0.01954713396417,
+    "extra": {
+      "n_pairs": 205,
+      "n_sites": 46,
+      "n_variety_pairs": 2425,
+      "n_varieties": 64,
+      "gap_min_days": 7,
+      "gap_max_days": 52,
+      "gap_median_days": 19,
+      "n_pairs_north": 85,
+      "n_pairs_south": 120,
+      "n_pairs_same_week": 82,
+      "year_min": 2008,
+      "year_max": 2017,
+      "mean_main_yield": 3.7884412371134,
+      "asreml_ate": [
+        0.227840125531851,
+        0.0877547251957711,
+        0.367925525867931
+      ],
+      "asreml_north": [
+        0.122837654125189,
+        -0.037964341837655,
+        0.283639650088033
+      ],
+      "asreml_south": [
+        0.30937710548878,
+        0.158256027358555,
+        0.460498183619004
+      ],
+      "asreml_same_week": [
+        0.0545873289663463,
+        -0.00590114450379688,
+        0.11507580243649
+      ],
+      "fb_ate": [
+        0.223840977029166,
+        0.0586533591696663,
+        0.393308432747096
+      ],
+      "fb_north": [
+        0.12071540883881,
+        -0.055869913538686,
+        0.300127476444707
+      ],
+      "fb_south": [
+        0.307727471368605,
+        0.142132877917896,
+        0.482464046939391
+      ],
+      "fb_same_week": [
+        0.0526373333103206,
+        -0.0250014540792458,
+        0.129370402281426
+      ],
+      "pm_ate": [
+        0.211525416135719,
+        0.140950033005371,
+        0.27467219143519
+      ],
+      "pm_north": [
+        0.104678349680776,
+        0.0180068568427658,
+        0.211913508499886
+      ],
+      "pm_south": [
+        0.266821113230986,
+        0.166730583448067,
+        0.357350600390831
+      ],
+      "apsim_ate": [
+        0.126590028400547,
+        0.107432560474213,
+        0.145065560250582
+      ],
+      "apsim_north": [
+        0.111893381462647,
+        0.0907982022730161,
+        0.133317306610677
+      ],
+      "apsim_south": [
+        0.136614789088287,
+        0.108311814451333,
+        0.164416032144103
+      ],
+      "pc_truth": 0.0851502569023996,
+      "kernr_p_primary": 1,
+      "kernr_p_with_rain": 0.878121878121878,
+      "kernr_trials_early": 187,
+      "kernr_trials_main": 190,
+      "rain_early_mm": 36.6928571428517,
+      "rain_main_mm": 34.754634146336,
+      "n_sow_early": 24.801550802139,
+      "n_sow_main": 24.2416842105263,
+      "n_total_early": 56.3825396825397,
+      "n_total_main": 54.9602105263158,
+      "price_aud_t": 260.723747842598,
+      "price_low_aud_t": 218.255931116607,
+      "price_high_aud_t": 316.09582488911,
+      "value_ate_aud_ha": [
+        58.3606584517932,
+        15.2923236262734,
+        102.544848643921
+      ],
+      "decider_value_new_paddock_aud_ha": 61.6790057873747,
+      "p_gain": 0.983,
+      "p_gain_new_paddock": 0.65075,
+      "lost_early_only": 3,
+      "lost_main_only": 1,
+      "lost_both": 20,
+      "lost_candidates": 229,
+      "sources": {
+        "n_pairs": "holder/tab_c2_v12_true.fst (C2 output_12_blind/tab_c2_v12_true.fst), usable rows",
+        "n_sites": "holder/tab_c2_v12_true.fst (C2 output_12_blind/tab_c2_v12_true.fst), usable rows",
+        "n_variety_pairs": "holder/tab_c2_v12_true.fst (C2 output_12_blind/tab_c2_v12_true.fst), usable rows",
+        "n_varieties": "holder/tab_c2_v12_true.fst (C2 output_12_blind/tab_c2_v12_true.fst), usable rows",
+        "gap_min_days": "holder/tab_c2_v12_true.fst (C2 output_12_blind/tab_c2_v12_true.fst), usable rows",
+        "gap_max_days": "holder/tab_c2_v12_true.fst (C2 output_12_blind/tab_c2_v12_true.fst), usable rows",
+        "gap_median_days": "holder/tab_c2_v12_true.fst (C2 output_12_blind/tab_c2_v12_true.fst), usable rows",
+        "n_pairs_north": "holder/tab_c2_v12_true.fst (C2 output_12_blind/tab_c2_v12_true.fst), usable rows",
+        "n_pairs_south": "holder/tab_c2_v12_true.fst (C2 output_12_blind/tab_c2_v12_true.fst), usable rows",
+        "n_pairs_same_week": "holder/tab_c2_v12_true.fst (C2 output_12_blind/tab_c2_v12_true.fst), same-week rows",
+        "year_min": "holder/tab_c2_v12_true.fst (C2 output_12_blind/tab_c2_v12_true.fst), usable rows",
+        "year_max": "holder/tab_c2_v12_true.fst (C2 output_12_blind/tab_c2_v12_true.fst), usable rows",
+        "mean_main_yield": "holder/tab_c2_v12_true.fst (C2 output_12_blind/tab_c2_v12_true.fst), usable rows, mean of y_M over variety rows",
+        "asreml_ate": "studies/C2/output_14_conduct/unblinded/tab_estimates.csv",
+        "asreml_north": "studies/C2/output_14_conduct/unblinded/tab_estimates.csv",
+        "asreml_south": "studies/C2/output_14_conduct/unblinded/tab_estimates.csv",
+        "asreml_same_week": "studies/C2/output_14_conduct/unblinded/tab_estimates.csv",
+        "fb_ate": "studies/C2/output_14_conduct/unblinded/tab_estimates.csv",
+        "fb_north": "studies/C2/output_14_conduct/unblinded/tab_estimates.csv",
+        "fb_south": "studies/C2/output_14_conduct/unblinded/tab_estimates.csv",
+        "fb_same_week": "studies/C2/output_14_conduct/unblinded/tab_estimates.csv",
+        "pm_ate": "studies/C2/output_19_v1.6a/tab_estimates.csv",
+        "pm_north": "studies/C2/output_19_v1.6a/tab_estimates.csv",
+        "pm_south": "studies/C2/output_19_v1.6a/tab_estimates.csv",
+        "apsim_ate": "studies/C2/output_13_A1/tab_a1_effect_full.csv",
+        "apsim_north": "studies/C2/output_13_A1/tab_a1_effect_full.csv",
+        "apsim_south": "studies/C2/output_13_A1/tab_a1_effect_full.csv",
+        "pc_truth": "studies/C2/output_14_conduct/unblinded/tab_pc.csv",
+        "kernr_p_primary": "studies/C2/output_20_kernR_v1.6a/tab_kernr_tests.csv",
+        "kernr_p_with_rain": "studies/C2/output_20_kernR_v1.6a/tab_kernr_tests.csv",
+        "kernr_trials_early": "studies/C2/output_20_kernR_v1.6a/tab_kernr_tests.csv",
+        "kernr_trials_main": "studies/C2/output_20_kernR_v1.6a/tab_kernr_tests.csv",
+        "rain_early_mm": "studies/C2/output_20_kernR_v1.6a/tab_smd.csv",
+        "rain_main_mm": "studies/C2/output_20_kernR_v1.6a/tab_smd.csv",
+        "n_sow_early": "studies/C2/output_20_kernR_v1.6a/tab_smd.csv",
+        "n_sow_main": "studies/C2/output_20_kernR_v1.6a/tab_smd.csv",
+        "n_total_early": "studies/C2/output_20_kernR_v1.6a/tab_smd.csv",
+        "n_total_main": "studies/C2/output_20_kernR_v1.6a/tab_smd.csv",
+        "price_aud_t": "studies/C2/output_17_price_v1.4/tab_money.csv",
+        "price_low_aud_t": "studies/C2/output_17_price_v1.4/tab_price_seasons.csv, min of guv",
+        "price_high_aud_t": "studies/C2/output_17_price_v1.4/tab_price_seasons.csv, max of guv",
+        "value_ate_aud_ha": "studies/C2/output_17_price_v1.4/tab_money.csv",
+        "decider_value_new_paddock_aud_ha": "studies/C2/output_18_v1.5/tab_decision.csv",
+        "p_gain": "studies/C2/output_17_price_v1.4/tab_money.csv",
+        "p_gain_new_paddock": "studies/C2/output_17_price_v1.4/tab_money.csv",
+        "lost_early_only": "studies/C2/output_18_v1.5/tab_lost_summary.csv",
+        "lost_main_only": "studies/C2/output_18_v1.5/tab_lost_summary.csv",
+        "lost_both": "studies/C2/output_18_v1.5/tab_lost_summary.csv",
+        "lost_candidates": "studies/C2/output_18_v1.5/tab_lost_summary.csv, sum of same-paddock usable rows"
+      },
+      "untraced": []
+    }
+  },
+  "refusals": [],
+  "by_solutions": [
+    {
+      "what": "Only wheat has a sowing-time series; canola's Early series is a maturity group with no usable pairs.",
+      "consequence": "Effects are given by region and by variety, never by crop.",
+      "file": "studies/C2/plan_C2_v1.2_addendum.md"
+    },
+    {
+      "what": "Wheat trials hold rows under names that have yields only in canola trials.",
+      "consequence": "None enters the analysis, and observed flowering dates cannot be used.",
+      "file": "studies/C2/report_C2_v2.md"
+    },
+    {
+      "what": "Pairs within 5 km were narrowed to pairs on the same paddock.",
+      "consequence": "The average effect compares 205 same-paddock pairs, not the 225 pairs of the first stage.",
+      "file": "studies/C2/plan_C2_v1.3_addendum.md"
+    },
+    {
+      "what": "The analysis plan was run first on a table with Early and Main swapped at random in each pair, then frozen.",
+      "consequence": "The plan hash was fixed before the true table was read.",
+      "file": "studies/C2/plan_C2_v1.2_addendum.md"
+    },
+    {
+      "what": "The APSIM launcher lost runs without an error: 15 of the first 50 pairs abstained.",
+      "consequence": "The launcher now records exit codes and reruns failed batches; the 15 pairs were rerun.",
+      "file": "studies/C2/plan_C2_v1.2_addendum.md"
+    },
+    {
+      "what": "The balance test of Early against Main trials before sowing was missing from the v1.2 plan.",
+      "consequence": "kernR's test was added and found no difference before sowing.",
+      "file": "studies/C2/plan_C2_v1.3_addendum.md"
+    },
+    {
+      "what": "Applied nitrogen included in-crop top-dressing, which can respond to sowing date.",
+      "consequence": "Only nitrogen applied by sowing day enters the proxymix lens and the balance test.",
+      "file": "studies/C2/plan_C2_v1.6a_addendum.md"
+    },
+    {
+      "what": "The first value used the 2026-27 forecast wheat price for seasons 2008 to 2017.",
+      "consequence": "The value is priced at the study seasons' ABARES prices.",
+      "file": "studies/C2/plan_C2_v1.4_addendum.md"
+    },
+    {
+      "what": "Some same-paddock pairs lost a trial's yields.",
+      "consequence": "The lost pairs are counted by which series lost yields.",
+      "file": "studies/C2/plan_C2_v1.5_addendum.md"
+    },
+    {
+      "what": "masque's conditional clone of a long table, with sowing window as treatment, dropped the pair from its conditioning.",
+      "consequence": "The clone was built from the wide table, Early and Main yields as two outcomes, which keeps each pair's means.",
+      "file": "E1/NOTES.md"
+    }
+  ],
+  "return": "discoveries",
+  "lenses": [
+    {
+      "lens": "L1",
+      "member": "asreml",
+      "estimate": 0.227840125531851,
+      "lo": 0.0877547251957711,
+      "hi": 0.367925525867931,
+      "planted_pass": true,
+      "null_pass": true
+    },
+    {
+      "lens": "L2",
+      "member": "flexyBayes",
+      "estimate": 0.223261037819538,
+      "lo": 0.0642713885525274,
+      "hi": 0.382464274373936,
+      "planted_pass": true,
+      "null_pass": true
+    },
+    {
+      "lens": "L3",
+      "member": "proxymix",
+      "estimate": 0.211500652386849,
+      "lo": 0.141380568865886,
+      "hi": 0.274985540670106,
+      "planted_pass": true,
+      "null_pass": true
+    }
+  ],
+  "agreement": {
+    "rule": "location only, round 2: every pair of lens ATE estimates (ASReml, flexyBayes, proxymix) within 0.1 t/ha; a spread difference is the lens_spread anomaly",
+    "verdict": "concordant",
+    "round": 2,
+    "pairs": [
+      {
+        "lens_a": "L1",
+        "lens_b": "L2",
+        "est_a": 0.227840125531851,
+        "est_b": 0.223261037819538,
+        "abs_diff": 0.00457908771231294,
+        "agree": true
+      },
+      {
+        "lens_a": "L1",
+        "lens_b": "L3",
+        "est_a": 0.227840125531851,
+        "est_b": 0.211500652386849,
+        "abs_diff": 0.0163394731450023,
+        "agree": true
+      },
+      {
+        "lens_a": "L2",
+        "lens_b": "L3",
+        "est_a": 0.223261037819538,
+        "est_b": 0.211500652386849,
+        "abs_diff": 0.0117603854326894,
+        "agree": true
+      }
+    ],
+    "quorum_recorded": {
+      "verdict": "discordant",
+      "reason": [
+        "SD ratio 0.86",
+        "mean shift 0.19 SD; Wasserstein-1 0.43 SD; SD ratio 2.07",
+        "mean shift 0.12 SD; Wasserstein-1 0.43 SD; SD ratio 2.40"
+      ],
+      "spread_ok": [
+        false,
+        false,
+        false
+      ],
+      "note": "quorum's verdict joins location and spread; it is kept in the plan and its spread part is trigger T_lens_spread"
+    },
+    "round1": {
+      "rule": "location only: every lens pair's mean shift at most 0.1 of the wider lens's posterior SD (quorum default)",
+      "verdict": "discordant",
+      "pairs": [
+        {
+          "lens_a": "ASReml",
+          "lens_b": "flexyBayes",
+          "mean_shift_sd": 0.0465359112319908,
+          "location_ok": true
+        },
+        {
+          "lens_a": "ASReml",
+          "lens_b": "proxymix",
+          "mean_shift_sd": 0.193844175265499,
+          "location_ok": false
+        },
+        {
+          "lens_a": "flexyBayes",
+          "lens_b": "proxymix",
+          "mean_shift_sd": 0.116328731425399,
+          "location_ok": false
+        }
+      ]
+    }
+  },
+  "discoveries": [
+    {
+      "statement": "The Early-sowing gain is larger in southern NSW than in the northern region (ASReml 0.31 against 0.12 t/ha; the northern interval includes zero).",
+      "found_by": "L1, L2, L3: CATE north and CATE south (release/tab_estimates.csv)",
+      "loop2_dataset": null,
+      "loop2_verdict": "not yet tested",
+      "loop2_estimate": null,
+      "loop2_lo": null,
+      "loop2_hi": null
+    },
+    {
+      "statement": "The lenses differ in spread: 3 of 3 lens pairs are outside quorum's spread limits (proxymix's posterior SD is 2.07 to 2.4 times narrower), plausibly because its bootstrap over pairs leaves out site, year and variety effects.",
+      "found_by": "quorum (release/tab_quorum_pairs.csv)",
+      "loop2_dataset": null,
+      "loop2_verdict": "not yet tested",
+      "loop2_estimate": null,
+      "loop2_lo": null,
+      "loop2_hi": null
+    },
+    {
+      "statement": "Calibrated APSIM gives a smaller gain from Early sowing than the trials (0.13 against 0.23 t/ha), though the intervals overlap.",
+      "found_by": "compare, A1 (release/tab_compare_a1.csv)",
+      "loop2_dataset": null,
+      "loop2_verdict": "not yet tested",
+      "loop2_estimate": null,
+      "loop2_lo": null,
+      "loop2_hi": null
+    },
+    {
+      "statement": "Trials sown in the same week in the two series still differ by 0.05 t/ha, so part of the Early-minus-Main difference may belong to the series rather than the sowing date.",
+      "found_by": "L1, same-week control (release/tab_estimates.csv)",
+      "loop2_dataset": null,
+      "loop2_verdict": "not yet tested",
+      "loop2_estimate": null,
+      "loop2_lo": null,
+      "loop2_hi": null
+    },
+    {
+      "statement": "The yield response to sowing date may rise then fall (frost and heat at the extremes); needs trials with three or more sowing dates.",
+      "found_by": "not tested by the plan: the sowing window has two levels",
+      "evidence": "C2 stage 03 (v1.0 units, 310 pairs within 5 km, same-week pairs included): ASReml slope 0.0436 t/ha per week of gap (90% 0.0155 to 0.0718); by gap band, ASReml: 7-14 d: 0.1 (-0.05 to 0.25; 65 pairs); 15-21 d: 0.11 (-0.03 to 0.25; 73 pairs); 22-28 d: 0.14 (-0.02 to 0.3; 49 pairs); 29-42 d: 0.42 (0.23 to 0.6; 29 pairs); 43-69 d: 0.04 (-0.25 to 0.34; 9 pairs). Files: studies/C2/output_03_effect/tab_effect_engines.csv, tab_bands.csv. No turning-point test was run.",
+      "loop2_dataset": null,
+      "loop2_verdict": "not yet tested",
+      "loop2_estimate": null,
+      "loop2_lo": null,
+      "loop2_hi": null
+    }
+  ],
+  "shapes": [
+    {
+      "x": "sowing window (Early or Main)",
+      "y": "grain yield (t/ha)",
+      "form_selected": null,
+      "turning_point": null,
+      "tp_lo": null,
+      "tp_hi": null,
+      "test": null,
+      "verdict": "not_testable",
+      "screen_label": "not screened"
+    }
+  ],
+  "triggers": [
+    {
+      "trigger_id": "T_gate_L1",
+      "class": "anomaly",
+      "signal_type": "assumption_check_failed",
+      "what": "The asreml lens misses the effect in the simulated copy",
+      "threshold_label": "all 3 covered",
+      "action": "lens withheld from the headline",
+      "rehearsal_fired": false,
+      "rehearsal_silent": true,
+      "fired_real": false,
+      "round": 1,
+      "note": "no planted failure was run, so the trigger was never shown to fire"
+    },
+    {
+      "trigger_id": "T_gate_L2",
+      "class": "anomaly",
+      "signal_type": "assumption_check_failed",
+      "what": "The flexyBayes lens misses the effect in the simulated copy",
+      "threshold_label": "all 3 covered",
+      "action": "lens withheld from the headline",
+      "rehearsal_fired": false,
+      "rehearsal_silent": true,
+      "fired_real": false,
+      "round": 1,
+      "note": "no planted failure was run, so the trigger was never shown to fire"
+    },
+    {
+      "trigger_id": "T_gate_L3",
+      "class": "anomaly",
+      "signal_type": "assumption_check_failed",
+      "what": "The proxymix lens misses the effect in the simulated copy",
+      "threshold_label": "all 3 covered",
+      "action": "lens withheld from the headline",
+      "rehearsal_fired": false,
+      "rehearsal_silent": true,
+      "fired_real": false,
+      "round": 1,
+      "note": "no planted failure was run, so the trigger was never shown to fire"
+    },
+    {
+      "trigger_id": "T_quorum_location",
+      "class": "anomaly",
+      "signal_type": "lens_disagreement_location",
+      "what": "The lenses disagree on the size of the average effect",
+      "threshold_label": "every lens pair within 0.1 SD (mean shift over the wider lens SD, quorum default)",
+      "action": "revise",
+      "rehearsal_fired": true,
+      "rehearsal_silent": false,
+      "fired_real": true,
+      "round": 1,
+      "note": "fired on a rehearsal clone where every lens recovered the planted value within tolerance, so it fails the silence test"
+    },
+    {
+      "trigger_id": "T_lens_spread",
+      "class": "anomaly",
+      "signal_type": "lens_spread",
+      "what": "The lenses' intervals for the average effect differ in width",
+      "threshold_label": "Wasserstein-1 within 0.1 SD and SD ratio within 0.9 to 1.1 for every lens pair (quorum defaults)",
+      "action": "release",
+      "rehearsal_fired": true,
+      "rehearsal_silent": false,
+      "fired_real": true,
+      "round": 2,
+      "note": "fired on both rehearsal clones, so it fails the silence test: the lenses differ in spread by design"
+    },
+    {
+      "trigger_id": "T_agree_loc",
+      "class": "anomaly",
+      "signal_type": "assumption_check_failed",
+      "what": "The lenses' average effects are more than 0.10 t/ha apart",
+      "threshold_label": "every lens pair within 0.1 t/ha",
+      "action": "revise",
+      "rehearsal_fired": true,
+      "rehearsal_silent": true,
+      "fired_real": false,
+      "round": 2,
+      "note": "planted test: proxymix alone shifted by 0.20 t/ha on the effect clone (BRIEF.md, Round 2)"
+    }
+  ],
+  "rounds": [
+    {
+      "round": 1,
+      "reason": "first",
+      "lines": [
+        "quorum assumption_check_failed"
+      ],
+      "return": "revise",
+      "plan_hash": "sha256:e58f03d81798eb183b7c1a5e95c2909978f2ab072ade303bca11d5465a289dba"
+    },
+    {
+      "round": 2,
+      "reason": "issue",
+      "lines": [
+        "stop"
+      ],
+      "return": "discoveries",
+      "plan_hash": "sha256:0881164845750875f8c1c29e78d081cc58be97dcc131fcf7b7c8cad01cb3ed9b"
+    }
+  ],
+  "versions": {
+    "conductoR": "0.1.0",
+    "asreml": "4.2.0.482",
+    "flexyBayes": "0.17.0",
+    "proxymix": "0.16.0",
+    "quorum": "0.1.0",
+    "decideR": "0.3.1",
+    "orchestraManifest": "0.2.0",
+    "INLA": "26.08.07",
+    "data.table": "1.18.6.1",
+    "masque": "0.14.0",
+    "R": "4.6.1"
+  },
+  "files": [
+    "release/tab_estimates.csv",
+    "release/tab_money.csv",
+    "release/tab_compare.csv",
+    "release/tab_compare_a1.csv",
+    "release/tab_pc.csv",
+    "release/tab_exceedance.csv",
+    "release/tab_nodes.csv",
+    "release/tab_fallback.csv",
+    "release/summary.txt",
+    "release/run_card.md",
+    "release/provenance.md",
+    "release/plan_C2_v1.2.yaml",
+    "release/sessionInfo.txt",
+    "release/tab_agree_loc.csv",
+    "release/round1/tab_estimates.csv",
+    "release/round1/tab_money.csv",
+    "release/round1/tab_compare.csv",
+    "release/round1/tab_compare_a1.csv",
+    "release/round1/tab_pc.csv",
+    "release/round1/tab_exceedance.csv",
+    "release/round1/tab_nodes.csv",
+    "release/round1/tab_fallback.csv",
+    "release/round1/summary.txt",
+    "release/round1/run_card.md",
+    "release/round1/provenance.md",
+    "release/round1/plan_C2_v1.2.yaml",
+    "release/round1/sessionInfo.txt",
+    "release/round1/reproduction.md",
+    "release/round1/tab_reproduction.csv",
+    "release/round1/tab_reproduction_cells.csv",
+    "release/round1/tab_reproduction_nodes.csv",
+    "release/round1/tab_reproduction_l2_vs_v16a.csv",
+    "release/tab_round1_vs_round2.csv",
+    "holder/output_round2/run_full.rds",
+    "holder/output_round2/time_real.txt",
+    "holder/output/run_full.rds",
+    "sealed/seal.txt",
+    "sealed/seal_round2.txt",
+    "messages/round_1.txt",
+    "messages/round_2.txt",
+    "clone/tab_mask_checks.csv",
+    "clone/roles_yield.csv",
+    "clone/roles_pair.csv",
+    "clone/tab_c2_clone.fst",
+    "clone/mask_settings.txt",
+    "holder/tab_c2_v12_true.fst",
+    "sealed/tab_rehearsal.csv",
+    "rehearsal/effect/summary.txt",
+    "rehearsal/null/summary.txt",
+    "sealed/triggers.csv",
+    "release/round1/tab_quorum_pairs.csv",
+    "release/tab_quorum_pairs.csv",
+    "release/tab_quorum_pairs_rehearsal.csv",
+    "rehearsal/effect/run_full.rds",
+    "rehearsal/null/run_full.rds",
+    "studies/C2/output_03_effect/tab_effect_engines.csv",
+    "studies/C2/output_03_effect/tab_bands.csv",
+    "holder/tab_c2_v12_true.fst (C2 output_12_blind/tab_c2_v12_true.fst), usable rows",
+    "holder/tab_c2_v12_true.fst (C2 output_12_blind/tab_c2_v12_true.fst), same-week rows",
+    "holder/tab_c2_v12_true.fst (C2 output_12_blind/tab_c2_v12_true.fst), usable rows, mean of y_M over variety rows",
+    "studies/C2/output_14_conduct/unblinded/tab_estimates.csv",
+    "studies/C2/output_19_v1.6a/tab_estimates.csv",
+    "studies/C2/output_13_A1/tab_a1_effect_full.csv",
+    "studies/C2/output_14_conduct/unblinded/tab_pc.csv",
+    "studies/C2/output_20_kernR_v1.6a/tab_kernr_tests.csv",
+    "studies/C2/output_20_kernR_v1.6a/tab_smd.csv",
+    "studies/C2/output_17_price_v1.4/tab_money.csv",
+    "studies/C2/output_17_price_v1.4/tab_price_seasons.csv, min of guv",
+    "studies/C2/output_17_price_v1.4/tab_price_seasons.csv, max of guv",
+    "studies/C2/output_18_v1.5/tab_decision.csv",
+    "studies/C2/output_18_v1.5/tab_lost_summary.csv",
+    "studies/C2/output_18_v1.5/tab_lost_summary.csv, sum of same-paddock usable rows",
+    "sources/c2_results_87020ce.ts"
+  ],
+  "_figures": []
+}

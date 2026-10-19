@@ -1,0 +1,1086 @@
+{
+  "id": "E3",
+  "slug": "meuse-zinc",
+  "title": "Topsoil zinc and distance from the river Meuse",
+  "question": "How much does topsoil zinc fall with distance from the river, allowing for spatial correlation?",
+  "data": {
+    "name": "meuse",
+    "description": "155 topsoil samples from a flood plain of the river Meuse, near the village of Stein (the Netherlands) (sp meuse)",
+    "source": "R package sp 2.2-3, dataset meuse",
+    "citation": "M G J Rikken and R P G Van Rijn, 1993. Soil pollution with heavy metals - an inquiry into spatial variation, cost of mapping and the risk evaluation of copper, cadmium, lead and zinc in the floodplains of the Meuse west of Stein, the Netherlands. Doctoraalveldwerkverslag, Dept. of Physical Geography, Utrecht University. Field data were collected by Ruud van Rijn and Mathieu Rikken; compiled for R by Edzer Pebesma; description extended by David Rossiter.",
+    "licence": "GPL (>= 2) (sp)",
+    "url": "https://CRAN.R-project.org/package=sp",
+    "n_rows": 155,
+    "n_units": 155,
+    "unit_label": "topsoil sample (about 15 m x 15 m)",
+    "period": "field survey reported in 1993; the help page gives no sampling date",
+    "place": "a flood plain of the river Meuse, near the village of Stein (the Netherlands)"
+  },
+  "mask": {
+    "masque_version": "0.14.0",
+    "n_rows_real": 155,
+    "n_rows_clone": 155,
+    "roles": {
+      "covariate": [
+        "dist_m",
+        "elev",
+        "om",
+        "ffreq",
+        "soil",
+        "lime",
+        "landuse",
+        "lon",
+        "lat"
+      ],
+      "id": [
+        "sample"
+      ],
+      "outcome": [
+        "zinc"
+      ],
+      "treatment": [
+        "dist"
+      ]
+    },
+    "coordinates_jittered": true,
+    "jitter_min_m": 50.3389856121699,
+    "jitter_max_m": 148.589923538332,
+    "audit": [
+      {
+        "check": "leakage class, sample (id, keep)",
+        "value": "medium",
+        "pass": true,
+        "note": null
+      },
+      {
+        "check": "leakage class, zinc (outcome, scramble)",
+        "value": "low",
+        "pass": true,
+        "note": null
+      },
+      {
+        "check": "leakage class, dist (treatment, keep)",
+        "value": "high",
+        "pass": false,
+        "note": "a treatment kept as-is in collaborate mode. Deliberate: the plan needs the real distances as numbers."
+      },
+      {
+        "check": "leakage class, dist_m (covariate, keep)",
+        "value": "medium",
+        "pass": true,
+        "note": null
+      },
+      {
+        "check": "leakage class, elev (covariate, scramble)",
+        "value": "low",
+        "pass": true,
+        "note": null
+      },
+      {
+        "check": "leakage class, om (covariate, scramble)",
+        "value": "low",
+        "pass": true,
+        "note": null
+      },
+      {
+        "check": "leakage class, ffreq (covariate, keep)",
+        "value": "medium",
+        "pass": true,
+        "note": null
+      },
+      {
+        "check": "leakage class, soil (covariate, keep)",
+        "value": "medium",
+        "pass": true,
+        "note": null
+      },
+      {
+        "check": "leakage class, lime (covariate, keep)",
+        "value": "medium",
+        "pass": true,
+        "note": null
+      },
+      {
+        "check": "leakage class, landuse (covariate, keep)",
+        "value": "high",
+        "pass": false,
+        "note": "a kept class with a level seen once. Deliberate: the classes are published and the clone must have the same levels as the real table."
+      },
+      {
+        "check": "leakage class, lon (covariate, keep)",
+        "value": "medium",
+        "pass": true,
+        "note": null
+      },
+      {
+        "check": "leakage class, lat (covariate, keep)",
+        "value": "medium",
+        "pass": true,
+        "note": null
+      },
+      {
+        "check": "type, levels and missing values equal, sample",
+        "value": "character",
+        "pass": true
+      },
+      {
+        "check": "type, levels and missing values equal, zinc",
+        "value": "numeric",
+        "pass": true
+      },
+      {
+        "check": "type, levels and missing values equal, dist",
+        "value": "numeric",
+        "pass": true
+      },
+      {
+        "check": "type, levels and missing values equal, dist_m",
+        "value": "numeric",
+        "pass": true
+      },
+      {
+        "check": "type, levels and missing values equal, elev",
+        "value": "numeric",
+        "pass": true
+      },
+      {
+        "check": "type, levels and missing values equal, om",
+        "value": "numeric",
+        "pass": true
+      },
+      {
+        "check": "type, levels and missing values equal, ffreq",
+        "value": "factor",
+        "pass": true
+      },
+      {
+        "check": "type, levels and missing values equal, soil",
+        "value": "factor",
+        "pass": true
+      },
+      {
+        "check": "type, levels and missing values equal, lime",
+        "value": "factor",
+        "pass": true
+      },
+      {
+        "check": "type, levels and missing values equal, landuse",
+        "value": "factor",
+        "pass": true
+      },
+      {
+        "check": "type, levels and missing values equal, lon",
+        "value": "numeric",
+        "pass": true
+      },
+      {
+        "check": "type, levels and missing values equal, lat",
+        "value": "numeric",
+        "pass": true
+      }
+    ]
+  },
+  "compose": {
+    "n_clone_runs": 27,
+    "plan_hash": "sha256:ff11c49aa8e7b17bb98fc2fc7152c7047dd0f0355a35414e7c13d1a6fd098b7f",
+    "n_steps": 14,
+    "members": [
+      "conductoR",
+      "janusplot",
+      "flexyBayes",
+      "nlme",
+      "asreml",
+      "gpfield",
+      "stats",
+      "proxymix",
+      "kernR",
+      "mgcv",
+      "quorum"
+    ],
+    "steps": [
+      {
+        "id": "prep",
+        "member": "conductoR",
+        "does": "checks columns, types and the clone-declared levels, missing values and ranges; projects to EPSG:28992"
+      },
+      {
+        "id": "screen_janus",
+        "member": "janusplot",
+        "does": "janusplot GAM screen of log zinc against dist and elev in both directions; shape labels; figures"
+      },
+      {
+        "id": "slope_fb",
+        "member": "flexyBayes",
+        "does": "lead lens: flexyBayes on INLA, slope of log zinc on dist with exponential spatial correlation, averaged over a 13-point range grid by marginal likelihood"
+      },
+      {
+        "id": "slope_reml",
+        "member": "nlme",
+        "does": "nlme GLS by REML, exponential correlation with a nugget (spherical fitted beside it)"
+      },
+      {
+        "id": "slope_asr",
+        "member": "asreml",
+        "does": "asreml REML, isotropic exponential field `iexp(x, y)` plus a units nugget"
+      },
+      {
+        "id": "slope_gp",
+        "member": "gpfield",
+        "does": "gpfield exponential Gaussian process on residuals, then GLS"
+      },
+      {
+        "id": "slope_iid",
+        "member": "stats",
+        "does": "sensitivity: slope under independent errors"
+      },
+      {
+        "id": "slope_pm",
+        "member": "proxymix",
+        "does": "proxymix: Gaussian-mixture errors after decorrelation, slope by maximum likelihood, parametric bootstrap interval"
+      },
+      {
+        "id": "resid_space",
+        "member": "kernR",
+        "does": "anisotropy likelihood ratio, HSIC and Moran's I on decorrelated residuals; branch: slope under an anisotropic GP"
+      },
+      {
+        "id": "influence",
+        "member": "conductoR",
+        "does": "most outlying sample (Bonferroni), leave-one-out slope changes, leave-one-flooding-class-out; branch: slope without the outlying sample"
+      },
+      {
+        "id": "hetero",
+        "member": "conductoR",
+        "does": "slope by flooding class, F test of the dist x ffreq interaction"
+      },
+      {
+        "id": "shape_dist",
+        "member": "mgcv",
+        "does": "formal shape tests (two-lines, end slopes, turning-point interval, broken-line plateau test)"
+      },
+      {
+        "id": "shape_elev",
+        "member": "mgcv",
+        "does": "formal shape tests (two-lines, end slopes, turning-point interval, broken-line plateau test)"
+      },
+      {
+        "id": "agree",
+        "member": "quorum",
+        "does": "location-only agreement rule between the Gaussian spatial lenses; lens spread"
+      }
+    ],
+    "edges": [
+      {
+        "from": "prep",
+        "to": "screen_janus",
+        "what": "structure"
+      },
+      {
+        "from": "prep",
+        "to": "slope_fb",
+        "what": "structure"
+      },
+      {
+        "from": "prep",
+        "to": "slope_reml",
+        "what": "structure"
+      },
+      {
+        "from": "prep",
+        "to": "slope_asr",
+        "what": "structure"
+      },
+      {
+        "from": "prep",
+        "to": "slope_gp",
+        "what": "structure"
+      },
+      {
+        "from": "prep",
+        "to": "slope_iid",
+        "what": "structure"
+      },
+      {
+        "from": "prep",
+        "to": "slope_pm",
+        "what": "structure"
+      },
+      {
+        "from": "slope_reml",
+        "to": "slope_pm",
+        "what": "parameters"
+      },
+      {
+        "from": "prep",
+        "to": "resid_space",
+        "what": "structure"
+      },
+      {
+        "from": "slope_reml",
+        "to": "resid_space",
+        "what": "parameters"
+      },
+      {
+        "from": "prep",
+        "to": "influence",
+        "what": "structure"
+      },
+      {
+        "from": "slope_reml",
+        "to": "influence",
+        "what": "parameters"
+      },
+      {
+        "from": "prep",
+        "to": "hetero",
+        "what": "structure"
+      },
+      {
+        "from": "slope_reml",
+        "to": "hetero",
+        "what": "parameters"
+      },
+      {
+        "from": "prep",
+        "to": "shape_dist",
+        "what": "structure"
+      },
+      {
+        "from": "screen_janus",
+        "to": "shape_dist",
+        "what": "structure"
+      },
+      {
+        "from": "slope_reml",
+        "to": "shape_dist",
+        "what": "parameters"
+      },
+      {
+        "from": "prep",
+        "to": "shape_elev",
+        "what": "structure"
+      },
+      {
+        "from": "screen_janus",
+        "to": "shape_elev",
+        "what": "structure"
+      },
+      {
+        "from": "slope_reml",
+        "to": "shape_elev",
+        "what": "parameters"
+      },
+      {
+        "from": "slope_fb",
+        "to": "agree",
+        "what": "parameters"
+      },
+      {
+        "from": "slope_reml",
+        "to": "agree",
+        "what": "parameters"
+      },
+      {
+        "from": "slope_asr",
+        "to": "agree",
+        "what": "parameters"
+      },
+      {
+        "from": "slope_gp",
+        "to": "agree",
+        "what": "parameters"
+      },
+      {
+        "from": "slope_pm",
+        "to": "agree",
+        "what": "parameters"
+      }
+    ]
+  },
+  "rehearsal": {
+    "planted_effect": -2,
+    "tolerance": 0.8,
+    "recovered": -1.8339200118961,
+    "recovered_lo": -2.79999592246181,
+    "recovered_hi": -0.831081753996558,
+    "pass": true,
+    "null_estimate": 0.0784629067378214,
+    "null_lo": -0.946539468846197,
+    "null_hi": 1.06991005549125,
+    "null_pass": true,
+    "n_effect_clones": 5,
+    "n_null_clones": 5,
+    "n_checks": 234,
+    "n_checks_pass": 224,
+    "n_checks_fail": 0,
+    "n_checks_not_scored": 10,
+    "unit": "log(mg/kg) per unit of dist"
+  },
+  "real_run": {
+    "date": "2026-10-19 20:56:16 ACDT",
+    "n_rounds": 1,
+    "messages": [
+      {
+        "round": 1,
+        "message": "stop"
+      }
+    ],
+    "plan_hash": "sha256:ff11c49aa8e7b17bb98fc2fc7152c7047dd0f0355a35414e7c13d1a6fd098b7f",
+    "plan_hash_matches_seal": true,
+    "plan_hash_recomputed_matches_seal": true,
+    "triggers_hash": "sha256:600fa2ea15be1961deecced56fe421669697d36be5918539bae9d80b81fdb754",
+    "triggers_hash_matches_seal": true,
+    "worker_exit_code": 0,
+    "n_issue_lines": 0,
+    "table_sha256_matches_source": true
+  },
+  "result": {
+    "estimand": "slope of log(zinc) on dist (0 to 1), exponential spatially correlated errors, no other covariates",
+    "estimate": -2.74056715236701,
+    "lo": -3.65429725439323,
+    "hi": -1.74026651741308,
+    "interval_label": "95% posterior interval",
+    "unit": "log(mg/kg) per unit of dist",
+    "refused": false,
+    "refusal_reason": null,
+    "extra": {
+      "pct_per_01": -23.8859295673722,
+      "pct_lo": -30.6101598984206,
+      "pct_hi": -15.9725497358324,
+      "pct_label": "percent change in zinc per 0.1 of dist, 100 * (exp(0.1 * slope) - 1): posterior mean and 95% posterior interval",
+      "spatial_correlation": {
+        "form": "exponential",
+        "flexybayes": {
+          "range_median_m": 441.690635322409,
+          "range_lo_m": 139.299136151164,
+          "range_hi_m": 4440.7643520869,
+          "nugget_share_median": 0.113996920863932,
+          "log_bayes_factor_spatial_vs_independent": 18.0960236610241
+        },
+        "reml": {
+          "range_m": 261.376828147921,
+          "range_label": "exp(-d / range)",
+          "practical_range_m": 784.130484443763,
+          "nugget_share": 0.121011624425721,
+          "form_by_aic": "spherical",
+          "aic_exp": 184.757160599462,
+          "aic_sph": 181.758509129058
+        },
+        "d_min_m": 43.9317653141923,
+        "d_max_m": 4440.7643520869,
+        "notes": [
+          "The upper end of the flexyBayes range interval, 4441 m, is the largest distance between samples, the top of the range grid; the data do not bound the range from above.",
+          "By AIC the REML fit prefers a spherical correlation (AIC 181.8 against 184.8 for exponential); the estimand fixes the exponential form."
+        ]
+      },
+      "sensitivity_independent_errors": {
+        "label": "sensitivity under independent errors",
+        "estimate": -2.69991381348888,
+        "lo": -3.09253420787235,
+        "hi": -2.30729341910541,
+        "pct_per_01": -23.6613926333266,
+        "pct_lo": -26.6005263069127,
+        "pct_hi": -20.6045672881718
+      },
+      "added_after_signal": [
+        {
+          "label": "added after signal infl_unit, round 1",
+          "node": "influence",
+          "what": "slope with sample 76 left out (spatial correlation held at the REML estimate)",
+          "outlier_sample": "76",
+          "outlier_p_bonf": 0.00977583643392407,
+          "estimate": -2.95980683674519,
+          "se": 0.366084119431503,
+          "slope_with_sample": -2.82268179778653,
+          "se_with_sample": 0.384070734445377,
+          "unit": "log(mg/kg) per unit of dist"
+        }
+      ],
+      "heterogeneity_by_flooding_class": {
+        "het_p": 0.688056395275325,
+        "het_f": 0.374824231192849,
+        "slopes": [
+          {
+            "ffreq": "1",
+            "n": 84,
+            "slope": -2.55855395597459
+          },
+          {
+            "ffreq": "2",
+            "n": 48,
+            "slope": -2.26721589887762
+          },
+          {
+            "ffreq": "3",
+            "n": 23,
+            "slope": -2.47025222571279
+          }
+        ]
+      },
+      "leave_one_flooding_class_out": [
+        {
+          "left_out_ffreq": "1",
+          "n_left": 71,
+          "slope": -1.95168900045841,
+          "change_in_se": 2.26779267258125
+        },
+        {
+          "left_out_ffreq": "2",
+          "n_left": 107,
+          "slope": -2.86825768517394,
+          "change_in_se": -0.118665348072459
+        },
+        {
+          "left_out_ffreq": "3",
+          "n_left": 132,
+          "slope": -2.96146013171589,
+          "change_in_se": -0.361335351754316
+        }
+      ],
+      "residual_checks": {
+        "aniso_lr": 0.518996055325943,
+        "aniso_range_ratio": 1.6863791503385,
+        "hsic_p": 0.0739260739260739,
+        "moran_i": -0.0290623412317922
+      }
+    }
+  },
+  "refusals": [],
+  "by_solutions": [
+    {
+      "what": "trigger infl_unit fired: one sample is an outlier after decorrelation",
+      "consequence": "sample 76 is an outlier after decorrelation (Bonferroni p 0.0098, threshold 0.01); without it the slope is -2.96 (SE 0.37) against -2.82 (SE 0.38) with it, so the sample is kept and the primary result is unchanged"
+    }
+  ],
+  "versions": {
+    "conductoR": "0.1.0",
+    "janusplot": "0.1.1",
+    "flexyBayes": "0.18.1",
+    "nlme": "3.1.171",
+    "asreml": "4.2.0.482",
+    "gpfield": "0.3.0",
+    "stats": "4.6.1",
+    "proxymix": "0.16.0",
+    "kernR": "0.10.0",
+    "mgcv": "1.9.4",
+    "quorum": "0.1.0",
+    "orchestraManifest": "0.2.0",
+    "masque": "0.14.0",
+    "decideR": "0.3.1",
+    "cdzoo": "0.2.0",
+    "koine": "0.3.0",
+    "effectsurf": "0.2.0.9000",
+    "optimix": "0.1.0",
+    "lme4": "2.0.6",
+    "glmmTMB": "1.1.14",
+    "gstat": "2.1.6",
+    "sf": "1.1.2",
+    "mice": "3.19.0",
+    "sensemakr": "0.1.6",
+    "dagitty": "0.3.4",
+    "data.table": "1.18.6.1",
+    "fst": "0.9.8",
+    "sp": "2.2-3",
+    "R": "4.6.1"
+  },
+  "return": "results",
+  "lenses": [
+    {
+      "lens": "slope_fb",
+      "member": "flexyBayes",
+      "name": "flexyBayes",
+      "basis": "posterior mean and 95% interval, exponential correlation averaged over the range grid",
+      "estimate": -2.74056715236701,
+      "lo": -3.65429725439323,
+      "hi": -1.74026651741308,
+      "se_or_sd": 0.472629522984873,
+      "pct_per_01": -23.8859295673722,
+      "refused": false,
+      "planted_pass": true,
+      "null_pass": true,
+      "in_agreement_rule": true,
+      "independent_of": [
+        "slope_reml",
+        "slope_asr",
+        "slope_gp",
+        "slope_pm"
+      ]
+    },
+    {
+      "lens": "slope_reml",
+      "member": "nlme",
+      "name": "nlme REML",
+      "basis": "GLS by REML, exponential correlation with a nugget",
+      "estimate": -2.82268179778654,
+      "lo": -3.58144822103377,
+      "hi": -2.0639153745393,
+      "se_or_sd": 0.384070734445376,
+      "pct_per_01": -24.5928569295268,
+      "refused": false,
+      "planted_pass": true,
+      "null_pass": true,
+      "in_agreement_rule": true,
+      "independent_of": [
+        "slope_fb",
+        "slope_asr",
+        "slope_gp"
+      ],
+      "note": "The proxymix lens uses the REML lens's spatial correlation and found a single normal component in the residuals, so its slope is the REML slope (they differ by 4.3e-12); only its interval, from a parametric bootstrap, is its own. It is not an independent check on the slope."
+    },
+    {
+      "lens": "slope_asr",
+      "member": "asreml",
+      "name": "asreml REML",
+      "basis": "REML, iexp(x, y) field plus units nugget",
+      "estimate": -2.83526823373347,
+      "lo": -3.50085147813681,
+      "hi": -2.16968498933013,
+      "se_or_sd": 0.336903476063847,
+      "pct_per_01": -24.6877079428146,
+      "refused": false,
+      "planted_pass": true,
+      "null_pass": true,
+      "in_agreement_rule": true,
+      "independent_of": [
+        "slope_fb",
+        "slope_reml",
+        "slope_gp",
+        "slope_pm"
+      ]
+    },
+    {
+      "lens": "slope_gp",
+      "member": "gpfield",
+      "name": "gpfield",
+      "basis": "GLS with the covariance of an exponential Gaussian process fitted to the residuals, coordinates scaled per axis",
+      "estimate": -2.84698742797474,
+      "lo": -3.55383504764656,
+      "hi": -2.14013980830293,
+      "se_or_sd": 0.36064316755172,
+      "pct_per_01": -24.7759161841808,
+      "refused": false,
+      "planted_pass": true,
+      "null_pass": true,
+      "in_agreement_rule": true,
+      "independent_of": [
+        "slope_fb",
+        "slope_reml",
+        "slope_asr",
+        "slope_pm"
+      ]
+    },
+    {
+      "lens": "slope_pm",
+      "member": "proxymix",
+      "name": "proxymix",
+      "basis": "maximum likelihood with Gaussian-mixture errors after decorrelation by the REML correlation; parametric bootstrap",
+      "estimate": -2.8226817977908,
+      "lo": -3.51400762631636,
+      "hi": -2.15980799708691,
+      "se_or_sd": 0.36168782696133,
+      "pct_per_01": -24.5928569295589,
+      "refused": false,
+      "planted_pass": true,
+      "null_pass": true,
+      "in_agreement_rule": false,
+      "independent_of": [
+        "slope_fb",
+        "slope_asr",
+        "slope_gp"
+      ],
+      "note": "The proxymix lens uses the REML lens's spatial correlation and found a single normal component in the residuals, so its slope is the REML slope (they differ by 4.3e-12); only its interval, from a parametric bootstrap, is its own. It is not an independent check on the slope."
+    }
+  ],
+  "agreement": {
+    "rule": "Gaussian spatial lenses agree on location: every pairwise difference in the slope at most 0.4; spread not judged",
+    "verdict": "agree",
+    "max_diff": 0.106420275607734,
+    "max_diff_allowed": 0.4,
+    "n_lenses": 4,
+    "lenses_compared": [
+      "slope_fb",
+      "slope_reml",
+      "slope_asr",
+      "slope_gp"
+    ],
+    "quorum_status": "concordant",
+    "lens_spread": 1.43785976665923,
+    "pairs": [
+      {
+        "lens_a": "slope_fb",
+        "lens_b": "slope_reml",
+        "est_a": -2.74056715236701,
+        "est_b": -2.82268179778654,
+        "abs_diff": 0.082114645419531,
+        "near_identical": false
+      },
+      {
+        "lens_a": "slope_fb",
+        "lens_b": "slope_asr",
+        "est_a": -2.74056715236701,
+        "est_b": -2.83526823373347,
+        "abs_diff": 0.0947010813664622,
+        "near_identical": false
+      },
+      {
+        "lens_a": "slope_fb",
+        "lens_b": "slope_gp",
+        "est_a": -2.74056715236701,
+        "est_b": -2.84698742797474,
+        "abs_diff": 0.106420275607734,
+        "near_identical": false
+      },
+      {
+        "lens_a": "slope_fb",
+        "lens_b": "slope_pm",
+        "est_a": -2.74056715236701,
+        "est_b": -2.8226817977908,
+        "abs_diff": 0.0821146454237889,
+        "near_identical": false
+      },
+      {
+        "lens_a": "slope_reml",
+        "lens_b": "slope_asr",
+        "est_a": -2.82268179778654,
+        "est_b": -2.83526823373347,
+        "abs_diff": 0.0125864359469312,
+        "near_identical": false
+      },
+      {
+        "lens_a": "slope_reml",
+        "lens_b": "slope_gp",
+        "est_a": -2.82268179778654,
+        "est_b": -2.84698742797474,
+        "abs_diff": 0.024305630188203,
+        "near_identical": false
+      },
+      {
+        "lens_a": "slope_reml",
+        "lens_b": "slope_pm",
+        "est_a": -2.82268179778654,
+        "est_b": -2.8226817977908,
+        "abs_diff": 4.2579273440424e-12,
+        "near_identical": true
+      },
+      {
+        "lens_a": "slope_asr",
+        "lens_b": "slope_gp",
+        "est_a": -2.83526823373347,
+        "est_b": -2.84698742797474,
+        "abs_diff": 0.0117191942412718,
+        "near_identical": false
+      },
+      {
+        "lens_a": "slope_asr",
+        "lens_b": "slope_pm",
+        "est_a": -2.83526823373347,
+        "est_b": -2.8226817977908,
+        "abs_diff": 0.0125864359426733,
+        "near_identical": false
+      },
+      {
+        "lens_a": "slope_gp",
+        "lens_b": "slope_pm",
+        "est_a": -2.84698742797474,
+        "est_b": -2.8226817977908,
+        "abs_diff": 0.024305630183945,
+        "near_identical": false
+      }
+    ],
+    "near_identical_tolerance": 1e-8,
+    "near_identical_pairs": [
+      {
+        "lens_a": "slope_reml",
+        "lens_b": "slope_pm",
+        "abs_diff": 4.2579273440424e-12,
+        "reason": "The proxymix lens uses the REML lens's spatial correlation and found a single normal component in the residuals, so its slope is the REML slope (they differ by 4.3e-12); only its interval, from a parametric bootstrap, is its own. It is not an independent check on the slope."
+      }
+    ]
+  },
+  "discoveries": [],
+  "triggers": [
+    {
+      "trigger_id": "fidelity",
+      "node": "prep",
+      "class": "anomaly",
+      "signal_type": "signal:clone_fidelity",
+      "what": "the real table differs from the clone in levels, missing values or ranges",
+      "threshold_label": "any mismatch",
+      "statistic": "fidelity_mismatches",
+      "direction": ">",
+      "threshold": 0,
+      "action": "return",
+      "rehearsal_plant": "three extra missing values in om",
+      "rehearsal_fired": true,
+      "rehearsal_silent": true,
+      "value_real": 0,
+      "fired_real": false,
+      "round": 1
+    },
+    {
+      "trigger_id": "resid_struct",
+      "node": "resid_space",
+      "class": "anomaly",
+      "signal_type": "signal:residual_structure",
+      "what": "an anisotropic field fits the residuals better than the isotropic one",
+      "threshold_label": "likelihood ratio above 5",
+      "statistic": "aniso_lr",
+      "direction": ">",
+      "threshold": 5,
+      "action": "branch",
+      "rehearsal_plant": "an anisotropic exponential field (range 3000 m east-west, 100 m north-south, SD 0.8) in place of the isotropic one",
+      "rehearsal_fired": true,
+      "rehearsal_silent": true,
+      "value_real": 0.518996055325943,
+      "fired_real": false,
+      "round": 1
+    },
+    {
+      "trigger_id": "infl_unit",
+      "node": "influence",
+      "class": "anomaly",
+      "signal_type": "signal:influential_unit",
+      "what": "one sample is an outlier after decorrelation",
+      "threshold_label": "Bonferroni p below 0.01",
+      "statistic": "outlier_p_bonf",
+      "direction": "<",
+      "threshold": 0.01,
+      "action": "branch",
+      "rehearsal_plant": "log zinc of the sample nearest the river raised by 5",
+      "rehearsal_fired": true,
+      "rehearsal_silent": true,
+      "value_real": 0.00977583643392407,
+      "fired_real": true,
+      "round": 1
+    },
+    {
+      "trigger_id": "het_ffreq",
+      "node": "hetero",
+      "class": "candidate",
+      "signal_type": "signal:heterogeneity",
+      "what": "the slope differs between flooding classes",
+      "threshold_label": "interaction p below 0.01",
+      "statistic": "het_p",
+      "direction": "<",
+      "threshold": 0.01,
+      "action": "release",
+      "rehearsal_plant": "slopes of -4.5, -2 and +0.5 by flooding class 1, 2 and 3",
+      "rehearsal_fired": true,
+      "rehearsal_silent": true,
+      "value_real": 0.688056395275325,
+      "fired_real": false,
+      "round": 1
+    },
+    {
+      "trigger_id": "dist_shape",
+      "node": "slope_pm",
+      "class": "anomaly",
+      "signal_type": "signal:distribution_shape",
+      "what": "the no-normality lens moves the slope away from the REML lens",
+      "threshold_label": "more than 0.5 REML standard errors",
+      "statistic": "shape_gap",
+      "direction": ">",
+      "threshold": 0.5,
+      "action": "release",
+      "rehearsal_plant": "log zinc moved by plus or minus 3 in 16 randomly drawn samples",
+      "rehearsal_fired": true,
+      "rehearsal_silent": true,
+      "value_real": 1.10863103125812e-11,
+      "fired_real": false,
+      "round": 1
+    },
+    {
+      "trigger_id": "spread",
+      "node": "agree",
+      "class": "anomaly",
+      "signal_type": "signal:lens_spread",
+      "what": "the widest lens interval is much wider than the narrowest",
+      "threshold_label": "ratio above 1.5",
+      "statistic": "lens_spread",
+      "direction": ">",
+      "threshold": 1.5,
+      "action": "release",
+      "rehearsal_plant": "log zinc moved by plus or minus 3 in 16 randomly drawn samples",
+      "rehearsal_fired": true,
+      "rehearsal_silent": true,
+      "value_real": 1.43785976665923,
+      "fired_real": false,
+      "round": 1
+    },
+    {
+      "trigger_id": "revu_dist",
+      "node": "shape_dist",
+      "class": "candidate",
+      "signal_type": "signal:reverse_u",
+      "what": "log zinc rises then falls (or falls then rises) with dist inside the observed range",
+      "threshold_label": "formal test passes",
+      "statistic": "rev_u",
+      "direction": ">=",
+      "threshold": 1,
+      "action": "release",
+      "rehearsal_plant": "a reverse U in dist, height 1.5 on the log scale, peak at dist 0.25",
+      "rehearsal_fired": true,
+      "rehearsal_silent": true,
+      "value_real": 0,
+      "fired_real": false,
+      "round": 1
+    },
+    {
+      "trigger_id": "u_dist",
+      "node": "shape_dist",
+      "class": "candidate",
+      "signal_type": "signal:u_shape",
+      "what": "log zinc rises then falls (or falls then rises) with dist inside the observed range",
+      "threshold_label": "formal test passes",
+      "statistic": "u",
+      "direction": ">=",
+      "threshold": 1,
+      "action": "release",
+      "rehearsal_plant": "a U in dist, depth 1.5 on the log scale, trough at dist 0.25",
+      "rehearsal_fired": true,
+      "rehearsal_silent": true,
+      "value_real": 0,
+      "fired_real": false,
+      "round": 1
+    },
+    {
+      "trigger_id": "revu_elev",
+      "node": "shape_elev",
+      "class": "candidate",
+      "signal_type": "signal:reverse_u",
+      "what": "the same with elevation",
+      "threshold_label": "formal test passes",
+      "statistic": "rev_u",
+      "direction": ">=",
+      "threshold": 1,
+      "action": "release",
+      "rehearsal_plant": "a reverse U in elev, height 1.5 on the log scale, peak at 8 m",
+      "rehearsal_fired": true,
+      "rehearsal_silent": true,
+      "value_real": 0,
+      "fired_real": false,
+      "round": 1
+    },
+    {
+      "trigger_id": "u_elev",
+      "node": "shape_elev",
+      "class": "candidate",
+      "signal_type": "signal:u_shape",
+      "what": "the same with elevation",
+      "threshold_label": "formal test passes",
+      "statistic": "u",
+      "direction": ">=",
+      "threshold": 1,
+      "action": "release",
+      "rehearsal_plant": "a U in elev, depth 1.5 on the log scale, trough at 8 m",
+      "rehearsal_fired": true,
+      "rehearsal_silent": true,
+      "value_real": 0,
+      "fired_real": false,
+      "round": 1
+    }
+  ],
+  "rounds": [
+    {
+      "round": 1,
+      "reason": "first",
+      "lines": [
+        "stop"
+      ]
+    }
+  ],
+  "shapes": [
+    {
+      "x": "dist",
+      "y": "log_zinc",
+      "form_selected": "penalised spline, k = 6",
+      "turning_point": null,
+      "tp_lo": null,
+      "tp_hi": null,
+      "test": "two-lines at the fitted extremum (GLS, correlation fixed) and turning-point interval inside the inner range",
+      "verdict": "rise_plateau",
+      "screen_label": "s_shape",
+      "reading": "falls steeply, then levels off",
+      "plateau_direction": "down",
+      "breakpoint": 0.25217172361809,
+      "bp_slope_before": -5.83129932326077,
+      "bp_p_before": 1.95119513483018e-15,
+      "bp_slope_after": -0.600605746780349,
+      "bp_p_after": 0.268722388270698,
+      "bp_p_change": 2.32592003654974e-7,
+      "slope_end_lo": -6.37419888740387,
+      "slope_end_hi": -0.39625457600406,
+      "inner_lo": 0.0054321,
+      "inner_hi": 0.554289
+    },
+    {
+      "x": "elev",
+      "y": "log_zinc",
+      "form_selected": "penalised spline, k = 6",
+      "turning_point": null,
+      "tp_lo": null,
+      "tp_hi": null,
+      "test": "two-lines at the fitted extremum (GLS, correlation fixed) and turning-point interval inside the inner range",
+      "verdict": "monotone",
+      "screen_label": "linear_down",
+      "reading": "falls across the observed range",
+      "plateau_direction": "none",
+      "breakpoint": 9.55396984924623,
+      "bp_slope_before": -0.344845272076138,
+      "bp_p_before": 5.12633733008832e-17,
+      "bp_slope_after": 0.111465666581259,
+      "bp_p_after": 0.691091619593538,
+      "bp_p_change": 0.117294832725646,
+      "slope_end_lo": -0.454681200381666,
+      "slope_end_hi": -0.454684505506492,
+      "inner_lo": 6.56,
+      "inner_hi": 9.573
+    }
+  ],
+  "files": [
+    "holder/output/round_1/conduct/run.rds",
+    "holder/output/round_1/runner.log",
+    "holder/output/round_1/worker_stdout.txt",
+    "holder/output/round_1/triggers_real.csv",
+    "holder/output/round_1/tab_issues.csv",
+    "holder/output/round_1/tab_provenance.csv",
+    "holder/output/round_1/sessionInfo.txt",
+    "holder/SOURCE.md",
+    "sealed/seal.txt",
+    "sealed/triggers.csv",
+    "sealed/tools.R",
+    "sealed/plan.R",
+    "compose/tab_rehearsal.csv",
+    "compose/CLONE_RUNS.md",
+    "compose/rehearsal_v2/tab_rehearsal_lenses.csv",
+    "compose/rehearsal_v2/tab_rehearsal_runs.csv",
+    "compose/rehearsal_v2/tab_rehearsal_triggers.csv",
+    "clone/audit.csv",
+    "clone/roles.csv",
+    "clone/clone_checks.csv",
+    "clone/structure_check.csv",
+    "clone/clone_table.fst",
+    "clone/MASK_NOTES.md",
+    "clone/janusplot_shape_metrics.csv",
+    "messages/round_1.txt",
+    "../roster_versions.csv",
+    "release/figures/fig_janusplot_E3_d1.png",
+    "release/figures/fig_janusplot_E3.png",
+    "release/tab_lenses.csv",
+    "release/tab_lens_pairs.csv",
+    "release/tab_triggers.csv",
+    "release/tab_shapes.csv",
+    "release/tab_heterogeneity.csv",
+    "release/tab_influence_by_class.csv"
+  ],
+  "_figures": [
+    {
+      "src": "/figures/examples/E3/fig_janusplot_E3_d1.png",
+      "alt": "janusplot matrix of smoothed associations, example E3"
+    },
+    {
+      "src": "/figures/examples/E3/fig_janusplot_E3.png",
+      "alt": "janusplot matrix of smoothed associations, example E3"
+    }
+  ]
+}

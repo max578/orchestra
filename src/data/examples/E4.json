@@ -1,0 +1,2848 @@
+{
+  "id": "E4",
+  "slug": "wheat-after-pulse",
+  "title": "Does wheat yield more after a pulse?",
+  "question": "Within a town, in the open NVT deposit under provider management, how much more does wheat yield after a pulse than after a cereal?",
+  "data": {
+    "name": "Australian National Variety Trials, wheat (open compilation)",
+    "description": "28902 wheat variety means from 1022 trials near 169 towns, 2008 to 2018",
+    "source": "DataHub (figshare_million_phenotype)",
+    "citation": "Newman, S. J. and Furbank, R. T. (2021). A multiple species, continent-wide, million-phenotype agronomic plant dataset. Scientific Data, 8, 116. https://doi.org/10.1038/s41597-021-00898-8. Author correction: Scientific Data 9, 437 (2022), https://doi.org/10.1038/s41597-022-01536-7, which states that GRDC did not authorise or quality-control the deposit.",
+    "licence": "CC BY 4.0",
+    "url": "https://doi.org/10.6084/m9.figshare.c.5296369.v4",
+    "n_rows": 28902,
+    "n_rows_before_drop": 29672,
+    "n_units": 1022,
+    "unit_label": "wheat trial (one paddock near a named town in one year)",
+    "n_towns": 169,
+    "n_varieties": 249,
+    "period": "2008 to 2018",
+    "place": "Australia; regions north, south, west; 169 towns"
+  },
+  "mask": {
+    "masque_version": "0.14.0",
+    "n_rows_real": 29672,
+    "n_rows_clone": 29672,
+    "roles": {
+      "covariate": [
+        "crop1_species",
+        "crop2_class",
+        "crop3_class",
+        "lsd",
+        "cv",
+        "sed",
+        "v_first",
+        "w",
+        "n_sow",
+        "n_incrop",
+        "napplied",
+        "n_flag",
+        "sow_doy",
+        "sow_doy_key",
+        "gs_rain",
+        "gs_tmax",
+        "finish_rain",
+        "presow_rain_90",
+        "fallow_rain",
+        "prev_season_rain",
+        "autumn_break_doy",
+        "autumn_break_none",
+        "clay",
+        "ph",
+        "awc",
+        "station_far",
+        "silo_mode",
+        "slga_mode",
+        "ns_gs_rain_1",
+        "ns_gs_rain_2",
+        "ns_gs_rain_3",
+        "ns_gs_rain_4",
+        "ns_gs_tmax_1",
+        "ns_gs_tmax_2",
+        "ns_gs_tmax_3",
+        "ns_gs_tmax_4",
+        "ns_prev_season_rain_1",
+        "ns_prev_season_rain_2",
+        "ns_prev_season_rain_3",
+        "ns_prev_season_rain_4",
+        "ns_fallow_rain_1",
+        "ns_fallow_rain_2",
+        "ns_fallow_rain_3",
+        "ns_fallow_rain_4",
+        "ns_sow_doy_key_1",
+        "ns_sow_doy_key_2",
+        "ns_sow_doy_key_3",
+        "ns_sow_doy_key_4"
+      ],
+      "design": [
+        "trial_id",
+        "variety",
+        "n_rows",
+        "year",
+        "town",
+        "state",
+        "region"
+      ],
+      "outcome": [
+        "yield"
+      ],
+      "treatment": [
+        "arm"
+      ]
+    },
+    "coordinates_jittered": false,
+    "audit": [
+      {
+        "check": "leakage class, trial_id (design, keep)",
+        "value": "low",
+        "pass": true,
+        "note": null
+      },
+      {
+        "check": "leakage class, variety (design, keep)",
+        "value": "low",
+        "pass": true,
+        "note": null
+      },
+      {
+        "check": "leakage class, yield (outcome, scramble)",
+        "value": "low",
+        "pass": true,
+        "note": null
+      },
+      {
+        "check": "leakage class, n_rows (design, keep)",
+        "value": "low",
+        "pass": true,
+        "note": null
+      },
+      {
+        "check": "leakage class, year (design, keep)",
+        "value": "low",
+        "pass": true,
+        "note": null
+      },
+      {
+        "check": "leakage class, town (design, keep)",
+        "value": "low",
+        "pass": true,
+        "note": null
+      },
+      {
+        "check": "leakage class, state (design, keep)",
+        "value": "low",
+        "pass": true,
+        "note": null
+      },
+      {
+        "check": "leakage class, region (design, keep)",
+        "value": "low",
+        "pass": true,
+        "note": null
+      },
+      {
+        "check": "leakage class, arm (treatment, keep)",
+        "value": "high",
+        "pass": false,
+        "note": "a treatment kept as-is in collaborate mode. Deliberate: the plan needs the arm labels as they are."
+      },
+      {
+        "check": "leakage class, crop1_species (covariate, keep)",
+        "value": "medium",
+        "pass": true,
+        "note": null
+      },
+      {
+        "check": "leakage class, crop2_class (covariate, keep)",
+        "value": "medium",
+        "pass": true,
+        "note": null
+      },
+      {
+        "check": "leakage class, crop3_class (covariate, keep)",
+        "value": "medium",
+        "pass": true,
+        "note": null
+      },
+      {
+        "check": "leakage class, lsd (covariate, keep)",
+        "value": "medium",
+        "pass": true,
+        "note": null
+      },
+      {
+        "check": "leakage class, cv (covariate, keep)",
+        "value": "medium",
+        "pass": true,
+        "note": null
+      },
+      {
+        "check": "leakage class, sed (covariate, keep)",
+        "value": "medium",
+        "pass": true,
+        "note": null
+      },
+      {
+        "check": "leakage class, v_first (covariate, keep)",
+        "value": "medium",
+        "pass": true,
+        "note": null
+      },
+      {
+        "check": "leakage class, w (covariate, keep)",
+        "value": "medium",
+        "pass": true,
+        "note": null
+      },
+      {
+        "check": "leakage class, n_sow (covariate, keep)",
+        "value": "medium",
+        "pass": true,
+        "note": null
+      },
+      {
+        "check": "leakage class, n_incrop (covariate, keep)",
+        "value": "medium",
+        "pass": true,
+        "note": null
+      },
+      {
+        "check": "leakage class, napplied (covariate, keep)",
+        "value": "medium",
+        "pass": true,
+        "note": null
+      },
+      {
+        "check": "leakage class, n_flag (covariate, keep)",
+        "value": "medium",
+        "pass": true,
+        "note": null
+      },
+      {
+        "check": "leakage class, sow_doy (covariate, keep)",
+        "value": "medium",
+        "pass": true,
+        "note": null
+      },
+      {
+        "check": "leakage class, sow_doy_key (covariate, keep)",
+        "value": "medium",
+        "pass": true,
+        "note": null
+      },
+      {
+        "check": "leakage class, gs_rain (covariate, keep)",
+        "value": "medium",
+        "pass": true,
+        "note": null
+      },
+      {
+        "check": "leakage class, gs_tmax (covariate, keep)",
+        "value": "medium",
+        "pass": true,
+        "note": null
+      },
+      {
+        "check": "leakage class, finish_rain (covariate, keep)",
+        "value": "medium",
+        "pass": true,
+        "note": null
+      },
+      {
+        "check": "leakage class, presow_rain_90 (covariate, keep)",
+        "value": "medium",
+        "pass": true,
+        "note": null
+      },
+      {
+        "check": "leakage class, fallow_rain (covariate, keep)",
+        "value": "medium",
+        "pass": true,
+        "note": null
+      },
+      {
+        "check": "leakage class, prev_season_rain (covariate, keep)",
+        "value": "medium",
+        "pass": true,
+        "note": null
+      },
+      {
+        "check": "leakage class, autumn_break_doy (covariate, keep)",
+        "value": "medium",
+        "pass": true,
+        "note": null
+      },
+      {
+        "check": "leakage class, autumn_break_none (covariate, keep)",
+        "value": "medium",
+        "pass": true,
+        "note": null
+      },
+      {
+        "check": "leakage class, clay (covariate, keep)",
+        "value": "medium",
+        "pass": true,
+        "note": null
+      },
+      {
+        "check": "leakage class, ph (covariate, keep)",
+        "value": "medium",
+        "pass": true,
+        "note": null
+      },
+      {
+        "check": "leakage class, awc (covariate, keep)",
+        "value": "medium",
+        "pass": true,
+        "note": null
+      },
+      {
+        "check": "leakage class, station_far (covariate, keep)",
+        "value": "medium",
+        "pass": true,
+        "note": null
+      },
+      {
+        "check": "leakage class, silo_mode (covariate, keep)",
+        "value": "medium",
+        "pass": true,
+        "note": null
+      },
+      {
+        "check": "leakage class, slga_mode (covariate, keep)",
+        "value": "medium",
+        "pass": true,
+        "note": null
+      },
+      {
+        "check": "leakage class, ns_gs_rain_1 (covariate, keep)",
+        "value": "medium",
+        "pass": true,
+        "note": null
+      },
+      {
+        "check": "leakage class, ns_gs_rain_2 (covariate, keep)",
+        "value": "medium",
+        "pass": true,
+        "note": null
+      },
+      {
+        "check": "leakage class, ns_gs_rain_3 (covariate, keep)",
+        "value": "medium",
+        "pass": true,
+        "note": null
+      },
+      {
+        "check": "leakage class, ns_gs_rain_4 (covariate, keep)",
+        "value": "medium",
+        "pass": true,
+        "note": null
+      },
+      {
+        "check": "leakage class, ns_gs_tmax_1 (covariate, keep)",
+        "value": "medium",
+        "pass": true,
+        "note": null
+      },
+      {
+        "check": "leakage class, ns_gs_tmax_2 (covariate, keep)",
+        "value": "medium",
+        "pass": true,
+        "note": null
+      },
+      {
+        "check": "leakage class, ns_gs_tmax_3 (covariate, keep)",
+        "value": "medium",
+        "pass": true,
+        "note": null
+      },
+      {
+        "check": "leakage class, ns_gs_tmax_4 (covariate, keep)",
+        "value": "medium",
+        "pass": true,
+        "note": null
+      },
+      {
+        "check": "leakage class, ns_prev_season_rain_1 (covariate, keep)",
+        "value": "medium",
+        "pass": true,
+        "note": null
+      },
+      {
+        "check": "leakage class, ns_prev_season_rain_2 (covariate, keep)",
+        "value": "medium",
+        "pass": true,
+        "note": null
+      },
+      {
+        "check": "leakage class, ns_prev_season_rain_3 (covariate, keep)",
+        "value": "medium",
+        "pass": true,
+        "note": null
+      },
+      {
+        "check": "leakage class, ns_prev_season_rain_4 (covariate, keep)",
+        "value": "medium",
+        "pass": true,
+        "note": null
+      },
+      {
+        "check": "leakage class, ns_fallow_rain_1 (covariate, keep)",
+        "value": "medium",
+        "pass": true,
+        "note": null
+      },
+      {
+        "check": "leakage class, ns_fallow_rain_2 (covariate, keep)",
+        "value": "medium",
+        "pass": true,
+        "note": null
+      },
+      {
+        "check": "leakage class, ns_fallow_rain_3 (covariate, keep)",
+        "value": "medium",
+        "pass": true,
+        "note": null
+      },
+      {
+        "check": "leakage class, ns_fallow_rain_4 (covariate, keep)",
+        "value": "medium",
+        "pass": true,
+        "note": null
+      },
+      {
+        "check": "leakage class, ns_sow_doy_key_1 (covariate, keep)",
+        "value": "medium",
+        "pass": true,
+        "note": null
+      },
+      {
+        "check": "leakage class, ns_sow_doy_key_2 (covariate, keep)",
+        "value": "medium",
+        "pass": true,
+        "note": null
+      },
+      {
+        "check": "leakage class, ns_sow_doy_key_3 (covariate, keep)",
+        "value": "medium",
+        "pass": true,
+        "note": null
+      },
+      {
+        "check": "leakage class, ns_sow_doy_key_4 (covariate, keep)",
+        "value": "medium",
+        "pass": true,
+        "note": null
+      },
+      {
+        "check": "type, levels and missing values equal, trial_id",
+        "value": "character",
+        "pass": true
+      },
+      {
+        "check": "type, levels and missing values equal, variety",
+        "value": "character",
+        "pass": true
+      },
+      {
+        "check": "type, levels and missing values equal, yield",
+        "value": "numeric",
+        "pass": true
+      },
+      {
+        "check": "type, levels and missing values equal, n_rows",
+        "value": "integer",
+        "pass": true
+      },
+      {
+        "check": "type, levels and missing values equal, year",
+        "value": "integer",
+        "pass": true
+      },
+      {
+        "check": "type, levels and missing values equal, town",
+        "value": "character",
+        "pass": true
+      },
+      {
+        "check": "type, levels and missing values equal, state",
+        "value": "factor",
+        "pass": true
+      },
+      {
+        "check": "type, levels and missing values equal, region",
+        "value": "factor",
+        "pass": true
+      },
+      {
+        "check": "type, levels and missing values equal, arm",
+        "value": "factor",
+        "pass": true
+      },
+      {
+        "check": "type, levels and missing values equal, crop1_species",
+        "value": "factor",
+        "pass": true
+      },
+      {
+        "check": "type, levels and missing values equal, crop2_class",
+        "value": "factor",
+        "pass": true
+      },
+      {
+        "check": "type, levels and missing values equal, crop3_class",
+        "value": "factor",
+        "pass": true
+      },
+      {
+        "check": "type, levels and missing values equal, lsd",
+        "value": "numeric",
+        "pass": true
+      },
+      {
+        "check": "type, levels and missing values equal, cv",
+        "value": "numeric",
+        "pass": true
+      },
+      {
+        "check": "type, levels and missing values equal, sed",
+        "value": "numeric",
+        "pass": true
+      },
+      {
+        "check": "type, levels and missing values equal, v_first",
+        "value": "numeric",
+        "pass": true
+      },
+      {
+        "check": "type, levels and missing values equal, w",
+        "value": "numeric",
+        "pass": true
+      },
+      {
+        "check": "type, levels and missing values equal, n_sow",
+        "value": "numeric",
+        "pass": true
+      },
+      {
+        "check": "type, levels and missing values equal, n_incrop",
+        "value": "numeric",
+        "pass": true
+      },
+      {
+        "check": "type, levels and missing values equal, napplied",
+        "value": "numeric",
+        "pass": true
+      },
+      {
+        "check": "type, levels and missing values equal, n_flag",
+        "value": "logical",
+        "pass": true
+      },
+      {
+        "check": "type, levels and missing values equal, sow_doy",
+        "value": "integer",
+        "pass": true
+      },
+      {
+        "check": "type, levels and missing values equal, sow_doy_key",
+        "value": "integer",
+        "pass": true
+      },
+      {
+        "check": "type, levels and missing values equal, gs_rain",
+        "value": "numeric",
+        "pass": true
+      },
+      {
+        "check": "type, levels and missing values equal, gs_tmax",
+        "value": "numeric",
+        "pass": true
+      },
+      {
+        "check": "type, levels and missing values equal, finish_rain",
+        "value": "numeric",
+        "pass": true
+      },
+      {
+        "check": "type, levels and missing values equal, presow_rain_90",
+        "value": "numeric",
+        "pass": true
+      },
+      {
+        "check": "type, levels and missing values equal, fallow_rain",
+        "value": "numeric",
+        "pass": true
+      },
+      {
+        "check": "type, levels and missing values equal, prev_season_rain",
+        "value": "numeric",
+        "pass": true
+      },
+      {
+        "check": "type, levels and missing values equal, autumn_break_doy",
+        "value": "integer",
+        "pass": true
+      },
+      {
+        "check": "type, levels and missing values equal, autumn_break_none",
+        "value": "logical",
+        "pass": true
+      },
+      {
+        "check": "type, levels and missing values equal, clay",
+        "value": "numeric",
+        "pass": true
+      },
+      {
+        "check": "type, levels and missing values equal, ph",
+        "value": "numeric",
+        "pass": true
+      },
+      {
+        "check": "type, levels and missing values equal, awc",
+        "value": "numeric",
+        "pass": true
+      },
+      {
+        "check": "type, levels and missing values equal, station_far",
+        "value": "logical",
+        "pass": true
+      },
+      {
+        "check": "type, levels and missing values equal, silo_mode",
+        "value": "factor",
+        "pass": true
+      },
+      {
+        "check": "type, levels and missing values equal, slga_mode",
+        "value": "factor",
+        "pass": true
+      },
+      {
+        "check": "type, levels and missing values equal, ns_gs_rain_1",
+        "value": "numeric",
+        "pass": true
+      },
+      {
+        "check": "type, levels and missing values equal, ns_gs_rain_2",
+        "value": "numeric",
+        "pass": true
+      },
+      {
+        "check": "type, levels and missing values equal, ns_gs_rain_3",
+        "value": "numeric",
+        "pass": true
+      },
+      {
+        "check": "type, levels and missing values equal, ns_gs_rain_4",
+        "value": "numeric",
+        "pass": true
+      },
+      {
+        "check": "type, levels and missing values equal, ns_gs_tmax_1",
+        "value": "numeric",
+        "pass": true
+      },
+      {
+        "check": "type, levels and missing values equal, ns_gs_tmax_2",
+        "value": "numeric",
+        "pass": true
+      },
+      {
+        "check": "type, levels and missing values equal, ns_gs_tmax_3",
+        "value": "numeric",
+        "pass": true
+      },
+      {
+        "check": "type, levels and missing values equal, ns_gs_tmax_4",
+        "value": "numeric",
+        "pass": true
+      },
+      {
+        "check": "type, levels and missing values equal, ns_prev_season_rain_1",
+        "value": "numeric",
+        "pass": true
+      },
+      {
+        "check": "type, levels and missing values equal, ns_prev_season_rain_2",
+        "value": "numeric",
+        "pass": true
+      },
+      {
+        "check": "type, levels and missing values equal, ns_prev_season_rain_3",
+        "value": "numeric",
+        "pass": true
+      },
+      {
+        "check": "type, levels and missing values equal, ns_prev_season_rain_4",
+        "value": "numeric",
+        "pass": true
+      },
+      {
+        "check": "type, levels and missing values equal, ns_fallow_rain_1",
+        "value": "numeric",
+        "pass": true
+      },
+      {
+        "check": "type, levels and missing values equal, ns_fallow_rain_2",
+        "value": "numeric",
+        "pass": true
+      },
+      {
+        "check": "type, levels and missing values equal, ns_fallow_rain_3",
+        "value": "numeric",
+        "pass": true
+      },
+      {
+        "check": "type, levels and missing values equal, ns_fallow_rain_4",
+        "value": "numeric",
+        "pass": true
+      },
+      {
+        "check": "type, levels and missing values equal, ns_sow_doy_key_1",
+        "value": "numeric",
+        "pass": true
+      },
+      {
+        "check": "type, levels and missing values equal, ns_sow_doy_key_2",
+        "value": "numeric",
+        "pass": true
+      },
+      {
+        "check": "type, levels and missing values equal, ns_sow_doy_key_3",
+        "value": "numeric",
+        "pass": true
+      },
+      {
+        "check": "type, levels and missing values equal, ns_sow_doy_key_4",
+        "value": "numeric",
+        "pass": true
+      }
+    ],
+    "clone_checks": [
+      {
+        "check": "clone_mean_yield_pulse_minus_cereal_ref",
+        "value": 0.0102884422132243
+      },
+      {
+        "check": "clone_mean_yield_canola_minus_cereal_ref",
+        "value": 0.0489308914151865
+      },
+      {
+        "check": "clone_r2_yield_on_trial",
+        "value": 0.0346650141468151
+      },
+      {
+        "check": "clone_yield_values_in_real_pct",
+        "value": 0.00337018064168239
+      }
+    ]
+  },
+  "compose": {
+    "n_clone_runs": 15,
+    "clone_runs": [
+      "effect",
+      "effect_s20",
+      "null_s20",
+      "spread",
+      "fidelity_level",
+      "het_region",
+      "interaction",
+      "revu_rain",
+      "plateau_rain",
+      "none",
+      "u_rain",
+      "influential",
+      "dist_mixture",
+      "revu_tmax_h1.5",
+      "plateau_tmax_h1.5"
+    ],
+    "plan_hash": "sha256:1804dd821ea3623954811ec4ab8172857915223df896c630f07dd3d95587712a",
+    "n_steps": 15,
+    "members": [
+      "conductoR",
+      "mice",
+      "flexyBayes",
+      "asreml",
+      "lme4",
+      "proxymix",
+      "kernR",
+      "janusplot",
+      "quorum",
+      "mgcv"
+    ],
+    "steps": [
+      {
+        "id": "prep",
+        "member": "conductoR",
+        "does": "data"
+      },
+      {
+        "id": "impute",
+        "member": "mice",
+        "does": "imputation"
+      },
+      {
+        "id": "L_fb",
+        "member": "flexyBayes",
+        "does": "lens_flexybayes_lead"
+      },
+      {
+        "id": "L_asreml",
+        "member": "asreml",
+        "does": "lens_asreml"
+      },
+      {
+        "id": "L_lme4",
+        "member": "lme4",
+        "does": "lens_lme4"
+      },
+      {
+        "id": "L_proxymix",
+        "member": "proxymix",
+        "does": "lens_proxymix"
+      },
+      {
+        "id": "L_kernR",
+        "member": "kernR",
+        "does": "lens_kernR"
+      },
+      {
+        "id": "ladder",
+        "member": "conductoR",
+        "does": "agreement_rule",
+        "fits_by": [
+          "asreml",
+          "lme4",
+          "flexyBayes"
+        ]
+      },
+      {
+        "id": "hetero",
+        "member": "asreml",
+        "does": "screen_heterogeneity"
+      },
+      {
+        "id": "interaction",
+        "member": "asreml",
+        "does": "screen_modifier"
+      },
+      {
+        "id": "influence",
+        "member": "asreml",
+        "does": "screen_influence"
+      },
+      {
+        "id": "screen_janus",
+        "member": "janusplot",
+        "does": "screen_shape"
+      },
+      {
+        "id": "agreement",
+        "member": "quorum",
+        "does": "consensus"
+      },
+      {
+        "id": "shape",
+        "member": "mgcv",
+        "does": "shape_test"
+      },
+      {
+        "id": "report",
+        "member": "conductoR",
+        "does": "release_tables"
+      }
+    ],
+    "edges": [
+      {
+        "from": "prep",
+        "to": "impute",
+        "what": "parameters"
+      },
+      {
+        "from": "prep",
+        "to": "L_fb",
+        "what": "parameters"
+      },
+      {
+        "from": "impute",
+        "to": "L_fb",
+        "what": "parameters"
+      },
+      {
+        "from": "prep",
+        "to": "L_asreml",
+        "what": "parameters"
+      },
+      {
+        "from": "impute",
+        "to": "L_asreml",
+        "what": "parameters"
+      },
+      {
+        "from": "prep",
+        "to": "L_lme4",
+        "what": "parameters"
+      },
+      {
+        "from": "impute",
+        "to": "L_lme4",
+        "what": "parameters"
+      },
+      {
+        "from": "prep",
+        "to": "L_proxymix",
+        "what": "parameters"
+      },
+      {
+        "from": "impute",
+        "to": "L_proxymix",
+        "what": "parameters"
+      },
+      {
+        "from": "prep",
+        "to": "L_kernR",
+        "what": "parameters"
+      },
+      {
+        "from": "impute",
+        "to": "L_kernR",
+        "what": "parameters"
+      },
+      {
+        "from": "prep",
+        "to": "ladder",
+        "what": "parameters"
+      },
+      {
+        "from": "impute",
+        "to": "ladder",
+        "what": "parameters"
+      },
+      {
+        "from": "prep",
+        "to": "hetero",
+        "what": "parameters"
+      },
+      {
+        "from": "impute",
+        "to": "hetero",
+        "what": "parameters"
+      },
+      {
+        "from": "prep",
+        "to": "interaction",
+        "what": "parameters"
+      },
+      {
+        "from": "impute",
+        "to": "interaction",
+        "what": "parameters"
+      },
+      {
+        "from": "prep",
+        "to": "influence",
+        "what": "parameters"
+      },
+      {
+        "from": "impute",
+        "to": "influence",
+        "what": "parameters"
+      },
+      {
+        "from": "prep",
+        "to": "screen_janus",
+        "what": "parameters"
+      },
+      {
+        "from": "impute",
+        "to": "screen_janus",
+        "what": "parameters"
+      },
+      {
+        "from": "L_asreml",
+        "to": "agreement",
+        "what": "treatment_effects"
+      },
+      {
+        "from": "L_lme4",
+        "to": "agreement",
+        "what": "treatment_effects"
+      },
+      {
+        "from": "L_fb",
+        "to": "agreement",
+        "what": "treatment_effects"
+      },
+      {
+        "from": "L_proxymix",
+        "to": "agreement",
+        "what": "treatment_effects"
+      },
+      {
+        "from": "prep",
+        "to": "shape",
+        "what": "parameters"
+      },
+      {
+        "from": "impute",
+        "to": "shape",
+        "what": "parameters"
+      },
+      {
+        "from": "screen_janus",
+        "to": "shape",
+        "what": "structure"
+      },
+      {
+        "from": "prep",
+        "to": "report",
+        "what": "parameters"
+      },
+      {
+        "from": "L_fb",
+        "to": "report",
+        "what": "treatment_effects"
+      },
+      {
+        "from": "L_asreml",
+        "to": "report",
+        "what": "treatment_effects"
+      },
+      {
+        "from": "L_lme4",
+        "to": "report",
+        "what": "treatment_effects"
+      },
+      {
+        "from": "L_proxymix",
+        "to": "report",
+        "what": "treatment_effects"
+      },
+      {
+        "from": "L_kernR",
+        "to": "report",
+        "what": "treatment_effects"
+      },
+      {
+        "from": "ladder",
+        "to": "report",
+        "what": "consensus"
+      },
+      {
+        "from": "agreement",
+        "to": "report",
+        "what": "consensus"
+      },
+      {
+        "from": "hetero",
+        "to": "report",
+        "what": "treatment_effects"
+      },
+      {
+        "from": "interaction",
+        "to": "report",
+        "what": "treatment_effects"
+      },
+      {
+        "from": "influence",
+        "to": "report",
+        "what": "parameters"
+      },
+      {
+        "from": "screen_janus",
+        "to": "report",
+        "what": "structure"
+      },
+      {
+        "from": "shape",
+        "to": "report",
+        "what": "parameters"
+      }
+    ]
+  },
+  "rehearsal": {
+    "planted_effect": 0.4,
+    "tolerance": 0.25,
+    "recovered": 0.30361747705354,
+    "recovered_lo": 0.0783521470283683,
+    "recovered_hi": 0.531462553709356,
+    "pass": true,
+    "null_estimate": -0.0890512493439261,
+    "null_lo": -0.314028143152858,
+    "null_hi": 0.139077057838663,
+    "null_pass": true,
+    "seed_effect": 20261020,
+    "seed_null": 20261020,
+    "unit": "t/ha",
+    "lens_rows": [
+      {
+        "run": "effect",
+        "seed": 20261019,
+        "check": "planted effect, pulse",
+        "item": "L_fb",
+        "planted": 0.4,
+        "value": 0.651173452224705,
+        "lo": 0.423549403444403,
+        "hi": 0.881706877628449,
+        "rule": "within 0.25 t/ha and 90% interval covers planted",
+        "pass": false
+      },
+      {
+        "run": "effect",
+        "seed": 20261019,
+        "check": "planted effect, canola",
+        "item": "L_fb",
+        "planted": 0.3,
+        "value": 0.457261464673405,
+        "lo": 0.239070194513036,
+        "hi": 0.678580010139563,
+        "rule": "within 0.25 t/ha and 90% interval covers planted",
+        "pass": true
+      },
+      {
+        "run": "effect",
+        "seed": 20261019,
+        "check": "planted effect, pulse",
+        "item": "L_asreml",
+        "planted": 0.4,
+        "value": 0.670938969075047,
+        "lo": 0.437998201608124,
+        "hi": 0.90387973654197,
+        "rule": "within 0.25 t/ha and 90% interval covers planted",
+        "pass": false
+      },
+      {
+        "run": "effect",
+        "seed": 20261019,
+        "check": "planted effect, canola",
+        "item": "L_asreml",
+        "planted": 0.3,
+        "value": 0.475324205808136,
+        "lo": 0.253040093740266,
+        "hi": 0.697608317876007,
+        "rule": "within 0.25 t/ha and 90% interval covers planted",
+        "pass": true
+      },
+      {
+        "run": "effect",
+        "seed": 20261019,
+        "check": "planted effect, pulse",
+        "item": "L_lme4",
+        "planted": 0.4,
+        "value": 0.637194527905054,
+        "lo": 0.399693077799714,
+        "hi": 0.874695978010394,
+        "rule": "within 0.25 t/ha and 90% interval covers planted",
+        "pass": true
+      },
+      {
+        "run": "effect",
+        "seed": 20261019,
+        "check": "planted effect, canola",
+        "item": "L_lme4",
+        "planted": 0.3,
+        "value": 0.453687911612943,
+        "lo": 0.228873417947635,
+        "hi": 0.678502405278251,
+        "rule": "within 0.25 t/ha and 90% interval covers planted",
+        "pass": true
+      },
+      {
+        "run": "effect",
+        "seed": 20261019,
+        "check": "planted effect, pulse",
+        "item": "L_proxymix",
+        "planted": 0.4,
+        "value": 0.656102393795199,
+        "lo": 0.442320087460904,
+        "hi": 0.859056272272244,
+        "rule": "within 0.25 t/ha and 90% interval covers planted",
+        "pass": false
+      },
+      {
+        "run": "effect",
+        "seed": 20261019,
+        "check": "planted effect, canola",
+        "item": "L_proxymix",
+        "planted": 0.3,
+        "value": 0.437623971436627,
+        "lo": 0.239175134013841,
+        "hi": 0.658335543543198,
+        "rule": "within 0.25 t/ha and 90% interval covers planted",
+        "pass": true
+      },
+      {
+        "run": "effect",
+        "seed": 20261019,
+        "check": "planted effect, pulse",
+        "item": "L_kernR",
+        "planted": 0.4,
+        "value": 0.363977054006589,
+        "lo": 0.166706862969085,
+        "hi": 0.59283778657182,
+        "rule": "within 0.25 t/ha and 90% interval covers planted",
+        "pass": true
+      },
+      {
+        "run": "effect_s20",
+        "seed": 20261020,
+        "check": "planted effect, pulse",
+        "item": "L_fb",
+        "planted": 0.4,
+        "value": 0.30361747705354,
+        "lo": 0.0783521470283683,
+        "hi": 0.531462553709356,
+        "rule": "within 0.25 t/ha and 90% interval covers planted",
+        "pass": true
+      },
+      {
+        "run": "effect_s20",
+        "seed": 20261020,
+        "check": "planted effect, canola",
+        "item": "L_fb",
+        "planted": 0.3,
+        "value": 0.141379471178948,
+        "lo": -0.0743196827968406,
+        "hi": 0.361653474854604,
+        "rule": "within 0.25 t/ha and 90% interval covers planted",
+        "pass": true
+      },
+      {
+        "run": "effect_s20",
+        "seed": 20261020,
+        "check": "planted effect, pulse",
+        "item": "L_asreml",
+        "planted": 0.4,
+        "value": 0.311957503309223,
+        "lo": 0.0821305784929693,
+        "hi": 0.541784428125478,
+        "rule": "within 0.25 t/ha and 90% interval covers planted",
+        "pass": true
+      },
+      {
+        "run": "effect_s20",
+        "seed": 20261020,
+        "check": "planted effect, canola",
+        "item": "L_asreml",
+        "planted": 0.3,
+        "value": 0.148783741159574,
+        "lo": -0.0713545758856925,
+        "hi": 0.36892205820484,
+        "rule": "within 0.25 t/ha and 90% interval covers planted",
+        "pass": true
+      },
+      {
+        "run": "effect_s20",
+        "seed": 20261020,
+        "check": "planted effect, pulse",
+        "item": "L_lme4",
+        "planted": 0.4,
+        "value": 0.310885958191535,
+        "lo": 0.0767701165147175,
+        "hi": 0.545001799868353,
+        "rule": "within 0.25 t/ha and 90% interval covers planted",
+        "pass": true
+      },
+      {
+        "run": "effect_s20",
+        "seed": 20261020,
+        "check": "planted effect, canola",
+        "item": "L_lme4",
+        "planted": 0.3,
+        "value": 0.13684424909696,
+        "lo": -0.0854651952817484,
+        "hi": 0.359153693475669,
+        "rule": "within 0.25 t/ha and 90% interval covers planted",
+        "pass": true
+      },
+      {
+        "run": "effect_s20",
+        "seed": 20261020,
+        "check": "planted effect, pulse",
+        "item": "L_proxymix",
+        "planted": 0.4,
+        "value": 0.32563655912626,
+        "lo": 0.0817160324592343,
+        "hi": 0.563012326477739,
+        "rule": "within 0.25 t/ha and 90% interval covers planted",
+        "pass": true
+      },
+      {
+        "run": "effect_s20",
+        "seed": 20261020,
+        "check": "planted effect, canola",
+        "item": "L_proxymix",
+        "planted": 0.3,
+        "value": 0.214387135225151,
+        "lo": -0.025309196672935,
+        "hi": 0.420456504581748,
+        "rule": "within 0.25 t/ha and 90% interval covers planted",
+        "pass": true
+      },
+      {
+        "run": "effect_s20",
+        "seed": 20261020,
+        "check": "planted effect, pulse",
+        "item": "L_kernR",
+        "planted": 0.4,
+        "value": 0.231951890165086,
+        "lo": 0.0396977511025999,
+        "hi": 0.386546119243666,
+        "rule": "within 0.25 t/ha and 90% interval covers planted",
+        "pass": false
+      },
+      {
+        "run": "null_s20",
+        "seed": 20261020,
+        "check": "planted null, pulse",
+        "item": "L_fb",
+        "planted": 0,
+        "value": -0.0890512493439261,
+        "lo": -0.314028143152858,
+        "hi": 0.139077057838663,
+        "rule": "90% interval covers 0",
+        "pass": true
+      },
+      {
+        "run": "null_s20",
+        "seed": 20261020,
+        "check": "planted null, canola",
+        "item": "L_fb",
+        "planted": 0.3,
+        "value": 0.146573265219393,
+        "lo": -0.0689553856957927,
+        "hi": 0.366529038897459,
+        "rule": "within 0.25 t/ha and 90% interval covers planted",
+        "pass": true
+      },
+      {
+        "run": "null_s20",
+        "seed": 20261020,
+        "check": "planted null, pulse",
+        "item": "L_asreml",
+        "planted": 0,
+        "value": -0.0881357354554404,
+        "lo": -0.318051146775201,
+        "hi": 0.14177967586432,
+        "rule": "90% interval covers 0",
+        "pass": true
+      },
+      {
+        "run": "null_s20",
+        "seed": 20261020,
+        "check": "planted null, canola",
+        "item": "L_asreml",
+        "planted": 0.3,
+        "value": 0.1486539289297,
+        "lo": -0.071490566809894,
+        "hi": 0.368798424669293,
+        "rule": "within 0.25 t/ha and 90% interval covers planted",
+        "pass": true
+      },
+      {
+        "run": "null_s20",
+        "seed": 20261020,
+        "check": "planted null, pulse",
+        "item": "L_lme4",
+        "planted": 0,
+        "value": -0.0892739809931647,
+        "lo": -0.323491686128939,
+        "hi": 0.144943724142609,
+        "rule": "90% interval covers 0",
+        "pass": true
+      },
+      {
+        "run": "null_s20",
+        "seed": 20261020,
+        "check": "planted null, canola",
+        "item": "L_lme4",
+        "planted": 0.3,
+        "value": 0.136647491321528,
+        "lo": -0.0856702287262483,
+        "hi": 0.358965211369305,
+        "rule": "within 0.25 t/ha and 90% interval covers planted",
+        "pass": true
+      },
+      {
+        "run": "null_s20",
+        "seed": 20261020,
+        "check": "planted null, pulse",
+        "item": "L_proxymix",
+        "planted": 0,
+        "value": -0.0696104560738302,
+        "lo": -0.31248884358533,
+        "hi": 0.149707333313304,
+        "rule": "90% interval covers 0",
+        "pass": true
+      },
+      {
+        "run": "null_s20",
+        "seed": 20261020,
+        "check": "planted null, canola",
+        "item": "L_proxymix",
+        "planted": 0.3,
+        "value": 0.214387135225152,
+        "lo": -0.0253091966729327,
+        "hi": 0.420456504581748,
+        "rule": "within 0.25 t/ha and 90% interval covers planted",
+        "pass": true
+      },
+      {
+        "run": "null_s20",
+        "seed": 20261020,
+        "check": "planted null, pulse",
+        "item": "L_kernR",
+        "planted": 0,
+        "value": -0.168048109834911,
+        "lo": -0.360302248897398,
+        "hi": -0.0134538807563379,
+        "rule": "90% interval covers 0",
+        "pass": false
+      }
+    ],
+    "agreement_rows": [
+      {
+        "run": "effect",
+        "seed": null,
+        "check": "ladder L1 to L4",
+        "item": "ladder",
+        "planted": null,
+        "value": 0.156866459435168,
+        "rule": "pass expected (gap in posterior SD shown)",
+        "pass": true
+      },
+      {
+        "run": "effect",
+        "seed": null,
+        "check": "location rule, all lenses as fitted",
+        "item": "agreement",
+        "planted": null,
+        "value": 0.0197655168503423,
+        "rule": "silent expected: gap <= 0.25 t/ha",
+        "pass": true
+      },
+      {
+        "run": "effect_s20",
+        "seed": null,
+        "check": "ladder L1 to L4",
+        "item": "ladder",
+        "planted": null,
+        "value": 0.0791994862731808,
+        "rule": "pass expected (gap in posterior SD shown)",
+        "pass": true
+      },
+      {
+        "run": "effect_s20",
+        "seed": null,
+        "check": "location rule, all lenses as fitted",
+        "item": "agreement",
+        "planted": null,
+        "value": 0.0220190820727194,
+        "rule": "silent expected: gap <= 0.25 t/ha",
+        "pass": true
+      },
+      {
+        "run": "null_s20",
+        "seed": null,
+        "check": "ladder L1 to L4",
+        "item": "ladder",
+        "planted": null,
+        "value": 0.0375990793564231,
+        "rule": "pass expected (gap in posterior SD shown)",
+        "pass": true
+      },
+      {
+        "run": "null_s20",
+        "seed": null,
+        "check": "location rule, all lenses as fitted",
+        "item": "agreement",
+        "planted": null,
+        "value": 0.0194407932700958,
+        "rule": "silent expected: gap <= 0.25 t/ha",
+        "pass": true
+      },
+      {
+        "run": "spread",
+        "seed": null,
+        "check": "ladder L1 to L4",
+        "item": "ladder",
+        "planted": null,
+        "value": 0.125511296122724,
+        "rule": "pass expected (gap in posterior SD shown)",
+        "pass": true
+      },
+      {
+        "run": "spread",
+        "seed": null,
+        "check": "location rule, all lenses as fitted",
+        "item": "agreement",
+        "planted": null,
+        "value": 0.044071908239482,
+        "rule": "silent expected: gap <= 0.25 t/ha",
+        "pass": true
+      },
+      {
+        "run": "effect_s20",
+        "seed": 20261020,
+        "check": "location rule, one lens moved 0.5 t/ha",
+        "item": "L_asreml",
+        "planted": 0.5,
+        "value": 0.508340026255683,
+        "rule": "fires expected: gap > 0.25 t/ha, issue assumption_check_failed",
+        "pass": true
+      },
+      {
+        "run": "effect_s20",
+        "seed": 20261020,
+        "check": "location rule, one lens moved 0.5 t/ha",
+        "item": "L_lme4",
+        "planted": 0.5,
+        "value": 0.507268481137995,
+        "rule": "fires expected: gap > 0.25 t/ha, issue assumption_check_failed",
+        "pass": true
+      },
+      {
+        "run": "effect_s20",
+        "seed": 20261020,
+        "check": "location rule, one lens moved 0.5 t/ha",
+        "item": "L_fb",
+        "planted": 0.5,
+        "value": 0.492731518862005,
+        "rule": "fires expected: gap > 0.25 t/ha, issue assumption_check_failed",
+        "pass": true
+      },
+      {
+        "run": "effect_s20",
+        "seed": 20261020,
+        "check": "location rule, one lens moved 0.5 t/ha",
+        "item": "L_proxymix",
+        "planted": 0.5,
+        "value": 0.522019082072719,
+        "rule": "fires expected: gap > 0.25 t/ha, issue assumption_check_failed",
+        "pass": true
+      }
+    ],
+    "calibration": [
+      {
+        "run": "bias_clone_20",
+        "check": "mean error over plantings, pulse",
+        "item": "asreml (primary terms, crop2 unknown as a class)",
+        "planted": 0.4,
+        "mean_error": 0.0696050332841217,
+        "mean_error_lo": 0.0231433840468691,
+        "mean_error_hi": 0.116066682521374,
+        "coverage": "90% coverage 0.9",
+        "file": "bias/tab_bias_summary.csv"
+      },
+      {
+        "run": "bias_perm_20",
+        "check": "mean error over plantings, pulse",
+        "item": "asreml (primary terms, crop2 unknown as a class)",
+        "planted": 0.4,
+        "mean_error": 0.0386694374451432,
+        "mean_error_lo": -0.0119069297544182,
+        "mean_error_hi": 0.0892458046447046,
+        "coverage": "90% coverage 0.95",
+        "file": "bias/tab_bias_summary.csv"
+      },
+      {
+        "run": "bias_zero_20",
+        "check": "mean error over plantings, pulse",
+        "item": "asreml (primary terms, crop2 unknown as a class)",
+        "planted": 0,
+        "mean_error": 0.0696050325503629,
+        "mean_error_lo": 0.0231433827782379,
+        "mean_error_hi": 0.116066682322488,
+        "coverage": "90% coverage 0.9",
+        "file": "bias/tab_bias_summary.csv"
+      },
+      {
+        "run": "clone_base_seeds_20261021_20261040",
+        "check": "mean error over 20 plantings, pulse",
+        "item": "L_kernR",
+        "planted": 0.4,
+        "mean_error": -0.0790329485742652,
+        "mean_error_lo": -0.130500129029916,
+        "mean_error_hi": -0.0275657681186148,
+        "coverage": "90% coverage 0.8",
+        "file": "rehearsal/calibration/tab_lens_calibration_summary.csv"
+      },
+      {
+        "run": "clone_base_seeds_20261021_20261040",
+        "check": "mean error over 20 plantings, pulse",
+        "item": "L_proxymix",
+        "planted": 0.4,
+        "mean_error": 0.0174893747409402,
+        "mean_error_lo": -0.0401623101798606,
+        "mean_error_hi": 0.075141059661741,
+        "coverage": "90% coverage 0.9",
+        "file": "rehearsal/calibration/tab_lens_calibration_summary.csv"
+      },
+      {
+        "run": "perm_base_seeds_20261021_20261040",
+        "check": "mean error over 20 plantings, pulse",
+        "item": "L_kernR",
+        "planted": 0.4,
+        "mean_error": -0.0570698787928089,
+        "mean_error_lo": -0.113191382109746,
+        "mean_error_hi": -0.000948375475872301,
+        "coverage": "90% coverage 0.75",
+        "file": "rehearsal/calibration_perm/tab_lens_calibration_summary.csv"
+      },
+      {
+        "run": "perm_base_seeds_20261041_20261100",
+        "check": "mean error over 60 plantings, pulse",
+        "item": "L_kernR",
+        "planted": 0.4,
+        "mean_error": -0.00877094628702139,
+        "mean_error_lo": -0.0395410928225722,
+        "mean_error_hi": 0.0219992002485294,
+        "coverage": "90% coverage 0.933",
+        "file": "rehearsal/calibration_perm60/tab_lens_calibration_summary.csv"
+      }
+    ],
+    "lens_ruling": "All five lenses are kept (ruling of 2026-10-20 06:46 ACDT). Single-seed misses: at seed 20261019 (run effect), L_fb, L_asreml, L_proxymix missed the planted effect, pulse; at seed 20261020 (run effect_s20), L_kernR missed the planted effect, pulse; at seed 20261020 (run null_s20), L_kernR missed the planted null, pulse. These rows are released with the calibration rows over repeated plantings."
+  },
+  "real_run": {
+    "date": "2026-10-19 22:29:29 ACDT",
+    "ended": "2026-10-19 23:07:51 ACDT",
+    "sealed": "2026-10-19 22:29:21 ACDT",
+    "n_rounds": 1,
+    "messages": [
+      {
+        "round": 1,
+        "message": "stop"
+      }
+    ],
+    "plan_hash": "sha256:1804dd821ea3623954811ec4ab8172857915223df896c630f07dd3d95587712a",
+    "plan_hash_matches_seal": true,
+    "plan_hash_recomputed_matches_seal": true,
+    "input_hash": "sha256:988b36230c3b0d8aee4149b7020ae44ebf41167be95e70e6f1f89a0a9befb669",
+    "triggers_hash": "sha256:970d1f4ccaf1c6dc20893d966b078c80a4b407c1ce1e122f7336c2d9c7f309de",
+    "triggers_hash_matches_seal": true,
+    "worker_exit_code": 0,
+    "status": "stop",
+    "n_issue_lines": 0,
+    "table_sha256": "c9dc4a95aa6bc05e4eff14a89fb2e1bb618300fdf4e3866bd12e0e6421e7829d",
+    "table_sha256_matches_runner_log": true,
+    "table_sha256_matches_source": true,
+    "seconds": 2299.129,
+    "n_nodes_skipped": 0
+  },
+  "result": {
+    "estimand": "within-town total effect of a pulse predecessor on wheat yield, against wheat after wheat",
+    "estimate": 0.266506683300487,
+    "lo": 0.0557978359226471,
+    "hi": 0.478437634585559,
+    "interval_label": "90% posterior interval, draws stacked over 20 imputations of crop2",
+    "unit": "t/ha",
+    "refused": false,
+    "refusal_reason": null,
+    "extra": {
+      "p_gt0": 0.98055,
+      "p_gt03": 0.3942,
+      "posterior_sd": 0.128673545893247,
+      "positive_control": {
+        "estimate": 0.110619071803151,
+        "lo": -0.0921550407208146,
+        "hi": 0.314958025008022,
+        "above_zero": false,
+        "note": "Canola against wheat after wheat, the same model: 0.11 t/ha (90% interval -0.09 to 0.31). The rule asks for the interval to lie above zero; it does not, and the miss is released as a result beside the estimate."
+      },
+      "sensitivities": [
+        {
+          "lens": "flexyBayes",
+          "estimand": "sens_three_cereal",
+          "contrast": "pulse - wheat, barley or triticale",
+          "estimate": 0.283081232336336,
+          "se_or_sd": 0.128067752452388,
+          "ci90_lo": 0.0779245358373377,
+          "ci90_hi": 0.494616437111837,
+          "basis": "INLA, known_variance, draws stacked over m = 5"
+        },
+        {
+          "lens": "flexyBayes",
+          "estimand": "sens_three_cereal",
+          "contrast": "canola - wheat, barley or triticale",
+          "estimate": 0.138502425897845,
+          "se_or_sd": 0.123103245626606,
+          "ci90_lo": -0.061936003304642,
+          "ci90_hi": 0.341298033845313,
+          "basis": "INLA, known_variance, draws stacked over m = 5"
+        },
+        {
+          "lens": "flexyBayes",
+          "estimand": "sens_complete_case",
+          "contrast": "pulse - wheat after wheat",
+          "estimate": 0.206998871505854,
+          "se_or_sd": 0.158441241492987,
+          "ci90_lo": -0.0484144916997014,
+          "ci90_hi": 0.4713640728608,
+          "basis": "INLA, trials with crop2 recorded"
+        },
+        {
+          "lens": "flexyBayes",
+          "estimand": "sens_complete_case",
+          "contrast": "canola - wheat after wheat",
+          "estimate": -0.163761854789301,
+          "se_or_sd": 0.159264356478848,
+          "ci90_lo": -0.432542822922045,
+          "ci90_hi": 0.093790162634193,
+          "basis": "INLA, trials with crop2 recorded"
+        },
+        {
+          "lens": "flexyBayes",
+          "estimand": "sens_missing_category",
+          "contrast": "pulse - wheat after wheat",
+          "estimate": 0.300648027634494,
+          "se_or_sd": 0.133455443507753,
+          "ci90_lo": 0.0862494236538047,
+          "ci90_hi": 0.516877712953915,
+          "basis": "INLA, crop2 unknown as a class"
+        },
+        {
+          "lens": "flexyBayes",
+          "estimand": "sens_missing_category",
+          "contrast": "canola - wheat after wheat",
+          "estimate": 0.139530860267597,
+          "se_or_sd": 0.129748176353996,
+          "ci90_lo": -0.0765509349702258,
+          "ci90_hi": 0.35683719701812,
+          "basis": "INLA, crop2 unknown as a class"
+        },
+        {
+          "lens": "asreml",
+          "estimand": "sens_three_cereal",
+          "contrast": "pulse - wheat, barley or triticale",
+          "estimate": 0.290269981822111,
+          "se_or_sd": 0.126697158544989,
+          "ci90_lo": 0.0818558349478169,
+          "ci90_hi": 0.498684128696405,
+          "basis": "REML, MI m = 20, Rubin"
+        },
+        {
+          "lens": "asreml",
+          "estimand": "sens_three_cereal",
+          "contrast": "canola - wheat, barley or triticale",
+          "estimate": 0.137744494000361,
+          "se_or_sd": 0.120005334841224,
+          "ci90_lo": -0.0596630454279431,
+          "ci90_hi": 0.335152033428665,
+          "basis": "REML, MI m = 20, Rubin"
+        },
+        {
+          "lens": "asreml",
+          "estimand": "sens_complete_case",
+          "contrast": "pulse - wheat after wheat",
+          "estimate": 0.207989713989724,
+          "se_or_sd": 0.167324754302473,
+          "ci90_lo": -0.0672350150034622,
+          "ci90_hi": 0.48321444298291,
+          "basis": "REML, trials with crop2 recorded"
+        },
+        {
+          "lens": "asreml",
+          "estimand": "sens_complete_case",
+          "contrast": "canola - wheat after wheat",
+          "estimate": -0.166504205233346,
+          "se_or_sd": 0.171106108766894,
+          "ci90_lo": -0.447948708832125,
+          "ci90_hi": 0.114940298365432,
+          "basis": "REML, trials with crop2 recorded"
+        },
+        {
+          "lens": "asreml",
+          "estimand": "sens_missing_category",
+          "contrast": "pulse - wheat after wheat",
+          "estimate": 0.308428535581373,
+          "se_or_sd": 0.129783354547706,
+          "ci90_lo": 0.0949539141356505,
+          "ci90_hi": 0.521903157027096,
+          "basis": "REML, crop2 unknown as a class"
+        },
+        {
+          "lens": "asreml",
+          "estimand": "sens_missing_category",
+          "contrast": "canola - wheat after wheat",
+          "estimate": 0.144206499945675,
+          "se_or_sd": 0.12672719920784,
+          "ci90_lo": -0.0642411933047425,
+          "ci90_hi": 0.352654193196092,
+          "basis": "REML, crop2 unknown as a class"
+        }
+      ],
+      "kernR_weighted": {
+        "lens": "kernR",
+        "estimand": "kernR_weighted",
+        "contrast": "pulse - wheat after wheat, marginal over trials",
+        "estimate": -0.304689978038841,
+        "se_or_sd": 0.17119758232421,
+        "ci90_lo": -0.385762655168204,
+        "ci90_hi": 0.170464833776589,
+        "basis": "propensity weights (logistic, cross-fitted) truncated at 0.05 and 0.95; conditioning set region, year, crop2 (imputation 1), soil, prev_season_rain, gs_rain; trial bootstrap 200",
+        "ess_pulse": 187.128085463025,
+        "ess_ww": 63.0057209171987
+      },
+      "counts": {
+        "towns_pulse_and_ww": 32,
+        "trials_pulse_in_those_towns": 83,
+        "trials_ww_in_those_towns": 59,
+        "towns_canola_and_ww": 32,
+        "trials_canola_in_those_towns": 133,
+        "towns_pulse_and_3cereal": 34,
+        "trials_crop2_missing": 412,
+        "rows_dropped_missing_covariate": 770,
+        "trials_dropped": 27
+      },
+      "by_region": {
+        "het_p": 0.879325625459095,
+        "het_df": 2,
+        "regions": [
+          {
+            "region": "north",
+            "estimate": 0.23694759041985,
+            "se": 0.203652304713947,
+            "ci90_lo": -0.0980306416259122,
+            "ci90_hi": 0.571925822465613,
+            "abstained": false
+          },
+          {
+            "region": "south",
+            "estimate": 0.16586449030859,
+            "se": 0.168744713902381,
+            "ci90_lo": -0.11169586438263,
+            "ci90_hi": 0.44342484499981,
+            "abstained": false
+          },
+          {
+            "region": "west",
+            "estimate": 0.255500691100428,
+            "se": 0.175581045705333,
+            "ci90_lo": -0.0333044287519202,
+            "ci90_hi": 0.544305810952777,
+            "abstained": false
+          }
+        ]
+      },
+      "rain_modifier": {
+        "unit": "t/ha per 100 mm of growing-season rain, centred within region",
+        "regions": [
+          {
+            "region": "north",
+            "slope_per_100mm": -0.111363144118676,
+            "se": 0.209271126076446,
+            "z": -0.532147679455768,
+            "ci90_lo": -0.455583514861737,
+            "ci90_hi": 0.232857226624385,
+            "abstained": false,
+            "c0_claim": false
+          },
+          {
+            "region": "south",
+            "slope_per_100mm": 0.263119462332503,
+            "se": 0.0902254376352454,
+            "z": 2.91624478892767,
+            "ci90_lo": 0.114711823994885,
+            "ci90_hi": 0.41152710067012,
+            "abstained": false,
+            "c0_claim": true
+          },
+          {
+            "region": "west",
+            "slope_per_100mm": -0.0629980996373251,
+            "se": 0.173346838784013,
+            "z": -0.363422258399644,
+            "ci90_lo": -0.348128276131781,
+            "ci90_hi": 0.222132076857131,
+            "abstained": false,
+            "c0_claim": false
+          }
+        ],
+        "n_c0_claims": 1,
+        "int_maxz": 2.91624478892767
+      },
+      "influence": {
+        "infl_share": 0.480163483576985,
+        "n_towns": 32,
+        "estimate_full": 0.217914536091425,
+        "se_full": 0.127777259398728
+      }
+    }
+  },
+  "refusals": [
+    {
+      "step": "cell north x other_cereal",
+      "reason": "too_few_trials"
+    },
+    {
+      "step": "cell south x other_cereal",
+      "reason": "too_few_trials"
+    },
+    {
+      "step": "cell west x other_cereal",
+      "reason": "too_few_trials"
+    }
+  ],
+  "warnings": [
+    {
+      "node": "L_kernR",
+      "text": "glm.fit: fitted probabilities numerically 0 or 1 occurred",
+      "count": 1,
+      "written_at": "2026-10-19 23:04:12.094 ACDT",
+      "window": "after the L_proxymix manifest (23:04:09.790) and before the L_kernR manifest (23:04:12.661)",
+      "source": "kernR estimate_propensity(method = \"logistic\") fits glm(family = binomial()) for the propensity weights, on the full sample and on each of 200 bootstrap replicates; one of these fits separated some trials. The tool bounds every propensity to 0.05 to 0.95 before weighting, so no weight is unbounded."
+    }
+  ],
+  "by_solutions": [
+    {
+      "what": "Reference arm is wheat after wheat only; wheat, barley or triticale together is a sensitivity",
+      "consequence": "fewer reference trials (125 wheat after wheat against 137 cereal), a cleaner contrast"
+    },
+    {
+      "what": "Town is a fixed effect in every within-town lens",
+      "consequence": "only towns with both arms carry the contrast: 32 towns, 83 pulse and 59 wheat-after-wheat trials"
+    },
+    {
+      "what": "crop2 by multiple imputation at trial level, m = 20",
+      "consequence": "412 trials had crop2 unrecorded; complete case and missing category are sensitivities"
+    },
+    {
+      "what": "Rows with a missing weather or soil covariate dropped before fitting",
+      "consequence": "770 rows and 27 trials dropped"
+    },
+    {
+      "what": "proxymix and kernR use crop2 imputation 1 only; the flexyBayes three-cereal sensitivity uses imputations 1 to 5",
+      "consequence": "their intervals do not carry the imputation uncertainty of crop2"
+    },
+    {
+      "what": "Any region, arm or species cell with fewer than 15 trials in an arm is not estimated",
+      "consequence": "3 cells refused: cell north x other_cereal, cell south x other_cereal, cell west x other_cereal"
+    },
+    {
+      "what": "trigger T_interaction fired: the pulse effect changes with growing-season rain within a region",
+      "consequence": "value 2.916 against threshold 2.394; action release; released as a candidate for a second loop, beside the primary result, which it does not change"
+    }
+  ],
+  "versions": {
+    "conductoR": "0.1.0",
+    "mice": "3.19.0",
+    "flexyBayes": "0.18.1",
+    "asreml": "4.2.0.482",
+    "lme4": "2.0.6",
+    "proxymix": "0.16.0",
+    "kernR": "0.10.0",
+    "janusplot": "0.1.1",
+    "quorum": "0.1.0",
+    "mgcv": "1.9.4",
+    "orchestraManifest": "0.2.0",
+    "masque": "0.14.0",
+    "decideR": "0.3.1",
+    "gpfield": "0.3.0",
+    "cdzoo": "0.2.0",
+    "koine": "0.3.0",
+    "effectsurf": "0.2.0.9000",
+    "optimix": "0.1.0",
+    "nlme": "3.1.171",
+    "glmmTMB": "1.1.14",
+    "gstat": "2.1.6",
+    "sf": "1.1.2",
+    "sensemakr": "0.1.6",
+    "dagitty": "0.3.4",
+    "data.table": "1.18.6.1",
+    "fst": "0.9.8",
+    "R": "4.6.1"
+  },
+  "return": "discoveries",
+  "lenses": [
+    {
+      "lens": "L_fb",
+      "member": "flexyBayes",
+      "estimand": "primary",
+      "contrast": "pulse - wheat after wheat",
+      "basis": "INLA, known_variance, draws stacked over m = 20",
+      "estimate": 0.266506683300487,
+      "lo": 0.0557978359226471,
+      "hi": 0.478437634585559,
+      "se_or_sd": 0.128673545893247,
+      "canola_estimate": 0.110619071803151,
+      "refused": false,
+      "planted_pass": true,
+      "null_pass": true,
+      "planted_pass_seed_20261019": false,
+      "in_agreement_rule": true,
+      "independent_of": [
+        "L_asreml",
+        "L_lme4",
+        "L_proxymix",
+        "L_kernR"
+      ]
+    },
+    {
+      "lens": "L_asreml",
+      "member": "asreml",
+      "estimand": "primary",
+      "contrast": "pulse - wheat after wheat",
+      "basis": "REML, MI m = 20, Rubin",
+      "estimate": 0.272821592429141,
+      "lo": 0.0594463099629792,
+      "hi": 0.486196874895303,
+      "se_or_sd": 0.129712369821713,
+      "canola_estimate": 0.11586688290464,
+      "refused": false,
+      "planted_pass": true,
+      "null_pass": true,
+      "planted_pass_seed_20261019": false,
+      "in_agreement_rule": true,
+      "independent_of": [
+        "L_fb",
+        "L_lme4",
+        "L_proxymix",
+        "L_kernR"
+      ]
+    },
+    {
+      "lens": "L_lme4",
+      "member": "lme4",
+      "estimand": "primary",
+      "contrast": "pulse - wheat after wheat",
+      "basis": "REML, weights = w, MI m = 20, Rubin",
+      "estimate": 0.273478586396289,
+      "lo": 0.0599251969853845,
+      "hi": 0.487031975807194,
+      "se_or_sd": 0.129820552447279,
+      "canola_estimate": 0.116634224060204,
+      "refused": false,
+      "planted_pass": true,
+      "null_pass": true,
+      "planted_pass_seed_20261019": true,
+      "in_agreement_rule": true,
+      "independent_of": [
+        "L_fb",
+        "L_asreml",
+        "L_proxymix",
+        "L_kernR"
+      ]
+    },
+    {
+      "lens": "L_proxymix",
+      "member": "proxymix",
+      "estimand": "primary",
+      "contrast": "pulse - wheat after wheat",
+      "basis": "trial-level mixture uplift after within-town adjustment, imputation 1; town-cluster bootstrap, 200",
+      "estimate": 0.234963627597918,
+      "lo": -0.0914102679224802,
+      "hi": 0.59560661128875,
+      "se_or_sd": 0.226706124609945,
+      "canola_estimate": 0.0627830682456322,
+      "refused": false,
+      "planted_pass": true,
+      "null_pass": true,
+      "planted_pass_seed_20261019": false,
+      "in_agreement_rule": true,
+      "independent_of": [
+        "L_fb",
+        "L_asreml",
+        "L_lme4",
+        "L_kernR"
+      ]
+    },
+    {
+      "lens": "L_kernR",
+      "member": "kernR",
+      "estimand": "kernR_weighted",
+      "contrast": "pulse - wheat after wheat, marginal over trials",
+      "basis": "propensity weights (logistic, cross-fitted) truncated at 0.05 and 0.95; conditioning set region, year, crop2 (imputation 1), soil, prev_season_rain, gs_rain; trial bootstrap 200",
+      "estimate": -0.304689978038841,
+      "lo": -0.385762655168204,
+      "hi": 0.170464833776589,
+      "se_or_sd": 0.17119758232421,
+      "canola_estimate": null,
+      "refused": false,
+      "planted_pass": false,
+      "null_pass": false,
+      "planted_pass_seed_20261019": true,
+      "in_agreement_rule": false,
+      "independent_of": [
+        "L_fb",
+        "L_asreml",
+        "L_lme4",
+        "L_proxymix"
+      ],
+      "note": "Its own estimand: a propensity-weighted difference over trials, not within town, never averaged with the other lenses. The full-sample estimate is -0.30 t/ha; the median of its 200 bootstrap replicates is -0.08 t/ha, and 10% of the replicates lie below the full-sample estimate, so the interval is not centred on it.",
+      "boot_median": -0.0806285486936895,
+      "boot_share_below_estimate": 0.1,
+      "ess_pulse": 187.128085463025,
+      "ess_ww": 63.0057209171987
+    }
+  ],
+  "agreement": {
+    "rule": "location only: every within-town lens (asreml, lme4, proxymix) within 0.25 t/ha of the flexyBayes estimate; and the C0 ladder: asreml and lme4 treatment contrasts within 0.02 t/ha unweighted and weighted, flexyBayes posterior means within 0.2 posterior SD of the REML estimate. A spread difference alone never fails the rule. quorum's status with its default thresholds is reported, not used.",
+    "verdict": "pass",
+    "location_pass": true,
+    "ladder_pass": true,
+    "location_gap_max": 0.031543055702569,
+    "location_tol": 0.25,
+    "lens_furthest": "L_proxymix",
+    "ladder_max_gap_reml": 3.99901170511363e-8,
+    "ladder_max_gap_post_sd": 0.0528670186715182,
+    "n_rungs_failed": 0,
+    "quorum_status": "discordant",
+    "spread_ratio": 1.62553758870962,
+    "lens_widest": "L_proxymix",
+    "lens_narrowest": "L_fb",
+    "concordant_pairs": 3,
+    "compared_pairs": 6,
+    "detail_location": [
+      {
+        "node": "L_asreml",
+        "estimate": 0.272821592429141,
+        "lo": 0.0594463099629792,
+        "hi": 0.486196874895303,
+        "width": 0.426750564932324,
+        "gap_to_lead": 0.00631490912865401
+      },
+      {
+        "node": "L_lme4",
+        "estimate": 0.273478586396289,
+        "lo": 0.0599251969853845,
+        "hi": 0.487031975807194,
+        "width": 0.42710677882181,
+        "gap_to_lead": 0.00697190309580253
+      },
+      {
+        "node": "L_fb",
+        "estimate": 0.266506683300487,
+        "lo": 0.0557978359226471,
+        "hi": 0.478437634585559,
+        "width": 0.422639798662912,
+        "gap_to_lead": 0
+      },
+      {
+        "node": "L_proxymix",
+        "estimate": 0.234963627597918,
+        "lo": -0.0914102679224802,
+        "hi": 0.59560661128875,
+        "width": 0.68701687921123,
+        "gap_to_lead": 0.031543055702569
+      }
+    ],
+    "detail_ladder": [
+      {
+        "rung": "L1",
+        "contrast": "pulse",
+        "ref": 0.217423996401633,
+        "other": 0.217424006805427,
+        "gap": 1.04037944093083e-8,
+        "tol": 0.02,
+        "unit": "t/ha",
+        "pass": true
+      },
+      {
+        "rung": "L1",
+        "contrast": "canola",
+        "ref": 0.0666471461528299,
+        "other": 0.0666471515883101,
+        "gap": 5.4354802464518e-9,
+        "tol": 0.02,
+        "unit": "t/ha",
+        "pass": true
+      },
+      {
+        "rung": "L2",
+        "contrast": "pulse",
+        "ref": 0.217630942902447,
+        "other": 0.217630982892564,
+        "gap": 3.99901170511363e-8,
+        "tol": 0.02,
+        "unit": "t/ha",
+        "pass": true
+      },
+      {
+        "rung": "L2",
+        "contrast": "canola",
+        "ref": 0.0672164839569543,
+        "other": 0.0672165202413381,
+        "gap": 3.6284383733709e-8,
+        "tol": 0.02,
+        "unit": "t/ha",
+        "pass": true
+      },
+      {
+        "rung": "L3",
+        "contrast": "pulse",
+        "ref": 0.217914536091425,
+        "other": 0.21226743917459,
+        "gap": 0.0450032443080665,
+        "tol": 0.2,
+        "unit": "posterior SD",
+        "pass": true
+      },
+      {
+        "rung": "L3",
+        "contrast": "canola",
+        "ref": 0.0670173817578291,
+        "other": 0.0607693193398026,
+        "gap": 0.0525211441106663,
+        "tol": 0.2,
+        "unit": "posterior SD",
+        "pass": true
+      },
+      {
+        "rung": "L4",
+        "contrast": "pulse",
+        "ref": 0.217424006805427,
+        "other": 0.210622783049889,
+        "gap": 0.0528670186715182,
+        "tol": 0.2,
+        "unit": "posterior SD",
+        "pass": true
+      },
+      {
+        "rung": "L4",
+        "contrast": "canola",
+        "ref": 0.0666471515883101,
+        "other": 0.0662818362314797,
+        "gap": 0.0029277210523007,
+        "tol": 0.2,
+        "unit": "posterior SD",
+        "pass": true
+      }
+    ],
+    "quorum_pairs": [
+      {
+        "lens_a": "L_asreml",
+        "lens_b": "L_lme4",
+        "param": "pulse",
+        "mean_a": 0.272784619611461,
+        "mean_b": 0.274089134227274,
+        "sd_a": 0.130675539309856,
+        "sd_b": 0.128690199237002,
+        "sd_ratio": 1.01542728261068,
+        "q025_diff": -0.00629738267701451,
+        "q975_diff": 0.00160878859415325,
+        "wasserstein_1": 0.00179086047339011,
+        "mean_shift_sd": 0.00998285235861739,
+        "w1_sd": 0.0137046342632162,
+        "verdict": "concordant",
+        "reason": null
+      },
+      {
+        "lens_a": "L_asreml",
+        "lens_b": "L_fb",
+        "param": "pulse",
+        "mean_a": 0.272784619611461,
+        "mean_b": 0.266506683300487,
+        "sd_a": 0.130675539309856,
+        "sd_b": 0.128673545893247,
+        "sd_ratio": 1.01555870247229,
+        "q025_diff": 0.00192866217463448,
+        "q975_diff": 0.0104316053481064,
+        "wasserstein_1": 0.00630218936302066,
+        "mean_shift_sd": 0.0480421687496391,
+        "w1_sd": 0.0482277662392272,
+        "verdict": "concordant",
+        "reason": null
+      },
+      {
+        "lens_a": "L_asreml",
+        "lens_b": "L_proxymix",
+        "param": "pulse",
+        "mean_a": 0.272784619611461,
+        "mean_b": 0.257579121705892,
+        "sd_a": 0.130675539309856,
+        "sd_b": 0.226706124609945,
+        "sd_ratio": 0.576409391385816,
+        "q025_diff": 0.199988321693788,
+        "q975_diff": -0.178127533575678,
+        "wasserstein_1": 0.0662932971904281,
+        "mean_shift_sd": 0.0670714032615177,
+        "w1_sd": 0.292419524635639,
+        "verdict": "discordant",
+        "reason": "Wasserstein-1 0.29 SD; SD ratio 0.58"
+      },
+      {
+        "lens_a": "L_lme4",
+        "lens_b": "L_fb",
+        "param": "pulse",
+        "mean_a": 0.274089134227274,
+        "mean_b": 0.266506683300487,
+        "sd_a": 0.128690199237002,
+        "sd_b": 0.128673545893247,
+        "sd_ratio": 1.00012942321313,
+        "q025_diff": 0.00822604485164899,
+        "q975_diff": 0.00882281675395313,
+        "wasserstein_1": 0.00754512556100568,
+        "mean_shift_sd": 0.058920189507384,
+        "w1_sd": 0.0586301490380803,
+        "verdict": "concordant",
+        "reason": null
+      },
+      {
+        "lens_a": "L_lme4",
+        "lens_b": "L_proxymix",
+        "param": "pulse",
+        "mean_a": 0.274089134227274,
+        "mean_b": 0.257579121705892,
+        "sd_a": 0.128690199237002,
+        "sd_b": 0.226706124609945,
+        "sd_ratio": 0.567652062591681,
+        "q025_diff": 0.206285704370803,
+        "q975_diff": -0.179736322169832,
+        "wasserstein_1": 0.0678598814326318,
+        "mean_shift_sd": 0.0728256131138428,
+        "w1_sd": 0.299329722782685,
+        "verdict": "discordant",
+        "reason": "Wasserstein-1 0.30 SD; SD ratio 0.57"
+      },
+      {
+        "lens_a": "L_fb",
+        "lens_b": "L_proxymix",
+        "param": "pulse",
+        "mean_a": 0.266506683300487,
+        "mean_b": 0.257579121705892,
+        "sd_a": 0.128673545893247,
+        "sd_b": 0.226706124609945,
+        "sd_ratio": 0.567578604744949,
+        "q025_diff": 0.198059659519154,
+        "q975_diff": -0.188559138923785,
+        "wasserstein_1": 0.0672474106354167,
+        "mean_shift_sd": 0.0393794460116835,
+        "w1_sd": 0.296628116029586,
+        "verdict": "discordant",
+        "reason": "Wasserstein-1 0.30 SD; SD ratio 0.57"
+      }
+    ],
+    "near_identical_tolerance": 1e-8,
+    "near_identical_pairs": []
+  },
+  "discoveries": [
+    {
+      "statement": "Within region south, the pulse effect on wheat changes by 0.26 t/ha per 100 mm of growing-season rain (90% interval 0.11 to 0.41; interaction)",
+      "found_by": "interaction",
+      "trigger_id": "T_interaction",
+      "trigger_action": "release",
+      "values": {
+        "statistic": "int_maxz",
+        "value_real": 2.91624478892767,
+        "threshold": 2.394,
+        "regions": [
+          {
+            "region": "south",
+            "slope_per_100mm": 0.263119462332503,
+            "se": 0.0902254376352454,
+            "z": 2.91624478892767,
+            "ci90_lo": 0.114711823994885,
+            "ci90_hi": 0.41152710067012,
+            "c0_claim": true
+          }
+        ]
+      },
+      "loop2_dataset": null,
+      "loop2_candidates": [
+        {
+          "dataset": "waite_permanent_rotation: Waite Permanent Rotation Trial, Urrbrae SA, 1925 to 1993 (CSIRO), doi:10.4225/08/55E5165EC0D29",
+          "metadata": "wheat, peas, barley, oats; 34 plots, 1,340 plot-years; treatment is the rotation sequence; CSIRO Data Licence (non-commercial, attribution, no distribution)",
+          "fits": "wheat after peas against wheat after wheat over 69 seasons at one site: the rain modifier and its shape are testable with season rain; region heterogeneity is not"
+        },
+        {
+          "dataset": "mingenew_no_till: CSIRO long-term no-till study, Mingenew WA, 2007 to 2012, doi:10.25919/p6za-4b50",
+          "metadata": "wheat, canola, lupin rotations; CC BY 4.0 record metadata; the descriptor says the files are not downloadable",
+          "fits": "testable in principle (lupin before wheat, six seasons); not obtainable as listed"
+        },
+        {
+          "dataset": "agridat payne.wheat (Woburn ley-arable, Rothamsted, rotation x N; CC BY 4.0 full data, doi:10.23637/wrn3-wheat7618-01)",
+          "metadata": "480 rows, 6 rotations (arable and ley), no pulse arm",
+          "fits": "break-crop by season only; not a pulse test"
+        }
+      ],
+      "loop2_verdict": "not yet tested",
+      "loop2_estimate": null,
+      "loop2_lo": null,
+      "loop2_hi": null
+    }
+  ],
+  "triggers": [
+    {
+      "trigger_id": "T_fidelity",
+      "node": "prep",
+      "class": "anomaly",
+      "signal_type": "signal:clone_fidelity",
+      "what": "the real table differs from the clone in levels, missing counts, ranges or sizes",
+      "threshold_label": "n_fidelity_flags >= 1",
+      "statistic": "n_fidelity_flags",
+      "direction": ">=",
+      "threshold": 1,
+      "action": "return",
+      "rehearsal_plant": "clone copy with every Faba Bean predecessor row removed (a level of crop1_species absent, and row, trial and missing counts changed)",
+      "rehearsal_fired": true,
+      "rehearsal_silent": true,
+      "rehearsal_runs": "fidelity_level (fire expected); none (silent expected)",
+      "value_real": 0,
+      "fired_real": false,
+      "round": 1
+    },
+    {
+      "trigger_id": "T_hetero",
+      "node": "hetero",
+      "class": "candidate",
+      "signal_type": "signal:heterogeneity",
+      "what": "the pulse effect differs between regions",
+      "threshold_label": "het_p < 0.001",
+      "statistic": "het_p",
+      "direction": "<",
+      "threshold": 0.001,
+      "action": "release",
+      "rehearsal_plant": "pulse effect by region: north -0.2, south 0.4, west 1.0 t/ha (SD 0.6 around 0.4) against a common 0.4",
+      "rehearsal_fired": true,
+      "rehearsal_silent": true,
+      "rehearsal_runs": "het_region (fire expected); none (silent expected)",
+      "value_real": 0.879325625459095,
+      "fired_real": false,
+      "round": 1
+    },
+    {
+      "trigger_id": "T_interaction",
+      "node": "interaction",
+      "class": "candidate",
+      "signal_type": "signal:interaction",
+      "what": "the pulse effect changes with growing-season rain within a region",
+      "threshold_label": "int_maxz > 2.394",
+      "statistic": "int_maxz",
+      "direction": ">",
+      "threshold": 2.394,
+      "action": "release",
+      "rehearsal_plant": "pulse effect 0.4 + 0.3 t/ha per 100 mm of growing-season rain centred within region, all regions",
+      "rehearsal_fired": true,
+      "rehearsal_silent": true,
+      "rehearsal_runs": "interaction (fire expected); none (silent expected)",
+      "value_real": 2.91624478892767,
+      "fired_real": true,
+      "round": 1
+    },
+    {
+      "trigger_id": "T_revu_rain",
+      "node": "shape",
+      "class": "candidate",
+      "signal_type": "signal:reverse_u",
+      "what": "the pulse effect rises then falls across growing-season rain",
+      "threshold_label": "revu_rain >= 1",
+      "statistic": "revu_rain",
+      "direction": ">=",
+      "threshold": 1,
+      "action": "release",
+      "rehearsal_plant": "pulse effect 0.4 + 1.0 x (1 - ((x - mid) / half)^2) in growing-season rain centred within region, x over the 5th to 95th percentile of pulse trials; silent on a rise to a plateau of the same 1.0 t/ha height and on the common effect",
+      "rehearsal_fired": true,
+      "rehearsal_silent": true,
+      "rehearsal_runs": "revu_rain (fire expected); plateau_rain (silent expected); none (silent expected)",
+      "value_real": 0,
+      "fired_real": false,
+      "round": 1
+    },
+    {
+      "trigger_id": "T_u_rain",
+      "node": "shape",
+      "class": "candidate",
+      "signal_type": "signal:u_shape",
+      "what": "the pulse effect falls then rises across growing-season rain",
+      "threshold_label": "u_rain >= 1",
+      "statistic": "u_rain",
+      "direction": ">=",
+      "threshold": 1,
+      "action": "release",
+      "rehearsal_plant": "pulse effect 0.4 - 1.0 x (1 - ((x - mid) / half)^2) in growing-season rain centred within region",
+      "rehearsal_fired": true,
+      "rehearsal_silent": true,
+      "rehearsal_runs": "u_rain (fire expected); revu_rain (silent expected); plateau_rain (silent expected); none (silent expected)",
+      "value_real": 0,
+      "fired_real": false,
+      "round": 1
+    },
+    {
+      "trigger_id": "T_infl",
+      "node": "influence",
+      "class": "anomaly",
+      "signal_type": "signal:influential_unit",
+      "what": "one town moves the pulse estimate by more than one standard error",
+      "threshold_label": "infl_share > 1",
+      "statistic": "infl_share",
+      "direction": ">",
+      "threshold": 1,
+      "action": "release",
+      "rehearsal_plant": "a further 3 t/ha on the pulse trials of the town carrying the most pulse and wheat-after-wheat trials",
+      "rehearsal_fired": true,
+      "rehearsal_silent": true,
+      "rehearsal_runs": "influential (fire expected); none (silent expected)",
+      "value_real": 0.480163483576985,
+      "fired_real": false,
+      "round": 1
+    },
+    {
+      "trigger_id": "T_dist",
+      "node": "L_proxymix",
+      "class": "anomaly",
+      "signal_type": "signal:distribution_shape",
+      "what": "trial-level residuals are better described by a mixture than by one normal",
+      "threshold_label": "bic_gain > 10",
+      "statistic": "bic_gain",
+      "direction": ">",
+      "threshold": 10,
+      "action": "release",
+      "rehearsal_plant": "trial effects from a two-class mixture: 85% N(0, 0.6^2), 15% N(-2.5, 0.6^2) t/ha",
+      "rehearsal_fired": true,
+      "rehearsal_silent": true,
+      "rehearsal_runs": "dist_mixture (fire expected); none (silent expected)",
+      "value_real": 5.08669199571659,
+      "fired_real": false,
+      "round": 1
+    },
+    {
+      "trigger_id": "T_revu_other",
+      "node": "shape",
+      "class": "candidate",
+      "signal_type": "signal:reverse_u",
+      "what": "the pulse effect rises then falls across another covariate",
+      "threshold_label": "revu_other_n >= 1",
+      "statistic": "revu_other_n",
+      "direction": ">=",
+      "threshold": 1,
+      "action": "release",
+      "rehearsal_plant": "pulse effect 0.4 + 1.5 x (1 - ((x - mid) / half)^2) in mean maximum temperature (gs_tmax), x over the 5th to 95th percentile of pulse trials; silent on a rise to a plateau of the same 1.5 t/ha height and on the common effect",
+      "rehearsal_fired": true,
+      "rehearsal_silent": true,
+      "rehearsal_runs": "revu_tmax_h1.5 (fire expected); plateau_tmax_h1.5 (silent expected); none (silent expected)",
+      "value_real": 0,
+      "fired_real": false,
+      "round": 1
+    }
+  ],
+  "triggers_removed": [
+    {
+      "trigger_id": "lens_spread",
+      "node": "agreement",
+      "signal_type": "signal:lens_spread",
+      "what": "the lenses' 90% intervals differ in width (widest over narrowest)",
+      "threshold_label": "spread_ratio > 1.6",
+      "rehearsal_fired": false,
+      "rehearsal_silent": true,
+      "rehearsal_values": "full_effect 1.14; full_effect_s20 1.06; full_null_s20 1.03; full_spread 1.22",
+      "value_real": 1.62553758870962,
+      "reason": "Removed before the seal: no threshold separated a planted spread from the unplanted clones. Agreement is judged on location only.",
+      "would_fire_real": true
+    },
+    {
+      "trigger_id": "janus_rain_screen",
+      "node": "screen_janus",
+      "signal_type": "signal:reverse_u, signal:u_shape",
+      "what": "janusplot labels the pulse effect against growing-season rain as a peak or a trough",
+      "threshold_label": "janus_revu_rain >= 1 or janus_u_rain >= 1",
+      "rehearsal_fired": false,
+      "rehearsal_silent": false,
+      "rehearsal_values": "none janus_revu_rain 0; none janus_u_rain 0; revu_rain janus_revu_rain 0; revu_rain janus_u_rain 0; plateau_rain janus_revu_rain 0; plateau_rain janus_u_rain 0; u_rain janus_revu_rain 0; u_rain janus_u_rain 0; revu_tmax janus_revu_rain 0; revu_tmax janus_u_rain 0; plateau_tmax janus_revu_rain 0; plateau_tmax janus_u_rain 1; revu_tmax_h1.5 janus_revu_rain 0; revu_tmax_h1.5 janus_u_rain 0; plateau_tmax_h1.5 janus_revu_rain 0; plateau_tmax_h1.5 janus_u_rain 1; revu_tmax_h2 janus_revu_rain 0; revu_tmax_h2 janus_u_rain 0; plateau_tmax_h2 janus_revu_rain 0; plateau_tmax_h2 janus_u_rain 1",
+      "value_real": 1,
+      "reason": "Removed before the seal: the screen missed a planted reverse U and flagged a plateau. Its labels are released beside the formal verdicts.",
+      "would_fire_real": true
+    }
+  ],
+  "rounds": [
+    {
+      "round": 1,
+      "reason": "first",
+      "lines": [
+        "stop"
+      ]
+    }
+  ],
+  "shapes": [
+    {
+      "x": "gs_rain_c",
+      "y": "pulse effect on wheat yield, t/ha",
+      "form_selected": "penalised spline difference smooth, mgcv REML, k = 8",
+      "turning_point": null,
+      "tp_lo": null,
+      "tp_hi": null,
+      "test": "end slopes (Lind and Mehlum 2010) and two lines (Simonsohn 2018)",
+      "verdict": "flat",
+      "screen_label": "broad_peak",
+      "reading": "end slopes: flat at the low end (z 0.38), flat at the high end (z 0.05); two lines at the fitted extremum: rising (p 0.14) then falling (p 0.088)",
+      "slope_low": 0.000748078575549281,
+      "z_low": 0.381033917975996,
+      "slope_high": 0.0000754155683337746,
+      "z_high": 0.0477496271739542,
+      "x_low": -127.854523809524,
+      "x_high": 161.080476190476,
+      "two_lines_b_low": 0.00120827488749816,
+      "two_lines_p_low": 0.137788767516601,
+      "two_lines_b_high": -0.00415394739958547,
+      "two_lines_p_high": 0.0883942557797381,
+      "n_pulse_left": 411,
+      "n_pulse_right": 23,
+      "edf_difference": 1.81716839514975,
+      "branch": {
+        "what": "pulse effect at the fitted extremum, run because the screen labelled it broad_peak",
+        "x_at_extremum": 161.080476190476,
+        "x_lo": -127.854523809524,
+        "x_hi": 161.080476190476,
+        "at_range_edge": true,
+        "effect_at_tp": 0.0990754435967191,
+        "effect_at_tp_lo": -0.194021450720618,
+        "effect_at_tp_hi": 0.412600146026125
+      }
+    },
+    {
+      "x": "gs_tmax",
+      "y": "pulse effect on wheat yield, t/ha",
+      "form_selected": "penalised spline difference smooth, mgcv REML, k = 8",
+      "turning_point": null,
+      "tp_lo": null,
+      "tp_hi": null,
+      "test": "end slopes (Lind and Mehlum 2010) and two lines (Simonsohn 2018)",
+      "verdict": "flat",
+      "screen_label": "rippled_monotone",
+      "reading": "end slopes: flat at the low end (z -0.44), flat at the high end (z -0.44); two lines at the fitted extremum: rising (p 0.62) then falling (p 0.55)",
+      "slope_low": -0.00997278607050472,
+      "z_low": -0.442592189518769,
+      "slope_high": -0.00997291279077799,
+      "z_high": -0.442598654554111,
+      "x_low": 17.5417213114754,
+      "x_high": 27.9546721311475,
+      "two_lines_b_low": 0.0751289389742468,
+      "two_lines_p_low": 0.620783472444352,
+      "two_lines_b_high": -0.0143677004857472,
+      "two_lines_p_high": 0.546764227462647,
+      "n_pulse_left": 22,
+      "n_pulse_right": 412,
+      "edf_difference": 1.00003213139737,
+      "branch": null
+    },
+    {
+      "x": "prev_season_rain",
+      "y": "pulse effect on wheat yield, t/ha",
+      "form_selected": "penalised spline difference smooth, mgcv REML, k = 8",
+      "turning_point": null,
+      "tp_lo": null,
+      "tp_hi": null,
+      "test": "end slopes (Lind and Mehlum 2010) and two lines (Simonsohn 2018)",
+      "verdict": "monotone",
+      "screen_label": "inverted_u",
+      "reading": "end slopes: flat at the low end (z 0.93), falling at the high end (z -2.05); two lines at the fitted extremum: rising (p 0.001) then falling (p 0.00087)",
+      "slope_low": 0.00271009785359255,
+      "z_low": 0.92939123575399,
+      "slope_high": -0.00379429668491656,
+      "z_high": -2.04873688411359,
+      "x_low": 109.92,
+      "x_high": 438.4,
+      "two_lines_b_low": 0.00342463084200683,
+      "two_lines_p_low": 0.00103842963674674,
+      "two_lines_b_high": -0.00462787506529077,
+      "two_lines_p_high": 0.000873842687541113,
+      "n_pulse_left": 330,
+      "n_pulse_right": 104,
+      "edf_difference": 2.99662974190341,
+      "branch": {
+        "what": "pulse effect at the fitted extremum, run because the screen labelled it inverted_u",
+        "x_at_extremum": 330.0016,
+        "x_lo": 261.0208,
+        "x_hi": 392.4128,
+        "at_range_edge": false,
+        "effect_at_tp": 0.223955077782105,
+        "effect_at_tp_lo": 0.0668256045725681,
+        "effect_at_tp_hi": 0.371458723395702
+      }
+    },
+    {
+      "x": "fallow_rain",
+      "y": "pulse effect on wheat yield, t/ha",
+      "form_selected": "penalised spline difference smooth, mgcv REML, k = 8",
+      "turning_point": null,
+      "tp_lo": null,
+      "tp_hi": null,
+      "test": "end slopes (Lind and Mehlum 2010) and two lines (Simonsohn 2018)",
+      "verdict": "flat",
+      "screen_label": "concave_down",
+      "reading": "end slopes: flat at the low end (z 0.79), flat at the high end (z -0.18); two lines at the fitted extremum: rising (p 0.076) then falling (p 0.35)",
+      "slope_low": 0.00135600443444921,
+      "z_low": 0.788324821917519,
+      "slope_high": -0.000165181141861828,
+      "z_high": -0.184192671624844,
+      "x_low": 83.6,
+      "x_high": 585.64,
+      "two_lines_b_low": 0.00109356304437511,
+      "two_lines_p_low": 0.0756760397135218,
+      "two_lines_b_high": -0.000682689599655396,
+      "two_lines_p_high": 0.348586316282745,
+      "n_pulse_left": 336,
+      "n_pulse_right": 98,
+      "edf_difference": 2.01648010235931,
+      "branch": null
+    },
+    {
+      "x": "sow_doy_key",
+      "y": "pulse effect on wheat yield, t/ha",
+      "form_selected": "penalised spline difference smooth, mgcv REML, k = 8",
+      "turning_point": null,
+      "tp_lo": null,
+      "tp_hi": null,
+      "test": "end slopes (Lind and Mehlum 2010) and two lines (Simonsohn 2018)",
+      "verdict": "flat",
+      "screen_label": "rippled_monotone",
+      "reading": "end slopes: flat at the low end (z -0.61), flat at the high end (z -0.61); two lines at the fitted extremum: falling (p 0.18) then rising (p 0.99)",
+      "slope_low": -0.00270794389765159,
+      "z_low": -0.609240255976627,
+      "slope_high": -0.00270737370404884,
+      "z_high": -0.60858148007913,
+      "x_low": 120.3,
+      "x_high": 168.35,
+      "two_lines_b_low": -0.030636898173644,
+      "two_lines_p_low": 0.180995891455386,
+      "two_lines_b_high": 0.0000714823513266751,
+      "two_lines_p_high": 0.988349965884083,
+      "n_pulse_left": 22,
+      "n_pulse_right": 412,
+      "edf_difference": 1.00109964971943,
+      "branch": null
+    },
+    {
+      "x": "clay",
+      "y": "pulse effect on wheat yield, t/ha",
+      "form_selected": "penalised spline difference smooth, mgcv REML, k = 8",
+      "turning_point": null,
+      "tp_lo": null,
+      "tp_hi": null,
+      "test": "end slopes (Lind and Mehlum 2010) and two lines (Simonsohn 2018)",
+      "verdict": "flat",
+      "screen_label": "concave_down",
+      "reading": "end slopes: flat at the low end (z -0.42), flat at the high end (z -0.42); two lines at the fitted extremum: falling (p 0.97) then falling (p 0.69)",
+      "slope_low": -0.00250818817558098,
+      "z_low": -0.415397724763145,
+      "slope_high": -0.00253909403863,
+      "z_high": -0.416034941024147,
+      "x_low": 7,
+      "x_high": 53,
+      "two_lines_b_low": -0.00431475309761551,
+      "two_lines_p_low": 0.973762631912648,
+      "two_lines_b_high": -0.00249339531714155,
+      "two_lines_p_high": 0.688505790248108,
+      "n_pulse_left": 20,
+      "n_pulse_right": 414,
+      "edf_difference": 1.00179657139269,
+      "branch": null
+    },
+    {
+      "x": "ph",
+      "y": "pulse effect on wheat yield, t/ha",
+      "form_selected": "penalised spline difference smooth, mgcv REML, k = 8",
+      "turning_point": null,
+      "tp_lo": null,
+      "tp_hi": null,
+      "test": "end slopes (Lind and Mehlum 2010) and two lines (Simonsohn 2018)",
+      "verdict": "flat",
+      "screen_label": "rippled_wave",
+      "reading": "end slopes: flat at the low end (z 1.63), flat at the high end (z 0.48); two lines at the fitted extremum: rising (p 0.44) then rising (p 0.92)",
+      "slope_low": 0.894319504772249,
+      "z_low": 1.62908378260859,
+      "slope_high": 0.350190691590331,
+      "z_high": 0.475155357596998,
+      "x_low": 5.9650000333786,
+      "x_high": 8.39999961853027,
+      "two_lines_b_low": 0.0822076921074437,
+      "two_lines_p_low": 0.44290365173848,
+      "two_lines_b_high": 0.365069117951486,
+      "two_lines_p_high": 0.922770266973493,
+      "n_pulse_left": 411,
+      "n_pulse_right": 23,
+      "edf_difference": 3.21069912271117,
+      "branch": null
+    },
+    {
+      "x": "awc",
+      "y": "pulse effect on wheat yield, t/ha",
+      "form_selected": "penalised spline difference smooth, mgcv REML, k = 8",
+      "turning_point": null,
+      "tp_lo": null,
+      "tp_hi": null,
+      "test": "end slopes (Lind and Mehlum 2010) and two lines (Simonsohn 2018)",
+      "verdict": "flat",
+      "screen_label": "inverted_u",
+      "reading": "end slopes: flat at the low end (z 1.46), flat at the high end (z -1.09); two lines at the fitted extremum: rising (p 0.033) then falling (p 0.09)",
+      "slope_low": 0.293557247126562,
+      "z_low": 1.46014251459815,
+      "slope_high": -0.374470966483226,
+      "z_high": -1.08549940585833,
+      "x_low": 12,
+      "x_high": 16,
+      "two_lines_b_low": 0.246122004953703,
+      "two_lines_p_low": 0.0332699028617291,
+      "two_lines_b_high": -0.227272899254799,
+      "two_lines_p_high": 0.0903702701156639,
+      "n_pulse_left": 194,
+      "n_pulse_right": 240,
+      "edf_difference": 2.89772412902825,
+      "branch": {
+        "what": "pulse effect at the fitted extremum, run because the screen labelled it inverted_u",
+        "x_at_extremum": 13.72,
+        "x_lo": 12.52,
+        "x_hi": 15.84,
+        "at_range_edge": false,
+        "effect_at_tp": 0.0992843958631155,
+        "effect_at_tp_lo": -0.0442971391220415,
+        "effect_at_tp_hi": 0.240032329986054
+      }
+    }
+  ],
+  "files": [
+    "holder/output/round_1/conduct/run.rds",
+    "holder/output/round_1/runner.log",
+    "holder/output/round_1/worker_stdout.txt",
+    "holder/output/round_1/worker_stderr.txt",
+    "holder/output/round_1/status.txt",
+    "holder/output/round_1/triggers_real.csv",
+    "holder/output/round_1/tab_issues.csv",
+    "holder/output/round_1/tab_provenance.csv",
+    "holder/output/round_1/sessionInfo.txt",
+    "holder/SOURCE.md",
+    "holder/real_table.fst",
+    "sealed/seal.txt",
+    "sealed/triggers.csv",
+    "sealed/tools.R",
+    "sealed/plan.R",
+    "compose/tab_rehearsal.csv",
+    "compose/rehearsal/triggers/tab_trigger_runs.csv",
+    "compose/rehearsal/triggers_tmax/tab_trigger_runs.csv",
+    "clone/audit.csv",
+    "clone/roles.csv",
+    "clone/clone_checks.csv",
+    "clone/structure_check.csv",
+    "clone/clone_table.fst",
+    "clone/MASK_NOTES.md",
+    "DEVIATIONS.md",
+    "messages/round_1.txt",
+    "../roster_versions.csv",
+    "release/figures/fig_janusplot_pulse_effect.png",
+    "release/figures/fig_shape_pulse_effect.png",
+    "release/tab_lenses.csv",
+    "release/tab_lens_pairs.csv",
+    "release/tab_results.csv",
+    "release/tab_triggers.csv",
+    "release/tab_triggers_removed.csv",
+    "release/tab_shapes.csv",
+    "release/tab_shape_branch.csv",
+    "release/tab_heterogeneity.csv",
+    "release/tab_rain_modifier.csv",
+    "release/tab_influence.csv",
+    "release/tab_refusals.csv",
+    "release/tab_rehearsal_lenses.csv",
+    "release/tab_calibration.csv"
+  ],
+  "_figures": [
+    {
+      "src": "/figures/examples/E4/fig_janusplot_pulse_effect.png",
+      "alt": "janusplot matrix of smoothed associations, example E4"
+    },
+    {
+      "src": "/figures/examples/E4/fig_shape_pulse_effect.png",
+      "alt": "Figure from the released results of example E4: fig_shape_pulse_effect.png"
+    }
+  ]
+}

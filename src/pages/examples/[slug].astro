@@ -1,6 +1,7 @@
 ---
 import Base from "../../layouts/Base.astro";
 import E1Extras from "../../components/E1Extras.astro";
+import E4Extras from "../../components/E4Extras.astro";
 import FixtureNote from "../../components/FixtureNote.astro";
 import ShapeSketch from "../../components/ShapeSketch.astro";
 import { href } from "../../data/site";
@@ -185,6 +186,7 @@ const description = `${ex.title} Worked example ${ex.id} on ${d.name}: ${r.estim
       : <p class="prose">Nothing beyond the result.</p>}
 
     {ex.id === "E1" && <E1Extras x={r.extra} />}
+    {ex.id === "E4" && <E4Extras ex={ex} />}
 
     <h2 class="mt-4">Package versions</h2>
     <div class="table-scroll mt-1" tabindex="0"><table>

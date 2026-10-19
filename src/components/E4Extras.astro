@@ -1,0 +1,45 @@
+---
+// The wheat-after-pulse example's weaker results, read from E4's JSON: the
+// canola positive control, the kernR estimate, worker warnings and the
+// rehearsal checks that failed at one seed. A block whose numbers are absent
+// is left out and named in the build log.
+import { num, withRange } from "../data/format";
+interface Props { ex: Record<string, any> }
+const { ex } = Astro.props;
+const x = ex.result.extra ?? {};
+const pc = x.positive_control;
+const kern = (ex.lenses ?? []).find((l: any) => l.member === "kernR");
+const warnings: any[] = ex.warnings ?? [];
+const misses: any[] = (ex.rehearsal?.lens_rows ?? []).filter((r: any) => r.pass === false);
+const lensMember = Object.fromEntries((ex.lenses ?? []).map((l: any) => [l.lens, l.member]));
+if (!pc) console.warn("[E4] result.extra lacks positive_control: the control block is left out.");
+if (!kern) console.warn("[E4] lenses has no kernR row: the kernR block is left out.");
+const unit = ex.result.unit;
+---
+{(pc || kern || warnings.length > 0 || misses.length > 0) && <>
+  <h2 class="mt-4">What weakens the result</h2>
+  <ul class="prose">
+    {pc && <li><strong>The positive control missed.</strong> Canola before wheat was the plan's positive control, run
+      through the same model: {withRange(pc.estimate, pc.lo, pc.hi)} {unit}. The plan asked for this interval to lie
+      above zero{pc.above_zero ? ", and it does." : <>. It does not, so the data did not show a break-crop effect where
+      one was expected, and the pulse estimate should be read with that in mind.</>}</li>}
+    {kern && <li><strong>kernR points the other way.</strong> It estimates a different quantity: a propensity-weighted
+      difference across trials, not a comparison within towns, and it is not averaged with the other estimates. It gives
+      {" "}{withRange(kern.estimate, kern.lo, kern.hi)} {unit}. {kern.note?.replace(/^Its own estimand:[^.]*\.\s*/, "").replace(/^The full-sample estimate is [^;]*; the median/, "The median")}</li>}
+    {warnings.map((w) => (
+      <li><strong>A warning during the run.</strong> The run wrote "{w.text}"
+        {w.count > 1 ? ` ${w.count} times` : " once"}, while {lensMember[w.node] ?? w.node} was running. {w.source}</li>))}
+  </ul>
+
+  {misses.length > 0 && <>
+    <h3 class="mt-3">Tests on the copy that failed at one seed</h3>
+    <p class="prose">The plan was tested on the masked copy at two random seeds. These checks failed at one of them.
+      They are reported here and were not used to drop an estimate.</p>
+    <div class="table-scroll mt-1" tabindex="0"><table class="num">
+      <thead><tr><th scope="col">Estimate</th><th scope="col">Seed</th><th scope="col">Test</th><th scope="col">Planted ({unit})</th><th scope="col">Found (interval)</th><th scope="col">Rule</th></tr></thead>
+      <tbody>{misses.map((m) => (
+        <tr><th scope="row">{lensMember[m.item] ?? m.item}</th><td>{m.seed}</td><td>{m.check}</td><td>{num(m.planted)}</td>
+          <td>{withRange(m.value, m.lo, m.hi)}</td><td>{m.rule}</td></tr>))}</tbody>
+    </table></div>
+  </>}
+</>}

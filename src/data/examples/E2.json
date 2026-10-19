@@ -1,0 +1,1206 @@
+{
+  "id": "E2",
+  "slug": "nitrogen-rate",
+  "title": "How much nitrogen pays for maize?",
+  "question": "How much does maize grain yield rise per kg N/ha at each site and on average, and what rate is most profitable at a stated N-to-grain price ratio?",
+  "data": {
+    "name": "hernandez.nitrogen",
+    "description": "Maize at 5 sites in Minnesota, 2006 (agridat hernandez.nitrogen)",
+    "source": "R package agridat 1.26, dataset hernandez.nitrogen",
+    "citation": "Hernandez, J.A. and Mulla, D.J. 2008. Estimating uncertainty of economically optimum fertilizer rates, Agronomy Journal, 100, 1221-1229. https://doi.org/10.2134/agronj2007.0273",
+    "licence": "MIT (agridat)",
+    "url": "https://CRAN.R-project.org/package=agridat",
+    "n_rows": 136,
+    "n_dropped_missing": 0,
+    "n_units": 5,
+    "unit_label": "site",
+    "period": "2006",
+    "place": "Minnesota, USA"
+  },
+  "mask": {
+    "masque_version": "0.14.0",
+    "n_rows_real": 136,
+    "n_rows_clone": 136,
+    "roles": {
+      "design": [
+        "site",
+        "loc",
+        "rep"
+      ],
+      "outcome": [
+        "yield"
+      ],
+      "treatment": [
+        "nitro"
+      ]
+    },
+    "coordinates_jittered": false,
+    "audit": [
+      {
+        "check": "leakage class, site (design, keep)",
+        "value": "low",
+        "pass": true,
+        "note": null
+      },
+      {
+        "check": "leakage class, loc (design, keep)",
+        "value": "low",
+        "pass": true,
+        "note": null
+      },
+      {
+        "check": "leakage class, rep (design, keep)",
+        "value": "low",
+        "pass": true,
+        "note": null
+      },
+      {
+        "check": "leakage class, nitro (treatment, keep)",
+        "value": "high; exact match with real 100%",
+        "pass": false,
+        "note": "the published N rates are kept as the design; deliberate (clone/MASK_NOTES.md)"
+      },
+      {
+        "check": "leakage class, yield (outcome, scramble)",
+        "value": "low; exact match with real 0%",
+        "pass": true,
+        "note": null
+      },
+      {
+        "check": "type, levels and missing values equal, site",
+        "value": "factor",
+        "pass": true
+      },
+      {
+        "check": "type, levels and missing values equal, loc",
+        "value": "factor",
+        "pass": true
+      },
+      {
+        "check": "type, levels and missing values equal, rep",
+        "value": "factor",
+        "pass": true
+      },
+      {
+        "check": "type, levels and missing values equal, nitro",
+        "value": "numeric",
+        "pass": true
+      },
+      {
+        "check": "type, levels and missing values equal, yield",
+        "value": "numeric",
+        "pass": true
+      }
+    ]
+  },
+  "compose": {
+    "n_clone_runs": 66,
+    "plan_hash": "sha256:45a58ea8a022d8379985185c3dbaa7144958c8402f2a4f22fc47ec36bb595b73",
+    "n_steps": 15,
+    "members": [
+      "conductoR",
+      "janusplot",
+      "flexyBayes",
+      "asreml",
+      "proxymix",
+      "quorum",
+      "decideR"
+    ],
+    "steps": [
+      {
+        "id": "fidelity",
+        "label": "Design check",
+        "member": "conductoR",
+        "does": "checks the table against the clone's design"
+      },
+      {
+        "id": "screen_janus",
+        "label": "Shape screen",
+        "member": "janusplot",
+        "does": "janusplot shape screen, yield on N"
+      },
+      {
+        "id": "L_fb",
+        "label": "flexyBayes gain",
+        "member": "flexyBayes",
+        "does": "flexyBayes cell-means gain (lead)"
+      },
+      {
+        "id": "L_as",
+        "label": "asreml gain",
+        "member": "asreml",
+        "does": "asreml cell-means gain"
+      },
+      {
+        "id": "L_pm",
+        "label": "proxymix gain",
+        "member": "proxymix",
+        "does": "a mixture-residual regression that calls proxymix to fit the residual mixture; cell-means gain"
+      },
+      {
+        "id": "shape",
+        "label": "Response curves",
+        "member": "conductoR",
+        "does": "quadratic / linear-plateau / quadratic-plateau fit, selection, EONR, shape test"
+      },
+      {
+        "id": "quorum",
+        "label": "Lens agreement",
+        "member": "quorum",
+        "does": "agreement between gain lenses"
+      },
+      {
+        "id": "screen_het",
+        "label": "Site differences",
+        "member": "conductoR",
+        "does": "heterogeneity and leave-one-site-out screen"
+      },
+      {
+        "id": "site_S1",
+        "label": "Site S1 result",
+        "member": "conductoR",
+        "does": "site 1 result with refusals"
+      },
+      {
+        "id": "site_S2",
+        "label": "Site S2 result",
+        "member": "conductoR",
+        "does": "site 2 result with refusals"
+      },
+      {
+        "id": "site_S3",
+        "label": "Site S3 result",
+        "member": "conductoR",
+        "does": "site 3 result with refusals"
+      },
+      {
+        "id": "site_S4",
+        "label": "Site S4 result",
+        "member": "conductoR",
+        "does": "site 4 result with refusals"
+      },
+      {
+        "id": "site_S5",
+        "label": "Site S5 result",
+        "member": "conductoR",
+        "does": "site 5 result with refusals"
+      },
+      {
+        "id": "pooled",
+        "label": "Five-site result",
+        "member": "conductoR",
+        "does": "average gain and pooled EONR"
+      },
+      {
+        "id": "value",
+        "label": "Value at three prices",
+        "member": "decideR",
+        "does": "decideR rate at three price ratios"
+      }
+    ],
+    "edges": [
+      {
+        "from": "fidelity",
+        "to": "screen_janus",
+        "what": "structure"
+      },
+      {
+        "from": "fidelity",
+        "to": "L_fb",
+        "what": "structure"
+      },
+      {
+        "from": "fidelity",
+        "to": "L_as",
+        "what": "structure"
+      },
+      {
+        "from": "fidelity",
+        "to": "L_pm",
+        "what": "structure"
+      },
+      {
+        "from": "L_fb",
+        "to": "shape",
+        "what": "parameters"
+      },
+      {
+        "from": "L_fb",
+        "to": "quorum",
+        "what": "parameters"
+      },
+      {
+        "from": "L_as",
+        "to": "quorum",
+        "what": "parameters"
+      },
+      {
+        "from": "L_pm",
+        "to": "quorum",
+        "what": "parameters"
+      },
+      {
+        "from": "L_fb",
+        "to": "screen_het",
+        "what": "parameters"
+      },
+      {
+        "from": "L_as",
+        "to": "screen_het",
+        "what": "parameters"
+      },
+      {
+        "from": "L_fb",
+        "to": "site_S1",
+        "what": "parameters"
+      },
+      {
+        "from": "shape",
+        "to": "site_S1",
+        "what": "parameters"
+      },
+      {
+        "from": "L_fb",
+        "to": "site_S2",
+        "what": "parameters"
+      },
+      {
+        "from": "shape",
+        "to": "site_S2",
+        "what": "parameters"
+      },
+      {
+        "from": "L_fb",
+        "to": "site_S3",
+        "what": "parameters"
+      },
+      {
+        "from": "shape",
+        "to": "site_S3",
+        "what": "parameters"
+      },
+      {
+        "from": "L_fb",
+        "to": "site_S4",
+        "what": "parameters"
+      },
+      {
+        "from": "shape",
+        "to": "site_S4",
+        "what": "parameters"
+      },
+      {
+        "from": "L_fb",
+        "to": "site_S5",
+        "what": "parameters"
+      },
+      {
+        "from": "shape",
+        "to": "site_S5",
+        "what": "parameters"
+      },
+      {
+        "from": "L_fb",
+        "to": "pooled",
+        "what": "parameters"
+      },
+      {
+        "from": "shape",
+        "to": "pooled",
+        "what": "parameters"
+      },
+      {
+        "from": "shape",
+        "to": "value",
+        "what": "parameters"
+      }
+    ]
+  },
+  "rehearsal": {
+    "planted_effect": 0.0252,
+    "tolerance": 0.012,
+    "recovered": 0.0309,
+    "recovered_lo": 0.0191,
+    "recovered_hi": 0.0426,
+    "pass": true,
+    "null_estimate": 0.0057,
+    "null_lo": -0.0062,
+    "null_hi": 0.0173,
+    "null_pass": true,
+    "eonr": {
+      "planted": 156,
+      "tolerance": 60,
+      "recovered": 148.3,
+      "recovered_lo": 124.6,
+      "recovered_hi": 210.4,
+      "pass": true,
+      "unit": "kg N/ha"
+    },
+    "n_checks": 39,
+    "n_checks_pass": 38,
+    "n_checks_record": 1,
+    "rehearsal_label": "v6",
+    "unit": "Mg grain per kg N"
+  },
+  "real_run": {
+    "date": "2026-10-19 20:00:27 ACDT",
+    "n_rounds": 1,
+    "messages": [
+      {
+        "round": 1,
+        "message": "stop"
+      }
+    ],
+    "plan_hash": "sha256:45a58ea8a022d8379985185c3dbaa7144958c8402f2a4f22fc47ec36bb595b73",
+    "plan_hash_matches_seal": true,
+    "triggers_hash": "sha256:0f4bbbf8f7c4a3ec80951f2dbb206f015ef97d2f471daee5a054ad45e69ddb11",
+    "triggers_hash_matches_seal": true,
+    "worker_exit_code": 0,
+    "n_issue_lines": 0
+  },
+  "result": {
+    "estimand": "average yield gain per kg N between 0 and 134.4 kg N/ha, equal weight over the five sites",
+    "estimate": 0.040617708972624,
+    "lo": 0.0365102568368079,
+    "hi": 0.0446418286169335,
+    "interval_label": "95% posterior interval, flexyBayes",
+    "unit": "Mg grain per kg N",
+    "refused": false,
+    "refusal_reason": null,
+    "extra": {
+      "eonr_pooled": {
+        "eonr": 106.6,
+        "eonr_lo": 94.6,
+        "eonr_hi": 115.625,
+        "form_selected": "LP",
+        "shape_verdict": "rise_plateau",
+        "ratio": 0.0056,
+        "refused": false,
+        "refusal_reason": null,
+        "unit": "kg N/ha",
+        "interval_label": "95% percentile interval, residual bootstrap within site"
+      },
+      "sites": [
+        {
+          "site": "S1",
+          "gain": 0.0537442359608292,
+          "gain_lo": 0.0445773116714896,
+          "gain_hi": 0.0628162244049203,
+          "gain_detected": true,
+          "form_selected": "QP",
+          "shape_verdict": "rise_plateau",
+          "ratio": 0.0056,
+          "eonr": 99.3925857823093,
+          "eonr_lo": 80.8410002258937,
+          "eonr_hi": 124.513192860879,
+          "eonr_refused": false,
+          "eonr_refusal": null,
+          "sensitivity": [
+            {
+              "ratio_label": "low",
+              "ratio": 0.0028,
+              "eonr": 101.496292891155,
+              "eonr_lo": 82.2205001129468,
+              "eonr_hi": 128.069096430439,
+              "status": "ok",
+              "share_interior": 1
+            },
+            {
+              "ratio_label": "central",
+              "ratio": 0.0056,
+              "eonr": 99.3925857823093,
+              "eonr_lo": 80.8410002258937,
+              "eonr_hi": 124.513192860879,
+              "status": "ok",
+              "share_interior": 1
+            },
+            {
+              "ratio_label": "high",
+              "ratio": 0.0112,
+              "eonr": 95.1851715646185,
+              "eonr_lo": 78.0820004517873,
+              "eonr_hi": 117.366364497623,
+              "status": "ok",
+              "share_interior": 1
+            }
+          ]
+        },
+        {
+          "site": "S2",
+          "gain": 0.0300876166012596,
+          "gain_lo": 0.02116529880321,
+          "gain_hi": 0.0391216920618705,
+          "gain_detected": true,
+          "form_selected": "Q",
+          "shape_verdict": "monotone",
+          "ratio": 0.0056,
+          "eonr": 154.373137942905,
+          "eonr_lo": 137.50915262637,
+          "eonr_hi": 198.453872450084,
+          "eonr_refused": false,
+          "eonr_refusal": null,
+          "sensitivity": [
+            {
+              "ratio_label": "low",
+              "ratio": 0.0028,
+              "eonr": 163.685949225401,
+              "eonr_lo": 144.735998248608,
+              "eonr_hi": 201.6,
+              "status": "ok",
+              "share_interior": 0.935
+            },
+            {
+              "ratio_label": "central",
+              "ratio": 0.0056,
+              "eonr": 154.373137942905,
+              "eonr_lo": 137.50915262637,
+              "eonr_hi": 198.453872450084,
+              "status": "ok",
+              "share_interior": 0.975
+            },
+            {
+              "ratio_label": "high",
+              "ratio": 0.0112,
+              "eonr": 135.747515377913,
+              "eonr_lo": 123.089823388681,
+              "eonr_hi": 166.580036548568,
+              "status": "ok",
+              "share_interior": 1
+            }
+          ]
+        },
+        {
+          "site": "S3",
+          "gain": 0.0369217361088472,
+          "gain_lo": 0.0278698397268083,
+          "gain_hi": 0.0455526620564456,
+          "gain_detected": true,
+          "form_selected": "Q",
+          "shape_verdict": "monotone",
+          "ratio": 0.0056,
+          "eonr": 143.110869640313,
+          "eonr_lo": 126.729918870418,
+          "eonr_hi": 171.29789181258,
+          "eonr_refused": false,
+          "eonr_refusal": null,
+          "sensitivity": [
+            {
+              "ratio_label": "low",
+              "ratio": 0.0028,
+              "eonr": 150.276857809059,
+              "eonr_lo": 132.645577408711,
+              "eonr_hi": 181.966855010859,
+              "status": "ok",
+              "share_interior": 0.995
+            },
+            {
+              "ratio_label": "central",
+              "ratio": 0.0056,
+              "eonr": 143.110869640313,
+              "eonr_lo": 126.729918870418,
+              "eonr_hi": 171.29789181258,
+              "status": "ok",
+              "share_interior": 0.995
+            },
+            {
+              "ratio_label": "high",
+              "ratio": 0.0112,
+              "eonr": 128.77889330282,
+              "eonr_lo": 115.151563868174,
+              "eonr_hi": 149.935333776868,
+              "status": "ok",
+              "share_interior": 1
+            }
+          ]
+        },
+        {
+          "site": "S4",
+          "gain": 0.039304688947464,
+          "gain_lo": 0.0304898431443016,
+          "gain_hi": 0.0482879148653192,
+          "gain_detected": true,
+          "form_selected": "LP",
+          "shape_verdict": "rise_plateau",
+          "ratio": 0.0056,
+          "eonr": 140.8,
+          "eonr_lo": 106.775,
+          "eonr_hi": 178.975,
+          "eonr_refused": false,
+          "eonr_refusal": null,
+          "sensitivity": [
+            {
+              "ratio_label": "low",
+              "ratio": 0.0028,
+              "eonr": 140.8,
+              "eonr_lo": 106.775,
+              "eonr_hi": 178.975,
+              "status": "ok",
+              "share_interior": 1
+            },
+            {
+              "ratio_label": "central",
+              "ratio": 0.0056,
+              "eonr": 140.8,
+              "eonr_lo": 106.775,
+              "eonr_hi": 178.975,
+              "status": "ok",
+              "share_interior": 1
+            },
+            {
+              "ratio_label": "high",
+              "ratio": 0.0112,
+              "eonr": 140.8,
+              "eonr_lo": 106.775,
+              "eonr_hi": 178.975,
+              "status": "ok",
+              "share_interior": 1
+            }
+          ]
+        },
+        {
+          "site": "S5",
+          "gain": 0.0430302672447201,
+          "gain_lo": 0.0338352892495874,
+          "gain_hi": 0.0521937611172172,
+          "gain_detected": true,
+          "form_selected": "LP",
+          "shape_verdict": "rise_plateau",
+          "ratio": 0.0056,
+          "eonr": 122.6,
+          "eonr_lo": 109.575,
+          "eonr_hi": 133.6,
+          "eonr_refused": false,
+          "eonr_refusal": null,
+          "sensitivity": [
+            {
+              "ratio_label": "low",
+              "ratio": 0.0028,
+              "eonr": 122.6,
+              "eonr_lo": 109.575,
+              "eonr_hi": 133.6,
+              "status": "ok",
+              "share_interior": 1
+            },
+            {
+              "ratio_label": "central",
+              "ratio": 0.0056,
+              "eonr": 122.6,
+              "eonr_lo": 109.575,
+              "eonr_hi": 133.6,
+              "status": "ok",
+              "share_interior": 1
+            },
+            {
+              "ratio_label": "high",
+              "ratio": 0.0112,
+              "eonr": 122.6,
+              "eonr_lo": 109.575,
+              "eonr_hi": 133.6,
+              "status": "ok",
+              "share_interior": 1
+            }
+          ]
+        }
+      ],
+      "sensitivity": [
+        {
+          "ratio_label": "low",
+          "ratio": 0.0028,
+          "eonr": 106.6,
+          "eonr_lo": 94.6,
+          "eonr_hi": 115.625,
+          "status": "ok",
+          "share_interior": 1
+        },
+        {
+          "ratio_label": "central",
+          "ratio": 0.0056,
+          "eonr": 106.6,
+          "eonr_lo": 94.6,
+          "eonr_hi": 115.625,
+          "status": "ok",
+          "share_interior": 1
+        },
+        {
+          "ratio_label": "high",
+          "ratio": 0.0112,
+          "eonr": 106.6,
+          "eonr_lo": 94.6,
+          "eonr_hi": 115.625,
+          "status": "ok",
+          "share_interior": 1
+        }
+      ],
+      "value": {
+        "member": "decideR",
+        "rows": [
+          {
+            "ratio_label": "low",
+            "ratio": 0.0028,
+            "rate": 134.4,
+            "abstained": false,
+            "expected_profit": 4.92124996068908
+          },
+          {
+            "ratio_label": "central",
+            "ratio": 0.0056,
+            "rate": 134.4,
+            "abstained": false,
+            "expected_profit": 4.54492996068908
+          },
+          {
+            "ratio_label": "high",
+            "ratio": 0.0112,
+            "rate": 100.8,
+            "abstained": false,
+            "expected_profit": 3.88711467621329
+          }
+        ],
+        "price_note": "price ratio is a stated assumption from the agridat example, not checked against Hernandez and Mulla (2008)",
+        "rates_compared": [
+          0,
+          33.6,
+          44.8,
+          67.2,
+          89.6,
+          100.8,
+          134.4,
+          168,
+          179.2,
+          201.6,
+          224,
+          268.8
+        ],
+        "unit_rate": "kg N/ha",
+        "unit_profit": "Mg grain per ha, net of N cost, relative to no N"
+      },
+      "gain_by_shape": {
+        "estimate": 0.0396107572639403,
+        "lo": 0.0363551110108184,
+        "hi": 0.0423131960285576,
+        "note": "from the selected pooled curve; a comparison, not the estimand"
+      },
+      "price_note": "The price ratio 0.0056 Mg grain per kg N comes from agridat's own example for this dataset; the range from half to double it (0.0028 to 0.0112) is an assumption.",
+      "shape_test": "a two-lines test with the break at the fitted peak (both slopes p < 0.05), with the quadratic turning point's 95% interval inside the tested range and at least two tested rates on each side"
+    }
+  },
+  "refusals": [],
+  "by_solutions": [
+    {
+      "what": "Gain from a cell-means model, not a curve",
+      "consequence": "the gain needs no shape assumption; its interval uses only the 0 and 134.4 plots"
+    },
+    {
+      "what": "EONR from the selected shape with a residual bootstrap",
+      "consequence": "refused bootstrap draws are carried at the boundary they point to, so an interval touching the top rate means the optimum may lie above the range; share_interior gives the share of draws with an interior optimum"
+    },
+    {
+      "what": "Pooled EONR from one common curve with site x rep intercepts over 0 to 268.8 kg N/ha",
+      "consequence": "the pooled range is the union of tested rates; only S4 tested above 201.6"
+    },
+    {
+      "what": "proxymix lens holds its component count in the bootstrap",
+      "consequence": "the interval is conditional on the count chosen on the data"
+    },
+    {
+      "what": "decideR at three price ratios on the tested rates",
+      "consequence": "the price ratio is the agridat example's, not checked against Hernandez and Mulla (2008)"
+    },
+    {
+      "what": "A linear-plateau optimum is the join itself",
+      "consequence": "for S4, S5 and the pooled curve the most profitable rate is the same at all three price ratios, because the slope below the join exceeds every ratio"
+    },
+    {
+      "what": "decideR compares only the tested rates",
+      "consequence": "at the central ratio it picks 134.4 kg N/ha, the tested rate with the highest expected profit; the pooled curve's optimum, 106.6 kg N/ha, lies between the tested rates 100.8 and 134.4"
+    }
+  ],
+  "versions": {
+    "conductoR": "0.1.0",
+    "janusplot": "0.1.1",
+    "flexyBayes": "0.18.1",
+    "asreml": "4.2.0.482",
+    "proxymix": "0.16.0",
+    "quorum": "0.1.0",
+    "decideR": "0.3.1",
+    "fstcore": "0.10.0",
+    "orchestraManifest": "0.2.0",
+    "mgcv": "1.9-4",
+    "nlme": "3.1-171",
+    "Matrix": "1.7-6",
+    "fst": "0.9.8",
+    "digest": "0.6.39",
+    "data.table": "1.18.6.1",
+    "masque": "0.14.0",
+    "agridat": "1.26",
+    "R": "4.6.1"
+  },
+  "return": "discoveries",
+  "lenses": [
+    {
+      "lens": "L_fb",
+      "name": "flexyBayes, Bayesian mixed model (lead)",
+      "member": "flexyBayes",
+      "estimate": 0.040617708972624,
+      "lo": 0.0365102568368079,
+      "hi": 0.0446418286169335,
+      "planted_pass": true,
+      "null_pass": true
+    },
+    {
+      "lens": "L_as",
+      "name": "asreml, REML mixed model",
+      "member": "asreml",
+      "estimate": 0.0405953236607141,
+      "lo": 0.0366239040536519,
+      "hi": 0.0445667432677763,
+      "planted_pass": true,
+      "null_pass": true
+    },
+    {
+      "lens": "L_pm",
+      "name": "proxymix, a mixture-residual regression that calls proxymix to fit the residual mixture",
+      "member": "proxymix",
+      "estimate": 0.0405953236607143,
+      "lo": 0.0368952325899335,
+      "hi": 0.0446227043775333,
+      "planted_pass": true,
+      "null_pass": true
+    },
+    {
+      "lens": "shape",
+      "name": "selected response curve (quadratic, linear-plateau or quadratic-plateau)",
+      "member": "conductoR",
+      "estimate": 0.0396107572639403,
+      "lo": 0.0363551110108184,
+      "hi": 0.0423131960285576,
+      "planted_pass": true,
+      "null_pass": true
+    }
+  ],
+  "agreement": {
+    "rule": "The three gain lenses agree when the largest pairwise difference of average gains is at most 0.010 Mg/kg and of site gains at most 0.020 Mg/kg (location only; spread is the lens_spread trigger).",
+    "verdict": "agree",
+    "agreement_pass": true,
+    "max_diff_avg": 0.0000223853119098588,
+    "max_diff_site": 0.0000954644173391389,
+    "quorum_status": "concordant",
+    "concordant_pairs": 18,
+    "compared_pairs": 18,
+    "detection_agree": true
+  },
+  "discoveries": [
+    {
+      "statement": "Yield levels off at 103.6 kg N/ha at S1, 140.8 kg N/ha at S4, 122.6 kg N/ha at S5 and 106.6 kg N/ha for the five sites pooled.",
+      "found_by": "shape",
+      "trigger_id": "T_plateau",
+      "trigger_action": "branch",
+      "values": [
+        {
+          "unit": "S1",
+          "form_selected": "QP",
+          "J": 103.6
+        },
+        {
+          "unit": "S4",
+          "form_selected": "LP",
+          "J": 140.8
+        },
+        {
+          "unit": "S5",
+          "form_selected": "LP",
+          "J": 122.6
+        },
+        {
+          "unit": "pooled",
+          "form_selected": "LP",
+          "J": 106.6
+        }
+      ],
+      "loop2_dataset": null,
+      "loop2_candidates": [
+        {
+          "dataset": "agridat engelstad.nitro",
+          "metadata": "corn, 2 locations in Tennessee, 1962-1966, N rates, means of 9 reps (60 rows); Engelstad and Parks (1971), Agron. J. 63:21-23",
+          "licence": "GPL (agridat)",
+          "fits": "shape (reverse U, plateau), heterogeneity between location-years",
+          "grdc": "no"
+        },
+        {
+          "dataset": "agridat hunter.corn",
+          "metadata": "corn, eastern Oregon, 1950-1952, N rates by location and year (54 rows); Hunter and Yungen (1955), SSSA J. 19:214-218, doi:10.2136/sssaj1955.03615995001900020027x",
+          "licence": "GPL (agridat)",
+          "fits": "shape, heterogeneity",
+          "grdc": "no"
+        },
+        {
+          "dataset": "agridat lasrosas.corn",
+          "metadata": "corn yield-monitor strips, Las Rosas farm, Argentina, 1999 and 2001, 6 N rates, 3 reps, topography (3443 rows)",
+          "licence": "GPL (agridat)",
+          "fits": "shape, heterogeneity by year or topography",
+          "grdc": "no"
+        },
+        {
+          "dataset": "agridat bachmaier.nitrogen",
+          "metadata": "winter wheat, N rates in two fertility zones (88 rows)",
+          "licence": "GPL (agridat)",
+          "fits": "shape, heterogeneity between zones (other crop)",
+          "grdc": "no"
+        },
+        {
+          "dataset": "DataHub oft_hart_n_trials",
+          "metadata": "Hart Field Site Group N-rate trials on Online Farm Trials, wheat 2015-16, wheat and barley 2024, canola 2017 and 2020; treatment means over 3 reps; some trials have only 0 and 60 kg N (two levels: shape not testable there)",
+          "licence": "CC BY 4.0, attribution Hart Field Site Group and Online Farm Trials (Federation University CeRDI)",
+          "fits": "heterogeneity; shape only for the trials with more than two rates",
+          "grdc": "GRDC co-funded (catalogue tag grdc_cofunded); open published, used here with its licence and citation"
+        }
+      ],
+      "loop2_verdict": "not yet tested",
+      "loop2_estimate": null,
+      "loop2_lo": null,
+      "loop2_hi": null
+    },
+    {
+      "statement": "The yield gain per kg N differs between sites.",
+      "found_by": "screen_het",
+      "trigger_id": "T_het",
+      "trigger_action": "release",
+      "values": {
+        "het_p": 0.00485381765860856,
+        "het_wald": 14.9275727457221,
+        "het_sd": 0.00872343439440643,
+        "site_gains": [
+          {
+            "site": "S1",
+            "gain": 0.0537442359608292
+          },
+          {
+            "site": "S2",
+            "gain": 0.0300876166012596
+          },
+          {
+            "site": "S3",
+            "gain": 0.0369217361088472
+          },
+          {
+            "site": "S4",
+            "gain": 0.039304688947464
+          },
+          {
+            "site": "S5",
+            "gain": 0.0430302672447201
+          }
+        ]
+      },
+      "loop2_dataset": null,
+      "loop2_candidates": [
+        {
+          "dataset": "agridat engelstad.nitro",
+          "metadata": "corn, 2 locations in Tennessee, 1962-1966, N rates, means of 9 reps (60 rows); Engelstad and Parks (1971), Agron. J. 63:21-23",
+          "licence": "GPL (agridat)",
+          "fits": "shape (reverse U, plateau), heterogeneity between location-years",
+          "grdc": "no"
+        },
+        {
+          "dataset": "agridat hunter.corn",
+          "metadata": "corn, eastern Oregon, 1950-1952, N rates by location and year (54 rows); Hunter and Yungen (1955), SSSA J. 19:214-218, doi:10.2136/sssaj1955.03615995001900020027x",
+          "licence": "GPL (agridat)",
+          "fits": "shape, heterogeneity",
+          "grdc": "no"
+        },
+        {
+          "dataset": "agridat lasrosas.corn",
+          "metadata": "corn yield-monitor strips, Las Rosas farm, Argentina, 1999 and 2001, 6 N rates, 3 reps, topography (3443 rows)",
+          "licence": "GPL (agridat)",
+          "fits": "shape, heterogeneity by year or topography",
+          "grdc": "no"
+        },
+        {
+          "dataset": "agridat bachmaier.nitrogen",
+          "metadata": "winter wheat, N rates in two fertility zones (88 rows)",
+          "licence": "GPL (agridat)",
+          "fits": "shape, heterogeneity between zones (other crop)",
+          "grdc": "no"
+        },
+        {
+          "dataset": "DataHub oft_hart_n_trials",
+          "metadata": "Hart Field Site Group N-rate trials on Online Farm Trials, wheat 2015-16, wheat and barley 2024, canola 2017 and 2020; treatment means over 3 reps; some trials have only 0 and 60 kg N (two levels: shape not testable there)",
+          "licence": "CC BY 4.0, attribution Hart Field Site Group and Online Farm Trials (Federation University CeRDI)",
+          "fits": "heterogeneity; shape only for the trials with more than two rates",
+          "grdc": "GRDC co-funded (catalogue tag grdc_cofunded); open published, used here with its licence and citation"
+        }
+      ],
+      "loop2_verdict": "not yet tested",
+      "loop2_estimate": null,
+      "loop2_lo": null,
+      "loop2_hi": null
+    }
+  ],
+  "triggers": [
+    {
+      "trigger_id": "T_rev_u",
+      "node": "shape",
+      "class": "candidate",
+      "signal_type": "signal:reverse_u",
+      "what": "Yield rises then falls inside the tested N range (reverse U), at a site or pooled.",
+      "threshold_label": "n_reverse_u >= 1",
+      "action": "branch",
+      "rehearsal_plant": "reverse U added to every plot: 0.0667 N - 0.000278 N^2 (peak 4.0 Mg/ha at 120 kg N/ha); silent on a linear-plateau of the same height (4.0 Mg/ha reached at 120) and on the unplanted clone",
+      "rehearsal_fired": true,
+      "rehearsal_silent": true,
+      "value_real": 0,
+      "fired_real": false,
+      "round": 1
+    },
+    {
+      "trigger_id": "T_u_shape",
+      "node": "shape",
+      "class": "candidate",
+      "signal_type": "signal:u_shape",
+      "what": "Yield falls then rises inside the tested N range (U), at a site or pooled.",
+      "threshold_label": "n_u_shape >= 1",
+      "action": "release",
+      "rehearsal_plant": "U added to every plot: -(0.0667 N - 0.000278 N^2) (dip 4.0 Mg/ha at 120 kg N/ha); silent on the planted reverse U and the unplanted clone",
+      "rehearsal_fired": true,
+      "rehearsal_silent": true,
+      "value_real": 0,
+      "fired_real": false,
+      "round": 1
+    },
+    {
+      "trigger_id": "T_plateau",
+      "node": "shape",
+      "class": "candidate",
+      "signal_type": "signal:threshold_response",
+      "what": "Yield levels off inside the tested N range: a plateau curve is selected over the quadratic, at a site or pooled, where the gain is detected.",
+      "threshold_label": "n_plateau >= 1",
+      "action": "branch",
+      "rehearsal_plant": "linear-plateau added to every plot: 4.0 min(N, 120) / 120 Mg/ha; silent on the planted quadratic (positive control) and the unplanted clone",
+      "rehearsal_fired": true,
+      "rehearsal_silent": true,
+      "value_real": 4,
+      "fired_real": true,
+      "round": 1
+    },
+    {
+      "trigger_id": "T_het",
+      "node": "screen_het",
+      "class": "candidate",
+      "signal_type": "signal:heterogeneity",
+      "what": "The gain per kg N differs between sites (Wald test of equal site gains).",
+      "threshold_label": "het_p < 0.01",
+      "action": "release",
+      "rehearsal_plant": "positive-control quadratic scaled by site: S1 x0, S2 x0.5, S3 x1, S4 x1.5, S5 x2; silent on the common planted quadratic and the unplanted clone",
+      "rehearsal_fired": true,
+      "rehearsal_silent": true,
+      "value_real": 0.00485381765860856,
+      "fired_real": true,
+      "round": 1
+    },
+    {
+      "trigger_id": "T_infl",
+      "node": "screen_het",
+      "class": "anomaly",
+      "signal_type": "signal:influential_unit",
+      "what": "Leaving one site out moves the average gain by more than the threshold share.",
+      "threshold_label": "loo_share > 0.35",
+      "action": "release",
+      "rehearsal_plant": "positive-control quadratic at every site, scaled x6 at S2; silent on the common planted quadratic and the unplanted clone",
+      "rehearsal_fired": true,
+      "rehearsal_silent": true,
+      "value_real": 0.0807931276789425,
+      "fired_real": false,
+      "round": 1
+    },
+    {
+      "trigger_id": "T_spread",
+      "node": "quorum",
+      "class": "anomaly",
+      "signal_type": "signal:lens_spread",
+      "what": "The gain intervals of lenses with different residual assumptions differ in width by more than the threshold ratio. Rehearsal showed it firing only on an extreme plant (a random 10% of plots lowered by 20 Mg/ha), so it is weak at realistic sizes.",
+      "threshold_label": "width_ratio > 1.3",
+      "action": "release",
+      "rehearsal_plant": "positive-control quadratic plus a random 10% of plots lowered by 20 Mg/ha; silent on the positive control and the unplanted clone",
+      "rehearsal_fired": true,
+      "rehearsal_silent": true,
+      "value_real": 1.05229394601921,
+      "fired_real": false,
+      "round": 1
+    },
+    {
+      "trigger_id": "T_dist",
+      "node": "quorum",
+      "class": "anomaly",
+      "signal_type": "signal:distribution_shape",
+      "what": "The mixture-residual lens moves the average gain by more than the threshold, in standard errors.",
+      "threshold_label": "dist_shift > 0.5",
+      "action": "release",
+      "rehearsal_plant": "positive-control quadratic plus one plot per site at 134.4 kg N/ha lowered by 10 Mg/ha; silent on the positive control and the unplanted clone",
+      "rehearsal_fired": true,
+      "rehearsal_silent": true,
+      "value_real": 8.56115916334967e-14,
+      "fired_real": false,
+      "round": 1
+    },
+    {
+      "trigger_id": "T_fidelity",
+      "node": "fidelity",
+      "class": "anomaly",
+      "signal_type": "signal:clone_fidelity",
+      "what": "The real table differs from the clone's design (levels, rates, rows, missing values or range).",
+      "threshold_label": "n_fidelity_fail >= 1",
+      "action": "return",
+      "rehearsal_plant": "the four S3 plots at 168 kg N/ha removed; silent on the unplanted clone",
+      "rehearsal_fired": true,
+      "rehearsal_silent": true,
+      "value_real": 0,
+      "fired_real": false,
+      "round": 1
+    }
+  ],
+  "rounds": [
+    {
+      "round": 1,
+      "reason": "first",
+      "lines": [
+        "stop"
+      ]
+    }
+  ],
+  "shapes": [
+    {
+      "unit": "S1",
+      "x": "nitro",
+      "y": "yield",
+      "form_selected": "QP",
+      "turning_point": null,
+      "tp_lo": null,
+      "tp_hi": null,
+      "plateau_join": 103.6,
+      "quadratic_vertex": 137.201115006648,
+      "quadratic_vertex_lo": 126.399959273141,
+      "quadratic_vertex_hi": 148.002270740155,
+      "test": "a two-lines test with the break at the fitted peak (both slopes p < 0.05), with the quadratic turning point's 95% interval inside the tested range and at least two tested rates on each side",
+      "verdict": "rise_plateau",
+      "screen_label": "skewed_peak"
+    },
+    {
+      "unit": "S2",
+      "x": "nitro",
+      "y": "yield",
+      "form_selected": "Q",
+      "turning_point": null,
+      "tp_lo": null,
+      "tp_hi": null,
+      "plateau_join": null,
+      "quadratic_vertex": 172.998760507897,
+      "quadratic_vertex_lo": 140.924576711696,
+      "quadratic_vertex_hi": 205.072944304098,
+      "test": "a two-lines test with the break at the fitted peak (both slopes p < 0.05), with the quadratic turning point's 95% interval inside the tested range and at least two tested rates on each side",
+      "verdict": "monotone",
+      "screen_label": "concave_up"
+    },
+    {
+      "unit": "S3",
+      "x": "nitro",
+      "y": "yield",
+      "form_selected": "Q",
+      "turning_point": null,
+      "tp_lo": null,
+      "tp_hi": null,
+      "plateau_join": null,
+      "quadratic_vertex": 157.442845977806,
+      "quadratic_vertex_lo": 132.488497537941,
+      "quadratic_vertex_hi": 182.39719441767,
+      "test": "a two-lines test with the break at the fitted peak (both slopes p < 0.05), with the quadratic turning point's 95% interval inside the tested range and at least two tested rates on each side",
+      "verdict": "monotone",
+      "screen_label": "concave_up"
+    },
+    {
+      "unit": "S4",
+      "x": "nitro",
+      "y": "yield",
+      "form_selected": "LP",
+      "turning_point": null,
+      "tp_lo": null,
+      "tp_hi": null,
+      "plateau_join": 140.8,
+      "quadratic_vertex": 219.063024147369,
+      "quadratic_vertex_lo": 175.481656395208,
+      "quadratic_vertex_hi": 262.64439189953,
+      "test": "a two-lines test with the break at the fitted peak (both slopes p < 0.05), with the quadratic turning point's 95% interval inside the tested range and at least two tested rates on each side",
+      "verdict": "rise_plateau",
+      "screen_label": "concave_up"
+    },
+    {
+      "unit": "S5",
+      "x": "nitro",
+      "y": "yield",
+      "form_selected": "LP",
+      "turning_point": null,
+      "tp_lo": null,
+      "tp_hi": null,
+      "plateau_join": 122.6,
+      "quadratic_vertex": 210.447080771193,
+      "quadratic_vertex_lo": 123.543982240184,
+      "quadratic_vertex_hi": 297.350179302201,
+      "test": "a two-lines test with the break at the fitted peak (both slopes p < 0.05), with the quadratic turning point's 95% interval inside the tested range and at least two tested rates on each side",
+      "verdict": "rise_plateau",
+      "screen_label": "s_shape"
+    },
+    {
+      "unit": "pooled",
+      "x": "nitro",
+      "y": "yield",
+      "form_selected": "LP",
+      "turning_point": null,
+      "tp_lo": null,
+      "tp_hi": null,
+      "plateau_join": 106.6,
+      "quadratic_vertex": 186.278721591,
+      "quadratic_vertex_lo": 168.96870903466,
+      "quadratic_vertex_hi": 203.58873414734,
+      "test": "a two-lines test with the break at the fitted peak (both slopes p < 0.05), with the quadratic turning point's 95% interval inside the tested range and at least two tested rates on each side",
+      "verdict": "rise_plateau",
+      "screen_label": "s_shape"
+    }
+  ],
+  "files": [
+    "holder/output/round_1/conduct/run.rds",
+    "holder/output/round_1/runner.log",
+    "holder/output/round_1/worker_stdout.txt",
+    "sealed/seal.txt",
+    "sealed/triggers.csv",
+    "holder/output/round_1/triggers_real.csv",
+    "holder/output/round_1/tab_issues.csv",
+    "compose/tab_rehearsal.csv",
+    "clone/audit.csv",
+    "clone/roles.csv",
+    "clone/structure_check.csv",
+    "clone/clone_table.fst",
+    "holder/SOURCE.md",
+    "compose/RELEASE_SPEC.md",
+    "sealed/tools.R",
+    "sealed/plan.R",
+    "holder/sessionInfo_02.txt",
+    "holder/output/round_1/sessionInfo.txt",
+    "messages/round_1.txt",
+    "release/figures/fig_e2_janusplot_pooled_d1.png",
+    "release/figures/fig_e2_janusplot_pooled.png",
+    "release/tab_results_by_unit.csv",
+    "release/tab_sensitivity.csv",
+    "release/tab_shapes.csv",
+    "release/tab_lenses.csv",
+    "release/tab_triggers.csv"
+  ],
+  "_figures": [
+    {
+      "src": "/figures/examples/E2/fig_e2_janusplot_pooled_d1.png",
+      "alt": "janusplot matrix of smoothed associations, example E2"
+    },
+    {
+      "src": "/figures/examples/E2/fig_e2_janusplot_pooled.png",
+      "alt": "janusplot matrix of smoothed associations, example E2"
+    }
+  ]
+}

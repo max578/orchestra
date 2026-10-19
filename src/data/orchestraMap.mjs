@@ -139,6 +139,8 @@ const SOURCE_CATALOGUE = {
   INLA: { purpose: "R package for fast approximate Bayesian model fitting.", near: "flexyBayes" },
   brms: { purpose: "R package for Bayesian regression models fitted with Stan.", near: "flexyBayes" },
   apsimx: { purpose: "R package that edits and runs APSIM Next Generation crop simulations.", near: "PESTO" },
+  stats: { purpose: "R's base statistics package: linear and generalised linear models.", near: "gpfield", side: -1 },
+  mice: { purpose: "R package for multiple imputation of missing data by chained equations.", near: "masque", side: -1 },
 };
 
 const MEMBER_IDS = nodes.map((n) => n.id);
