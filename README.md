@@ -15,6 +15,22 @@ npm ci
 npm run dev
 ```
 
+## Worked example numbers
+
+The example pages read `src/data/examples/E{1,2,3,4}.json`, copied from each
+example's `release/site_numbers.json` by
+
+```sh
+node scripts/sync_examples.mjs            # from ORCHESTRA_dev/studies/W1_site_examples
+```
+
+The script writes nothing and exits 1 if a file is missing or lacks a field
+the contract requires. The build fails if any of the four files is missing.
+For layout work only, `--fixtures <folder>` copies made-up files; they are
+marked, the build refuses them unless `ORCHESTRA_FIXTURES=1` is set, and every
+example page then says the numbers are made up. Never commit fixture output
+(`src/data/examples/*.json`, `public/figures/examples/`).
+
 ## Build and check
 
 ```sh

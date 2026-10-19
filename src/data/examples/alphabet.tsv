@@ -1,0 +1,20 @@
+error_type	meaning
+typed_edge_violation	a step received a result of the wrong kind from the step before it
+missing_column	a column the step needs is absent or has a different name
+type_mismatch	a column has a different type or different levels from the clone
+missing_block	a level, block or group the step needs is absent
+too_few_units	fewer units than the step's stated minimum
+model_not_converged	a model fit did not converge by its stated criterion
+unidentifiable_parameter	the target parameter is not identified from the data
+assumption_check_failed	a stated assumption check failed
+tool_error	the tool stopped with an error not covered above
+signal:clone_fidelity	the real table differs from the clone on a declared property (levels, missingness, range)
+signal:lens_spread	the validation methods agree, but their spread is wider than declared
+signal:influential_unit	one site, block or season moves the estimate by more than the declared share
+signal:residual_structure	a residual check shows declared structure (curvature, spatial or temporal pattern)
+signal:heterogeneity	the effect varies between sites or seasons beyond the declared size
+signal:interaction	a declared interaction exceeds its threshold
+signal:threshold_response	the response levels off or breaks inside the tested range
+signal:distribution_shape	the outcome departs from normality enough that the no-normality method and the Gaussian ones differ beyond the declared band
+signal:reverse_u	a declared association rises then falls inside the observed range (two-lines or end-slope test)
+signal:u_shape	a declared association falls then rises inside the observed range

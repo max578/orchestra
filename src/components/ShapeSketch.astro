@@ -1,0 +1,19 @@
+---
+// A small drawing of a shape verdict; uses the text colour, so both themes work.
+import { shapeWords } from "../data/format";
+interface Props { verdict: string }
+const { verdict } = Astro.props;
+const paths: Record<string, string> = {
+  reverse_u: "M4 28 Q32 -10 60 28",
+  u: "M4 4 Q32 42 60 4",
+  rise_plateau: "M4 28 C18 8 28 7 60 7",
+  monotone: "M4 28 L60 5",
+  flat: "M4 16 L60 16",
+};
+---
+<svg class="sketch" viewBox="0 0 64 32" width="64" height="32" role="img" aria-label={shapeWords[verdict] ?? verdict}>
+  <path class="sketch-axis" d="M2 30 H62" />
+  {paths[verdict]
+    ? <path class="sketch-line" d={paths[verdict]} />
+    : <><circle class="sketch-dot" cx="14" cy="20" r="3" /><circle class="sketch-dot" cx="50" cy="12" r="3" /><path class="sketch-q" d="M18 19 L46 13" /></>}
+</svg>

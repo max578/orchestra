@@ -1,0 +1,89 @@
+---
+// The five steps every worked example follows, as one figure, with its three
+// ways back: a failed step, a declared pattern seen, and a finding passed to a
+// new dataset. Two drawings of the same content: a row for wide screens and a
+// column for phones; CSS shows one. Colours come from the site tokens.
+const steps = [
+  { h: "Mask", lines: ["masque makes a", "masked copy of", "the data."] },
+  { h: "Write the plan", lines: ["The analyst writes", "the plan on the", "masked copy only."] },
+  { h: "Test and seal", lines: ["The plan must find a", "planted effect and", "not a planted null.", "Then it is sealed."] },
+  { h: "Run on real data", lines: ["conductoR runs the", "sealed plan where", "the data are held."] },
+  { h: "Release once", lines: ["The result is", "released once, with", "its interval."] },
+];
+const back = "A failed step returns only its name and error type";
+const backShort = "Failed step: name and error type only";
+const signal = "A pattern declared in advance is seen: revise the plan and rerun";
+const signalShort = "Declared pattern seen: revise and rerun";
+const next = "A finding becomes a new question, tested from step 1 on a new open dataset";
+const nextShort = "A finding: new question, new open dataset";
+const desc = steps.map((s, i) => `${i + 1}. ${s.h}: ${s.lines.join(" ")}`).join(" ") +
+  ` Three ways back: ${back}, and only that step is revised. ${signal}. ${next}.`;
+
+// Row layout
+const W = 1000, BW = 176, BH = 150, GAP = (W - 20 - 5 * BW) / 4, BY = 104;
+const bx = (i: number) => 10 + i * (BW + GAP);
+const cx = (i: number) => bx(i) + BW / 2;
+const splitX = (bx(2) + BW + bx(3)) / 2;
+const below = BY + BH;
+const H = below + 196;
+// Column layout
+const TX = 96, TBW = 272, TBH = 134, TGAP = 34, TY = 46, TW = 410;
+const by = (i: number) => TY + i * (TBH + TGAP);
+const splitY = (by(2) + TBH + by(3)) / 2;
+const TH = by(4) + TBH + 14;
+const marker = (id: string, cls: string) =>
+  `<marker id="${id}" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="${cls}" d="M0 0 L10 5 L0 10 z"/></marker>`;
+---
+<figure class="loop-fig">
+  <svg class="lf lf-wide" viewBox={`0 0 ${W} ${H}`} role="img" aria-labelledby="lf-t-w lf-d-w">
+    <title id="lf-t-w">The five steps of every worked example</title>
+    <desc id="lf-d-w">{desc}</desc>
+    <defs set:html={marker("lf-a1", "lf-ah") + marker("lf-a2", "lf-ah2") + marker("lf-a3", "lf-ah3") + marker("lf-a4", "lf-ah4")} />
+    <text class="lf-side" x={(10 + splitX) / 2} y="22" text-anchor="middle">On the masked copy</text>
+    <text class="lf-side" x={(splitX + W - 10) / 2} y="22" text-anchor="middle">Where the real data are held</text>
+    <line class="lf-split" x1={splitX} y1="34" x2={splitX} y2={below + 16} />
+    <path class="lf-signal" d={`M${cx(3)} ${BY - 4} C ${cx(3)} ${BY - 62}, ${cx(1)} ${BY - 62}, ${cx(1)} ${BY - 8}`} marker-end="url(#lf-a4)" />
+    <text class="lf-signalt lf-halo" x={(cx(1) + cx(3)) / 2} y={BY - 52} text-anchor="middle">{signal}</text>
+    {steps.map((s, i) => (
+      <g>
+        <rect class="lf-box" x={bx(i)} y={BY} width={BW} height={BH} rx="12" />
+        <circle class="lf-num" cx={bx(i) + 24} cy={BY + 26} r="13" />
+        <text class="lf-numt" x={bx(i) + 24} y={BY + 31} text-anchor="middle">{i + 1}</text>
+        <text class="lf-h" x={bx(i) + 44} y={BY + 31}>{s.h}</text>
+        {s.lines.map((l, j) => <text class="lf-t" x={bx(i) + 14} y={BY + 66 + j * 20}>{l}</text>)}
+        {i < 4 && <line class="lf-arrow" x1={bx(i) + BW + 3} y1={BY + BH / 2} x2={bx(i + 1) - 4} y2={BY + BH / 2} marker-end="url(#lf-a1)" />}
+      </g>
+    ))}
+    <path class="lf-back" d={`M${cx(3)} ${below + 4} C ${cx(3)} ${below + 74}, ${cx(1)} ${below + 74}, ${cx(1)} ${below + 8}`} marker-end="url(#lf-a2)" />
+    <text class="lf-backt" x={(cx(1) + cx(3)) / 2} y={below + 92} text-anchor="middle">{back}</text>
+    <path class="lf-next" d={`M${cx(4)} ${below + 4} V ${below + 176} H ${cx(0)} V ${below + 8}`} marker-end="url(#lf-a3)" />
+    <text class="lf-nextt" x={W / 2} y={below + 164} text-anchor="middle">{next}</text>
+  </svg>
+
+  <svg class="lf lf-tall" viewBox={`0 0 ${TW} ${TH}`} role="img" aria-labelledby="lf-t-t lf-d-t">
+    <title id="lf-t-t">The five steps of every worked example</title>
+    <desc id="lf-d-t">{desc}</desc>
+    <defs set:html={marker("lf-b1", "lf-ah") + marker("lf-b2", "lf-ah2") + marker("lf-b3", "lf-ah3") + marker("lf-b4", "lf-ah4")} />
+    <text class="lf-side" x={TX + (TBW - 48) / 2} y="28" text-anchor="middle">On the masked copy</text>
+    <line class="lf-split" x1="4" y1={splitY} x2={TW - 4} y2={splitY} />
+    <text class="lf-side lf-halo" x={TX + (TBW - 48) / 2} y={splitY + 4} text-anchor="middle">Where the real data are held</text>
+    {steps.map((s, i) => (
+      <g>
+        <rect class="lf-box" x={TX} y={by(i)} width={TBW} height={TBH} rx="12" />
+        <circle class="lf-num" cx={TX + 24} cy={by(i) + 25} r="13" />
+        <text class="lf-numt" x={TX + 24} y={by(i) + 30} text-anchor="middle">{i + 1}</text>
+        <text class="lf-h" x={TX + 46} y={by(i) + 30}>{s.h}</text>
+        {s.lines.map((l, j) => <text class="lf-t" x={TX + 16} y={by(i) + 56 + j * 19}>{l}</text>)}
+        {i < 4 && <line class="lf-arrow" x1={TX + TBW - 24} y1={by(i) + TBH + 3} x2={TX + TBW - 24} y2={by(i + 1) - 4} marker-end="url(#lf-b1)" />}
+      </g>
+    ))}
+    <path class="lf-back" d={`M${TX - 4} ${by(3) + TBH * 0.35} C ${TX - 44} ${by(3) + TBH * 0.35}, ${TX - 44} ${by(1) + TBH * 0.35}, ${TX - 6} ${by(1) + TBH * 0.35}`} marker-end="url(#lf-b2)" />
+    <text class="lf-backt" transform={`translate(${TX - 50} ${(by(1) + by(3) + TBH * 0.7) / 2}) rotate(-90)`} text-anchor="middle">{backShort}</text>
+    <path class="lf-signal" d={`M${TX - 4} ${by(3) + TBH * 0.7} H 28 V ${by(1) + TBH * 0.7} H ${TX - 6}`} marker-end="url(#lf-b4)" />
+    <text class="lf-signalt" transform={`translate(18 ${(by(1) + by(3) + TBH * 1.4) / 2}) rotate(-90)`} text-anchor="middle">{signalShort}</text>
+    <path class="lf-next" d={`M${TX + TBW + 4} ${by(4) + TBH / 2} H ${TW - 12} V ${by(0) + TBH / 2} H ${TX + TBW + 8}`} marker-end="url(#lf-b3)" />
+    <text class="lf-nextt" transform={`translate(${TW - 32} ${(by(0) + by(4) + TBH) / 2}) rotate(90)`} text-anchor="middle">{nextShort}</text>
+  </svg>
+  <figcaption class="muted small">The analyst never sees the real data. Only a short message, or the final result,
+    comes back from where the data are held.</figcaption>
+</figure>

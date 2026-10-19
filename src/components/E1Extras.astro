@@ -1,0 +1,132 @@
+---
+// The sowing-time example's fuller results, read from result.extra in E1's
+// JSON. A block whose numbers are absent is left out and named in the build log.
+import { num, range, withRange, count, pct } from "../data/format";
+interface Props { x: Record<string, any> }
+const { x } = Astro.props;
+const has = (block: string, keys: string[]) => {
+  const miss = keys.filter((k) => x[k] === undefined || x[k] === null);
+  if (miss.length) console.warn(`[E1] result.extra lacks ${miss.join(", ")}: the "${block}" block is left out.`);
+  return miss.length === 0;
+};
+const v = (k: string) => x[k] as number[];
+const cell = (k: string) => (Array.isArray(x[k]) ? withRange(x[k][0], x[k][1], x[k][2]) : "not estimated");
+const iv = (k: string) => range(v(k)[1], v(k)[2]);
+const usd = (n: number) => `$${Math.round(n).toLocaleString("en-AU")}`;
+const includesZero = (k: string) => Array.isArray(x[k]) && x[k][1] <= 0 && x[k][2] >= 0;
+const width = (k: string) => (Array.isArray(x[k]) ? x[k][2] - x[k][1] : NaN);
+const overlaps = (a: string, b: string) => Array.isArray(x[a]) && Array.isArray(x[b]) && x[a][1] <= x[b][2] && x[b][1] <= x[a][2];
+
+const showDesign = has("pairs", ["n_pairs", "n_sites", "year_min", "year_max", "gap_min_days", "gap_max_days", "gap_median_days", "n_variety_pairs", "n_varieties"]);
+const showBalance = has("balance", ["kernr_p_primary", "kernr_p_with_rain", "rain_early_mm", "rain_main_mm"]);
+const showThree = has("three numbers", ["asreml_ate", "fb_ate", "mean_main_yield", "value_ate_aud_ha", "price_aud_t", "price_low_aud_t", "price_high_aud_t", "p_gain", "p_gain_new_paddock", "decider_value_new_paddock_aud_ha"]);
+const tableKeys = ["n_pairs", "n_pairs_south", "n_pairs_north", "n_pairs_same_week", "asreml_ate", "asreml_south", "asreml_north", "asreml_same_week", "fb_ate", "fb_south", "fb_north", "fb_same_week", "pm_ate", "pm_south", "pm_north", "apsim_ate", "apsim_south", "apsim_north"];
+const showTable = has("estimates table", tableKeys);
+const showN = has("nitrogen by sowing day", ["n_total_early", "n_sow_early", "n_total_main", "n_sow_main"]);
+const showLimits = has("what it does not show", ["lost_candidates", "lost_early_only", "lost_main_only", "lost_both", "asreml_same_week"]);
+const rows = [
+  { label: "All pairs", n: "n_pairs", s: "ate" },
+  { label: "Southern NSW", n: "n_pairs_south", s: "south" },
+  { label: "North", n: "n_pairs_north", s: "north" },
+];
+---
+{showDesign && <>
+  <h2 class="mt-4">The pairs</h2>
+  <ul class="prose">
+    <li>The pairs were fixed before any yield was read: {count(x.n_pairs)} pairs at {count(x.n_sites)} sites in NSW and
+      Queensland, {x.year_min} to {x.year_max}, sown {count(x.gap_min_days)} to {count(x.gap_max_days)} days apart
+      (median {count(x.gap_median_days)}).</li>
+    <li>They give {count(x.n_variety_pairs)} Early-minus-Main differences across {count(x.n_varieties)} varieties.</li>
+    <li>Sites are split into southern NSW and the north (northern NSW and Queensland) at 31.5° S.</li>
+  </ul>
+</>}
+
+{showBalance && <>
+  <h2 class="mt-4">Did the trials match before sowing?</h2>
+  <p class="prose">kernR compared Early and Main trials on soil (clay, pH, water-holding capacity) and on the nitrogen
+    applied on or before the sowing day, all at once (permutation p = {num(x.kernr_p_primary)}). The month before sowing
+    averaged {num(x.rain_early_mm)} mm of rain for Early trials and {num(x.rain_main_mm)} mm for Main trials. With rainfall
+    added, the test gives p = {num(x.kernr_p_with_rain)}.</p>
+</>}
+
+{showThree && <>
+  <h2 class="mt-4">Three numbers</h2>
+  <div class="studies grid grid-3">
+    <article class="card">
+      <p class="kicker">The average gain</p>
+      <h3>{num(v("asreml_ate")[0])} t/ha ({iv("asreml_ate")})</h3>
+      <p class="mt-1">On the same paddock and in the same season, the same variety yielded {num(v("asreml_ate")[0])} t/ha
+        more sown in the Early window (ASReml), against a mean Main-window yield of {num(x.mean_main_yield)} t/ha.
+        flexyBayes gives {num(v("fb_ate")[0])}{Array.isArray(x.pm_ate) && <> and proxymix {num(v("pm_ate")[0])}</>}.</p>
+    </article>
+    <article class="card">
+      <p class="kicker">What it is worth</p>
+      <h3>{usd(v("value_ate_aud_ha")[0])}/ha ({usd(v("value_ate_aud_ha")[1])} to {usd(v("value_ate_aud_ha")[2])})</h3>
+      <p class="mt-1">The flexyBayes gain valued at {usd(x.price_aud_t)}/t, the ABARES wheat gross unit value averaged
+        over the study seasons ({usd(x.price_low_aud_t)} to {usd(x.price_high_aud_t)}/t across them), with early sowing
+        taken to cost nothing extra. The range covers yield uncertainty only. The chance that the average gain is
+        positive is {pct(x.p_gain)}.{x.decider_choice && <> decideR chooses the {x.decider_choice} window.</>}</p>
+    </article>
+    <article class="card">
+      <p class="kicker">On any one paddock</p>
+      <h3>{pct(x.p_gain_new_paddock)} chance of a gain</h3>
+      <p class="mt-1">The gain varies between sites and seasons. On a new paddock and season, decideR puts the expected
+        value of sowing early at {usd(x.decider_value_new_paddock_aud_ha)}/ha.</p>
+    </article>
+  </div>
+</>}
+
+{showTable && <>
+  <h2 class="mt-4">The estimates</h2>
+  <p class="prose">Early minus Main yield, t/ha, with the 90 per cent interval in brackets: a confidence interval for
+    ASReml, a credible interval for flexyBayes, a bootstrap interval for proxymix and the spread of the calibrated
+    simulations for APSIM.</p>
+  <div class="table-scroll mt-1" tabindex="0">
+    <table class="num">
+      <thead><tr><th scope="col">Pairs</th><th scope="col">n</th><th scope="col">ASReml</th><th scope="col">flexyBayes</th><th scope="col">proxymix</th><th scope="col">APSIM with PESTO</th></tr></thead>
+      <tbody>
+        {rows.map((r) => (
+          <tr><th scope="row">{r.label}</th><td>{count(x[r.n])}</td><td>{cell(`asreml_${r.s}`)}</td><td>{cell(`fb_${r.s}`)}</td><td>{cell(`pm_${r.s}`)}</td><td>{cell(`apsim_${r.s}`)}</td></tr>
+        ))}
+        <tr><th scope="row">Sown under a week apart</th><td>{count(x.n_pairs_same_week)}</td><td>{cell("asreml_same_week")}</td><td>{cell("fb_same_week")}</td><td>not estimated</td><td>not estimated</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <ul class="prose mt-2">
+    <li>In the north the ASReml and flexyBayes intervals {includesZero("asreml_north") && includesZero("fb_north")
+      ? "include zero, so a gain there is not established" : "exclude zero"}. In southern NSW they{" "}
+      {includesZero("asreml_south") || includesZero("fb_south") ? "include zero" : "exclude zero"}.</li>
+    <li>APSIM, calibrated with PESTO, expected {v("apsim_ate")[0] < v("asreml_ate")[0] ? "less" : "more"} than the trials
+      show. The ASReml and APSIM intervals {overlaps("asreml_ate", "apsim_ate") ? "overlap" : "do not overlap"}.</li>
+    {width("pm_ate") < width("asreml_ate") && <li>proxymix's interval is narrower than the mixed models'. It does not
+      carry the variation between sites and seasons that the mixed models include.</li>}
+  </ul>
+</>}
+
+{showN && <>
+  <h2 class="mt-4">Nitrogen applied by sowing day</h2>
+  <p class="prose">Part of the nitrogen applied to these trials goes on after sowing, as an in-crop top-dressing. On
+    average, Early trials received {num(x.n_total_early)} kg N/ha, of which {num(x.n_sow_early)} was applied on or before
+    the sowing day; Main trials received {num(x.n_total_main)}, of which {num(x.n_sow_main)}. How much nitrogen goes on
+    in-crop can depend on how the crop looks, and so on when it was sown, so it cannot be used to check that the trials
+    matched before sowing. The balance check and the proxymix covariates use only the nitrogen applied on or before the
+    sowing day. The ASReml and flexyBayes estimates use no covariates.</p>
+</>}
+
+{showLimits && <>
+  <h2 class="mt-4">What it does not show</h2>
+  <ul class="prose">
+    <li><strong>Trials with no yields.</strong> A trial with no yields in the data cannot be paired, and the data do not
+      say why. Of {count(x.lost_candidates)} same-paddock pairs sown a week or more apart, {count(x.lost_early_only)} lost
+      only the Early trial's yields, {count(x.lost_main_only)} only the Main trial's and {count(x.lost_both)} both. If
+      those crops failed, leaving them out changes the average, and no adjustment removes that.</li>
+    <li><strong>More than sowing date.</strong> Pairs sown under a week apart differed by {cell("asreml_same_week")} t/ha,
+      so part of the gap may come from the trial series rather than the sowing date. These pairs sit at different sites
+      from the rest, so the figure is reported beside the main estimate and not subtracted from it.</li>
+    <li><strong>Where on the paddock.</strong> In the causal graph of the design (Hernán and Robins 2020), a pair shares
+      site, season and variety, so comparing within it adjusts for them. The estimate assumes the Early trials were not
+      sown on a better or worse part of the paddock than the Main trials.</li>
+    <li><strong>The price.</strong> The value assumes early sowing costs nothing extra and uses the average price of the
+      study seasons, not a forecast.</li>
+  </ul>
+</>}

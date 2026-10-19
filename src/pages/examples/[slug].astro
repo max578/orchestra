@@ -1,0 +1,207 @@
+---
+import Base from "../../layouts/Base.astro";
+import E1Extras from "../../components/E1Extras.astro";
+import FixtureNote from "../../components/FixtureNote.astro";
+import ShapeSketch from "../../components/ShapeSketch.astro";
+import { href } from "../../data/site";
+import { examples } from "../../data/examples.mjs";
+import { notes } from "../../data/example_notes";
+import { num, withRange, yesNo, passFail, count, readMessage, returnWords, verdictWords, actionWords, classWords, roundWords, errorMeaning, shapeWords, testWords } from "../../data/format";
+
+export function getStaticPaths() {
+  return examples.map((ex, i) => ({ params: { slug: ex.slug }, props: { ex, i } }));
+}
+const { ex, i } = Astro.props as { ex: any; i: number };
+const prev = examples[i - 1], next = examples[i + 1];
+const r = ex.result, rh = ex.rehearsal, d = ex.data;
+const memberOf = Object.fromEntries(ex.compose.steps.map((s: any) => [s.id, s.member]));
+const note = notes[ex.id] ?? {};
+const resultLine = r.refused ? `No estimate released: ${r.refusal_reason}` : `${withRange(r.estimate, r.lo, r.hi)} ${r.unit}`;
+const added: any[] = Array.isArray(r.added_after_signal) ? r.added_after_signal : [];
+const signalMeaning = (s: string) => errorMeaning[s] ?? errorMeaning[`signal:${s}`] ?? s;
+const linkify = (s: string) => s.split(/(https?:\/\/\S+?)(?=[).,]?(?:\s|$))/);
+const description = `${ex.title} Worked example ${ex.id} on ${d.name}: ${r.estimand}, ${resultLine}. The plan was written and tested on a masked copy, then run where the data are held.`;
+---
+<Base title={ex.title.length <= 42 ? ex.title : `Worked example ${ex.id}`} description={description} path={`/examples/${ex.slug}`}>
+  <section class="wrap">
+    <div class="section-head">
+      <p class="kicker">Worked example {ex.id} · open data · run {ex.real_run.date}</p>
+      <h1>{ex.title}</h1>
+      <p class="prose lead mt-2">{ex.question}</p>
+    </div>
+    <FixtureNote />
+
+    <div class="takeaway">
+      <p class="small muted">{r.estimand}</p>
+      <p class="result-n">{resultLine}</p>
+      {added.map((a) => (
+        <p class="small mt-1"><strong>Added after signal {a.trigger_id}, round {a.round}:</strong> {a.estimand},
+          {" "}{withRange(a.estimate, a.lo, a.hi)} {a.unit ?? r.unit}. It sits beside the main result and does not replace it.</p>
+      ))}
+      <p class="small muted mt-1">{r.interval_label}. {returnWords[ex.return]}</p>
+      <p class="small muted mt-1">Agreement between the estimates: {ex.agreement.verdict}. Rule: {ex.agreement.rule}</p>
+    </div>
+
+    {note.intro && <div class="prose mt-3">{note.intro.map((p) => <p class="mt-2">{p}</p>)}</div>}
+
+    <h2 class="mt-4">The data</h2>
+    <dl class="facts card mt-2">
+      <dt>Dataset</dt><dd>{d.name}, read through {d.source}</dd>
+      <dt>Size</dt><dd>{count(d.n_rows)} rows, {count(d.n_units)} {d.unit_label}; {d.period}; {d.place}</dd>
+      <dt>Citation</dt><dd>{d.citation}</dd>
+      <dt>Licence</dt><dd>{d.licence}</dd>
+      <dt>Link</dt><dd><a href={d.url}>{d.url}</a></dd>
+    </dl>
+
+    <h2 class="mt-4">The five steps</h2>
+    <ol class="ex-steps">
+      <li class="card">
+        <h3>1. Mask</h3>
+        <p class="mt-1">masque {ex.mask.masque_version} made a masked copy of {count(ex.mask.n_rows_clone)} rows from the
+          {" "}{count(ex.mask.n_rows_real)}-row real table.{ex.mask.coordinates_jittered ? " Site coordinates were shifted at random." : " The table holds no coordinates to shift."}
+          {" "}Each column was given a role, which decides how it is masked:</p>
+        <div class="table-scroll mt-1" tabindex="0"><table>
+          <thead><tr><th scope="col">Role</th><th scope="col">Columns</th></tr></thead>
+          <tbody>{Object.entries(ex.mask.roles).map(([role, cols]) => (
+            <tr><th scope="row">{role}</th><td><code>{(cols as string[]).join(", ")}</code></td></tr>))}</tbody>
+        </table></div>
+        <p class="mt-2">Checks on the copy before anyone used it:</p>
+        <div class="table-scroll mt-1" tabindex="0"><table>
+          <thead><tr><th scope="col">Check</th><th scope="col">Value</th><th scope="col">Result</th></tr></thead>
+          <tbody>{ex.mask.audit.map((a: any) => (
+            <tr><td>{a.check}</td><td>{typeof a.value === "number" ? num(a.value) : a.value}</td><td>{passFail(a.pass)}</td></tr>))}</tbody>
+        </table></div>
+      </li>
+
+      <li class="card">
+        <h3>2. Write the plan</h3>
+        <p class="mt-1">The plan was written on the masked copy only. It has {count(ex.compose.n_steps)} steps and uses
+          {" "}{ex.compose.members.length} packages:</p>
+        <ul class="chips mt-1">{ex.compose.members.map((m: string) => <li class="chip">{m}</li>)}</ul>
+        <div class="table-scroll mt-2" tabindex="0"><table class="t-wide">
+          <thead><tr><th scope="col">Step</th><th scope="col">Package</th><th scope="col">What it does</th></tr></thead>
+          <tbody>{ex.compose.steps.map((s: any) => (
+            <tr><td><code>{s.id}</code></td><td>{s.member}</td><td>{s.does}</td></tr>))}</tbody>
+        </table></div>
+      </li>
+
+      <li class="card">
+        <h3>3. Test and seal</h3>
+        <p class="mt-1">Before it was sealed, the plan ran {count(ex.compose.n_clone_runs)} times on the masked copy. It
+          had to find an effect planted in the copy, within a stated tolerance, and had to report no effect where none was
+          planted.</p>
+        <div class="table-scroll mt-1" tabindex="0"><table class="num">
+          <thead><tr><th scope="col">Test on the copy</th><th scope="col">Planted</th><th scope="col">Found (interval)</th><th scope="col">Result</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">Planted effect</th><td>{num(rh.planted_effect)} ± {num(rh.tolerance)}</td><td>{withRange(rh.recovered, rh.recovered_lo, rh.recovered_hi)}</td><td>{passFail(rh.pass)}</td></tr>
+            <tr><th scope="row">Planted null</th><td>0</td><td>{withRange(rh.null_estimate, rh.null_lo, rh.null_hi)}</td><td>{passFail(rh.null_pass)}</td></tr>
+          </tbody>
+        </table></div>
+        {ex.lenses.length > 0 && <>
+          <p class="mt-2">Each estimate in the plan was tested the same way, and each was later run on the real data:</p>
+          <div class="table-scroll mt-1" tabindex="0"><table class="t-wide">
+            <thead><tr><th scope="col">Estimate</th><th scope="col">Package</th><th scope="col">On the real data ({r.unit})</th><th scope="col">Planted effect found</th><th scope="col">Planted null passed</th></tr></thead>
+            <tbody>{ex.lenses.map((l: any) => (
+              <tr><th scope="row"><code>{l.lens}</code></th><td>{l.member}</td><td>{withRange(l.estimate, l.lo, l.hi)}</td><td>{yesNo(l.planted_pass)}</td><td>{yesNo(l.null_pass)}</td></tr>))}</tbody>
+          </table></div>
+        </>}
+        <h4 class="mt-3">Watched for in advance</h4>
+        {ex.triggers.length
+          ? <><p class="mt-1">Before sealing, the plan was given a list of warning signs to look for in the real data.
+              Each had to show up on a copy with that pattern built in, and not on a copy without it.</p>
+            <div class="table-scroll mt-1" tabindex="0"><table class="t-wide">
+              <thead><tr><th scope="col">Watch</th><th scope="col">What it watches</th><th scope="col">Threshold</th><th scope="col">When it fires, the plan</th><th scope="col">Shown on the copy with the pattern</th><th scope="col">Quiet on the copy without it</th><th scope="col">On the real data</th></tr></thead>
+              <tbody>{ex.triggers.map((g: any) => (
+                <tr><td><code>{g.trigger_id}</code></td>
+                  <td>{g.what} <span class="muted">({classWords[g.class] ?? g.class}; {signalMeaning(g.signal_type)})</span></td>
+                  <td>{g.threshold_label}</td><td>{actionWords[g.action] ?? g.action}</td>
+                  <td>{yesNo(g.rehearsal_fired)}</td><td>{yesNo(g.rehearsal_silent)}</td>
+                  <td>{g.fired_real ? `seen in round ${g.round}` : "not seen"}</td></tr>))}</tbody>
+            </table></div></>
+          : <p class="mt-1">The plan listed no warning signs beyond its own checks.</p>}
+        <p class="mt-2">When the tests passed, the plan was sealed. Its fingerprint (hash):</p>
+        <p class="mt-1"><code class="hash">{ex.compose.plan_hash}</code></p>
+      </li>
+
+      <li class="card">
+        <h3>4. Run where the data are held</h3>
+        <p class="mt-1">conductoR ran the sealed plan on the real data on {ex.real_run.date}
+          ({count(ex.real_run.n_rounds)} {ex.real_run.n_rounds === 1 ? "round" : "rounds"}). After each round one short
+          message came back. The plan that ran {ex.real_run.plan_hash_matches_seal ? "has the same fingerprint as the sealed plan" : "does not match the sealed fingerprint"}.</p>
+        <ol class="rounds mt-2">{ex.rounds.map((rd: any) => (
+          <li><strong>Round {rd.round}. {roundWords[rd.reason] ?? rd.reason}.</strong>
+            <ul>{readMessage(rd.lines).map((x) => (
+              <li><code>{x.step ? `${x.step} ${x.type}` : x.type}</code>: {x.step
+                ? `${x.meaning} (${memberOf[x.step] ? `step ${x.step}, ${memberOf[x.step]}` : `watch ${x.step}`})`
+                : x.meaning}</li>))}</ul></li>))}</ol>
+      </li>
+
+      <li class="card">
+        <h3>5. Release once</h3>
+        <p class="mt-1"><strong>{r.estimand}:</strong> {resultLine}. {r.interval_label}.</p>
+      </li>
+    </ol>
+
+    <h2 class="mt-4">Shape of the response</h2>
+    <p class="prose">Relationships between continuous variables were fitted as curves, and janusplot named the shape of
+      each curve. A rise then fall was reported only when a test found a turning point inside the range of the data, not
+      just a curved fit.</p>
+    {(ex._figures ?? []).map((f: { src: string; alt: string }) => (
+      <figure class="mt-2 ex-fig"><img src={href(f.src)} alt={f.alt} decoding="async" />
+        <figcaption class="muted">{f.alt}</figcaption></figure>))}
+    {ex.shapes.length
+      ? <div class="table-scroll mt-2" tabindex="0"><table class="t-wide">
+          <thead><tr><th scope="col">Association</th><th scope="col">Shape</th><th scope="col">Screen (janusplot)</th><th scope="col">Formal test</th><th scope="col">Turning point (interval)</th><th scope="col">Test used</th></tr></thead>
+          <tbody>{ex.shapes.map((s: any) => (
+            <tr><td><code>{s.y}</code> against <code>{s.x}</code></td><td><ShapeSketch verdict={s.verdict} /></td>
+              <td>{s.screen_label}</td><td>{shapeWords[s.verdict] ?? s.verdict}</td>
+              <td>{typeof s.turning_point === "number" ? withRange(s.turning_point, s.tp_lo, s.tp_hi) : "none"}</td>
+              <td>{testWords(s.test)}</td></tr>))}</tbody>
+        </table></div>
+      : <p class="prose mt-2">The plan has no continuous association to test for shape.</p>}
+
+    <h2 class="mt-4">Results withheld, and why</h2>
+    {ex.refusals.length || r.refused
+      ? <ul class="prose">
+          {r.refused && <li><strong>The result.</strong> {r.refusal_reason}</li>}
+          {ex.refusals.map((f: any) => <li><strong><code>{f.step}</code> ({memberOf[f.step] ?? "plan"}).</strong> {f.reason}</li>)}
+        </ul>
+      : <p class="prose">No step withheld its result.</p>}
+
+    <h2 class="mt-4">What the analysis found to test next</h2>
+    {ex.discoveries.length
+      ? <><p class="prose">Each pattern was tested again on a second open dataset that the first run did not use.</p>
+        <div class="table-scroll mt-1" tabindex="0"><table class="t-wide">
+          <thead><tr><th scope="col">Pattern</th><th scope="col">Found by</th><th scope="col">Second dataset</th><th scope="col">Verdict</th><th scope="col">Second estimate</th></tr></thead>
+          <tbody>{ex.discoveries.map((x: any) => (
+            <tr><td>{x.statement}</td><td><code>{x.found_by}</code></td><td>{x.loop2_dataset}</td>
+              <td>{verdictWords[x.loop2_verdict] ?? x.loop2_verdict}</td><td>{withRange(x.loop2_estimate, x.loop2_lo, x.loop2_hi)}</td></tr>))}</tbody>
+        </table></div></>
+      : <p class="prose">No pattern was flagged for a second test.</p>}
+
+    <h2 class="mt-4">Found on the way</h2>
+    {ex.by_solutions.length
+      ? <ul class="prose">{ex.by_solutions.map((b: any) => <li>{b.what} {b.consequence}</li>)}</ul>
+      : <p class="prose">Nothing beyond the result.</p>}
+
+    {ex.id === "E1" && <E1Extras x={r.extra} />}
+
+    <h2 class="mt-4">Package versions</h2>
+    <div class="table-scroll mt-1" tabindex="0"><table>
+      <thead><tr><th scope="col">Package</th><th scope="col">Version</th></tr></thead>
+      <tbody>{Object.entries(ex.versions).map(([p, v]) => <tr><td>{p}</td><td>{String(v)}</td></tr>)}</tbody>
+    </table></div>
+
+    {note.references && <>
+      <h2 class="mt-4">References</h2>
+      <ul class="prose refs">{note.references.map((ref) => (
+        <li>{linkify(ref).map((part, k) => (k % 2 ? <a href={part}>{part}</a> : part))}</li>))}</ul>
+    </>}
+
+    <p class="cta-row">
+      {prev && <a class="btn btn-ghost" href={href(`/examples/${prev.slug}`)}>← {prev.id}: {prev.title}</a>}
+      <a class="btn btn-ghost" href={href("/examples")}>All examples</a>
+      {next && <a class="btn btn-ghost" href={href(`/examples/${next.slug}`)}>{next.id}: {next.title} →</a>}
+    </p>
+  </section>
+</Base>

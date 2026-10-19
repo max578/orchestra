@@ -1,0 +1,33 @@
+---
+import Base from "../../layouts/Base.astro";
+import FixtureNote from "../../components/FixtureNote.astro";
+import LoopFigure from "../../components/LoopFigure.astro";
+import { href } from "../../data/site";
+import { examples } from "../../data/examples.mjs";
+import { withRange } from "../../data/format";
+const line = (ex: any) => ex.result.refused
+  ? `No estimate released: ${ex.result.refusal_reason}`
+  : `${ex.result.estimand}: ${withRange(ex.result.estimate, ex.result.lo, ex.result.hi)} ${ex.result.unit} (${ex.result.interval_label})`;
+---
+<Base title="Examples" description={`${examples.length} worked examples on open data. In each, the analysis plan is written and tested on a masked copy of the data, sealed, and run where the real data are held.`} path="/examples">
+  <section class="wrap">
+    <div class="section-head">
+      <p class="kicker">Worked examples</p>
+      <h1>Examples</h1>
+      <p class="prose lead mt-2">{examples.length} analyses on open data, each run the same way. masque makes a masked
+        copy of the data, even when the data are open. The analysis plan is written and tested on that copy, then sealed,
+        and conductoR runs it where the real data are held.</p>
+    </div>
+    <FixtureNote />
+    <LoopFigure />
+    <div class="grid grid-2 mt-4">
+      {examples.map((ex) => (
+        <a class="card ex-card" href={href(`/examples/${ex.slug}`)}>
+          <p class="kicker">{ex.id} · {ex.data.name}</p>
+          <h2 class="ex-card-h">{ex.title}</h2>
+          <p class="muted mt-2">{line(ex)}</p>
+        </a>
+      ))}
+    </div>
+  </section>
+</Base>
