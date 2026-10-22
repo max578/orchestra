@@ -7,7 +7,7 @@ type MapNode = { id: string; kind: string; label?: string; purpose: string; char
   similarNote?: string; status?: string; section?: string | null };
 type MapEdge = { from: string; to: string; kind: string; text: string };
 type MapData = { sections: { id: string; label: string }[]; nodes: MapNode[]; edges: MapEdge[];
-  workedExample: { id: string; text: string }[]; workedExampleSource: { id: string; slug: string; title: string };
+  workedExamples: { source: { id: string; slug: string; title: string; data: string; result: string }; steps: { id: string; text: string }[] }[];
   formatWriters: string[]; formatReaders: string[] };
 
 function el<K extends keyof HTMLElementTagNameMap>(tag: K, cls?: string, text?: string) {
@@ -22,7 +22,7 @@ export function initOrchestraMap() {
   if (!root) return;
   const data: MapData = JSON.parse(root.querySelector("[data-om-data]")?.textContent ?? "null");
   if (!data) return;
-  const { sections, nodes, edges, workedExample, workedExampleSource, formatWriters, formatReaders } = data;
+  const { sections, nodes, edges, workedExamples, formatWriters, formatReaders } = data;
   const sectionOf = Object.fromEntries(sections.map((s) => [s.id, s]));
   const byId = Object.fromEntries(nodes.map((n) => [n.id, n]));
   const stage = root.querySelector<HTMLElement>("[data-om-stage]")!;
@@ -144,14 +144,18 @@ export function initOrchestraMap() {
     if (n.status) panel.append(el("p", "om-note", n.status));
   }
 
-  function playExample() {
+  const playBtns = [...root.querySelectorAll<HTMLButtonElement>("[data-om-play]")];
+  function playExample(k: number) {
+    const { source: workedExampleSource, steps: workedExample } = workedExamples[k];
+    stopPlay();
     clearSelection();
+    playBtns.forEach((b) => b.setAttribute("aria-pressed", String(Number(b.dataset.omPlay) === k)));
     svg.classList.add("has-sel", "is-playing");
     panel.innerHTML = "";
-    panel.append(el("p", "om-kicker", `Worked example ${workedExampleSource.id}`), el("h2", "om-title", workedExampleSource.title));
+    panel.append(el("p", "om-kicker", `Worked example ${workedExampleSource.id} · ${workedExampleSource.data}`), el("h2", "om-title", workedExampleSource.title));
     const ol = el("ol", "om-steps");
     workedExample.forEach((s) => { const li = el("li"); li.append(jump(s.id), el("span", undefined, " " + s.text)); ol.append(li); });
-    panel.append(ol);
+    panel.append(ol, el("p", "om-result", workedExampleSource.result));
     const a = el("a", "om-more", "The full example →");
     a.href = `${base}/examples/${workedExampleSource.slug}/`;
     panel.append(a);
@@ -190,7 +194,7 @@ export function initOrchestraMap() {
   svg.addEventListener("click", () => { if (selected) clearSelection(); });
   document.addEventListener("keydown", (ev) => { if (ev.key === "Escape" && (selected || timers.length)) { stopPlay(); clearSelection(); } });
 
-  root.querySelector("[data-om-play]")?.addEventListener("click", playExample);
+  playBtns.forEach((b) => b.addEventListener("click", () => playExample(Number(b.dataset.omPlay))));
   const allBtn = root.querySelector<HTMLButtonElement>("[data-om-all]");
   allBtn?.addEventListener("click", () => {
     const on = svg.classList.toggle("show-all");

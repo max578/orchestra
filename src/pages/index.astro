@@ -2,6 +2,9 @@
 import Base from "../layouts/Base.astro";
 import LoopFigure from "../components/LoopFigure.astro";
 import FixtureNote from "../components/FixtureNote.astro";
+import OrchestraMap from "../components/OrchestraMap.astro";
+import { renderHexRoster, rosterLegend } from "../widgets/hexRosterSvg.mjs";
+import { members } from "../data/members";
 import { site, href } from "../data/site";
 import { examples } from "../data/examples.mjs";
 import { withRange } from "../data/format";
@@ -15,6 +18,8 @@ const principles = [
   { h: "Run where the data are held", p: "conductoR runs the sealed plan on the real data. Each step is done by one package, and each result is checked before the next package uses it." },
   { h: "Little comes back", p: "A failed step returns its name and the kind of error, nothing more. A warning sign the plan was told to look for returns only its name. The result is released once." },
 ];
+const roster = renderHexRoster({ base: href("/") });
+const roleOf: Record<string, string> = { ...Object.fromEntries(members.map((m) => [m.id, m.role])), DataHub: "open-data catalogue" };
 const jsonLd = {
   "@context": "https://schema.org", "@type": "WebSite",
   name: site.name, description: site.intro,
@@ -35,6 +40,32 @@ const jsonLd = {
         <a class="btn btn-ghost" href={href("/members")}>Explore the members</a>
       </p>
     </div>
+  </section>
+
+  <section class="band"><div class="wrap">
+    <div class="section-head">
+      <p class="kicker">The orchestra</p>
+      <h2>One package, one job</h2>
+      <p class="prose mt-2">Each hexagon is one package, except DataHub, the data catalogue. Its border colour
+        shows its role. Choose a hexagon to see the package on the map.</p>
+    </div>
+    <figure class="hx-figure" set:html={roster} />
+    <ul class="hx-legend">
+      {rosterLegend.map((g) => (
+        <li><span class="hx-dot" style={`--c:${g.color}`}></span><strong>{g.label}.</strong>{" "}
+          {g.members.map((id, i) => <>{i ? " · " : ""}<a href={href(`/members/#map-${id}`)} class="mono">{id}</a>{roleOf[id] ? `: ${roleOf[id].charAt(0).toLowerCase()}${roleOf[id].slice(1)}` : ""}</>)}</li>
+      ))}
+    </ul>
+  </div></section>
+
+  <section class="wrap">
+    <div class="section-head">
+      <p class="kicker">One study through the orchestra</p>
+      <h2>Follow a worked example</h2>
+      <p class="prose mt-2">Each button plays one of the four worked examples on open data: the packages light up
+        in the order the plan ran them, and the steps and the released result appear beside the map.</p>
+    </div>
+    <OrchestraMap scenarios />
   </section>
 
   <section class="band"><div class="wrap">

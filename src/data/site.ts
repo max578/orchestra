@@ -28,6 +28,7 @@ export const site = {
     { href: "/", label: "Home" },
     { href: "/examples", label: "Examples" },
     { href: "/members", label: "Members" },
+    { href: "/value", label: "Value" },
     { href: "/cost", label: "Cost" },
     { href: "/about", label: "About" },
   ],

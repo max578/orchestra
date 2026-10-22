@@ -1,0 +1,246 @@
+{
+  "title": "Value for growers",
+  "as_of": "2026-10-22",
+  "currency": "A$ nominal; benefits gross, before costs",
+  "what_these_numbers_are_not": ["These are gross benefits to growers before any extension or adoption costs, not money earned and not a return on any investment.", "They rest on one study: paired National Variety Trial plots, not commercial paddocks.", "The per-hectare gain is an average. On a new paddock and season the chance of a gain is 65%, so about one paddock-season in three would yield less in the early window.", "North of 31.5 degrees S the estimate is 0.12 t/ha with an interval that includes zero; south of it, 0.31 t/ha. The national figures use the pooled estimate, which weights trials, not cropped area.", "Low, central and high carry the study's 90% interval for the gain; adoption and area are held at each scenario's assumed level.", "None of this value is attributed to any one programme or software; it is the value of the practice change if it happens.", "Values use the study-season price of $261/t; at the 2026-27 ABARES gross unit value of $332.8/t the same tonnes are worth about 27% more."],
+  "context": {
+    "gross_value_wheat_2026_27_aud_m": 9944.4,
+    "gvp_source": "S02",
+    "gross_value_grains_oilseeds_pulses_2026_27_aud_m": 25973.3,
+    "grdc_rde_investment_aud_m_per_year": "230 to 240",
+    "grdc_ex_post_median_bcr": 6.43,
+    "grdc_source": "S13",
+    "data_confidentiality": "Digital agriculture was estimated to lift grains gross value by 51% if fully implemented, and 78% of that grains gain needs several data sources combined (Perrett et al., 2017). Farmers' reluctance to release farm data rests on a lack of trust in those who collect, aggregate and pass it on (Wiseman et al., 2019). Masked copies let analysts and AI agents build and check analyses while the real data stay where they are held. No published figure prices this specific route, so it is described here, not valued.",
+    "data_sources": ["S15", "S16"]
+  },
+  "scenarios": [
+    {
+      "id": "minimum",
+      "name": "Minimum: one rule, one region",
+      "description": "One evidence-based rule, sow wheat in the early window, taken up on 5% of South Australian wheat area over five seasons. This matches the pace and level CSIRO used for early and dry sowing nationally.",
+      "inputs": [
+        {
+          "name": "Wheat area in scope",
+          "value": 2050000,
+          "unit": "ha",
+          "source": "S01"
+        },
+        {
+          "name": "Adoption ceiling (fraction of area)",
+          "value": 0.05,
+          "unit": "fraction",
+          "source": "S06"
+        },
+        {
+          "name": "Years to near-peak adoption",
+          "value": 5,
+          "unit": "years",
+          "source": "S06"
+        },
+        {
+          "name": "Gain per adopted hectare (low, central, high)",
+          "value": [0.06, 0.22, 0.39],
+          "unit": "t/ha",
+          "source": "S00"
+        },
+        {
+          "name": "Value per adopted hectare (low, central, high)",
+          "value": [15, 58, 103],
+          "unit": "A$/ha",
+          "source": "S00"
+        },
+        {
+          "name": "Probability of a gain on a new paddock and season",
+          "value": 0.65,
+          "unit": "probability",
+          "source": "S00"
+        },
+        {
+          "name": "Discount rate",
+          "value": 0.05,
+          "unit": "per year",
+          "source": "S11; S12"
+        },
+        {
+          "name": "Evaluation horizon",
+          "value": 30,
+          "unit": "years",
+          "source": "S11; S12"
+        }
+      ],
+      "area_at_peak_ha": 102500,
+      "adoption_ceiling": 0.05,
+      "years_to_peak": 5,
+      "annual_benefit_aud": {
+        "low": 1540000,
+        "central": 5940000,
+        "high": 10560000
+      },
+      "pv10_aud": {
+        "low": 9100000,
+        "central": 35100000,
+        "high": 62300000
+      },
+      "pv30_aud": {
+        "low": 20800000,
+        "central": 80500000,
+        "high": 143000000
+      },
+      "pv30_central_at_7pct_aud": 63300000,
+      "extra_tonnes_per_year_at_peak": 22600,
+      "caveats": ["South Australia lies south of 31.5 degrees S, where the study estimate is higher (0.31 t/ha); the pooled estimate is used to stay conservative.", "These are gross benefits to growers before any extension or adoption costs, not money earned and not a return on any investment.", "They rest on one study: paired National Variety Trial plots, not commercial paddocks.", "The per-hectare gain is an average. On a new paddock and season the chance of a gain is 65%, so about one paddock-season in three would yield less in the early window.", "North of 31.5 degrees S the estimate is 0.12 t/ha with an interval that includes zero; south of it, 0.31 t/ha. The national figures use the pooled estimate, which weights trials, not cropped area.", "Low, central and high carry the study's 90% interval for the gain; adoption and area are held at each scenario's assumed level.", "None of this value is attributed to any one programme or software; it is the value of the practice change if it happens.", "Values use the study-season price of $261/t; at the 2026-27 ABARES gross unit value of $332.8/t the same tonnes are worth about 27% more."]
+    },
+    {
+      "id": "realistic",
+      "name": "Realistic: a national extension programme",
+      "description": "A university and GRDC extension programme carries sealed, checked analyses across the Australian grain belt, lifting early-window sowing on 10% of the national wheat area over ten years, the lower end of what industry stakeholders foresaw for early and dry sowing.",
+      "inputs": [
+        {
+          "name": "Wheat area in scope",
+          "value": 11051000,
+          "unit": "ha",
+          "source": "S01"
+        },
+        {
+          "name": "Adoption ceiling (fraction of area)",
+          "value": 0.1,
+          "unit": "fraction",
+          "source": "S06"
+        },
+        {
+          "name": "Years to near-peak adoption",
+          "value": 10,
+          "unit": "years",
+          "source": "S06; S08"
+        },
+        {
+          "name": "Gain per adopted hectare (low, central, high)",
+          "value": [0.06, 0.22, 0.39],
+          "unit": "t/ha",
+          "source": "S00"
+        },
+        {
+          "name": "Value per adopted hectare (low, central, high)",
+          "value": [15, 58, 103],
+          "unit": "A$/ha",
+          "source": "S00"
+        },
+        {
+          "name": "Probability of a gain on a new paddock and season",
+          "value": 0.65,
+          "unit": "probability",
+          "source": "S00"
+        },
+        {
+          "name": "Discount rate",
+          "value": 0.05,
+          "unit": "per year",
+          "source": "S11; S12"
+        },
+        {
+          "name": "Evaluation horizon",
+          "value": 30,
+          "unit": "years",
+          "source": "S11; S12"
+        }
+      ],
+      "area_at_peak_ha": 1105100,
+      "adoption_ceiling": 0.1,
+      "years_to_peak": 10,
+      "annual_benefit_aud": {
+        "low": 16580000,
+        "central": 64100000,
+        "high": 113830000
+      },
+      "pv10_aud": {
+        "low": 64800000,
+        "central": 250500000,
+        "high": 444800000
+      },
+      "pv30_aud": {
+        "low": 191600000,
+        "central": 740800000,
+        "high": 1315600000
+      },
+      "pv30_central_at_7pct_aud": 565400000,
+      "extra_tonnes_per_year_at_peak": 243100,
+      "caveats": ["Much of the wheat area is already sown early; the 10% is additional area moved into the early window, not total early-sown area.", "Hunt et al. (2019) modelled a far larger national gain (0.54 t/ha, 7.1 Mt a year) from early sowing systems with new varieties; this scenario does not rely on it.", "These are gross benefits to growers before any extension or adoption costs, not money earned and not a return on any investment.", "They rest on one study: paired National Variety Trial plots, not commercial paddocks.", "The per-hectare gain is an average. On a new paddock and season the chance of a gain is 65%, so about one paddock-season in three would yield less in the early window.", "North of 31.5 degrees S the estimate is 0.12 t/ha with an interval that includes zero; south of it, 0.31 t/ha. The national figures use the pooled estimate, which weights trials, not cropped area.", "Low, central and high carry the study's 90% interval for the gain; adoption and area are held at each scenario's assumed level.", "None of this value is attributed to any one programme or software; it is the value of the practice change if it happens.", "Values use the study-season price of $261/t; at the 2026-27 ABARES gross unit value of $332.8/t the same tonnes are worth about 27% more."]
+    },
+    {
+      "id": "optimistic",
+      "name": "Optimistic: worldwide uptake, modest shift",
+      "description": "The same way of working spreads to wheat worldwide, reaching 10% of world wheat area over twenty years. The per-hectare shift is deliberately small: half of one year's global wheat yield trend, about 0.017 t/ha, valued at the study price. It is not the Australian early-sowing gain.",
+      "inputs": [
+        {
+          "name": "Wheat area in scope",
+          "value": 220162000,
+          "unit": "ha",
+          "source": "S03"
+        },
+        {
+          "name": "Adoption ceiling (fraction of area)",
+          "value": 0.1,
+          "unit": "fraction",
+          "source": "S06"
+        },
+        {
+          "name": "Years to near-peak adoption",
+          "value": 20,
+          "unit": "years",
+          "source": "S08"
+        },
+        {
+          "name": "Gain per adopted hectare (low, central, high)",
+          "value": [0.00862604922738711, 0.0172520984547742, 0.0345041969095484],
+          "unit": "t/ha",
+          "source": "S03; S17; S00"
+        },
+        {
+          "name": "Value per adopted hectare (low, central, high)",
+          "value": [2.25, 4.5, 9.01],
+          "unit": "A$/ha",
+          "source": "S00"
+        },
+        {
+          "name": "Probability of a gain on a new paddock and season",
+          "value": 0.65,
+          "unit": "probability",
+          "source": "S00"
+        },
+        {
+          "name": "Discount rate",
+          "value": 0.05,
+          "unit": "per year",
+          "source": "S11; S12"
+        },
+        {
+          "name": "Evaluation horizon",
+          "value": 30,
+          "unit": "years",
+          "source": "S11; S12"
+        }
+      ],
+      "area_at_peak_ha": 22016200,
+      "adoption_ceiling": 0.1,
+      "years_to_peak": 20,
+      "annual_benefit_aud": {
+        "low": 49570000,
+        "central": 99130000,
+        "high": 198270000
+      },
+      "pv10_aud": {
+        "low": 84900000,
+        "central": 169800000,
+        "high": 339500000
+      },
+      "pv30_aud": {
+        "low": 415000000,
+        "central": 830000000,
+        "high": 1660100000
+      },
+      "pv30_central_at_7pct_aud": 606900000,
+      "extra_tonnes_per_year_at_peak": 379800,
+      "caveats": ["The early-sowing gain is specific to Australian rainfed wheat and is not carried overseas.", "World wheat yields have grown about 0.9% a year (Ray et al., 2013); the shift assumed here is half of one year of that trend, once.", "World tonnes are valued at the Australian study price; farm-gate prices differ by country.", "These are gross benefits to growers before any extension or adoption costs, not money earned and not a return on any investment.", "They rest on one study: paired National Variety Trial plots, not commercial paddocks.", "The per-hectare gain is an average. On a new paddock and season the chance of a gain is 65%, so about one paddock-season in three would yield less in the early window.", "North of 31.5 degrees S the estimate is 0.12 t/ha with an interval that includes zero; south of it, 0.31 t/ha. The national figures use the pooled estimate, which weights trials, not cropped area.", "Low, central and high carry the study's 90% interval for the gain; adoption and area are held at each scenario's assumed level.", "None of this value is attributed to any one programme or software; it is the value of the practice change if it happens.", "Values use the study-season price of $261/t; at the 2026-27 ABARES gross unit value of $332.8/t the same tonnes are worth about 27% more."]
+    }
+  ]
+}

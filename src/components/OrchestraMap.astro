@@ -3,19 +3,27 @@
 // complete static map); orchestraMapClient.ts adds selection, the side panel,
 // the worked example and deep links (#map-<id>).
 import { renderSvg } from "../widgets/orchestraMapSvg.mjs";
-import { sections, nodes, edges, workedExample, workedExampleSource, formatWriters, formatReaders } from "../data/orchestraMap.mjs";
+import { sections, nodes, edges, workedExamples, formatWriters, formatReaders } from "../data/orchestraMap.mjs";
 import { href } from "../data/site";
 import "../styles/orchestra-map.css";
+// scenarios: one play button per worked example (home page); otherwise the first example only
+interface Props { scenarios?: boolean }
+const { scenarios = false } = Astro.props;
 const svg = renderSvg({ mode: "web" });
-const mapData = JSON.stringify({ sections, nodes, edges, workedExample, workedExampleSource, formatWriters, formatReaders })
+const mapData = JSON.stringify({ sections, nodes, edges, workedExamples, formatWriters, formatReaders })
   .replace(/</g, "\\u003c");
+const played = scenarios ? workedExamples : workedExamples.slice(0, 1);
 ---
 <div class="om" data-om data-base={href("/")}>
   <script type="application/json" data-om-data set:html={mapData} />
   <div class="om-bar">
-    <p class="om-hint" data-om-hint>Choose any package to see what it does and how it connects.</p>
-    <div class="om-actions">
-      <button class="btn btn-ghost om-btn" type="button" data-om-play>▶ Worked example {workedExampleSource.id}</button>
+    <p class="om-hint" data-om-hint>{scenarios ? "Choose an example to follow its path through the orchestra, or any package to see what it does."
+      : "Choose any package to see what it does and how it connects."}</p>
+    <div class="om-actions" role="group" aria-label="Worked examples">
+      {played.map((w, k) => (
+        <button class="btn btn-ghost om-btn" type="button" data-om-play={k} aria-pressed="false"
+          title={w.source.title}>▶ {scenarios ? `${w.source.id} · ${w.source.title}` : `Worked example ${w.source.id}`}</button>
+      ))}
       <button class="btn btn-ghost om-btn" type="button" data-om-all aria-pressed="false">Show all links</button>
     </div>
   </div>

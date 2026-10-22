@@ -103,3 +103,7 @@
   .om-node, .om-edge, .om-steps li, .om-tip { transition: none; }
 }
 .om-sections, .om-edges { pointer-events: none; }
+
+/* Scenario player (home page): the example playing is marked; its released result closes the steps */
+.om-btn[aria-pressed="true"] { border-color: var(--accent); color: var(--accent); background: color-mix(in srgb, var(--accent) 8%, transparent); }
+.om-result { margin: 6px 0 0; padding: 10px 12px; border-left: 3px solid #D55E00; background: var(--paper); font-size: var(--step--1); }

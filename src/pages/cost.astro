@@ -56,7 +56,13 @@ const sum = (sc: string, pred: (r: Record<string, string>) => boolean) =>
 const pkgs = Object.entries(summary.complexity_multipliers as Record<string, any>)
   .map(([p, c]) => ({ p, c, cost: Object.fromEntries(keys.map((k) => [k, sum(k, (r) => r.item.startsWith(`${p}:`))])) }))
   .sort((a, b) => b.cost.lean - a.cost.lean);
-const lines = (p: string) => (fleet[p] ? Number(fleet[p].r_loc) + Number(fleet[p].src_loc) : NaN);
+const lines = (p: string) => (fleet[p] ? Number(fleet[p].r_loc_counted) + Number(fleet[p].src_loc_counted) : NaN);
+const stmts = (p: string) => (fleet[p] ? Number(fleet[p].r_logical_counted) + Number(fleet[p].src_logical_counted) : NaN);
+const fleetRows = Object.values(fleet);
+const totLines = fleetRows.reduce((s, r) => s + Number(r.r_loc_counted) + Number(r.src_loc_counted), 0);
+const totStmts = fleetRows.reduce((s, r) => s + Number(r.r_logical_counted) + Number(r.src_logical_counted), 0);
+const totExcluded = fleetRows.reduce((s, r) => s + Number(r.excluded_loc), 0);
+const changes = (summary as any)["changes_since_2026-10-15"] as string[] | undefined;
 const devHours = items.filter((r) => r.scenario === "lean" && r.item.endsWith(": development")).reduce((s, r) => s + Number(r.hours), 0);
 const fbShare = (k: string) => Math.round((sum(k, (r) => r.item.startsWith("flexyBayes:")) / S[k].total_aud) * 100);
 const sens = Object.keys(S.lean.sensitivity);
@@ -72,14 +78,15 @@ const nPkg = Object.keys(summary.cocomo_cross_check.per_package_hours).length;
     <div class="section-head">
       <p class="kicker">Estimate · {summary.generated}</p>
       <h1>What it would cost to build</h1>
-      <p class="prose lead mt-2">Three ways the same software could have been built, each costed in Australian
-        dollars. These are estimates of what it would cost to build the software again, not money spent.</p>
+      <p class="prose lead mt-2">What it would cost to build the same software again, in Australian dollars. The
+        estimate is the realistic minimum team; a lean team and a commercial firm bound it below and above. These are
+        estimates of a rebuild, not money spent.</p>
     </div>
 
     <div class="grid grid-3">
       {keys.map((k) => (
-        <article class="card">
-          <p class="kicker">{name[k]}</p>
+        <article class={k === "realistic" ? "card featured" : "card"}>
+          <p class="kicker">{name[k]}{k === "realistic" ? " · the estimate" : k === "lean" ? " · lower bound" : " · upper bound"}</p>
           <p class="result-n">{aud(S[k].total_aud, 1000)}</p>
           <p class="small muted mt-1">All-low to all-high settings: {aud(S[k].band_aud.low, 1000)} to {aud(S[k].band_aud.high, 1000)}.
             {" "}{n0(S[k].person_months_cocomo_152h)} person-months ({S[k].person_years_1725h.toFixed(1)} person-years).</p>
@@ -93,10 +100,12 @@ const nPkg = Object.keys(summary.cocomo_cross_check.per_package_hours).length;
     <h2 class="mt-4">Method</h2>
     <p class="prose">The development effort for each piece of code comes from the {M.model} model (Boehm et al., 2000):
       person-months = {M.a} × (thousands of source lines)<sup>{M.exponent}</sup> × the product of the effort multipliers,
-      at {M.hours_per_person_month} hours per person-month. Size counts R lines that are not comments, plus C++ lines.
-      Tests and documentation are part of COCOMO's development effort; the measured test volume ({M.evidence.test_lines_per_source_line} test lines per source line,
-      {" "}{n0(M.evidence.tests)} tests) and the {M.evidence.vignettes} vignettes set required reliability
-      ({M.effort_multipliers.rely_high.toFixed(2)}) and documentation ({M.effort_multipliers.docu_high.toFixed(2)}) to high. Complexity is
+      at {M.hours_per_person_month} hours per person-month. Size is measured in logical statements, the unit COCOMO II
+      is calibrated on, counted in each package's R and C++ code at its latest release. Generated code, deprecated
+      functions kept only for older code, scratch scripts, tests and vignettes are not counted as size. Tests and
+      documentation are part of COCOMO's development effort ({n0(M.evidence.tests)} tests, {M.evidence.vignettes} vignettes);
+      required reliability and documentation are rated {M.effort_multipliers.rely_rating} and {M.effort_multipliers.docu_rating},
+      because COCOMO rates them by the cost of a failure and the fit to life-cycle needs, not by volume. Complexity is
       rated package by package. Method design adds
       {" "}{Math.round(M.design_share * 100)}% of each package's effort. Releases, data, study plans and reports,
       posters, publications and decision records are priced from their counts.</p>
@@ -108,7 +117,24 @@ const nPkg = Object.keys(summary.cocomo_cross_check.per_package_hours).length;
         {groups.map(([g, label]) => (
           <tr><th scope="row">{label}</th>{keys.map((k) => <td>{S[k].subtotals_by_group_aud[g] ? aud(S[k].subtotals_by_group_aud[g], 100) : "none"}</td>)}</tr>
         ))}
-        <tr><th scope="row">Total</th>{keys.map((k) => <td><strong>{aud(S[k].total_aud, 1000)}</strong></td>)}</tr>
+        <tr class="total"><th scope="row">Total</th>{keys.map((k) => <td><strong>{aud(S[k].total_aud, 1000)}</strong></td>)}</tr>
+      </tbody>
+    </table></div>
+
+    <h2 class="mt-4">Lines of code at release</h2>
+    <p class="prose">The final code of each package, counted at its latest release: {n0(totLines)} lines of R and C++
+      across {fleetRows.length} packages, holding {n0(totStmts)} logical statements. {n0(totExcluded)} lines of generated
+      and deprecated code are left out.</p>
+    <div class="table-scroll mt-1" tabindex="0" role="region" aria-label="Lines of code by package"><table class="num t-wide">
+      <thead><tr><th scope="col">Package</th><th scope="col">Release</th><th scope="col">R lines</th><th scope="col">C++ lines</th><th scope="col">Logical statements</th><th scope="col">Left out</th><th scope="col">Tests</th></tr></thead>
+      <tbody>
+        {fleetRows.sort((a, b) => stmts(b.package) - stmts(a.package)).map((r) => (
+          <tr><th scope="row">{r.package}</th><td>{/^v\d/.test(r.tag) ? r.tag : `${r.version} (untagged)`}</td><td>{n0(Number(r.r_loc_counted))}</td>
+            <td>{Number(r.src_loc_counted) ? n0(Number(r.src_loc_counted)) : "none"}</td><td>{n0(stmts(r.package))}</td>
+            <td>{Number(r.excluded_loc) ? n0(Number(r.excluded_loc)) : "none"}</td><td>{n0(Number(r.n_test_that))}</td></tr>))}
+        <tr class="total"><th scope="row">Total</th><td></td><td>{n0(fleetRows.reduce((s, r) => s + Number(r.r_loc_counted), 0))}</td>
+          <td>{n0(fleetRows.reduce((s, r) => s + Number(r.src_loc_counted), 0))}</td><td>{n0(totStmts)}</td><td>{n0(totExcluded)}</td>
+          <td>{n0(fleetRows.reduce((s, r) => s + Number(r.n_test_that), 0))}</td></tr>
       </tbody>
     </table></div>
 
@@ -116,10 +142,10 @@ const nPkg = Object.keys(summary.cocomo_cross_check.per_package_hours).length;
     <p class="prose">Development, method design and release work for each package. Complexity uses the COCOMO II
       rating: nominal, high, very high or extra high.</p>
     <div class="table-scroll mt-1" tabindex="0"><table class="num">
-      <thead><tr><th scope="col">Package</th><th scope="col">Source lines</th><th scope="col">Complexity</th>{keys.map((k) => <th scope="col">{name[k]}</th>)}</tr></thead>
+      <thead><tr><th scope="col">Package</th><th scope="col">Logical statements</th><th scope="col">Complexity</th>{keys.map((k) => <th scope="col">{name[k]}</th>)}</tr></thead>
       <tbody>{pkgs.map((x) => (
         <tr><th scope="row">{x.p === "orchestraManifest" ? "orchestraManifest (shared result format)" : x.p}</th>
-          <td>{Number.isFinite(lines(x.p)) ? n0(lines(x.p)) : "not measured"}</td><td>{rating[x.c.cplx] ?? x.c.cplx} ({x.c.mult})</td>
+          <td>{Number.isFinite(stmts(x.p)) ? n0(stmts(x.p)) : "not measured"}</td><td>{rating[x.c.cplx] ?? x.c.cplx} ({x.c.mult})</td>
           {keys.map((k) => <td>{aud(x.cost[k], 100)}</td>)}</tr>))}</tbody>
     </table></div>
     <ul class="prose small mt-2">{pkgs.filter((x) => x.c.cplx !== "N").map((x) => <li><strong>{x.p}</strong> ({rating[x.c.cplx] ?? x.c.cplx}): {x.c.reason}</li>)}</ul>
@@ -142,10 +168,11 @@ const nPkg = Object.keys(summary.cocomo_cross_check.per_package_hours).length;
         the commercial firm. The underlying work is the same {n0(S.lean.hours)} hours in each; the realistic team adds review
         and coordination, and the firm adds management, testing, writing, discovery and warranty.</li>
       <li><strong>Cross-check.</strong> COCOMO II with every driver at nominal gives {n0(summary.cocomo_cross_check.hours)}
-        {" "}development hours for the {nPkg - 1} packages and the shared result format package, against {n0(devHours)} here. The high reliability, documentation and
+        {" "}development hours for the {nPkg - 1} packages and the shared result format package, against {n0(devHours)} here. The
         complexity ratings raise the effort, and the skilled-team rating ({M.effort_multipliers.personnel_skilled}) brings it
         back below nominal.</li>
-      <li><strong>Cost per source line.</strong> Over {n0(S.lean.lines_counted)} source lines: ${S.lean.cost_per_line_aud.toFixed(2)}
+      <li><strong>Cost per logical statement.</strong> Over {n0(S.lean.lines_counted)} logical statements of package, study and
+        DataHub code: ${S.lean.cost_per_line_aud.toFixed(2)}
         {" "}(lean), ${S.realistic.cost_per_line_aud.toFixed(2)} (realistic) and ${S.commercial.cost_per_line_aud.toFixed(2)} (commercial).</li>
       <li><strong>Concentration.</strong> flexyBayes is {fbShare("lean")}% of the lean total, {fbShare("realistic")}% of the
         realistic total and {fbShare("commercial")}% of the commercial total.</li>
@@ -155,6 +182,11 @@ const nPkg = Object.keys(summary.cocomo_cross_check.per_package_hours).length;
       <thead><tr><th scope="col">Case</th>{keys.map((k) => <th scope="col">{name[k]}</th>)}</tr></thead>
       <tbody>{sens.map((s) => <tr><th scope="row">{sensLabel(s)}</th>{keys.map((k) => <td>{aud(S[k].sensitivity[s].total_aud, 1000)}</td>)}</tr>)}</tbody>
     </table></div>
+
+    {changes && (<>
+      <h2 class="mt-4">What changed since the estimate of 15 October 2026</h2>
+      <ul class="prose">{changes.map((c) => <li>{reword(c)}</li>)}</ul>
+    </>)}
 
     <h2 class="mt-4">Assumptions</h2>
     <ol class="prose">{assumptions.map((a) => <li>{a}</li>)}</ol>

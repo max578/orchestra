@@ -273,9 +273,19 @@ section:first-of-type { border-top: none; padding-top: var(--space-4); }
 .table-scroll { overflow-x: auto; border: var(--border); border-radius: var(--radius); background: var(--surface); }
 table { border-collapse: collapse; width: 100%; font-size: var(--step--1); }
 caption { text-align: left; padding: 1rem 1.2rem; color: var(--muted-s); font-family: var(--mono); font-size: var(--step--2); }
-th, td { padding: .7rem 1.1rem; text-align: left; border-top: var(--border); }
-thead th { color: var(--muted-s); font-family: var(--mono); font-weight: 400; font-size: .74rem; text-transform: uppercase; letter-spacing: .07em; }
-tbody tr:nth-child(even) { background: color-mix(in srgb, var(--paper) 45%, var(--surface)); }
+/* Journal-style rules: a heavy rule under the header and above a total row, a visible
+   hairline between rows, a clear stripe and a row highlight on hover. The first
+   column stays in view when a wide table scrolls sideways. */
+th, td { padding: .7rem 1.1rem; text-align: left; border-top: 1px solid color-mix(in srgb, var(--surface-ink) 13%, var(--surface)); }
+thead th { color: var(--muted-s); font-family: var(--mono); font-weight: 600; font-size: .74rem; text-transform: uppercase; letter-spacing: .07em;
+  border-top: 0; border-bottom: 2px solid color-mix(in srgb, var(--surface-ink) 55%, var(--surface)); vertical-align: bottom; }
+tbody tr:nth-child(even) { background: color-mix(in srgb, var(--surface-ink) 4.5%, var(--surface)); }
+tbody tr:hover { background: color-mix(in srgb, var(--accent) 9%, var(--surface)); }
+tbody th[scope="row"] { font-weight: 600; }
+tbody tr.total th, tbody tr.total td { border-top: 2px solid color-mix(in srgb, var(--surface-ink) 55%, var(--surface)); font-weight: 700; }
+.table-scroll thead th:first-child, .table-scroll tbody th[scope="row"] { position: sticky; left: 0; background: inherit; }
+.table-scroll thead th:first-child { background: var(--surface); }
+tbody tr { background: var(--surface); }
 table.num td:not(:first-child), table.num th:not(:first-child) { text-align: right; font-variant-numeric: tabular-nums; }
 
 /* ---- accordion catalogue ----------------------------------------------------- */
@@ -422,3 +432,16 @@ h2.mt-4 + :is(p, ul, ol, div, dl), h2.mt-3 + :is(p, ul, ol, div, dl) { margin-to
 .sketch-dot { fill: currentColor; }
 .sketch-q { stroke: currentColor; stroke-width: 1.5; stroke-dasharray: 3 3; fill: none; }
 .ex-fig img { border: var(--border); border-radius: var(--radius); background: #fff; }
+
+.card.featured { border: 2px solid var(--accent); }
+
+/* ---- hex roster (home page)---------------------------------------------------- */
+.hx-figure { margin: var(--space-3) 0 0; }
+.hx-roster { display: block; width: 100%; max-width: 64rem; height: auto; margin: 0 auto; }
+.hx .hx-face { transition: filter .2s ease, stroke-width .2s ease; }
+.hx:hover .hx-face, .hx:focus-visible .hx-face { filter: brightness(1.25); stroke-width: 12; }
+.hx:focus-visible { outline: none; }
+.hx-legend { list-style: none; padding: 0; margin: var(--space-3) 0 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr)); gap: .6rem 1.6rem; font-size: var(--step--1); }
+.hx-legend a { font-family: var(--mono); font-size: .92em; }
+.hx-dot { display: inline-block; width: .8em; height: .8em; border-radius: 50%; background: var(--c); margin-right: .45em; vertical-align: -.05em; }
+@media (prefers-reduced-motion: reduce) { .hx .hx-face { transition: none; } }

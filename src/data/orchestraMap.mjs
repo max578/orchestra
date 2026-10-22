@@ -240,16 +240,37 @@ export const edges = [...drawn, ...BUILD.map((b) => ({ ...b, kind: "build" }))];
 export const formatWriters = ["PESTO", "proxymix", "cdzoo", "optimix", "gpfield", "apsimR", "masque", "survkit"];
 export const formatReaders = ["kernR", "flexyBayes", "decideR", "grainPlan", "conductoR"];
 
-/** The worked example (E1), in the order of its plan; consecutive steps by one package are joined. */
-export const workedExample = [];
-for (const s of examples[0].compose.steps) {
-  const id = nodeIdOf(s.member);
-  const last = workedExample.at(-1);
-  if (last && last.id === id) last.text += ` ${s.does}`;
-  else workedExample.push({ id, text: s.does });
-}
+/** Each worked example's steps, in the order of its plan; consecutive steps by one package are joined. */
+const stepsOf = (ex) => {
+  const out = [];
+  for (const s of ex.compose.steps) {
+    const id = nodeIdOf(s.member);
+    const last = out.at(-1);
+    if (last && last.id === id) last.text += ` ${s.does}`;
+    else out.push({ id, text: s.does });
+  }
+  return out;
+};
+// num() of format.ts, repeated here because this file also runs under plain node for the poster
+const num = (x) => {
+  const a = Math.abs(x);
+  if (a >= 1000) return Math.round(x).toLocaleString("en-AU");
+  if (a >= 100) return x.toFixed(0);
+  if (a >= 10) return x.toFixed(1);
+  if (a >= 0.1 || a === 0) return x.toFixed(2);
+  return String(Number(x.toPrecision(2)));
+};
+const resultOf = (ex) => (ex.result.refused ? `No estimate released: ${ex.result.refusal_reason}`
+  : `${cap(ex.result.estimand)}: ${num(ex.result.estimate)} ${ex.result.unit} (${ex.result.interval_label}: ${num(ex.result.lo)} to ${num(ex.result.hi)}).`);
+/** Every worked example, for the scenario player on the home page. */
+export const workedExamples = examples.map((ex) => ({
+  source: { id: ex.id, slug: ex.slug, title: ex.title, data: ex.data.name, result: resultOf(ex) },
+  steps: stepsOf(ex),
+}));
+/** The worked example the members page plays (E1). */
+export const workedExample = workedExamples[0].steps;
 /** The example the worked example comes from. */
-export const workedExampleSource = { id: examples[0].id, slug: examples[0].slug, title: examples[0].title };
+export const workedExampleSource = workedExamples[0].source;
 
 /** Small drawings inside member nodes, in a 44 34 72 78 box; C stands for the section colour. */
 export const motifs = {
