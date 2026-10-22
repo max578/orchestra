@@ -40,7 +40,7 @@ const description = `${ex.title} Worked example ${ex.id} on ${d.name}: ${r.estim
           {" "}{withRange(a.estimate, a.lo, a.hi)} {a.unit ?? r.unit}. It sits beside the main result and does not replace it.</p>
       ))}
       <p class="small muted mt-1">{r.interval_label}. {returnWords[ex.return]}</p>
-      <p class="small muted mt-1">Agreement between the estimates: {ex.agreement.verdict}. Rule: {ex.agreement.rule}</p>
+      <p class="small muted mt-1">Agreement between the estimates: {ex.agreement.verdict}. Rule: {ex.agreement.rule}{ex.agreement.note ? ` ${ex.agreement.note}` : ""}</p>
     </div>
 
     {note.intro && <div class="prose mt-3">{note.intro.map((p) => <p class="mt-2">{p}</p>)}</div>}

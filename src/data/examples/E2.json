@@ -780,6 +780,7 @@
   ],
   "agreement": {
     "rule": "The three gain lenses agree when the largest pairwise difference of average gains is at most 0.010 Mg/kg and of site gains at most 0.020 Mg/kg (location only; spread is the lens_spread trigger).",
+    "note": "Two of the three, asreml and proxymix, give the same point estimate by construction: the proxymix step is a cell-means regression that adds a mixture fit of its residuals, so it checks the residual distribution rather than adding a third independent estimate. The agreement on location is between flexyBayes and asreml.",
     "verdict": "agree",
     "agreement_pass": true,
     "max_diff_avg": 0.0000223853119098588,
