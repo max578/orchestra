@@ -1,0 +1,133 @@
+---
+// The one study on the poster (v10_B_23): wheat sown in the Early against the Main window, NVT pairs.
+// Text and numbers are the poster's. The R script under public/code/ re-runs the main analysis
+// from the open data; its headline (src/data/study/c2_script_headline.csv) is shown beside the poster's.
+import Base from "../../layouts/Base.astro";
+import { href } from "../../data/site";
+import code from "../../../public/code/r_code_c2_sowing_window_v1_24Oct2026.R?raw";
+import headCsv from "../../data/study/c2_script_headline.csv?raw";
+
+const fileCode = "r_code_c2_sowing_window_v1_24Oct2026.R";
+const script = Object.fromEntries(headCsv.trim().split("\n").slice(1).map((l) => {
+  const m = l.match(/^(?:"([^"]*)"|([^,]*)),(?:"([^"]*)"|(.*))$/);
+  if (!m) throw new Error(`c2_script_headline.csv: unreadable line ${l}`);
+  return [m[1] ?? m[2], m[3] ?? m[4]];
+}));
+// poster figure against the script's output, quantity by quantity
+for (const k of ["pairs, sites (study set)", "days apart: min, median, max", "Main-window mean, t/ha", "average gain, t/ha (90% interval)",
+  "share of the Main-window mean", "north gain, t/ha (90% interval)", "south gain, t/ha (90% interval)", "chance of a gain on average",
+  "chance of a gain in the north", "chance of a gain, new paddock and season", "negative-control pairs, gain t/ha (90% interval)",
+  "price, $/t", "value, $/ha (90% interval)"])
+  if (!(k in script)) throw new Error(`c2_script_headline.csv: no row "${k}"`);
+const compare = [
+  ["Pairs and sites", "205 pairs at 46 sites", script["pairs, sites (study set)"].replace(", ", " pairs at ") + " sites"],
+  ["Days apart", "7 to 52 (median 19)", (() => { const [a, b, c] = script["days apart: min, median, max"].split(", "); return `${a} to ${c} (median ${b})`; })()],
+  ["Main-window mean", "3.8 t/ha", `${script["Main-window mean, t/ha"]} t/ha`],
+  ["Average gain", "0.22 t/ha (0.06 to 0.39)", `${script["average gain, t/ha (90% interval)"]}`.replace(" (", " t/ha (")],
+  ["Share of the Main-window mean", "6%", script["share of the Main-window mean"]],
+  ["Gain in the north", "0.12 t/ha (-0.06 to 0.30)", script["north gain, t/ha (90% interval)"].replace(" (", " t/ha (")],
+  ["Gain in southern NSW", "0.31 t/ha", script["south gain, t/ha (90% interval)"].replace(" (", " t/ha (")],
+  ["Chance of a gain on average", "98%", script["chance of a gain on average"]],
+  ["Chance of a gain in the north", "87%", script["chance of a gain in the north"]],
+  ["Chance of a gain, new paddock and season", "65%", script["chance of a gain, new paddock and season"]],
+  ["Pairs sown under a week apart", "82 pairs: 0.05 t/ha (-0.03 to 0.13)", script["negative-control pairs, gain t/ha (90% interval)"].replace(" (", " t/ha (")],
+  ["Wheat price, study seasons", "$261/t", `$${script["price, $/t"]}/t`],
+  ["Value of the average gain", "$58/ha ($15 to $103)", (() => { const m = script["value, $/ha (90% interval)"].match(/(\d+) \((\d+) to (\d+)\)/); return m ? `$${m[1]}/ha ($${m[2]} to $${m[3]})` : script["value, $/ha (90% interval)"]; })()],
+];
+---
+<Base title="Does wheat sown earlier yield more?" description="Same-paddock pairs of NVT wheat trials sown in the Early and the Main window, NSW and Queensland, 2008 to 2017: 0.22 t/ha more when sown early, worth $58/ha." path="/examples/sowing-time">
+  <section class="wrap">
+    <div class="section-head">
+      <p class="kicker">The study · open NVT results through DataHub</p>
+      <h1>Does wheat sown earlier yield more?</h1>
+      <p class="prose lead mt-2">Some NVT sites sow wheat twice in a season, side by side: an Early series ahead of the
+        usual sowing window and the Main series within it. The study uses these same-paddock pairs in NSW and Queensland,
+        2008 to 2017, from the NVT records compiled by Newman and Furbank (2021).</p>
+    </div>
+
+    <ol class="prose study-steps">
+      <li><strong>Pair.</strong> An Early and a Main trial of the same season on the same paddock form a pair, fixed
+        before any yield was read: 205 pairs at 46 sites, sown 7 to 52 days apart (median 19).</li>
+      <li><strong>Compare.</strong> Each variety grown in both trials gives one difference, Early yield minus Main yield.
+        Aggregated across the whole study, this leads to the Average Treatment Effect (ATE) estimation. The same
+        differences, aggregated separately for northern and southern paddocks, lead to Conditional ATE (CATE).</li>
+      <li><strong>Check the match.</strong> {"{kernR}"}'s permutation test found no evidence of a difference between Early
+        and Main trials in nitrogen applied by sowing.</li>
+      <li><strong>Negative control.</strong> 82 pairs sown under a week apart differed by 0.05 t/ha (-0.03 to 0.13), so
+        part of the gap may come from causes other than time spread.</li>
+    </ol>
+
+    <figure class="study-fig">
+      <img src={href("/figures/study/study_map_dag.webp")} width="2000" height="768" loading="lazy" decoding="async"
+        alt="Left, a map of the paired NVT sites in NSW and Queensland, split at 31.5 degrees south: 85 pairs in the north and 120 in the south. Right, a causal diagram: paddock, season and variety affect both the sowing window and trial yield; flowering, frost and heat sit between the sowing date and yield." />
+      <figcaption class="muted">Left: sites north and south of 31.5° S. Right: the Directed Acyclic Graph (DAG, Hernán and
+        Robins, 2020), simplified for expositional purposes. Paddock, season and variety normally affect both Sowing window
+        (the treatment) and Trial yield (the outcome) and are classical confounders. For the purposes of estimating causal
+        effect of Early versus Main time of sowing on yield, these factors have been fixed through the matched pairs
+        design, hence eliminating their confounding influence. Flowering, frost and heat themselves depend on the date
+        and are not adjusted for. The lower arrow in the DAG transmits the date's other effects: establishment, nitrogen,
+        and rain before sowing.</figcaption>
+    </figure>
+
+    <div class="card featured mt-3">
+      <p class="prose">On the same paddock and in the same season, the same variety is expected to yield 0.22 t/ha (6% of
+        the 3.8 t/ha Main-window mean) more when sown in the Early window than in the Main window. Further, a gain of
+        0.31 t/ha is expected in southern NSW, but only 0.12 t/ha in the northern paddocks. For the latter, the 90%
+        interval covers zero (-0.06 to 0.30), so a gain there is not established. Utilising the Bayesian posterior,
+        {" "}{"{flexyBayes}"} puts the chance of a gain there at 87%.</p>
+    </div>
+
+    <figure class="study-fig">
+      <img src={href("/figures/study/study_results.webp")} width="2000" height="449" loading="lazy" decoding="async"
+        alt="Early minus Main yield for all pairs, the north and the south, from flexyBayes, asreml, proxymix and APSIM calibrated with PESTO, with the chance of a gain from flexyBayes: 0.98, 0.87 and 0.99. Right, the value of the gain in dollars per hectare, on average and for a new paddock and season." />
+      <figcaption class="muted">Bars and ranges are 90% intervals; shaded curves are {"{flexyBayes}"} posteriors.</figcaption>
+    </figure>
+
+    <div class="prose">
+      <p><strong>The verdict.</strong> Early sowing gained 0.22 t/ha, worth $58/ha ($15 to $103) at $261/t (ABARES wheat
+        gross unit value, study seasons), provided early sowing does not cost extra. The average gain is positive with
+        98% probability. For a new paddock and season, which add their own variation, it is 65%.</p>
+      <p class="mt-2"><strong>Four estimates.</strong> {"{flexyBayes}"}, the main analysis: 0.22 t/ha (0.06 to 0.39).
+        {" "}{"{asreml}"} agrees: 0.23 (0.09 to 0.37). {"{proxymix}"}, without the normality assumption, agrees: 0.21 (0.15
+        to 0.28). APSIM, calibrated with {"{PESTO}"}, expected 0.13 t/ha (0.11 to 0.15).</p>
+    </div>
+  </section>
+
+  <section class="band" id="code"><div class="wrap">
+    <div class="section-head">
+      <p class="kicker">Run it yourself</p>
+      <h2>The main analysis in R</h2>
+      <p class="prose mt-2">One script re-runs the {"{flexyBayes}"} analysis from the open data, from the pairing to the
+        value of the gain. It needs the NVT tables of Newman and Furbank (2021) as DataHub holds them, ABARES Table 6 for
+        the price, and the packages arrow, data.table, flexyBayes (with INLA) and readxl. The {"{asreml}"},
+        {" "}{"{proxymix}"}, {"{kernR}"} and APSIM steps are not in it.</p>
+      <p class="cta-row"><a class="btn btn-accent" href={href(`/code/${fileCode}`)} download>Download the R script</a></p>
+    </div>
+
+    <h3>What a fresh run gives, beside the poster</h3>
+    <p class="prose muted mt-1">The run below used flexyBayes 0.18.1 on 24 October 2026. Posterior intervals and chances
+      come from 4,000 draws and move by about 0.01 t/ha and one percentage point between runs.</p>
+    <section class="table-scroll mt-2" tabindex="0" aria-label="Poster numbers against a fresh run of the script"><table class="num t-wide">
+      <thead><tr><th scope="col">Quantity</th><th scope="col">Poster</th><th scope="col">Fresh run</th></tr></thead>
+      <tbody>
+        {compare.map(([q, a, b]) => <tr><th scope="row">{q}</th><td>{a}</td><td>{b}</td></tr>)}
+      </tbody>
+    </table></section>
+
+    <details class="acc mt-3">
+      <summary><span>Show the script</span></summary>
+      <div class="acc-inner"><div class="table-scroll" tabindex="0"><pre class="code-block"><code>{code}</code></pre></div></div>
+    </details>
+  </div></section>
+
+  <section class="wrap">
+    <h2>References</h2>
+    <ul class="prose refs">
+      <li>ABARES (2026). Agricultural commodities: September quarter 2026, statistical tables, Table 6. Australian Bureau of Agricultural and Resource Economics and Sciences.</li>
+      <li>Hernán, M. A., &amp; Robins, J. M. (2020). Causal inference: What if. Chapman &amp; Hall/CRC.</li>
+      <li>Newman, S. J., &amp; Furbank, R. T. (2021). A multiple species, continent-wide, million-phenotype agronomic plant dataset. Scientific Data, 8, 116. <a href="https://doi.org/10.1038/s41597-021-00898-8">https://doi.org/10.1038/s41597-021-00898-8</a> (author correction: Scientific Data, 9, 437, 2022)</li>
+      <li>Sparks, A. (2026). read.abares: Read data from ABARES and ABS (R package version 3.0.0). <a href="https://docs.ropensci.org/read.abares/">https://docs.ropensci.org/read.abares/</a></li>
+      <li>The VSNi Team (2026). asreml: Fits linear mixed models using REML (R package version 4.2.0.482). VSN International.</li>
+    </ul>
+  </section>
+</Base>

@@ -1,5 +1,6 @@
-// Grounded roster. Visibility re-read 2026-10-24: anonymous `git ls-remote` on each
-// max578 repo and the max578.r-universe.dev package list.
+// Grounded roster. Membership, roles and grouping follow the poster (v10_B_23, 2026-10-24).
+// Visibility re-read 2026-10-24: anonymous `git ls-remote` on each max578 repo and the
+// max578.r-universe.dev package list; flexyBayes and quorum shown in development, as on the poster.
 // Earlier record follows. Membership follows the roster decision of 2026-09-25:
 // the ratified Core 9 and Supporting 6, the orchestration engine (conductoR),
 // and two members joined that day (bacipair, survkit). Visibility and repo
@@ -43,7 +44,6 @@ export interface Advantage {
 
 const PUBLIC: Install = { github: true, runiverse: true };
 const NOT_YET: Install = { github: false, runiverse: false };
-const GITHUB_ONLY: Install = { github: true, runiverse: false };
 
 export const members: Member[] = [
   // Core 9
@@ -58,10 +58,10 @@ export const members: Member[] = [
       { text: "Needs no paid licence: it fits with the free engines brms and INLA.", status: "claimed" },
       { text: "Refuses by name a model it cannot fit faithfully, rather than fitting a different one.", status: "claimed" },
     ] },
-  { id: "quorum", tier: "member", role: "Combining estimates",
+  { id: "quorum", tier: "member", role: "Combines estimates",
     method: "Combines independent estimates of one quantity into a verdict, or reports that they disagree.",
     guard: "Gives no verdict when too few independent estimates agree, or when an estimate falls outside its stated scope.",
-    visibility: "public", repo: "max578/quorum", install: GITHUB_ONLY,
+    visibility: "gated", install: NOT_YET,
     work: "Adding more packages as sources of independent estimates, among them proxymix, gpfield and optimix.",
     alternatives: ["loo", "performance", "multiverse", "BAS"],
     advantages: [
@@ -89,7 +89,7 @@ export const members: Member[] = [
       { text: "Shows the grower no number when the evidence behind it was rejected earlier in the analysis.", status: "claimed" },
       { text: "Records where each figure in the plan came from.", status: "claimed" },
     ] },
-  { id: "apsimR", tier: "member", role: "Crop simulation",
+  { id: "apsimR", tier: "member", role: "Runs APSIM from R",
     method: "Runs the APSIM Next Generation crop simulator from R.",
     guard: "Says so and stops when APSIM is not installed.",
     visibility: "public", repo: "max578/apsimR", install: PUBLIC,
@@ -98,7 +98,7 @@ export const members: Member[] = [
     advantages: [
       { text: "Includes a test bench of simulated experiments with a known treatment effect, for checking causal methods before they meet field data.", status: "claimed" },
     ] },
-  { id: "PESTO", tier: "member", role: "Fitting a simulator to the field",
+  { id: "PESTO", tier: "member", role: "Fits a crop simulator to field data",
     method: "Fits a crop simulator to field observations with the ensemble methods of PEST++, and keeps what remains uncertain.",
     guard: "Checks that the observations can support the number of settings being fitted before it runs.",
     visibility: "public", repo: "max578/PESTO", install: PUBLIC,
@@ -109,7 +109,7 @@ export const members: Member[] = [
       { text: "Runs the calibration inside R, without exchanging files with the simulator.", status: "claimed" },
       { text: "Declines a calibration with more settings than the observations can support.", status: "claimed" },
     ] },
-  { id: "kernR", tier: "member", role: "Testing whole distributions",
+  { id: "kernR", tier: "member", role: "Tests whole distributions",
     method: "Tests whether a treatment changes the whole distribution of an outcome, not only its mean.",
     guard: "Gives no verdict when the sample is too small to test reliably.",
     visibility: "public", repo: "max578/kernR", install: PUBLIC,
@@ -121,7 +121,7 @@ export const members: Member[] = [
       { text: "Its fast version was the only test compared whose run time grew close to linearly with sample size.", status: "tested" },
       { text: "Tests field data against a crop model's own predictions with its mechanism-consistency test, a method in development, unpublished.", status: "claimed" },
     ] },
-  { id: "terroir", tier: "member", role: "Climate, soil and farm data",
+  { id: "terroir", tier: "member", role: "Climate, soil and farm data with their sources",
     method: "Fetches climate, weather, soil, elevation and farm-economics data for any location, and records where every value came from.",
     guard: "Returns a recorded refusal, not a guess, when a value cannot be traced to its source.",
     visibility: "public", repo: "max578/terroir", install: PUBLIC,
@@ -131,7 +131,7 @@ export const members: Member[] = [
       { text: "Every figure carries its source and date, and can be fetched again with the same result.", status: "claimed" },
       { text: "A figure that cannot be traced to its source is refused, with the reason.", status: "claimed" },
     ] },
-  { id: "masque", tier: "member", role: "Masked copies of data tables",
+  { id: "masque", tier: "member", role: "Synthetic copies of private data",
     method: "Makes a masked copy of a data table that keeps its experimental design, so an analysis plan can be written and tested before anyone uses the real data.",
     guard: "Refuses to hand over a copy when it finds that real values could be recovered from it, or that a location was left unmasked.",
     visibility: "public", repo: "max578/masque", install: PUBLIC,
@@ -143,7 +143,7 @@ export const members: Member[] = [
     ] },
 
   // Supporting 6
-  { id: "koine", tier: "member", role: "A fourth opinion",
+  { id: "koine", tier: "member", role: "An independent second analysis",
     method: "Cross-checks a fit with several other inference methods, and gives no result when they add nothing.",
     guard: "Works only with normally distributed errors in multi-environment trials; for other kinds of data it gives no answer.",
     visibility: "public", repo: "max578/koine", install: PUBLIC,
@@ -164,7 +164,7 @@ export const members: Member[] = [
       { text: "Runs sixteen published algorithms in one format and compares them on the same data.", status: "claimed" },
       { text: "Recommends a structure with its reasons and the alternatives, rather than choosing silently.", status: "claimed" },
     ] },
-  { id: "proxymix", tier: "member", role: "Simplifying distributions",
+  { id: "proxymix", tier: "member", role: "Simplifies distributions",
     method: "Replaces a complicated distribution with a small mixture of bell curves and states the information lost.",
     guard: "Refuses to predict for treatment levels outside those it was fitted on.",
     visibility: "public", repo: "max578/proxymix", install: PUBLIC,
@@ -175,7 +175,7 @@ export const members: Member[] = [
       { text: "Fits a mixture to a distribution that can be evaluated but not sampled.", status: "claimed" },
       { text: "Later calculations run on the mixture itself: shift, update, condition and filter through time.", status: "claimed" },
     ] },
-  { id: "optimix", tier: "member", role: "Choosing an optimiser",
+  { id: "optimix", tier: "member", role: "Chooses an optimiser",
     method: "Gives one problem to many optimisers and picks the best for it.",
     guard: "Says so when its mapping method cannot handle a problem with that many dimensions.",
     visibility: "public", repo: "max578/optimix", install: PUBLIC,
@@ -185,7 +185,7 @@ export const members: Member[] = [
       { text: "With a tight evaluation budget, its automatic choice solved more test problems than the best single solver, 63 against 56 per cent. With a generous budget the best single solver did better.", status: "tested" },
       { text: "Every solver gets the same number of evaluations, so the comparison is fair.", status: "claimed" },
     ] },
-  { id: "gpfield", tier: "member", role: "Mapping a field",
+  { id: "gpfield", tier: "member", role: "Maps a field",
     method: "Maps a field variable from point samples to paddock or regional averages.",
     guard: "Gives no prediction when the samples are too sparse or too far away to support it.",
     visibility: "public", repo: "max578/gpfield", install: PUBLIC,
@@ -208,7 +208,7 @@ export const members: Member[] = [
     ] },
 
   // Orchestration engine
-  { id: "conductoR", tier: "member", role: "Running an analysis plan",
+  { id: "conductoR", tier: "member", role: "Runs an analysis plan",
     method: "Runs an analysis plan step by step, checking that each result handed from one package to the next is the right kind.",
     visibility: "public", repo: "max578/conductoR", install: PUBLIC,
     work: "Its name clashes with an existing CRAN package, so it needs a new name before a CRAN release. The example plans it ships show the format but do not yet run end to end.",
@@ -239,17 +239,6 @@ export const members: Member[] = [
       { text: "Checks whether enough events were observed to trust the model, and can return a refusal instead of a fit.", status: "tested" },
       { text: "Compares several time-to-event methods on the same data through one function.", status: "claimed" },
     ] },
-  // janusplot joined 2026-10-19 as the shape screen of the worked examples. Public status read live that day:
-  // CRAN 0.1.1 (published 2026-07-02) and github.com/max578/janusplot; 0.2.0 on max578.r-universe.dev
-  // (read 2026-10-24).
-  { id: "janusplot", tier: "member", role: "Shapes of associations",
-    method: "Draws a matrix of smoothed associations between continuous variables, each pair fitted in both directions with mgcv, and names the shape of every fitted curve from a list of 24.",
-    visibility: "public", repo: "max578/janusplot", install: { github: true, runiverse: true, cran: true },
-    alternatives: ["corrplot", "GGally"],
-    advantages: [
-      { text: "Shows heteroscedasticity, leverage and curvature in one direction that a single correlation hides.", status: "claimed" },
-    ] },
-
   // Invited members: packages by other authors that the orchestra uses
   { id: "nasapower", tier: "external", role: "Weather",
     method: "R package that downloads daily weather for any location from NASA POWER; terroir uses it.",
@@ -275,22 +264,21 @@ export const members: Member[] = [
   { id: "acir", tier: "external", role: "Causal information rate",
     method: "The method authors' R package for the causal information rate; kalmix checks its results against it.",
     visibility: "external" },
-  { id: "agridat", tier: "external", role: "Published trials",
-    method: "R package of published agricultural field-trial datasets; conductoR's guide uses one.",
-    visibility: "external" },
-  { id: "targets", tier: "external", role: "Pipelines",
-    method: "R package for pipelines that re-run only the steps whose inputs changed; a conductoR plan can run as one.",
+  { id: "asreml", tier: "external", role: "Benchmark mixed models",
+    method: "Commercial R package from VSN International that fits linear mixed models by REML; the study uses it as the benchmark for flexyBayes.",
     visibility: "external" },
 ];
 
 // DataHub, the orchestra's data catalogue: on the map in the data section; not an R package. Counts read from DataHub's
-// catalogue by ORCHESTRA_dev/poster/aagi/datahub_numbers.R (held datasets only).
+// catalogue for the poster (v10_B_22 recount, 2026-10-24; held datasets only).
 export const dataHub = {
   id: "DataHub",
   role: "In the orchestra · data catalogue",
   method: "Holds open datasets for testing analyses, each with its source and licence, and finds the datasets that can answer a given question.",
-  nDatasets: 81,
-  nAustralia: 15,
+  nDatasets: 101,
+  nAustralia: 27,
+  nAwaiting: 55,
+  nQuestionKinds: 8,
 };
 
 export const tiers = {
@@ -311,3 +299,14 @@ export const installBlock = (m: Member): { lines: string[]; note?: string } => {
   if (lines.length === 0) return { lines, note: "public release in preparation" };
   return { lines };
 };
+
+// The poster's grouping of the roster, in its order; colours are the hexagon borders.
+export const posterGroups = [
+  { label: "Data and privacy", color: "#56B4E9", ids: ["terroir", "masque", "DataHub"] },
+  { label: "Crop simulation", color: "#E69F00", ids: ["apsimR", "PESTO"] },
+  { label: "Causal, spatial and time series", color: "#009E73", ids: ["kernR", "cdzoo", "bacipair", "gpfield", "kalmix"] },
+  { label: "Statistics and consensus", color: "#0072B2", ids: ["flexyBayes", "koine", "quorum", "survkit"] },
+  { label: "Approximation and optimisation", color: "#CC79A7", ids: ["proxymix", "optimix"] },
+  { label: "Decisions", color: "#D55E00", ids: ["decideR", "grainPlan"] },
+  { label: "At the centre", color: "#F0E442", ids: ["conductoR"] },
+];

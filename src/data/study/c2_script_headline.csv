@@ -1,0 +1,14 @@
+quantity,value
+"pairs, sites (study set)","205, 46"
+"days apart: min, median, max","7, 19, 52"
+"Main-window mean, t/ha",3.8
+"average gain, t/ha (90% interval)",0.22 (0.06 to 0.38)
+share of the Main-window mean,6%
+"north gain, t/ha (90% interval)",0.12 (-0.07 to 0.31)
+"south gain, t/ha (90% interval)",0.31 (0.13 to 0.49)
+chance of a gain on average,98%
+chance of a gain in the north,86%
+"chance of a gain, new paddock and season",65%
+"negative-control pairs, gain t/ha (90% interval)",82 pairs: 0.05 (-0.03 to 0.13)
+"price, $/t",261
+"value, $/ha (90% interval)",58 (15 to 100)

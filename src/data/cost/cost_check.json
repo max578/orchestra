@@ -1,0 +1,18 @@
+{
+  "read": "2026-10-25",
+  "hours_per_year": 1725,
+  "hours_per_year_source": "ANU Enterprise Agreement 2023-2026, clause 52 (workloads)",
+  "on_cost": 0.30,
+  "on_cost_source": "ARC-funded on-cost rate, as in rates.csv",
+  "checks": [
+    { "label": "University research academic, Level C (UQ ARC103)", "salary_aud": 154794.31,
+      "source": "University of Queensland, research academic pay scales, effective 11 July 2026",
+      "url": "https://about.uq.edu.au/careers/why-work-uq/pay-scales/research-academic" },
+    { "label": "University research academic, Level D, top step (UQ ARD104)", "salary_aud": 193070.79,
+      "source": "University of Queensland, research academic pay scales, effective 11 July 2026",
+      "url": "https://about.uq.edu.au/careers/why-work-uq/pay-scales/research-academic" },
+    { "label": "Average full-time adult, all industries (ABS)", "salary_aud": 108650.37,
+      "source": "ABS, Average Weekly Earnings, Australia, May 2026: $2,083.70 a week (seasonally adjusted), times 52.143",
+      "url": "https://www.abs.gov.au/statistics/labour/earnings-and-working-conditions/average-weekly-earnings-australia/latest-release" }
+  ]
+}

@@ -445,3 +445,16 @@ h2.mt-4 + :is(p, ul, ol, div, dl), h2.mt-3 + :is(p, ul, ol, div, dl) { margin-to
 .hx-legend a { font-family: var(--mono); font-size: .92em; }
 .hx-dot { display: inline-block; width: .8em; height: .8em; border-radius: 50%; background: var(--c); margin-right: .45em; vertical-align: -.05em; }
 @media (prefers-reduced-motion: reduce) { .hx .hx-face { transition: none; } }
+
+/* poster drawings (introduction) and the study page */
+.poster-figure { margin: var(--space-3) 0 0; background: #fff; border-radius: var(--radius); padding: 1rem; }
+.poster-svg { display: block; width: 100%; height: auto; max-width: 64rem; margin: 0 auto; }
+.study-flow { display: grid; gap: 1.5rem; grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); align-items: start; }
+@media (max-width: 56rem) { .study-flow { grid-template-columns: 1fr; } }
+.flow-steps { margin: var(--space-3) 0 0; padding-left: 1.6rem; display: grid; gap: .55rem; font-size: var(--step--1); }
+.study-steps { display: grid; gap: .7rem; padding-left: 1.4rem; }
+.study-fig { margin: var(--space-3) 0 0; }
+.study-fig img { display: block; width: 100%; height: auto; background: #fff; border-radius: var(--radius); }
+.study-fig figcaption { margin-top: .7rem; font-size: var(--step--1); max-width: var(--measure); }
+.code-block { font-family: var(--mono); font-size: var(--step--2); line-height: 1.5; tab-size: 4; margin: 0; white-space: pre; }
+.refs { display: grid; gap: .5rem; padding-left: 1.2rem; font-size: var(--step--1); }

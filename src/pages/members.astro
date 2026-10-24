@@ -1,7 +1,6 @@
 ---
 import Base from "../layouts/Base.astro";
-import { tiers, dataHub, installBlock, type Member } from "../data/members";
-import OrchestraMap from "../components/OrchestraMap.astro";
+import { tiers, dataHub, installBlock, posterGroups, type Member } from "../data/members";
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "CollectionPage",
@@ -9,33 +8,37 @@ const jsonLd = {
   hasPart: tiers.member.map((m) => ({ "@type": "SoftwareSourceCode", name: m.id, description: m.role })),
 };
 const label = { public: "public", gated: "under development", private: "private", disabled: "private · disabled", unspecified: "not public", candidate: "candidate", external: "external" };
+// the poster's groups, in its order; DataHub has its own card above the lists
+const byId = Object.fromEntries(tiers.member.map((m) => [m.id, m]));
 const sectionsOf = [
-  { tier: "member" as const, id: "full", title: "Full members",
-    intro: `The ${tiers.member.length} packages of the orchestra. Open one to see what it does, when it gives no result, the work still to do, its nearest alternatives and its advantages. An advantage marked tested has a recorded result behind it. One marked claimed has no recorded result yet.` },
-  { tier: "external" as const, id: "invited", title: "Invited members",
-    intro: "Packages by other authors that the orchestra uses. Listing them implies no affiliation." },
+  ...posterGroups.map((g, i) => ({ external: false, id: `group-${i + 1}`, title: g.label, color: g.color, intro: "",
+    list: g.ids.filter((id) => id !== "DataHub").map((id) => byId[id]) })),
+  { external: true, id: "invited", title: "Packages from outside the Orchestra", color: "",
+    intro: "Packages by other authors that Orchestra members use. Listing them implies no affiliation.", list: tiers.external },
 ];
+if (sectionsOf.reduce((s, x) => s + (x.external ? 0 : x.list.length), 0) !== tiers.member.length || sectionsOf.some((x) => x.list.some((m) => !m)))
+  throw new Error("members.astro: the poster groups and the member list differ");
 const searchText = (m: Member) =>
   [m.id, m.role, m.method, m.guard, m.work, ...(m.alternatives ?? []), ...(m.advantages ?? []).map((a) => a.text)]
     .filter(Boolean).join(" ").toLowerCase();
 ---
-<Base title="Members" description={`The ${tiers.member.length} full members of the orchestra, its data catalogue DataHub, and the ${tiers.external.length} packages by other authors it uses.`} path="/members" jsonLd={jsonLd}>
+<Base title="Members" description={`The ${tiers.member.length} packages of the orchestra, its data catalogue DataHub, and the ${tiers.external.length} packages by other authors its members use.`} path="/members" jsonLd={jsonLd}>
   <section class="wrap">
     <div class="section-head">
       <p class="kicker">The catalogue</p>
       <h1>Members</h1>
-      <p class="prose muted mt-2">The map shows how the packages connect. The lists under it give each
-        package's details, with the install line wherever the package is public.</p>
+      <p class="prose muted mt-2">The {tiers.member.length} packages of the orchestra, grouped by role as on the
+        introduction page. Open one to see what it does, when it gives no result, the work still to do, its nearest
+        alternatives and its advantages, with the install line wherever the package is public. An advantage marked
+        tested has a recorded result behind it. One marked claimed has no recorded result yet.</p>
     </div>
-
-    <OrchestraMap />
 
     <div class="card mt-3" id="datahub">
       <p class="kicker">{dataHub.role}</p>
       <h2 class="mt-1">{dataHub.id}</h2>
       <p class="prose mt-2">{dataHub.method} It holds {dataHub.nDatasets} open datasets,{" "}
-        {dataHub.nAustralia} of them Australian. It sits on the map in the data section, beside terroir and
-        masque. It is a catalogue, not an R package.</p>
+        {dataHub.nAustralia} of them Australian, and {dataHub.nAwaiting} more are listed and awaiting access. It sits
+        in the data and privacy group, beside {"{terroir}"} and {"{masque}"}. It is a catalogue, not an R package.</p>
     </div>
 
     <div class="cat-tools" data-cat-tools hidden>
@@ -48,19 +51,19 @@ const searchText = (m: Member) =>
 
     {sectionsOf.map((sec) => (
       <div data-tier id={sec.id}>
-        <h2 class="tier-title">{sec.title}</h2>
-        <p class="prose muted tier-intro">{sec.intro}</p>
+        <h2 class="tier-title">{sec.color && <span class="hx-dot" style={`--c:${sec.color}`}></span>}{sec.title}</h2>
+        {sec.intro && <p class="prose muted tier-intro">{sec.intro}</p>}
         <div>
-          {tiers[sec.tier].map((m) => (
+          {sec.list.map((m) => (
             <details class="acc" id={`pkg-${m.id.replace(/[^A-Za-z0-9_-]/g, "-")}`} data-acc data-text={searchText(m)}>
               <summary>
                 <span class="acc-chev" aria-hidden="true">
                   <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5.5 3l5 5-5 5" /></svg>
                 </span>
-                <span><span class="acc-id">{m.id}</span>
+                <span><span class="acc-id">{`{${m.id}}`}</span>
                   <span class="acc-role"> — {m.role}</span></span>
                 <span class="acc-badges">
-                  <span class={`badge ${m.visibility}`}>{sec.tier === "external" ? "invited" : label[m.visibility]}</span>
+                  <span class={`badge ${m.visibility}`}>{sec.external ? "outside package" : label[m.visibility]}</span>
                 </span>
               </summary>
               <div class="acc-inner">
