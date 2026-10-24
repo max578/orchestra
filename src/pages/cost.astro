@@ -125,7 +125,7 @@ const nPkg = Object.keys(summary.cocomo_cross_check.per_package_hours).length;
     <p class="prose">The final code of each package, counted at its latest release: {n0(totLines)} lines of R and C++
       across {fleetRows.length} packages, holding {n0(totStmts)} logical statements. {n0(totExcluded)} lines of generated
       and deprecated code are left out.</p>
-    <div class="table-scroll mt-1" tabindex="0" role="region" aria-label="Lines of code by package"><table class="num t-wide">
+    <section class="table-scroll mt-1" tabindex="0" aria-label="Lines of code by package"><table class="num t-wide">
       <thead><tr><th scope="col">Package</th><th scope="col">Release</th><th scope="col">R lines</th><th scope="col">C++ lines</th><th scope="col">Logical statements</th><th scope="col">Left out</th><th scope="col">Tests</th></tr></thead>
       <tbody>
         {fleetRows.sort((a, b) => stmts(b.package) - stmts(a.package)).map((r) => (
@@ -136,7 +136,7 @@ const nPkg = Object.keys(summary.cocomo_cross_check.per_package_hours).length;
           <td>{n0(fleetRows.reduce((s, r) => s + Number(r.src_loc_counted), 0))}</td><td>{n0(totStmts)}</td><td>{n0(totExcluded)}</td>
           <td>{n0(fleetRows.reduce((s, r) => s + Number(r.n_test_that), 0))}</td></tr>
       </tbody>
-    </table></div>
+    </table></section>
 
     <h2 class="mt-4">By package</h2>
     <p class="prose">Development, method design and release work for each package. Complexity uses the COCOMO II

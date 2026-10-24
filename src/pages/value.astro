@@ -119,7 +119,7 @@ const ageOf = (s: any) => `${n0(s.area_at_peak_ha)} ha (${pct(s.adoption_ceiling
     </figure>
 
     <h2 class="mt-4">The scenarios in full</h2>
-    <div class="table-scroll mt-1" tabindex="0" role="region" aria-label="Scenario inputs and results"><table class="num t-wide">
+    <section class="table-scroll mt-1" tabindex="0" aria-label="Scenario inputs and results"><table class="num t-wide">
       <thead><tr><th scope="col"></th>{S.map((s) => <th scope="col">{label(s)}</th>)}</tr></thead>
       <tbody>
         <tr><th scope="row">Area reached</th>{S.map((s) => <td>{ageOf(s)}</td>)}</tr>
@@ -131,7 +131,7 @@ const ageOf = (s: any) => `${n0(s.area_at_peak_ha)} ha (${pct(s.adoption_ceiling
         <tr class="total"><th scope="row">Present value, 30 years</th>{S.map((s) => <td>{money(s.pv30_aud.central)}</td>)}</tr>
         <tr><th scope="row">Same, at 7% a year</th>{S.map((s) => <td>{money(s.pv30_central_at_7pct_aud)}</td>)}</tr>
       </tbody>
-    </table></div>
+    </table></section>
     <p class="prose small muted mt-2">For scale: Australian wheat is forecast at {money(C.gross_value_wheat_2026_27_aud_m * 1e6)} in
       2026–27, and grains, oilseeds and pulses at {money(C.gross_value_grains_oilseeds_pulses_2026_27_aud_m * 1e6)}. GRDC invests
       about ${C.grdc_rde_investment_aud_m_per_year} million a year in research, with a median benefit-cost ratio of

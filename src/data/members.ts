@@ -1,4 +1,6 @@
-// Grounded roster. Membership follows the roster decision of 2026-09-25:
+// Grounded roster. Visibility re-read 2026-10-24: anonymous `git ls-remote` on each
+// max578 repo and the max578.r-universe.dev package list.
+// Earlier record follows. Membership follows the roster decision of 2026-09-25:
 // the ratified Core 9 and Supporting 6, the orchestration engine (conductoR),
 // and two members joined that day (bacipair, survkit). Visibility and repo
 // links are from a read-only `gh repo list max578` on 2026-09-25 (kalmix,
@@ -59,7 +61,7 @@ export const members: Member[] = [
   { id: "quorum", tier: "member", role: "Combining estimates",
     method: "Combines independent estimates of one quantity into a verdict, or reports that they disagree.",
     guard: "Gives no verdict when too few independent estimates agree, or when an estimate falls outside its stated scope.",
-    visibility: "private", install: NOT_YET,
+    visibility: "public", repo: "max578/quorum", install: GITHUB_ONLY,
     work: "Adding more packages as sources of independent estimates, among them proxymix, gpfield and optimix.",
     alternatives: ["loo", "performance", "multiverse", "BAS"],
     advantages: [
@@ -90,7 +92,7 @@ export const members: Member[] = [
   { id: "apsimR", tier: "member", role: "Crop simulation",
     method: "Runs the APSIM Next Generation crop simulator from R.",
     guard: "Says so and stops when APSIM is not installed.",
-    visibility: "private", install: NOT_YET,
+    visibility: "public", repo: "max578/apsimR", install: PUBLIC,
     work: "Connecting it to conductoR, so that a plan can run APSIM as one of its steps.",
     alternatives: ["apsimx", "CroptimizR", "apsimNGpy (Python)"],
     advantages: [
@@ -122,7 +124,7 @@ export const members: Member[] = [
   { id: "terroir", tier: "member", role: "Climate, soil and farm data",
     method: "Fetches climate, weather, soil, elevation and farm-economics data for any location, and records where every value came from.",
     guard: "Returns a recorded refusal, not a guess, when a value cannot be traced to its source.",
-    visibility: "private", install: NOT_YET,
+    visibility: "public", repo: "max578/terroir", install: PUBLIC,
     work: "Adding a grain-price source. Lower and upper soil estimates from SoilGrids are not available from that service.",
     alternatives: ["nasapower", "soilDB", "elevatr", "weatherOz"],
     advantages: [
@@ -144,7 +146,7 @@ export const members: Member[] = [
   { id: "koine", tier: "member", role: "A fourth opinion",
     method: "Cross-checks a fit with several other inference methods, and gives no result when they add nothing.",
     guard: "Works only with normally distributed errors in multi-environment trials; for other kinds of data it gives no answer.",
-    visibility: "private", install: NOT_YET,
+    visibility: "public", repo: "max578/koine", install: PUBLIC,
     work: "Correcting a known bias in one model-comparison score for random-effects models. Very large multi-environment trials are still too slow to fit.",
     alternatives: ["lme4", "glmmTMB", "brms", "loo"],
     advantages: [
@@ -155,8 +157,8 @@ export const members: Member[] = [
   { id: "cdzoo", tier: "member", role: "Causal discovery",
     method: "Puts sixteen causal-discovery algorithms behind one interface and suggests one for the data.",
     guard: "Gives no suggestion when the evidence does not favour one algorithm.",
-    visibility: "private", install: NOT_YET,
-    work: "Preparing a public release. Methods that mix kinds of data are held back until a study shows they work.",
+    visibility: "public", repo: "max578/cdzoo", install: PUBLIC,
+    work: "Methods that mix kinds of data are held back until a study shows they work.",
     alternatives: ["pcalg", "bnlearn", "causal-learn (Python)", "gCastle (Python)"],
     advantages: [
       { text: "Runs sixteen published algorithms in one format and compares them on the same data.", status: "claimed" },
@@ -176,8 +178,8 @@ export const members: Member[] = [
   { id: "optimix", tier: "member", role: "Choosing an optimiser",
     method: "Gives one problem to many optimisers and picks the best for it.",
     guard: "Says so when its mapping method cannot handle a problem with that many dimensions.",
-    visibility: "private", install: NOT_YET,
-    work: "Adding problems with whole-number and mixed settings, and preparing a public release.",
+    visibility: "public", repo: "max578/optimix", install: PUBLIC,
+    work: "Adding problems with whole-number and mixed settings.",
     alternatives: ["optimx", "nloptr", "DEoptim", "GenSA"],
     advantages: [
       { text: "With a tight evaluation budget, its automatic choice solved more test problems than the best single solver, 63 against 56 per cent. With a generous budget the best single solver did better.", status: "tested" },
@@ -197,7 +199,7 @@ export const members: Member[] = [
   { id: "kalmix", tier: "member", role: "Series over time",
     method: "Does Kalman filtering, regime switching and change-point detection on series over time, and checks its causal information rate against the method authors' acir package.",
     guard: "Gives no causal reading when the time-series model does not fit the series.",
-    visibility: "public", repo: "max578/kalmix", install: GITHUB_ONLY,
+    visibility: "public", repo: "max578/kalmix", install: PUBLIC,
     work: "A change to how the causal information rate is scaled is due in the next release.",
     alternatives: ["KFAS", "dlm", "bsts", "changepoint"],
     advantages: [
@@ -208,7 +210,7 @@ export const members: Member[] = [
   // Orchestration engine
   { id: "conductoR", tier: "member", role: "Running an analysis plan",
     method: "Runs an analysis plan step by step, checking that each result handed from one package to the next is the right kind.",
-    visibility: "public", repo: "max578/conductoR", install: GITHUB_ONLY,
+    visibility: "public", repo: "max578/conductoR", install: PUBLIC,
     work: "Its name clashes with an existing CRAN package, so it needs a new name before a CRAN release. The example plans it ships show the format but do not yet run end to end.",
     alternatives: ["targets", "drake"],
     advantages: [
@@ -220,7 +222,7 @@ export const members: Member[] = [
   { id: "bacipair", tier: "member", role: "Before and after comparisons",
     method: "Compares treated sites with matched control sites, before and after a change.",
     guard: "Its synthetic-control estimate is withheld when there are too few control sites or too few years before the change.",
-    visibility: "public", repo: "max578/bacipair", install: GITHUB_ONLY,
+    visibility: "public", repo: "max578/bacipair", install: PUBLIC,
     work: "It does not yet write the shared result format. It was built for carbon-offset audits, and its uses in grain are still to be shown.",
     alternatives: ["did", "fixest", "Synth", "tidysynth"],
     advantages: [
@@ -230,7 +232,7 @@ export const members: Member[] = [
   { id: "survkit", tier: "member", role: "Time to an event",
     method: "Analyses time-to-event data through one interface.",
     guard: "Warns when too few events were observed, and gives no estimate when asked to withhold one.",
-    visibility: "private", install: NOT_YET,
+    visibility: "public", repo: "max578/survkit", install: PUBLIC,
     work: "It writes its own result format, not yet the shared one.",
     alternatives: ["survival", "flexsurv", "censored", "rms"],
     advantages: [
@@ -238,10 +240,11 @@ export const members: Member[] = [
       { text: "Compares several time-to-event methods on the same data through one function.", status: "claimed" },
     ] },
   // janusplot joined 2026-10-19 as the shape screen of the worked examples. Public status read live that day:
-  // CRAN 0.1.1 (published 2026-07-02) and github.com/max578/janusplot; not on max578.r-universe.dev.
+  // CRAN 0.1.1 (published 2026-07-02) and github.com/max578/janusplot; 0.2.0 on max578.r-universe.dev
+  // (read 2026-10-24).
   { id: "janusplot", tier: "member", role: "Shapes of associations",
     method: "Draws a matrix of smoothed associations between continuous variables, each pair fitted in both directions with mgcv, and names the shape of every fitted curve from a list of 24.",
-    visibility: "public", repo: "max578/janusplot", install: { github: true, runiverse: false, cran: true },
+    visibility: "public", repo: "max578/janusplot", install: { github: true, runiverse: true, cran: true },
     alternatives: ["corrplot", "GGally"],
     advantages: [
       { text: "Shows heteroscedasticity, leverage and curvature in one direction that a single correlation hides.", status: "claimed" },
