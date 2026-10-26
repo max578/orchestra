@@ -40,7 +40,7 @@ const f = (x) => Math.round(x * 10) / 10;
 const esc = (s) => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 
 /** Positions for every node, and the angular span of each section. */
-export function layout(omit = [], place = {}) {
+export function layout(omit = [], place = {}, order = ORDER) {
   const secColour = Object.fromEntries(sections.map((s) => [s.id, s.color]));
   const members = nodes.filter((n) => n.kind === "member");
   const units = members.length + GAP * sections.length;
@@ -50,7 +50,7 @@ export function layout(omit = [], place = {}) {
   let a = START;
   for (const s of sections) {
     const inSec = members.filter((n) => n.section === s.id)
-      .sort((a, b) => ORDER.indexOf(a.id) - ORDER.indexOf(b.id));
+      .sort((a, b) => order.indexOf(a.id) - order.indexOf(b.id));
     const from = a;
     a += (GAP / 2) * step;
     for (const n of inSec) {

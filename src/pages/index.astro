@@ -1,41 +1,40 @@
 ---
-// The introduction: the poster's roster and its picture of one study run through the orchestra.
-// Both drawings are the poster's own SVG sources (ORCHESTRA_dev/poster: hex_roster_v10_5.svg and
-// orchestra_map_v10_7.svg, the files behind poster v10_B_23); the words are the poster's.
+// The introduction: the poster's roster, and a map of the orchestra for each study, chosen with a button.
+// The roster is the poster's own SVG source (ORCHESTRA_dev/poster/hex_roster_v10_9.svg). Each study's map is drawn
+// here from src/data/studyMaps.mjs, where every arrow and step carries the study record it comes from.
+import { readFileSync } from "node:fs";
 import Base from "../layouts/Base.astro";
 import hexSvg from "../assets/poster/hex_roster.svg?raw";
-import mapSvg from "../assets/poster/orchestra_map.svg?raw";
+import { studies } from "../data/studyMaps.mjs";
+import { renderStudySvg } from "../widgets/studyMapSvg.mjs";
 import { members, posterGroups, dataHub } from "../data/members";
 import { site, href } from "../data/site";
 
+// janusplot's own art, the Janus bust, drawn in its circle (the CSP allows img-src data:)
+const bust = "data:image/png;base64," + readFileSync(`${process.cwd()}/src/assets/poster/janus_bust_128.png`).toString("base64");
+// the release check greps the built site for these words, case-insensitively, base64 included; the PNG's encoding
+// was chosen so its base64 holds none of them
+if (/nvt|taci|national ?variety/i.test(bust)) throw new Error("janus_bust_128.png: re-encode it; its base64 matches the release word check");
+
 // class names are dropped so the site's stylesheet cannot restyle the poster drawings
 const plain = (svg: string) => svg.replace(/ class="[^"]*"/g, "");
-const roster = plain(hexSvg).replace("<svg ", `<svg class="poster-svg" role="img" aria-label="The ${members.filter((m) => m.tier === "member").length} packages of the orchestra and DataHub, as hexagons coloured by their role." `);
-const map = plain(mapSvg).replace("<svg ", '<svg class="poster-svg" ').replace(/ role="group"/, ' role="img"');
+// the roster embeds the same bust at full size (387 px, drawn about 70 px wide); the 128 px copy replaces it
+const rosterBusts = hexSvg.match(/href="data:image\/png;base64,[^"]+"/g) ?? [];
+if (rosterBusts.length !== 1) throw new Error(`hex_roster.svg: expected one embedded image (the Janus bust), found ${rosterBusts.length}`);
+const roster = plain(hexSvg.replace(rosterBusts[0], `href="${bust}"`)).replace("<svg ", `<svg class="poster-svg" role="img" aria-label="The ${members.filter((m) => m.tier === "member").length} packages of the orchestra and DataHub, as hexagons coloured by their role." `);
+const studyMaps = studies.map((s) => ({ ...s, svg: renderStudySvg(s, { bust }) }));
 
 const roleOf: Record<string, string> = { ...Object.fromEntries(members.map((m) => [m.id, m.role])), DataHub: "open-data catalogue" };
 const lower = (s: string) => s.charAt(0).toLowerCase() + s.slice(1);
-const steps = [
-  "DataHub provides the pairs of trials from the open NVT results.",
-  "{kernR} checks that Early and Main trials matched before sowing.",
-  "{cdzoo} looks for causes of sowing date without the graph.",
-  "{flexyBayes} fits the main model and gives the posterior the decision uses.",
-  "{proxymix} checks the answer on the pair differences, and agrees.",
-  "{apsimx} writes each site's weather and simulation files and runs APSIM at both sowing dates.",
-  "{PESTO} calibrates APSIM to each pair's site.",
-  "{quorum} compares the three analyses.",
-  "{decideR} uses the Bayesian posterior and turns the yield gain and the wheat price of the study seasons into a decision.",
-  "{conductoR} runs the study as one plan, and logs each dispatch and collect.",
-];
 const together = [
   { h: "One shared philosophy.", p: "The Orchestra works together to take a grain-production question from open data to a decision a grower can act on." },
   { h: "One plan.", p: "In its present form, {conductoR} runs an analysis algorithmically, reading from a YAML file, dispatching analytical tasks and re-distributing results. The study on this site ran this way." },
   { h: "One data and result format.", p: "Each dataset is accepted by {conductoR} and dispatched further in a unified format. Each result contains its estimate, its uncertainty range and its data source, so the next package can check it and use it either directly or through {conductoR}." },
-  { h: "One install.", p: "The sixteen public packages install with one call:" },
+  { h: "One install.", p: "The seventeen released packages install with one call:" },
 ];
 const install = `install.packages(c("apsimR", "bacipair", "cdzoo", "conductoR",
-  "decideR", "gpfield", "grainPlan", "kalmix", "kernR", "koine",
-  "masque", "optimix", "PESTO", "proxymix", "survkit", "terroir"),
+  "decideR", "gpfield", "grainPlan", "janusplot", "kalmix", "kernR",
+  "koine", "masque", "optimix", "PESTO", "proxymix", "survkit", "terroir"),
   repos = c("https://max578.r-universe.dev",
             "https://cloud.r-project.org"))`;
 const jsonLd = {
@@ -47,14 +46,14 @@ const jsonLd = {
 <Base title="Introduction" description={site.intro} path="/" jsonLd={jsonLd}>
   <section class="wrap">
     <div class="hero-in">
-      <p class="kicker">18 R packages and an open-data catalogue</p>
+      <p class="kicker">19 R packages and an open-data catalogue</p>
       <h1 class="hero-h1">Crop Analytics Orchestra</h1>
       <p class="lead mt-3">A coordinated, flexible constellation of R packages for crop analytics. Crop analytics
         mostly treat analytical methods either in isolation or in small groups. The Orchestra is a larger
-        constellation of 18 R packages and an open-data catalogue, DataHub, all built to work together.
+        constellation of 19 R packages and an open-data catalogue, DataHub, all built to work together.
         Each package, except {"{conductoR}"}, can work on its own.</p>
       <p class="cta-row">
-        <a class="btn btn-accent" href={href("/examples/sowing-time")}>Does wheat sown earlier yield more?</a>
+        <a class="btn btn-accent" href={href("/examples")}>The studies</a>
         <a class="btn btn-ghost" href={href("/members")}>Every package</a>
       </p>
     </div>
@@ -78,23 +77,34 @@ const jsonLd = {
       coverage are recorded when it is enrolled, so it can be asked, for example, which datasets compare several nitrogen rates.</p>
   </div></section>
 
-  <section class="wrap">
+  <section class="wrap" data-study-picker>
     <div class="section-head">
-      <p class="kicker">One study through the orchestra</p>
-      <h2>Ten steps, one plan</h2>
-      <p class="prose mt-2">The study on this site asks whether wheat sown earlier yields more. The numbered packages are
-        its steps, in the order below.</p>
+      <p class="kicker">The studies through the orchestra</p>
+      <h2>One plan per study</h2>
+      <p class="prose mt-2">Choose a study. The map numbers the packages it used in the order of its steps, and each
+        arrow shows what one package handed to the next.</p>
     </div>
-    <div class="study-flow">
-      <figure class="poster-figure poster-map" set:html={map} />
-      <ol class="flow-steps">
-        {steps.map((s) => <li>{s}</li>)}
-      </ol>
+    <div class="study-pick" role="group" aria-label="Choose a study" data-study-bar hidden>
+      {studyMaps.map((s, i) => (
+        <button class="btn btn-ghost study-btn" type="button" data-study={s.id} aria-pressed={i === 0 ? "true" : "false"}
+          aria-controls={`study-${s.id}`}>{s.label}<span class="study-btn-note">{s.note}</span></button>
+      ))}
     </div>
-    <p class="prose muted mt-3">Colours are as in the list above. Dotted circles are packages from outside the Orchestra,
-      used by Orchestra members. Bold arrows are the handoffs {"{conductoR}"} recorded in the study, and dashed arrows ran
-      beside it. {"{asreml}"} serves as the benchmark and is not drawn.</p>
-    <p class="cta-row"><a class="btn btn-accent" href={href("/examples/sowing-time")}>Read the study and its R code</a></p>
+    {studyMaps.map((s, i) => (
+      <div class="study-panel" id={`study-${s.id}`} data-study-panel={s.id} hidden={i > 0}>
+        <h3 class="study-panel-h">{s.label}</h3>
+        <div class="study-flow">
+          <figure class="poster-figure poster-map" set:html={s.svg} />
+          <ol class="flow-steps">
+            {s.steps.map((st) => <li>{st.text}</li>)}
+          </ol>
+        </div>
+        <p class="prose muted mt-3">Colours are as in the list above; faded packages were not used in this study. Each
+          arrow is data or a result one package handed to the next, as the study's records show; dashed arrows ran
+          inside a step. {s.caption}</p>
+        <p class="cta-row"><a class="btn btn-accent" href={href(s.page)}>Read the study</a></p>
+      </div>
+    ))}
   </section>
 
   <section class="band"><div class="wrap">
@@ -113,3 +123,8 @@ const jsonLd = {
     <p class="prose muted mt-2">{"{flexyBayes}"} and {"{quorum}"} are in development.</p>
   </div></section>
 </Base>
+
+<script>
+  import { initStudyPicker } from "../widgets/studyPicker";
+  initStudyPicker();
+</script>

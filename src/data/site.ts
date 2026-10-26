@@ -14,7 +14,7 @@ export const site = {
   tagline: "R packages for crop analytics",
   intro:
     "A coordinated, flexible constellation of R packages for crop analytics: " +
-    "18 R packages and an open-data catalogue, DataHub, built to work together " +
+    "19 R packages and an open-data catalogue, DataHub, built to work together " +
     "to take a grain-production question from open data to a decision a grower can act on.",
   domain: "Australian grain agriculture (wheat · barley · corn): multi-environment trials, breeding and genomics, crop simulation",
   counts: { members: tiers.member.length, external: tiers.external.length, contracts: 7 },
@@ -25,7 +25,7 @@ export const site = {
     "the Australian Grains Industry (AAGI) project is acknowledged.",
   nav: [
     { href: "/", label: "Introduction" },
-    { href: "/examples", label: "Study" },
+    { href: "/examples", label: "Studies" },
     { href: "/members", label: "Members" },
     { href: "/about", label: "About" },
   ],

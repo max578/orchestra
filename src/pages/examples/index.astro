@@ -2,20 +2,28 @@
 import Base from "../../layouts/Base.astro";
 import { href } from "../../data/site";
 ---
-<Base title="Study" description="The study on the poster: does wheat sown earlier yield more? Same-paddock NVT pairs, NSW and Queensland, 2008 to 2017." path="/examples">
+<Base title="Studies" description="Grain-production questions taken through the orchestra: early sowing of wheat on open trial data, and nitrogen topdressing of barley on a synthetic copy of confidential GRDC trials." path="/examples">
   <section class="wrap">
     <div class="section-head">
-      <p class="kicker">One study through the orchestra</p>
-      <h1>Study</h1>
-      <p class="prose lead mt-2">One grain-production question, taken from open data to a decision a grower can act on,
-        with the R code to run it again.</p>
+      <p class="kicker">Studies through the orchestra</p>
+      <h1>Studies</h1>
+      <p class="prose lead mt-2">Each study takes one grain-production question from the data to a decision a grower can
+        act on. Where the data are open, the analysis runs on the real records and reports the true effect, with the R
+        code to run it again. Where the data are confidential, the plan is written and rehearsed on a synthetic copy,
+        and only the copy's numbers are shown here.</p>
     </div>
     <div class="grid grid-2">
       <a class="card ex-card" href={href("/examples/sowing-time")}>
-        <p class="kicker">Open NVT results · NSW and Queensland, 2008 to 2017</p>
+        <p class="kicker">Open trial data · NSW and Queensland, 2008 to 2017</p>
         <h2 class="ex-card-h">Does wheat sown earlier yield more?</h2>
         <p class="muted mt-2">Early sowing gained 0.22 t/ha (0.06 to 0.39), worth $58/ha at $261/t. The average gain is
-          positive with 98% probability.</p>
+          positive with 98% probability. R script included.</p>
+      </a>
+      <a class="card ex-card" href={href("/examples/nitrogen-topdressing")}>
+        <p class="kicker">Confidential GRDC trials · synthetic copy only</p>
+        <h2 class="ex-card-h">How much nitrogen to topdress in June?</h2>
+        <p class="muted mt-2">With a known response planted in the copy, the orchestra found it: 2.05 t/ha (1.94 to 2.15)
+          from 90 kg N/ha, against the planted 2.07, and a rate that follows soil moisture as planted.</p>
       </a>
     </div>
   </section>

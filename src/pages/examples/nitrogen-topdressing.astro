@@ -1,0 +1,82 @@
+---
+// The study on the poster (v10_B_25): how much nitrogen to topdress in barley, given what is known at topdressing.
+// Text and numbers are the poster's. Every number is a rehearsal number from the synthetic copy of the trials,
+// where the nitrogen response was planted; none comes from the real trials.
+import Base from "../../layouts/Base.astro";
+import { href } from "../../data/site";
+---
+<Base title="How much nitrogen to topdress in June?" description="Nitrogen topdressing in barley, rehearsed on a synthetic copy of the GRDC Barley Synthesis trials with a known answer planted in it: the orchestra recovered the planted response and the planted best rates." path="/examples/nitrogen-topdressing">
+  <section class="wrap">
+    <div class="section-head">
+      <p class="kicker">Confidential GRDC trials · shown only on a synthetic copy</p>
+      <h1>How much nitrogen to topdress in June?</h1>
+      <p class="prose lead mt-2">The GRDC Barley Synthesis trials tested nitrogen rates from 0 to 150&nbsp;kg N/ha,
+        topdressed as urea 4 to 6 weeks after sowing, at 48 sites and seasons from 2010 to 2016. At topdressing a grower
+        knows the soil moisture, the rain so far and the soil's water-holding capacity, but not the rain to come.</p>
+    </div>
+
+    <div class="card featured">
+      <p class="prose">The trials are private GRDC data, so {"{masque}"} made a synthetic copy to build the analysis on,
+        and the real rows stayed with their holder. A known nitrogen response was planted in the copy. The numbers on
+        this page show that the orchestra recovers that known answer; they are not what the real trials say.</p>
+    </div>
+
+    <ol class="prose study-steps mt-3">
+      <li><strong>Copy and rehearse.</strong> {"{masque}"} made a synthetic copy of the trials. The plan was written and
+        rehearsed on it, with a known nitrogen response planted in the copy, then sealed before the real trials were
+        touched.</li>
+      <li><strong>Two stages.</strong> Each trial is analysed on its own layout first. {"{flexyBayes}"} then fits one
+        Bayesian response curve across the 48 trials, whose ceiling moves with soil water and rain.</li>
+      <li><strong>Decide.</strong> {"{decideR}"} turns the posterior into the most profitable rate for each soil moisture
+        reading, the chance it pays, and a cautious rate that protects the worst fifth of seasons.</li>
+      <li><strong>Check.</strong> {"{koine}"} gives an independent second analysis and {"{quorum}"} checks that the
+        analyses agree. Each rule is then scored on locations left out of the fit.</li>
+    </ol>
+
+    <figure class="study-fig">
+      <img src={href("/figures/study/q3_design.webp")} width="2000" height="769" loading="lazy" decoding="async"
+        alt="Left, a causal diagram: site and season affect both the nitrogen rate and the yield, and soil water and rain change the response to nitrogen. Right, the topdressing rule for a new paddock against soil moisture, with the planted best rate at three readings." />
+      <figcaption class="muted">Left: the causal graph (Hernán and Robins, 2020). Within a trial the nitrogen rates were
+        randomised to plots, so only the site and season affect both the rate and the yield; holding the trial fixed is
+        enough, as {"{dagitty}"} confirms (Textor et al., 2017). Soil water and rain change how much nitrogen pays, and do
+        not confound it. Right: the rule for a new paddock, with barley at $314/t (ABARES, 2026-27 forecast) and nitrogen
+        at its recorded cost, beside the planted best rate at three readings.</figcaption>
+    </figure>
+
+    <div class="card featured mt-3">
+      <p class="prose">In the rehearsal, with a known answer planted in the synthetic copy, the orchestra found it.
+        Topdressing 90&nbsp;kg N/ha added 2.05&nbsp;t/ha (1.94 to 2.15) on the average trial, against the planted 2.07.
+        The rule followed soil moisture as planted: no nitrogen on a dry reading, 100&nbsp;kg N/ha on a middling one
+        (planted best 110) and 150&nbsp;kg on a wet one (planted 150). Where no response was planted, it said not to
+        topdress, in 4 runs of 4.</p>
+    </div>
+
+    <figure class="study-fig">
+      <img src={href("/figures/study/q3_estimates.webp")} width="2000" height="450" loading="lazy" decoding="async"
+        alt="Left, the yield gain from 90 kg N/ha on the average trial from each analysis, beside the planted value of 2.07 t/ha. Right, the return lost against the planted best rate for one flat rate, the plug-in rule, the Bayesian rule and the unavoidable loss." />
+      <figcaption class="muted">Lines are 90% intervals. Right: the return lost against the planted best rate, mean of
+        four rehearsal runs.</figcaption>
+    </figure>
+
+    <div class="prose">
+      <p><strong>What the Bayesian rule adds.</strong> Against the planted truth it left $18/ha on the table, against $26
+        for the usual plug-in rule and $59 for one flat rate; about $17 is lost whatever the rule, because the rain to
+        come is unknown. Scored on locations left out of the fit, it was not clearly better than the plug-in rule, and
+        the plan reports that as it stands.</p>
+      <p class="mt-2"><strong>When the shape is wrong.</strong> With a sharp plateau at 50&nbsp;kg planted, the rule
+        chose 77&nbsp;kg on average, and the plan flagged the plateau in 4 runs of 4.</p>
+      <p class="mt-2"><strong>The real trials.</strong> The same sealed plan runs on the real trials at the data holder;
+        its results follow consultation with GRDC.</p>
+    </div>
+  </section>
+
+  <section class="wrap">
+    <h2>References</h2>
+    <ul class="prose refs">
+      <li>ABARES (2026). Agricultural commodities: September quarter 2026, statistical tables, Table 6. Australian Bureau of Agricultural and Resource Economics and Sciences.</li>
+      <li>Bürkner, P.-C. (2017). brms: An R package for Bayesian multilevel models using Stan. Journal of Statistical Software, 80(1). <a href="https://doi.org/10.18637/jss.v080.i01">https://doi.org/10.18637/jss.v080.i01</a></li>
+      <li>Hernán, M. A., &amp; Robins, J. M. (2020). Causal inference: What if. Chapman &amp; Hall/CRC.</li>
+      <li>Textor, J., van der Zander, B., Gilthorpe, M. S., Liśkiewicz, M., &amp; Ellison, G. T. H. (2017). Robust causal inference using directed acyclic graphs: The R package 'dagitty'. International Journal of Epidemiology. <a href="https://doi.org/10.1093/ije/dyw341">https://doi.org/10.1093/ije/dyw341</a></li>
+    </ul>
+  </section>
+</Base>

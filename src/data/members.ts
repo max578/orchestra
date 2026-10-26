@@ -1,6 +1,7 @@
-// Grounded roster. Membership, roles and grouping follow the poster (v10_B_23, 2026-10-24).
-// Visibility re-read 2026-10-24: anonymous `git ls-remote` on each max578 repo and the
-// max578.r-universe.dev package list; flexyBayes and quorum shown in development, as on the poster.
+// Grounded roster. Membership, roles and grouping follow the poster (v10_B_25, 2026-10-26), with janusplot
+// added beside koine as on its map (enrolled 2026-10-19, MIT).
+// Visibility re-read 2026-10-26: anonymous `git ls-remote` answered for all 19 max578 repos; the
+// max578.r-universe.dev package list holds 17 of them, not flexyBayes or quorum, which are shown in development.
 // Earlier record follows. Membership follows the roster decision of 2026-09-25:
 // the ratified Core 9 and Supporting 6, the orchestration engine (conductoR),
 // and two members joined that day (bacipair, survkit). Visibility and repo
@@ -154,6 +155,14 @@ export const members: Member[] = [
       { text: "In a simulation, its fixed effects agreed with independent fits from brms and INLA.", status: "tested" },
       { text: "Reports how far its answer differs from the main Bayesian fit.", status: "claimed" },
     ] },
+  { id: "janusplot", tier: "member", role: "Shapes of pairwise relations",
+    method: "Shows how each pair of continuous variables is related, as a matrix of smoothed curves fitted in both directions, and names the shape of each curve.",
+    guard: "Its shape label is a screen, not a verdict: a curve that looks like a rise and fall still needs a formal test.",
+    visibility: "public", repo: "max578/janusplot", install: PUBLIC,
+    alternatives: ["corrplot", "GGally"],
+    advantages: [
+      { text: "Fits each pair in both directions with mgcv, so leverage, uneven spread and curvature in one direction show up.", status: "claimed" },
+    ] },
   { id: "cdzoo", tier: "member", role: "Causal discovery",
     method: "Puts sixteen causal-discovery algorithms behind one interface and suggests one for the data.",
     guard: "Gives no suggestion when the evidence does not favour one algorithm.",
@@ -305,7 +314,7 @@ export const posterGroups = [
   { label: "Data and privacy", color: "#56B4E9", ids: ["terroir", "masque", "DataHub"] },
   { label: "Crop simulation", color: "#E69F00", ids: ["apsimR", "PESTO"] },
   { label: "Causal, spatial and time series", color: "#009E73", ids: ["kernR", "cdzoo", "bacipair", "gpfield", "kalmix"] },
-  { label: "Statistics and consensus", color: "#0072B2", ids: ["flexyBayes", "koine", "quorum", "survkit"] },
+  { label: "Statistics and consensus", color: "#0072B2", ids: ["flexyBayes", "koine", "janusplot", "quorum", "survkit"] },
   { label: "Approximation and optimisation", color: "#CC79A7", ids: ["proxymix", "optimix"] },
   { label: "Decisions", color: "#D55E00", ids: ["decideR", "grainPlan"] },
   { label: "At the centre", color: "#F0E442", ids: ["conductoR"] },

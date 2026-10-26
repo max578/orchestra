@@ -2,13 +2,13 @@
 # Sowing window study: does wheat sown in the Early window yield more than wheat sown in the Main window?
 #
 # Author      : Max Moldovan
-# Version date: 24 Oct 2026
-# Usage       : Rscript r_code_c2_sowing_window_v1_24Oct2026.R > run.log 2>&1
-#               (run from a directory holding data/nvt/ and data/abares/ as described under Data)
+# Version date: 26 Oct 2026
+# Usage       : Rscript r_code_sowing_window_v2_26Oct2026.R > run.log 2>&1
+#               (run from a directory holding data/trials/ and data/abares/ as described under Data)
 #
-# Data        : NVT records compiled by Newman and Furbank (2021), figshare collection
-#               doi:10.6084/m9.figshare.c.5296369.v4, CC BY 4.0, as parquet tables under data/nvt/:
-#               tables/nvt_trial, tables/nvt_observation, enrich/nvt_season_key, coverage/nvt_trial_coordinate
+# Data        : Australian variety trial records compiled by Newman and Furbank (2021), figshare collection
+#               doi:10.6084/m9.figshare.c.5296369.v4, CC BY 4.0, as parquet tables under data/trials/:
+#               tables/trial, tables/observation, enrich/season_key, coverage/trial_coordinate
 #               (the DataHub projection of the deposit: one row per trial, per trial x variety, and the paddock key);
 #               ABARES (2026), Agricultural commodities: September quarter 2026, statistical tables, Table 6
 #               (wheat gross unit value, $/t), under data/abares/
@@ -47,7 +47,7 @@ setDTthreads(1L)
 ########################################################
 
 dir_data <- "data/"
-dir_nvt <- paste0(dir_data, "nvt/")
+dir_trials <- paste0(dir_data, "trials/")
 file_t6 <- paste0(dir_data, "abares/abares_agcom_sep2026_statistical.xlsx")
 dir_out <- "output/"
 dir.create(dir_out, showWarnings = FALSE, recursive = TRUE)
@@ -70,18 +70,18 @@ options(flexyBayes.inla_best_of_workers = 1L)	# one core per INLA fit
 print("==== 1. Read the data ====")
 ptm_local <- proc.time()
 
-cols_trial <- names(open_dataset(paste0(dir_nvt, "tables/nvt_trial.parquet"))$schema)
+cols_trial <- names(open_dataset(paste0(dir_trials, "tables/trial.parquet"))$schema)
 cols_series <- grep("^MANDom_Series_name", cols_trial, value = TRUE)
 cols_read <- c("crop", "trial_id", "latitude", "longitude", "PHENDom_LSD", cols_series)
 
-tab_trial <- as.data.table(read_parquet(paste0(dir_nvt, "tables/nvt_trial.parquet"), col_select = all_of(cols_read)))
+tab_trial <- as.data.table(read_parquet(paste0(dir_trials, "tables/trial.parquet"), col_select = all_of(cols_read)))
 tab_trial <- tab_trial[crop == "Wheat", ]
 
-tab_key <- as.data.table(read_parquet(paste0(dir_nvt, "enrich/nvt_season_key.parquet"),
+tab_key <- as.data.table(read_parquet(paste0(dir_trials, "enrich/season_key.parquet"),
 	col_select = c("trial_id", "trial_year", "sowing_date_numeric", "state")))
-tab_coord <- as.data.table(read_parquet(paste0(dir_nvt, "coverage/nvt_trial_coordinate.parquet"),
+tab_coord <- as.data.table(read_parquet(paste0(dir_trials, "coverage/trial_coordinate.parquet"),
 	col_select = c("trial_id", "town_label", "nearest_place", "paddock_key")))
-tab_obs <- as.data.table(read_parquet(paste0(dir_nvt, "tables/nvt_observation.parquet"),
+tab_obs <- as.data.table(read_parquet(paste0(dir_trials, "tables/observation.parquet"),
 	col_select = c("trial_id", "variety", "row_class", "crop", "PHENDom_yield_t_ha")))
 tab_obs <- tab_obs[crop == "Wheat", ]
 stopifnot(!anyDuplicated(tab_coord[, trial_id]), !anyDuplicated(tab_key[, trial_id]))

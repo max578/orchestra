@@ -1,16 +1,16 @@
 ---
-// The one study on the poster (v10_B_23): wheat sown in the Early against the Main window, NVT pairs.
-// Text and numbers are the poster's. The R script under public/code/ re-runs the main analysis
-// from the open data; its headline (src/data/study/c2_script_headline.csv) is shown beside the poster's.
+// The open-data study: wheat sown in the Early against the Main window, same-paddock trial pairs from the open
+// Newman and Furbank (2021) deposit. Text and numbers are those of poster v10_B_23. The R script under public/code/ re-runs the main analysis
+// from the open data; its headline (src/data/study/sowing_window_script_headline.csv) is shown beside the poster's.
 import Base from "../../layouts/Base.astro";
 import { href } from "../../data/site";
-import code from "../../../public/code/r_code_c2_sowing_window_v1_24Oct2026.R?raw";
-import headCsv from "../../data/study/c2_script_headline.csv?raw";
+import code from "../../../public/code/r_code_sowing_window_v2_26Oct2026.R?raw";
+import headCsv from "../../data/study/sowing_window_script_headline.csv?raw";
 
-const fileCode = "r_code_c2_sowing_window_v1_24Oct2026.R";
+const fileCode = "r_code_sowing_window_v2_26Oct2026.R";
 const script = Object.fromEntries(headCsv.trim().split("\n").slice(1).map((l) => {
   const m = l.match(/^(?:"([^"]*)"|([^,]*)),(?:"([^"]*)"|(.*))$/);
-  if (!m) throw new Error(`c2_script_headline.csv: unreadable line ${l}`);
+  if (!m) throw new Error(`sowing_window_script_headline.csv: unreadable line ${l}`);
   return [m[1] ?? m[2], m[3] ?? m[4]];
 }));
 // poster figure against the script's output, quantity by quantity
@@ -18,7 +18,7 @@ for (const k of ["pairs, sites (study set)", "days apart: min, median, max", "Ma
   "share of the Main-window mean", "north gain, t/ha (90% interval)", "south gain, t/ha (90% interval)", "chance of a gain on average",
   "chance of a gain in the north", "chance of a gain, new paddock and season", "negative-control pairs, gain t/ha (90% interval)",
   "price, $/t", "value, $/ha (90% interval)"])
-  if (!(k in script)) throw new Error(`c2_script_headline.csv: no row "${k}"`);
+  if (!(k in script)) throw new Error(`sowing_window_script_headline.csv: no row "${k}"`);
 const compare = [
   ["Pairs and sites", "205 pairs at 46 sites", script["pairs, sites (study set)"].replace(", ", " pairs at ") + " sites"],
   ["Days apart", "7 to 52 (median 19)", (() => { const [a, b, c] = script["days apart: min, median, max"].split(", "); return `${a} to ${c} (median ${b})`; })()],
@@ -35,14 +35,15 @@ const compare = [
   ["Value of the average gain", "$58/ha ($15 to $103)", (() => { const m = script["value, $/ha (90% interval)"].match(/(\d+) \((\d+) to (\d+)\)/); return m ? `$${m[1]}/ha ($${m[2]} to $${m[3]})` : script["value, $/ha (90% interval)"]; })()],
 ];
 ---
-<Base title="Does wheat sown earlier yield more?" description="Same-paddock pairs of NVT wheat trials sown in the Early and the Main window, NSW and Queensland, 2008 to 2017: 0.22 t/ha more when sown early, worth $58/ha." path="/examples/sowing-time">
+<Base title="Does wheat sown earlier yield more?" description="Same-paddock pairs of wheat variety trials sown in the Early and the Main window, NSW and Queensland, 2008 to 2017: 0.22 t/ha more when sown early, worth $58/ha." path="/examples/sowing-time">
   <section class="wrap">
     <div class="section-head">
-      <p class="kicker">The study · open NVT results through DataHub</p>
+      <p class="kicker">Open data · the true effect, no synthetic copy needed</p>
       <h1>Does wheat sown earlier yield more?</h1>
-      <p class="prose lead mt-2">Some NVT sites sow wheat twice in a season, side by side: an Early series ahead of the
-        usual sowing window and the Main series within it. The study uses these same-paddock pairs in NSW and Queensland,
-        2008 to 2017, from the NVT records compiled by Newman and Furbank (2021).</p>
+      <p class="prose lead mt-2">Some variety-trial sites sow wheat twice in a season, side by side: an Early series ahead
+        of the usual sowing window and the Main series within it. The study uses these same-paddock pairs in NSW and
+        Queensland, 2008 to 2017, from the open trial records compiled by Newman and Furbank (2021) and published under
+        CC BY 4.0. Because the data are open, the analysis runs on the real records and reports the true effect.</p>
     </div>
 
     <ol class="prose study-steps">
@@ -59,7 +60,7 @@ const compare = [
 
     <figure class="study-fig">
       <img src={href("/figures/study/study_map_dag.webp")} width="2000" height="768" loading="lazy" decoding="async"
-        alt="Left, a map of the paired NVT sites in NSW and Queensland, split at 31.5 degrees south: 85 pairs in the north and 120 in the south. Right, a causal diagram: paddock, season and variety affect both the sowing window and trial yield; flowering, frost and heat sit between the sowing date and yield." />
+        alt="Left, a map of the paired trial sites in NSW and Queensland, split at 31.5 degrees south: 85 pairs in the north and 120 in the south. Right, a causal diagram: paddock, season and variety affect both the sowing window and trial yield; flowering, frost and heat sit between the sowing date and yield." />
       <figcaption class="muted">Left: sites north and south of 31.5° S. Right: the Directed Acyclic Graph (DAG, Hernán and
         Robins, 2020), simplified for expositional purposes. Paddock, season and variety normally affect both Sowing window
         (the treatment) and Trial yield (the outcome) and are classical confounders. For the purposes of estimating causal
@@ -98,14 +99,14 @@ const compare = [
       <p class="kicker">Run it yourself</p>
       <h2>The main analysis in R</h2>
       <p class="prose mt-2">One script re-runs the {"{flexyBayes}"} analysis from the open data, from the pairing to the
-        value of the gain. It needs the NVT tables of Newman and Furbank (2021) as DataHub holds them, ABARES Table 6 for
+        value of the gain. It needs the trial tables of Newman and Furbank (2021) as DataHub holds them, ABARES Table 6 for
         the price, and the packages arrow, data.table, flexyBayes (with INLA) and readxl. The {"{asreml}"},
         {" "}{"{proxymix}"}, {"{kernR}"} and APSIM steps are not in it.</p>
       <p class="cta-row"><a class="btn btn-accent" href={href(`/code/${fileCode}`)} download>Download the R script</a></p>
     </div>
 
     <h3>What a fresh run gives, beside the poster</h3>
-    <p class="prose muted mt-1">The run below used flexyBayes 0.18.1 on 24 October 2026. Posterior intervals and chances
+    <p class="prose muted mt-1">The run below used flexyBayes 0.18.1 on 26 October 2026. Posterior intervals and chances
       come from 4,000 draws and move by about 0.01 t/ha and one percentage point between runs.</p>
     <section class="table-scroll mt-2" tabindex="0" aria-label="Poster numbers against a fresh run of the script"><table class="num t-wide">
       <thead><tr><th scope="col">Quantity</th><th scope="col">Poster</th><th scope="col">Fresh run</th></tr></thead>
